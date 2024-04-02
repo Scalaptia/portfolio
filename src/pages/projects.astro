@@ -1,0 +1,17 @@
+---
+import ProjectCard from '../components/ProjectCard.astro';
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="projects"></Layout>
+    <div class="text-center"></div>
+        <h3 class="text-xl font-semibold">Here are some of the projects I have worked on.</h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-8">
+            <ProjectCard
+                title="16-Bits de Historia"
+                description="RPG educativo, creado con C usando la librería Raylib."
+                link="https://github.com/Scalaptia/16-Bits-de-Historia"
+            />
+        </div>
+</Layout>
