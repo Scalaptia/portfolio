@@ -1,24 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import AgeCounter from '../components/AgeCounter.jsx';
 ---
 
-<Layout title="harogato"></Layout>
-	<div class="flex flex-col gap-8">
-
-		<div class="text-xl max-w-prose w-full text-center font-semibold">
-			¡Hello! My name is Fernando Haro, I'm a
-		
-				<AgeCounter client:load birthday="2004-01-26" decimals="9" />
-			
-
-			year-old developer that is passionate about programming and design. My main interests are in <span class="text-blue-600 font-bold">IoT</span>,
-			<span class="text-cyan-600 font-bold">Cloud Computing</span> and <span class="text-red-600 font-bold">Web Development</span>, but I often mess around in
-			other related areas.
-		</div>
-
-		<p class="text-xl max-w-prose w-full text-center font-semibold">
-			I'm currently studying Software Engineering and Emerging Tecnologies at the <a href="https://www.uabc.mx/en/" class="text-green-600 font-bold" target="blank">Autonomous University of Baja California</a>.
-		</p>
-	</div>
+<Layout title="harogato">
 </Layout>
