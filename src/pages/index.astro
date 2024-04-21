@@ -1,7 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-
-import copyToClipboard from '../components/copyToClipboard.js';
+import CopyToClipboard from '../components/copyToClipboard';
 ---
 
 <Layout title="harogato">
@@ -22,7 +21,7 @@ import copyToClipboard from '../components/copyToClipboard.js';
     <!-- Links -->
     <!-- Github Button Redirect-->
     <div class="grid grid-cols gap-5 px-6 max-w-[410px] w-full">
-        <div class="flex w-full justify-between">
+        <div class="flex w-full justify-between gap-2">
             <a href="https://github.com/Scalaptia" class="flex bg-text text-white rounded-full px-3 py-2 items-center justify-center gap-3" target="blank">
                 <img src="github.svg" alt="github logo" draggable="false">
                 <span class="font-black-han-sans text-xl pt-[1px]">GitHub</span>
@@ -30,22 +29,21 @@ import copyToClipboard from '../components/copyToClipboard.js';
             </a>
         
             <a href="https://www.linkedin.com/in/fernando-haro-calvo-6137ab287/" class="flex bg-text text-white rounded-full px-3 py-2 items-center justify-center gap-3" target="blank">
-                <img src="linkedin.svg" alt="github logo" draggable="false">
-                <span class="font-black-han-sans text-xl pt-[1px]">Linkedin</span>
-                <img src="arrow-right.svg" alt="arrow right" draggable="false">
+                <img class="pointer-events-none" src="linkedin.svg" alt="linkedin logo" draggable="false">
+                <span class="font-black-han-sans text-xl pt-[1px]">LinkedIn</span>
+                <img class="pointer-events-none" src="arrow-right.svg" alt="arrow right" draggable="false">
             </a>
         </div>
 
-        <div class="flex bg-white text-text rounded-full px-6 py-2 gap-3 justify-between">
+        <div class="flex bg-white text-text rounded-full px-5 py-2 gap-3 justify-between">
             <span class="font-open-sans font-semibold pt-[1px]">fernando.haro.c@gmail.com</span>
 
             <div class="flex gap-5">
                 <a href="mailto:fernando.haro.c@gmail.com" class="flex">
-                    <img src="send.svg" alt="send" draggable="false">
+                    <img class="pointer-events-none" src="send.svg" alt="send" draggable="false">
                 </a>
-                <a class="flex justify-center">
-                    <img src="copy.svg" alt="copy" draggable="false">
-                </a>
+
+                <CopyToClipboard client:visible text="fernando.haro.c@gmail.com" />
             </div>
         </div>
     </div>
