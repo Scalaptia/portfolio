@@ -23,12 +23,8 @@ const { title } = Astro.props;
 
 	<body class="min-h-screen flex flex-col items-center bg-background">
 		<!-- background noise -->
-		<img class="absolute inset-0 w-full h-full object-cover select-none" src="/noise.svg" draggable="false"></img>
-
-
-
-		<Header title={title} />	
-		
+		<img class="absolute inset-0 w-full h-full object-cover select-none -z-10" src="/noise.svg" draggable="false" alt="noise"></img>
+		<Header title={title} />
 		<slot />
 	</body>
 </html>
