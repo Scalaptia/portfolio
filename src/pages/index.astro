@@ -5,49 +5,63 @@ import CopyToClipboard from '../components/copyToClipboard';
 
 <Layout title="harogato">
     <!-- Developer -->
-    <section class="w-full px-8 flex flex-col">
-        <span class="text-primary font-ubuntu-mono text-2xl">&lt;developer&gt;</span>
-
-        <h1 class="pt-4 text-6xl font-black-han-sans text-text leading-[1.2em] max-w-[8ch]">Fernando Haro</h1>
-
-        <span class="text-primary font-ubuntu-mono text-2xl translate-y-[210px] text-end">&lt;/developer&gt;</span>
-    </section>
-
-    <!-- Image -->
-    <div class="flex justify-center h-[240px]">
-        <img class="-z-20 w-[250px] absolute -translate-y-[4.3rem] md:w-[410px] md:-translate-y-52" src="logo.png" alt="harogato logo">
-    </div>
-
-    <!-- Links -->
-    <!-- Github Button Redirect-->
-    <div class="grid grid-cols gap-5 px-6 max-w-[410px] w-full">
-        <div class="flex w-full justify-between gap-2">
-            <a href="https://github.com/Scalaptia" class="flex bg-text text-white rounded-full px-3 py-2 items-center justify-center gap-3" target="blank">
-                <img src="github.svg" alt="github logo" draggable="false">
-                <span class="font-black-han-sans text-xl pt-[1px]">GitHub</span>
-                <img src="arrow-right.svg" alt="arrow right" draggable="false">
-            </a>
+    <div class="flex flex-col w-full md:flex-row md:flex-wrap md:justify-between md:max-w-[1200px] md:gap-y-24 md:pt-12">
+        <section class="w-full px-8 flex flex-col md:max-w-[44ch] order-1">
+            <span class="text-primary font-ubuntu-mono text-2xl">&lt;developer&gt;</span>
+    
+            <h1 class="pt-4 text-6xl font-black-han-sans text-text leading-[1.2em] max-w-[8ch]">Fernando Haro</h1>
+    
+            <span class="text-primary font-ubuntu-mono text-2xl translate-y-[210px] text-end md:translate-y-0 md:text-end md:w-[26ch]">&lt;/developer&gt;</span>
+        </section>
+    
+        <!-- Image -->
+        <div class="flex justify-center h-[240px] order-2 md:order-0 md:w-[250px]">
+            <img class="-z-20 w-[250px] absolute -translate-y-[4.3rem] md:w-[410px] md:top-52" src="logo.png" alt="harogato logo">
+        </div>
+    
+        <!-- Links -->
+        <div class="flex w-full order-3 justify-center mt-12">
+            <div class="grid grid-cols gap-5 px-6 max-w-[410px] w-full">
+                <div class="flex w-full justify-between gap-2">
+                    <a href="https://github.com/Scalaptia" class="flex bg-text text-white rounded-full px-3 py-2 items-center justify-center gap-3" target="blank">
+                        <img src="github.svg" alt="github logo" draggable="false">
+                        <span class="font-black-han-sans text-xl pt-[1px]">GitHub</span>
+                        <img src="arrow-right.svg" alt="arrow right" draggable="false">
+                    </a>
+                
+                    <a href="https://www.linkedin.com/in/fernando-haro-calvo-6137ab287/" class="flex bg-text text-white rounded-full px-3 py-2 items-center justify-center gap-3" target="blank">
+                        <img class="pointer-events-none" src="linkedin.svg" alt="linkedin logo" draggable="false">
+                        <span class="font-black-han-sans text-xl pt-[1px]">LinkedIn</span>
+                        <img class="pointer-events-none" src="arrow-right.svg" alt="arrow right" draggable="false">
+                    </a>
+                </div>
         
-            <a href="https://www.linkedin.com/in/fernando-haro-calvo-6137ab287/" class="flex bg-text text-white rounded-full px-3 py-2 items-center justify-center gap-3" target="blank">
-                <img class="pointer-events-none" src="linkedin.svg" alt="linkedin logo" draggable="false">
-                <span class="font-black-han-sans text-xl pt-[1px]">LinkedIn</span>
-                <img class="pointer-events-none" src="arrow-right.svg" alt="arrow right" draggable="false">
-            </a>
-        </div>
-
-        <div class="flex bg-white text-text rounded-full px-5 py-2 gap-3 justify-between">
-            <span class="font-open-sans font-semibold pt-[1px]">fernando.haro.c@gmail.com</span>
-
-            <div class="flex gap-5">
-                <a href="mailto:fernando.haro.c@gmail.com" class="flex">
-                    <img class="pointer-events-none" src="send.svg" alt="send" draggable="false">
-                </a>
-
-                <CopyToClipboard client:visible text="fernando.haro.c@gmail.com" />
+                <div class="flex bg-white text-text rounded-full px-5 py-2 gap-3 justify-between">
+                    <span class="font-open-sans font-semibold pt-[1px]">fernando.haro.c@gmail.com</span>
+        
+                    <div class="flex gap-5">
+                        <a href="mailto:fernando.haro.c@gmail.com" class="flex">
+                            <img class="pointer-events-none" src="send.svg" alt="send" draggable="false">
+                        </a>
+        
+                        <CopyToClipboard client:visible text="fernando.haro.c@gmail.com" />
+                    </div>
+                </div>
             </div>
+
         </div>
+    
+        <!-- About -->
+        <section class="w-full my-10 px-8 flex flex-col text-center md:max-w-[44ch] order-4 md:order-2 md:my-0">
+            <span class="text-primary text-start font-ubuntu-mono text-2xl">&lt;about&gt;</span>
+    
+            <p class="pt-4 text-xl font-open-sans text-text leading-[1.2em] max-w-[30ch]"><span class="font-semibold text-[#57AAA7]">Software engineering student</span> that is passionate about programming and design. &NewLine;
+            </p>
+            <p class="pt-4 pb-3 text-xl font-open-sans text-text leading-[1.2em] max-w-[30ch]">
+                My main focus is in <span class="font-semibold text-[#57AAA7]">Full Stack Web Development.</span>
+            </p>
+    
+            <span class="text-primary font-ubuntu-mono text-2xl text-end md:text-end md:w-[28ch]">&lt;/about&gt;</span>
+        </section>
     </div>
-
-
-    <!-- About -->
 </Layout>
