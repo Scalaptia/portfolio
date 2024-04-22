@@ -12,8 +12,9 @@ const { title } = Astro.props;
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
 		<meta name="viewport" content="width=device-width" />
+		<slot name="tags" />
+
 		<link rel="icon" href="/logo.png" />
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,7 +26,7 @@ const { title } = Astro.props;
 		<!-- background noise -->
 		<img class="absolute inset-0 w-full h-full object-cover select-none -z-10 pointer-events-none" src="/noise.svg" draggable="false" alt="noise"></img>
 		<Header title={title} />
-		<slot />
+		<slot name="content" />
 	</body>
 </html>
 

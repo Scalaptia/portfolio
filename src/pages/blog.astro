@@ -3,14 +3,31 @@ import Layout from '../layouts/Layout.astro';
 
 export const meta = {
     title: 'blog',
-    description: 'Blog posts and articles by Fernando Haro.',
-    image: 'https://harogato.com/logo.png',
-    url: 'https://harogato.com/blog/',
+    description: 'Blog posts and articles written by Fernando Haro.',
+    url: 'https://fernando.haroware.com/blog/',
     type: 'website',
-    keywords: 'fernando haro, harogato, software engineering, web development, programming, design',
+    keywords: 'fernando haro, harogato, software engineering, web development, programming, design, portfolio, developer, engineer, programmer',
 };
 ---
 
 <Layout title="blog">
-    <p class="font-black-han-sans text-2xl text-text">Coming soon... </p>
+    <meta slot="tags" name="description" content={meta.description} />
+    <meta slot="tags" property="og:title" content={meta.title} />
+    <meta slot="tags" property="og:description" content={meta.description} />
+    <meta slot="tags" property="og:url" content={meta.url} />
+    <meta slot="tags" property="og:type" content={meta.type} />
+    <meta slot="tags" name="twitter:card" content="summary_large_image" />
+    <meta slot="tags" name="twitter:title" content={meta.title} />
+    <meta slot="tags" name="twitter:description" content={meta.description} />
+    <meta slot="tags" name="twitter:url" content={meta.url} />
+    <meta slot="tags" name="twitter:creator" content="@Scalaptia" />
+    <meta slot="tags" name="keywords" content={meta.keywords} />
+    <meta slot="tags" name="robots" content="index, follow" />
+    <meta slot="tags" name="author" content="Fernando Haro" />
+    <meta slot="tags" name="language" content="en" />
+
+
+    <div slot="content">
+        <p class="font-black-han-sans text-2xl text-text">Coming soon... </p>
+    </div>
 </Layout>
