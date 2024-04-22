@@ -16,7 +16,7 @@ export default function copyToClipboard({ text }: props) {
     return (
         <div className="flex relative pb-[2px]">
             <button
-                className="flex justify-center items-center cursor-pointer"
+                className="flex justify-center items-center cursor-pointer transition-opacity duration-150 hover:opacity-80"
                 onClick={handleClick}
             >
                 <img

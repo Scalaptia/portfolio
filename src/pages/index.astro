@@ -1,6 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import CopyToClipboard from '../components/copyToClipboard';
+
+export const meta = {
+    title: 'harogato',
+    description: 'Personal website of Fernando Haro, a software engineering student that is passionate about programming and design. My main focus is in Full Stack Web Development.',
+    image: 'https://harogato.com/logo.png',
+    url: 'https://harogato.com',
+    type: 'website',
+    keywords: 'fernando haro, harogato, software engineering, web development, programming, design',
+};
 ---
 
 <Layout title="harogato">
@@ -16,6 +25,7 @@ import CopyToClipboard from '../components/copyToClipboard';
     
         <!-- Image -->
         <div class="flex justify-center h-[240px] order-2 md:order-0 md:w-[250px]">
+            
             <img class="-z-20 w-[250px] absolute -translate-y-[4.3rem] md:w-[410px] md:top-52" src="logo.png" alt="harogato logo">
         </div>
     
@@ -23,16 +33,16 @@ import CopyToClipboard from '../components/copyToClipboard';
         <div class="flex w-full order-3 justify-center mt-12">
             <div class="grid grid-cols gap-5 px-6 max-w-[410px] w-full">
                 <div class="flex w-full justify-between gap-2">
-                    <a href="https://github.com/Scalaptia" class="flex bg-text text-white rounded-full px-3 py-2 items-center justify-center gap-3" target="blank">
-                        <img src="github.svg" alt="github logo" draggable="false">
+                    <a href="https://github.com/Scalaptia" class="flex bg-text text-white rounded-full px-3 py-2 items-center justify-center gap-3 transition-opacity duration-150 hover:opacity-95" target="blank">
+                        <img loading="eager" src="github.svg" alt="github logo" draggable="false">
                         <span class="font-black-han-sans text-xl pt-[1px]">GitHub</span>
-                        <img src="arrow-right.svg" alt="arrow right" draggable="false">
+                        <img loading="eager" src="arrow-right.svg" alt="arrow right" draggable="false">
                     </a>
                 
-                    <a href="https://www.linkedin.com/in/fernando-haro-calvo-6137ab287/" class="flex bg-text text-white rounded-full px-3 py-2 items-center justify-center gap-3" target="blank">
-                        <img class="pointer-events-none" src="linkedin.svg" alt="linkedin logo" draggable="false">
+                    <a href="https://www.linkedin.com/in/fernando-haro-calvo-6137ab287/" class="flex bg-text text-white rounded-full px-3 py-2 items-center justify-center gap-3 transition-opacity duration-150 hover:opacity-95" target="blank">
+                        <img loading="eager" class="pointer-events-none" src="linkedin.svg" alt="linkedin logo" draggable="false">
                         <span class="font-black-han-sans text-xl pt-[1px]">LinkedIn</span>
-                        <img class="pointer-events-none" src="arrow-right.svg" alt="arrow right" draggable="false">
+                        <img loading="eager" class="pointer-events-none" src="arrow-right.svg" alt="arrow right" draggable="false">
                     </a>
                 </div>
         
@@ -40,7 +50,7 @@ import CopyToClipboard from '../components/copyToClipboard';
                     <span class="font-open-sans font-semibold pt-[1px]">fernando.haro.c@gmail.com</span>
         
                     <div class="flex gap-5">
-                        <a href="mailto:fernando.haro.c@gmail.com" class="flex">
+                        <a href="mailto:fernando.haro.c@gmail.com" class="flex transition-opacity duration-150 hover:opacity-80">
                             <img class="pointer-events-none" src="send.svg" alt="send" draggable="false">
                         </a>
         
@@ -52,8 +62,8 @@ import CopyToClipboard from '../components/copyToClipboard';
         </div>
     
         <!-- About -->
-        <section class="w-full my-10 px-8 flex flex-col text-center md:max-w-[44ch] order-4 md:order-2 md:my-0">
-            <span class="text-primary text-start font-ubuntu-mono text-2xl">&lt;about&gt;</span>
+        <section class="w-full my-10 px-8 flex flex-col text-center items-center md:max-w-[44ch] order-4 md:order-2 md:my-0">
+            <span class="text-primary text-start font-ubuntu-mono text-2xl self-start">&lt;about&gt;</span>
     
             <p class="pt-4 text-xl font-open-sans text-text leading-[1.2em] max-w-[30ch]"><span class="font-semibold text-[#57AAA7]">Software engineering student</span> that is passionate about programming and design. &NewLine;
             </p>
@@ -61,7 +71,7 @@ import CopyToClipboard from '../components/copyToClipboard';
                 My main focus is in <span class="font-semibold text-[#57AAA7]">Full Stack Web Development.</span>
             </p>
     
-            <span class="text-primary font-ubuntu-mono text-2xl text-end md:text-end md:w-[28ch]">&lt;/about&gt;</span>
+            <span class="text-primary font-ubuntu-mono text-2xl text-end md:text-end md:w-[28ch] self-end">&lt;/about&gt;</span>
         </section>
     </div>
 </Layout>
