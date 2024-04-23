@@ -1,0 +1,38 @@
+---
+import Header from '../components/Header.astro';
+
+const { frontmatter } = Astro.props;
+---
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+
+        <link rel="icon" href="/logo.png" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+        <title>{frontmatter.title}</title>
+    </head>
+
+    <body class="min-h-screen flex flex-col items-center bg-background">
+		<!-- background noise -->
+		<img class="absolute inset-0 w-full h-full object-cover select-none -z-10 pointer-events-none" src="/noise.svg" draggable="false" alt="noise"></img>
+		<Header title="blog" />
+
+        <main class="grid gap-12 pb-12 px-4 pt-0 max-w-[160ch] lg:pt-12 lg:grid-cols-[1fr_3fr]">
+            <div class="justify-self-center max-w-[80ch] text-center font-open-sans">
+                <h1 class="font-black-han-sans text-xl pb-8">{frontmatter.title}</h1>
+                <p>Published on: {frontmatter.pubDate.toString().slice(0,10)}</p>
+                <p>Written by: {frontmatter.author}</p>
+                <p class="mt-8"><em>{frontmatter.description}</em></p>
+                <img class="mt-8 rounded-lg" src={frontmatter.image.url} width="300" alt={frontmatter.image.alt} />
+            </div>
+            <div class="justify-self-center max-w-[80ch] font-open-sans">
+                <slot />
+            </div>
+        </main>
+	</body>
+</html>

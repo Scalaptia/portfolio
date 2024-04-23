@@ -1,18 +1,14 @@
 ---
-import Header from './Header.astro';
-
-interface Props {
-	title: string;
-}
+import Header from '../components/Header.astro';
 
 const { title } = Astro.props;
 ---
 
-<!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
 		<slot name="tags" />
 
 		<link rel="icon" href="/logo.png" />
@@ -29,9 +25,3 @@ const { title } = Astro.props;
 		<slot name="content" />
 	</body>
 </html>
-
-<style is:global>
-	html {
-		font-family: system-ui, sans-serif;
-	}
-</style>
