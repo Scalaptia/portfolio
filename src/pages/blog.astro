@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import BlogPost from '../components/BlogPost.astro';
 
 export const meta = {
     title: 'blog',
@@ -9,7 +10,8 @@ export const meta = {
     keywords: 'fernando haro, harogato, software engineering, web development, programming, design, portfolio, developer, engineer, programmer',
 };
 
-const allPosts = await Astro.glob('../pages/posts/*.md');
+// Get all posts from the posts directory and subdirectories
+const posts = await Astro.glob('../pages/posts/**/*.md');
 ---
 
 <Layout title="blog">
@@ -29,9 +31,9 @@ const allPosts = await Astro.glob('../pages/posts/*.md');
     <meta slot="tags" name="language" content="en" />
 
 
-    <div slot="content">
-        <ul class="flex flex-col-reverse gap-2">
-            {allPosts.map((post) => <li><a href={post.url}>{post.frontmatter.title}</a></li>)}
+    <div slot="content" class="px-8">
+        <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
+            {posts.map((post) => <BlogPost url={post.url} frontmatter={post.frontmatter} />)}
         </ul>
     </div>
 </Layout>
