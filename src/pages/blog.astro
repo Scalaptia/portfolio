@@ -11,7 +11,8 @@ export const meta = {
 };
 
 // Get all posts from the posts directory and subdirectories
-const posts = await Astro.glob('../pages/posts/**/*.md');
+let posts = await Astro.glob('../pages/posts/**/*.md');
+posts = posts.sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime());
 ---
 
 <Layout title="blog">
@@ -31,8 +32,8 @@ const posts = await Astro.glob('../pages/posts/**/*.md');
     <meta slot="tags" name="language" content="en" />
 
 
-    <div slot="content" class="px-8">
-        <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
+    <div slot="content" class="px-8 w-[80ch]">
+        <ul class="grid gap-6 w-full">
             {posts.map((post) => <BlogPost url={post.url} frontmatter={post.frontmatter} />)}
         </ul>
     </div>
