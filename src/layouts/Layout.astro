@@ -18,7 +18,7 @@ const { title } = Astro.props;
 		<title>{title}</title>
 	</head>
 
-	<body class="min-h-screen flex flex-col items-center bg-background bg-noise bg-repeat" ><Header title={title} />
+	<body class="min-h-screen flex flex-col items-center bg-background bg-noise bg-repeat" ><Header title={title.replace(" | harogato", "")} />
 		<slot name="content" />
 	</body>
 </html>
