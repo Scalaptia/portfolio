@@ -5,9 +5,9 @@ const { title, date } = frontmatter
 const formattedDate = new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(date))
 ---
 
-<a href={url} class="w-full">
+<a href={url}>
   <article class="flex justify-between border-b-2 border-text border-opacity-20">
     <h2 class="text-lg font-bold text-text font-open-sans">{title}</h2>
-    <time class="text-lg text-text font-ubuntu-mono min-w-[12ch]">{formattedDate}</time>
+    <time class="text-lg text-text font-ubuntu-mono min-w-[14ch] text-right">{formattedDate}</time>
   </article>
 </a>

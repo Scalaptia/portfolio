@@ -32,7 +32,7 @@ posts = posts.sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a
     <meta slot="tags" name="language" content="en" />
 
 
-    <div slot="content" class="px-8 w-[80ch]">
+    <div slot="content" class="px-8 w-full max-w-[80ch]">
         <ul class="grid gap-6 w-full">
             {posts.map((post) => <BlogPost url={post.url} frontmatter={post.frontmatter} />)}
         </ul>

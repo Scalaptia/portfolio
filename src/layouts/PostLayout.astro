@@ -9,34 +9,37 @@ const { frontmatter } = Astro.props;
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width" />
         <meta name="generator" content={Astro.generator} />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/posts.css">
 
-        <link rel="icon" href="/logo.png" />
+        <link rel="icon" href="/logo.ico" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+        
         <title>{frontmatter.title}</title>
     </head>
 
-    <body class="min-h-screen flex flex-col items-center bg-background">
-		<!-- background noise -->
-		<img class="absolute inset-0 w-full h-full object-cover select-none -z-10 pointer-events-none" src="/noise.svg" draggable="false" alt="noise"></img>
+    <body class="min-h-screen flex flex-col items-center bg-background bg-noise bg-repeat">
 		<Header title="blog" />
 
-        <main class="grid gap-12 pb-12 px-4 pt-0 max-w-[80ch] text-text">
+        <main class="grid gap-8 pb-12 px-4 pt-0 max-w-[80ch] text-text">
             <div class="justify-self-center max-w-[80ch] text-center font-open-sans">
-                <h1 class="font-black-han-sans text-xl pb-8 ">{frontmatter.title}</h1>
-                <p>{(new Date(frontmatter.date)).toDateString().slice(4)}</p>
-                <p>Author: {frontmatter.author}</p>
-                
-                <!-- <div class="flex justify-center mt-8 flex-wrap gap-4">
+                <h1 class="font-black-han-sans text-4xl pb-4 ">{frontmatter.title}</h1>
+                <p class="font-ubuntu-mono text-xl">{frontmatter.author} - {(new Date(frontmatter.date)).toDateString().slice(4)}</p>
+                <div class="flex justify-center mt-4 flex-wrap gap-4">
                     {frontmatter.tags.map((tag: string) => (
-                        <span class="text-sm px-4 py-1 font-bold text-accent bg-secondary rounded-lg opacity-90">{tag}</span>
+                        <span class="text-sm px-4 py-1 font-bold text-accent bg-secondary rounded-lg opacity-95">{tag}</span>
                     ))}
-                </div> -->
+                </div>
             </div>
-            <div class="justify-self-center max-w-[80ch] font-open-sans">
+            <div class="justify-self-center max-w-[80ch] font-open-sans markdown-body">
                 <slot />
             </div>
         </main>
+        
+        <footer class="text-lg text-center text-primary font-ubuntu-mono pb-4">
+            <a href="/">&copy; harogato 2024</a> 
+        </footer>
 	</body>
 </html>
