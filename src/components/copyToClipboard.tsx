@@ -4,7 +4,7 @@ interface props {
     text: string;
 }
 
-export default function copyToClipboard({ text }: props) {
+export default function CopyToClipboard({ text }: props) {
     const [showPopup, setShowPopup] = useState(false);
 
     const handleClick = async () => {
