@@ -33,7 +33,7 @@ export function Projects({ projects }: ProjectsProps) {
                         <div className="flex flex-col w-1/2 gap-3">
                             {/* Title */}
                             <div className="w-full flex justify-between">
-                                <h2 className="text-[40px] font-black-han-sans">
+                                <h2 className="text-[40px] font-black-han-sans font-extrabold">
                                     {project.title}
                                 </h2>
                                 {project.repo ? (
@@ -70,7 +70,7 @@ export function Projects({ projects }: ProjectsProps) {
                                 {project.tags.map((tag, tagIndex) => (
                                     <span
                                         key={tagIndex}
-                                        className="text-white bg-text rounded-full px-3 py-2 text-sm font-black-han-sans"
+                                        className="text-white bg-text rounded-full px-3 py-2 text-sm font-black-han-sans font-extrabold"
                                     >
                                         {tag}
                                     </span>

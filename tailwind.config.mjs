@@ -15,7 +15,7 @@ export default {
         "open-sans": ["Open Sans", "sans-serif"],
       },
       backgroundImage: {
-        noise: "url('/noise.svg')",
+        noise: "url('/svg/noise.svg')",
       },
       backgroundRepeat: {
         repeat: "repeat",

@@ -21,7 +21,7 @@ export default function CopyToClipboard({ text }: props) {
             >
                 <img
                     className="pointer-events-none"
-                    src="copy.svg"
+                    src="/svg/copy.svg"
                     alt="copy"
                     draggable="false"
                 />
