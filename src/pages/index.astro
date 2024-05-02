@@ -17,16 +17,19 @@ const projects: ProjectsProps = {
     projects: [
         {
             title: 'Battleship',
-            description: ['My own version of the popular board game Battleship made with TypeScript.', 'This game was made as part of The Odin Project’s curriculum, and its main goal was to learn about unit testing using Jest.'],
+            description: ['My own version of the popular board game Battleship.', 'This game was made as part of The Odin Project’s curriculum, and its main goal was to learn about unit testing using Jest.'],
             image: '/images/battleship.png',
             tags: ['TypeScript', 'Jest', 'Vite'],
-            repo: 'https://www.github.com/Scalaptia/battleship'
+            repo: 'https://www.github.com/Scalaptia/battleship',
+            live: 'https://scalaptia.github.io/battleship/'
         },
         {
             title: '16-BDH',
-            description: ['16-Bits de Historia is an educational RPG that teaches the story of “La Batalla de Puebla”.', 'This game was a final project for an introductory Strucured Programming class. It was developed in pure C using only a simple graphics library and was ported to the web using Emscripten.'],
+            description: ['16-Bits de Historia is an educational RPG that tells the story of “La Batalla de Puebla”.', 'The game was a final project for an introductory structured programming class.'],
             image: '/images/16-bdh.png',
             tags: ['C', 'Raylib', 'Emscripten'],
+            repo: 'https://github.com/Scalaptia/16-Bits-de-Historia',
+            live: 'https://scalaptia.github.io/16-Bits-de-Historia/'
         }
     ]
 };
@@ -49,22 +52,22 @@ const projects: ProjectsProps = {
     <meta slot="tags" name="language" content="en" />
 
     <!-- Developer -->
-    <div slot="content" class="flex flex-col w-full lg:flex-row lg:flex-wrap lg:justify-between lg:max-w-[1200px] lg:gap-y-24 lg:pt-12 mb-16">
+    <div slot="content" class="flex flex-col w-full lg:flex-row lg:flex-wrap lg:justify-between max-w-[600px] lg:max-w-[1200px] lg:gap-y-12 xl:gap-y-24 lg:pt-12">
         <section class="w-full px-8 flex flex-col lg:max-w-[44ch]">
             <span class="text-primary font-ubuntu-mono text-2xl">&lt;developer&gt;</span>
     
-            <h1 class="pt-4 text-6xl font-black-han-sans font-extrabold text-text leading-[1.2em] max-w-[8ch]">Fernando Haro</h1>
+            <h1 class="pt-4 text-6xl font-black-han-sans text-text leading-[1.2em] max-w-[8ch]">Fernando Haro</h1>
     
             <span class="text-primary font-ubuntu-mono text-2xl translate-y-[210px] text-end lg:translate-y-0 lg:text-end lg:w-[26ch]">&lt;/developer&gt;</span>
         </section>
     
         <!-- Image -->
-        <div class="flex justify-center h-[240px] lg:w-[240px] xl:w-[330px]">
-            <img class="-z-10 w-[250px] absolute -translate-y-[4.3rem] lg:w-[300px] xl:w-[350px] lg:top-52" src="logo.png" alt="logo">
+        <div class="flex justify-center h-[240px] lg:w-[240px] xl:w-[400px]">
+            <img class="-z-10 w-[250px] absolute -translate-y-[4.3rem] lg:w-[300px] xl:w-[410px] lg:top-52 transition-all" src="logo.png" alt="logo">
         </div>
 
         <!-- About -->
-        <section class="w-full my-10 px-8 flex flex-col text-center items-center lg:max-w-[44ch] lg:my-0 order-2 lg:order-none">
+        <section class="w-full mt-12 px-8 flex flex-col text-center items-center lg:max-w-[44ch] lg:my-0 order-2 lg:order-none">
             <span class="text-primary text-start font-ubuntu-mono text-2xl self-start">&lt;about&gt;</span>
     
             <p class="pt-4 text-xl font-open-sans text-text leading-[1.2em] max-w-[30ch]"><span class="font-semibold text-[#57AAA7]">Software engineering student</span> that is passionate about programming and design. &NewLine;
@@ -77,7 +80,7 @@ const projects: ProjectsProps = {
         </section>
     
         <!-- Links -->
-        <div class="flex w-full justify-center mt-4 sm:w-auto lg:w-full items-center order-1 lg:order-none">
+        <div class="flex w-full justify-center mt-8 xl:mt-12 sm:w-auto lg:w-full items-center order-1 lg:order-none">
             <div class="grid grid-cols gap-5 px-6 max-w-[410px] w-full sm:w-auto">
                 <div class="flex w-full justify-between gap-2">
                     <LinkButton link="https://www.github.com/Scalaptia" svg="/svg/github.svg" text="GitHub" />
@@ -98,7 +101,8 @@ const projects: ProjectsProps = {
         </div>
     </div>
 
-    <div slot="content" class="px-8 flex flex-col w-full items-center lg:flex-row lg:flex-wrap lg:justify-between lg:max-w-[1200px] lg:gap-y-4 lg:pt-12 mb-16">
+    <!-- Projects -->
+    <div slot="content" class="px-8 flex flex-col w-full items-center lg:flex-row lg:flex-wrap lg:justify-between max-w-[600px] lg:max-w-[1200px] lg:gap-y-4 my-12 lg:my-20">
         <span class="text-primary text-start font-ubuntu-mono text-2xl self-start w-full">&lt;projects&gt;</span>
         <Projects {...projects} client:load />
         <span class="text-primary font-ubuntu-mono text-2xl text-end w-full lg:text-end self-end">&lt;/projects&gt;</span>
