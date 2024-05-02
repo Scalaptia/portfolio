@@ -1,0 +1,19 @@
+---
+type Props = {
+    svg?: string
+    link: string
+    text: string
+}
+
+const {svg, link, text}: Props = Astro.props
+---
+
+<a href={link} class="flex bg-text text-white rounded-full px-3 py-2 items-center justify-center gap-3 transition-opacity duration-150 hover:opacity-95" target="blank">
+    {
+        svg && (
+            <img loading="eager" src={svg} alt="icon" draggable="false">
+        )
+    }
+    <span class="font-black-han-sans text-xl pt-[1px]">{text}</span>
+    <img loading="eager" src="/svg/arrow-right.svg" alt="arrow right" draggable="false">
+</a>

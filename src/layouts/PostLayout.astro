@@ -1,5 +1,6 @@
 ---
 import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 
 const { frontmatter } = Astro.props;
 ---
@@ -10,14 +11,13 @@ const { frontmatter } = Astro.props;
         <meta name="viewport" content="width=device-width" />
         <meta name="generator" content={Astro.generator} />
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="/posts.css">
-
-        <link rel="icon" href="/logo.ico" />
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
         
-        <title>{frontmatter.title}</title>
+        <link rel="icon" href="/logo.ico" />
+        <link rel="preload" href="/posts.css" as="style" />
+        <link rel="stylesheet" href="/posts.css">
+        <link rel="preload" href="/fonts.css" as="style" />
+		<link rel="stylesheet" href="/fonts.css">
+        <title>{frontmatter.title} | harogato</title>
     </head>
 
     <body class="min-h-screen flex flex-col items-center bg-background bg-noise bg-repeat">
@@ -38,8 +38,6 @@ const { frontmatter } = Astro.props;
             </div>
         </main>
         
-        <footer class="text-lg text-center text-primary font-ubuntu-mono pb-4">
-            <a href="/">&copy; harogato 2024</a> 
-        </footer>
+        <Footer></Footer>
 	</body>
 </html>

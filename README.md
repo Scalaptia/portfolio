@@ -15,6 +15,7 @@ Technologies used
 </h3>
 
 [Astro](https://astro.build/) - [Tailwind CSS](https://tailwindcss.com/) -
-[TypeScript](https://www.typescriptlang.org/) - [Vercel](https://vercel.com/)
+[TypeScript](https://www.typescriptlang.org/) - [React](https://reactjs.org/) -
+[Vercel](https://vercel.com/)
 
 </div>

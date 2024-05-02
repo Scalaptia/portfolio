@@ -4,7 +4,7 @@ interface props {
     text: string;
 }
 
-export default function copyToClipboard({ text }: props) {
+export default function CopyToClipboard({ text }: props) {
     const [showPopup, setShowPopup] = useState(false);
 
     const handleClick = async () => {
@@ -21,7 +21,7 @@ export default function copyToClipboard({ text }: props) {
             >
                 <img
                     className="pointer-events-none"
-                    src="copy.svg"
+                    src="/svg/copy.svg"
                     alt="copy"
                     draggable="false"
                 />

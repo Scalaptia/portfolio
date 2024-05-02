@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import BlogPost from '../components/BlogPost.astro';
 
 export const meta = {
-    title: 'blog',
+    title: 'blog | harogato',
     description: 'Blog posts and articles written by Fernando Haro.',
     url: 'https://fernando.haroware.com/blog/',
     type: 'website',
@@ -15,7 +15,7 @@ let posts = await Astro.glob('../pages/posts/**/*.md');
 posts = posts.sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime());
 ---
 
-<Layout title="blog">
+<Layout title={meta.title}>
     <meta slot="tags" name="description" content={meta.description} />
     <meta slot="tags" property="og:title" content={meta.title} />
     <meta slot="tags" property="og:description" content={meta.description} />
@@ -31,7 +31,7 @@ posts = posts.sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a
     <meta slot="tags" name="author" content="Fernando Haro" />
     <meta slot="tags" name="language" content="en" />
 
-
+    
     <div slot="content" class="px-8 w-full max-w-[80ch]">
         <ul class="grid gap-6 w-full">
             {posts.map((post) => <BlogPost url={post.url} frontmatter={post.frontmatter} />)}
