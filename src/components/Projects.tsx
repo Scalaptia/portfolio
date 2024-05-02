@@ -58,15 +58,15 @@ export function Projects({ projects }: ProjectsProps) {
                     >
                         <div className="flex flex-col w-full h-full items-center lg:items-start lg:w-1/2 lg:min-h-full gap-3 flex-grow">
                             {/* Title */}
-                            <div className="w-full flex justify-between gap-8 items-center my-4">
-                                <h2 className="text-[32px] lg:text-[40px] font-black-han-sans font-extrabold">
+                            <div className="w-full flex justify-between gap-1 items-center my-4">
+                                <h2 className="text-[30px] lg:text-[40px] font-black-han-sans">
                                     {project.title}
                                 </h2>
                                 {project.repo ? (
                                     <a
                                         href={project.repo}
                                         target="_blank"
-                                        className="h-8 px-4 mb-2 gap-2 flex items-center justify-center text-text bg-white rounded-lg"
+                                        className="h-8 px-2 mb-2 gap-2 flex items-center justify-center text-text bg-white rounded-lg"
                                     >
                                         <p className="font-black-han-sans font-extrabold text-sm">
                                             Code
@@ -80,7 +80,7 @@ export function Projects({ projects }: ProjectsProps) {
                             </div>
 
                             {/* Description */}
-                            <p className="mb-4 text-lg text-center lg:text-start sm:text-xl max-w-[50ch]">
+                            <p className="mb-4 text-lg text-center lg:text-justify sm:text-xl max-w-[50ch]">
                                 {project.description.map((paragraph, index) => (
                                     <span key={index}>
                                         {paragraph}
