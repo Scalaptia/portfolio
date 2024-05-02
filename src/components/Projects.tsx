@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSwipeable } from "react-swipeable";
 
 export interface Project {
     title: string;
@@ -20,8 +21,19 @@ export function Projects({ projects }: ProjectsProps) {
         setActiveIndex(index);
     };
 
+    const handlers = useSwipeable({
+        onSwipedLeft: () =>
+            setActiveIndex((prevIndex) =>
+                prevIndex < projects.length - 1 ? prevIndex + 1 : prevIndex
+            ),
+        onSwipedRight: () =>
+            setActiveIndex((prevIndex) =>
+                prevIndex > 0 ? prevIndex - 1 : prevIndex
+            ),
+    });
+
     return (
-        <div className="flex w-full justify-center">
+        <div className="flex w-full justify-center" {...handlers}>
             <div className="w-full lg:w-10/12 h-full flex flex-col items-center justify-center text-text font-open-sans">
                 <div className="flex flex-wrap mt-4 mb-2 md:pb-4">
                     {projects.map((_, index) => (
