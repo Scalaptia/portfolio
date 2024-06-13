@@ -110,7 +110,7 @@ const projects: ProjectsProps = {
                             <img class="pointer-events-none" src="/svg/send.svg" alt="send" draggable="false">
                         </a>
         
-                        <CopyToClipboard client:load text="fernando.haro.c@gmail.com" />
+                        <CopyToClipboard client:visible text="fernando.haro.c@gmail.com" />
                     </div>
                 </div>
             </div>
@@ -120,7 +120,7 @@ const projects: ProjectsProps = {
     <!-- Projects -->
     <div slot="content" class="px-8 flex flex-col w-full items-center lg:flex-row lg:flex-wrap lg:justify-between max-w-[600px] lg:max-w-[1200px] lg:gap-y-4 my-12 lg:my-20">
         <span class="text-primary text-start font-ubuntu-mono text-2xl self-start w-full">&lt;projects&gt;</span>
-        <Projects {...projects} client:load />
+        <Projects {...projects} client:visible />
         <span class="text-primary font-ubuntu-mono text-2xl text-end w-full lg:text-end self-end">&lt;/projects&gt;</span>
     </div>
 
