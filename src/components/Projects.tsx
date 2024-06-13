@@ -80,7 +80,7 @@ export function Projects({ projects }: ProjectsProps) {
                             </div>
 
                             {/* Description */}
-                            <p className="mb-4 text-lg text-center lg:text-justify sm:text-xl max-w-[50ch]">
+                            <p className="mb-4 text-lg text-center lg:text-left sm:text-xl max-w-[50ch]">
                                 {project.description.map((paragraph, index) => (
                                     <span key={index}>
                                         {paragraph}
@@ -109,7 +109,7 @@ export function Projects({ projects }: ProjectsProps) {
                         </div>
 
                         {/* Image */}
-                        <div className="relative group bg-black rounded-xl overflow-hidden mt-4 sm:mt-0 max-w-[50ch]">
+                        <div className="relative group bg-black rounded-xl overflow-hidden mt-4 sm:mt-0 max-w-[50ch] lg:min-w-[50ch] min-w-[90%]">
                             <img
                                 src={project.image}
                                 alt={project.title}
