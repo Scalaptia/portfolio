@@ -6,18 +6,18 @@ import { Projects, type ProjectsProps } from '../components/Projects';
 import Footer from '../components/Footer.astro';
 
 export const meta = {
-    title: 'harogato',
+    title: 'Fernando Haro Calvo | Software Engineer',
     description: 'Fernando Haro\'s personal website.',
     url: 'https://fernando.haroware.com',
     type: 'website',
-    keywords: 'fernando haro, harogato, software engineering, web development, programming, design, portfolio, developer, engineer, programmer',
+    keywords: 'fernando haro, fernando haro calvo, haro calvo fernando, harogato, software engineering, software, engineering, web development, web programming, programming, web developer, design, portfolio, developer, engineer, programmer, full stack, full stack web developer, full stack web development, full stack developer, full stack development, front end, back end, front end developer, back end developer, front end development, back end development, web design, web designer, web developer portfolio, web developer website, web developer personal website, web developer personal site, web developer personal page, web developer personal webpage'
 };
 
 const projects: ProjectsProps = {
     projects: [
         {
             title: 'Espyntar',
-            description: ['A multiplayer drawing and guessing game.', "This was a team project developed for my school's OOP course. I was responsible for the networking and designing the classes."],
+            description: ['A multiplayer drawing and guessing game.', "This was a team project developed for my school's OOP course. I was responsible for the networking and contributed to game logic and design."],
             image: '/images/espyntar.png',
             tags: ['C++', 'Raylib', 'Socket Programming'],
             repo: 'https://www.github.com/Scalaptia/espyntar'
@@ -63,7 +63,7 @@ const projects: ProjectsProps = {
     <meta slot="tags" name="twitter:creator" content="@Scalaptia" />
     <meta slot="tags" name="keywords" content={meta.keywords} />
     <meta slot="tags" name="robots" content="index, follow" />
-    <meta slot="tags" name="author" content="Fernando Haro" />
+    <meta slot="tags" name="author" content="Fernando Haro Calvo" />
     <meta slot="tags" name="language" content="en" />
 
     <!-- Developer -->
@@ -85,7 +85,7 @@ const projects: ProjectsProps = {
         <section class="w-full mt-12 px-8 flex flex-col text-center items-center lg:max-w-[44ch] lg:my-0 order-2 lg:order-none">
             <span class="text-primary text-start font-ubuntu-mono text-2xl self-start">&lt;about&gt;</span>
     
-            <p class="pt-4 text-xl font-open-sans text-text leading-[1.2em] max-w-[30ch]"><span class="font-semibold text-[#57AAA7]">Software engineering student</span> that is passionate about programming and design. &NewLine;
+            <p class="pt-4 text-xl font-open-sans text-text leading-[1.2em] max-w-[30ch]"><span class="font-semibold text-[#57AAA7]">Software engineering student</span> passionate about programming and design. &NewLine;
             </p>
             <p class="pt-4 pb-3 text-xl font-open-sans text-text leading-[1.2em] max-w-[30ch]">
                 My main focus is in <span class="font-semibold text-[#57AAA7]">Full Stack Web Development.</span>

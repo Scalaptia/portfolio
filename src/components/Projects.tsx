@@ -21,19 +21,27 @@ export function Projects({ projects }: ProjectsProps) {
         setActiveIndex(index);
     };
 
+    const onSwipedLeft = () =>
+        setActiveIndex((prevIndex) =>
+            prevIndex < projects.length - 1 ? prevIndex + 1 : prevIndex
+        );
+
+    const onSwipedRight = () =>
+        setActiveIndex((prevIndex) =>
+            prevIndex > 0 ? prevIndex - 1 : prevIndex
+        );
+
     const handlers = useSwipeable({
-        onSwipedLeft: () =>
-            setActiveIndex((prevIndex) =>
-                prevIndex < projects.length - 1 ? prevIndex + 1 : prevIndex
-            ),
-        onSwipedRight: () =>
-            setActiveIndex((prevIndex) =>
-                prevIndex > 0 ? prevIndex - 1 : prevIndex
-            ),
+        onSwipedLeft,
+        onSwipedRight,
     });
 
     return (
         <div className="flex w-full justify-center" {...handlers}>
+            <button onClick={onSwipedRight} className="mr-10 text-5xl font-black-han-sans hidden lg:block">
+                &lt;
+            </button>
+
             <div className="w-full lg:w-10/12 h-full flex flex-col items-center justify-center text-text font-open-sans">
                 <div className="flex flex-wrap mt-4 mb-2 md:pb-4">
                     {projects.map((_, index) => (
@@ -140,6 +148,10 @@ export function Projects({ projects }: ProjectsProps) {
                     </div>
                 ))}
             </div>
+
+            <button onClick={onSwipedLeft} className="ml-10 text-5xl font-black-han-sans hidden lg:block">
+                &gt;
+            </button>
         </div>
     );
 }
