@@ -1,7 +1,7 @@
 ---
 layout: ../../../layouts/PostLayout.astro
 title: Hello Blog! 🚀
-author: Fernando Haro
+author: Fernando Haro Calvo
 description: Primera publicación.
 date: 2024-04-26
 tags: []

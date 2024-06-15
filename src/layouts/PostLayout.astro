@@ -25,7 +25,7 @@ const { frontmatter } = Astro.props;
 
         <main class="grid gap-8 pb-12 px-4 pt-0 max-w-[80ch] text-text">
             <div class="justify-self-center max-w-[80ch] text-center font-open-sans">
-                <h1 class="font-black-han-sans text-4xl pb-4 ">{frontmatter.title}</h1>
+                <h1 class="font-open-sans font-extrabold text-4xl pb-4 ">{frontmatter.title}</h1>
                 <p class="font-ubuntu-mono text-xl">{frontmatter.author} - {(new Date(frontmatter.date)).toDateString().slice(4)}</p>
                 <div class="flex justify-center mt-4 flex-wrap gap-4">
                     {frontmatter.tags.map((tag: string) => (
