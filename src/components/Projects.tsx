@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useSwipeable } from "react-swipeable";
+import { ImageCarousel } from "./ImageCarousel";
 
 export interface Project {
     title: string;
     description: string[];
-    image: string;
+    image: string[];
     tags: string[];
     repo?: string;
     live?: string;
@@ -23,12 +24,12 @@ export function Projects({ projects }: ProjectsProps) {
 
     const onSwipedLeft = () =>
         setActiveIndex((prevIndex) =>
-            prevIndex < projects.length - 1 ? prevIndex + 1 : prevIndex
+            prevIndex < projects.length - 1 ? prevIndex + 1 : 0
         );
 
     const onSwipedRight = () =>
         setActiveIndex((prevIndex) =>
-            prevIndex > 0 ? prevIndex - 1 : prevIndex
+            prevIndex > 0 ? prevIndex - 1 : projects.length - 1
         );
 
     const handlers = useSwipeable({
@@ -118,32 +119,7 @@ export function Projects({ projects }: ProjectsProps) {
 
                         {/* Image */}
                         <div className="relative group bg-black rounded-xl overflow-hidden mt-4 sm:mt-0 max-w-[50ch] lg:min-w-[50ch] min-w-[90%]">
-                            <img
-                                src={project.image}
-                                alt={project.title}
-                                className={`object-cover w-full h-[200px] sm:h-[332px] ${
-                                    project.live
-                                        ? "transition-opacity group-hover:opacity-50"
-                                        : ""
-                                }`}
-                                draggable="false"
-                            />
-                            {project.live && (
-                                <a
-                                    href={project.live}
-                                    target="_blank"
-                                    className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100"
-                                >
-                                    <span className="flex gap-3 items-center text-white text-3xl select-none font-extrabold font-ubuntu-mono">
-                                        Live Demo{" "}
-                                        <img
-                                            src="/svg/arrow-up-right-from-square.svg"
-                                            draggable="false"
-                                            className="w-7 h-7"
-                                        />
-                                    </span>
-                                </a>
-                            )}
+                            <ImageCarousel images={project.image} interval={5000} live={project.live} />
                         </div>
                     </div>
                 ))}
