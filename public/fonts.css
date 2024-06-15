@@ -1,6 +1,6 @@
 /* black-han-sans-regular - latin */
 @font-face {
-    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-display: block; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
     font-family: "Black Han Sans";
     font-style: normal;
     font-weight: 400;
@@ -9,7 +9,7 @@
 
 /* open-sans-regular - latin */
 @font-face {
-    font-display: swap;
+    font-display: block;
     font-family: "Open Sans";
     font-style: normal;
     font-weight: 400;
@@ -18,9 +18,23 @@
 
 /* ubuntu-mono-regular - latin */
 @font-face {
-    font-display: swap;
+    font-display: block;
     font-family: "Ubuntu Mono";
     font-style: normal;
     font-weight: 400;
     src: url("/fonts/ubuntu-mono-v17-latin-regular.woff2") format("woff2");
+}
+
+@keyframes blink {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+
+.animate-blink {
+    animation: blink 1s infinite;
 }

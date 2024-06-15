@@ -1,32 +1,39 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import LinkButton from '../components/LinkButton.astro';
-import CopyToClipboard from '../components/CopyToClipboard.tsx';
-import { Projects, type ProjectsProps } from '../components/Projects.tsx';
+import CopyToClipboard from '../components/CopyToClipboard';
+import { Projects, type ProjectsProps } from '../components/Projects';
 import Footer from '../components/Footer.astro';
 
 export const meta = {
-    title: 'harogato',
+    title: 'Fernando Haro Calvo | Software Engineer',
     description: 'Fernando Haro\'s personal website.',
     url: 'https://fernando.haroware.com',
     type: 'website',
-    keywords: 'fernando haro, harogato, software engineering, web development, programming, design, portfolio, developer, engineer, programmer',
+    keywords: 'fernando haro, fernando haro calvo, haro calvo fernando, harogato, software engineering, software, engineering, web development, web programming, programming, web developer, design, portfolio, developer, engineer, programmer, full stack, full stack web developer, full stack web development, full stack developer, full stack development, front end, back end, front end developer, back end developer, front end development, back end development, web design, web designer, web developer portfolio, web developer website, web developer personal website, web developer personal site, web developer personal page, web developer personal webpage'
 };
 
 const projects: ProjectsProps = {
     projects: [
         {
+            title: 'Espyntar',
+            description: ['A multiplayer drawing and guessing game.', "This was a team project developed for my school's OOP course. I was responsible for the networking and contributed to game logic and design."],
+            image: ['/images/espyntar.png', '/images/espyntar-2.png', '/images/espyntar-3.png'],
+            tags: ['C++', 'Raylib', 'Socket Programming'],
+            repo: 'https://www.github.com/Scalaptia/espyntar'
+        },
+        {
             title: 'Battleship',
             description: ['My own version of the popular board game Battleship.', 'This game was made as part of The Odin Project’s curriculum, and its main goal was to learn about unit testing using Jest.'],
-            image: '/images/battleship.png',
+            image: ['/images/battleship.png', '/images/battleship-2.png'],
             tags: ['TypeScript', 'Jest', 'Vite'],
             repo: 'https://www.github.com/Scalaptia/battleship',
             live: 'https://scalaptia.github.io/battleship/'
         },
         {
             title: '16-BDH',
-            description: ['16-Bits de Historia is an educational RPG that tells the story of “La Batalla de Puebla”.', 'This game was a final project for an introductory structured programming class.'],
-            image: '/images/16-bdh.png',
+            description: ['16-Bits de Historia is an educational RPG that tells the story of “La Batalla de Puebla”.', 'This game was a final project for an introductory structured programming course.'],
+            image: ['/images/16-bdh.png', '/images/16-bdh-2.png', '/images/16-bdh-3.png', '/images/16-bdh-4.png'],
             tags: ['C', 'Raylib', 'Emscripten'],
             repo: 'https://github.com/Scalaptia/16-Bits-de-Historia',
             live: 'https://scalaptia.github.io/16-Bits-de-Historia/'
@@ -34,18 +41,10 @@ const projects: ProjectsProps = {
         {
             title: 'Weather App',
             description: ['A simple app that uses the WeatherAPI to get the 7-day forecast of any given city, along with the Pexels API to get a picture of the city.', 'This projects main goal was to learn APIs and asynchronous JavaScript.'],
-            image: '/images/weather-app.png',
+            image: ['/images/weather-app.png'],
             tags: ['TypeScript', 'APIs', 'Vite'],
             repo: 'https://www.github.com/Scalaptia/weather-app',
             live: 'https://scalaptia.github.io/weather-app/'
-        },
-        {
-            title: 'Todo App',
-            description: ['A single page app that uses local storage to save multiple projects and tasks.', 'I made this project to learn about TypeScript, local storage and DOM manipulation.'],
-            image: '/images/todo-app.png',
-            tags: ['TypeScript', 'Local Storage', 'Vite'],
-            repo: 'https://www.github.com/Scalaptia/todo-app',
-            live: 'https://scalaptia.github.io/todo-app/'
         }
     ]
 };
@@ -64,7 +63,7 @@ const projects: ProjectsProps = {
     <meta slot="tags" name="twitter:creator" content="@Scalaptia" />
     <meta slot="tags" name="keywords" content={meta.keywords} />
     <meta slot="tags" name="robots" content="index, follow" />
-    <meta slot="tags" name="author" content="Fernando Haro" />
+    <meta slot="tags" name="author" content="Fernando Haro Calvo" />
     <meta slot="tags" name="language" content="en" />
 
     <!-- Developer -->
@@ -78,15 +77,15 @@ const projects: ProjectsProps = {
         </section>
     
         <!-- Image -->
-        <div class="flex justify-center h-[240px] lg:w-[240px] xl:w-[400px]">
-            <img class="-z-10 w-[250px] absolute -translate-y-[4.3rem] lg:w-[300px] xl:w-[410px] lg:top-52 transition-all" src="logo.png" alt="logo">
+        <div class="flex justify-center h-[240px] lg:w-[200px] xl:w-[390px]">
+            <img class="-z-10 w-[250px] absolute -translate-y-[4.3rem] lg:w-[260px] xl:w-[410px] lg:top-52 xl:top-48 transition-all" src="logo.png" alt="logo">
         </div>
 
         <!-- About -->
         <section class="w-full mt-12 px-8 flex flex-col text-center items-center lg:max-w-[44ch] lg:my-0 order-2 lg:order-none">
             <span class="text-primary text-start font-ubuntu-mono text-2xl self-start">&lt;about&gt;</span>
     
-            <p class="pt-4 text-xl font-open-sans text-text leading-[1.2em] max-w-[30ch]"><span class="font-semibold text-[#57AAA7]">Software engineering student</span> that is passionate about programming and design. &NewLine;
+            <p class="pt-4 text-xl font-open-sans text-text leading-[1.2em] max-w-[30ch]"><span class="font-semibold text-[#57AAA7]">Software engineering student</span> passionate about programming and design. &NewLine;
             </p>
             <p class="pt-4 pb-3 text-xl font-open-sans text-text leading-[1.2em] max-w-[30ch]">
                 My main focus is in <span class="font-semibold text-[#57AAA7]">Full Stack Web Development.</span>
@@ -96,7 +95,7 @@ const projects: ProjectsProps = {
         </section>
     
         <!-- Links -->
-        <div class="flex w-full justify-center mt-8 xl:mt-12 sm:w-auto lg:w-full items-center order-1 lg:order-none">
+        <div class="flex w-full justify-center mt-4 lg:mt-2 sm:w-auto lg:w-full items-center order-1 lg:order-none">
             <div class="grid grid-cols gap-5 px-6 max-w-[410px] w-full sm:w-auto">
                 <div class="flex w-full justify-between gap-2">
                     <LinkButton link="https://www.github.com/Scalaptia" svg="/svg/github.svg" text="GitHub" />
@@ -110,7 +109,7 @@ const projects: ProjectsProps = {
                             <img class="pointer-events-none" src="/svg/send.svg" alt="send" draggable="false">
                         </a>
         
-                        <CopyToClipboard client:load text="fernando.haro.c@gmail.com" />
+                        <CopyToClipboard client:visible text="fernando.haro.c@gmail.com" />
                     </div>
                 </div>
             </div>
@@ -120,7 +119,7 @@ const projects: ProjectsProps = {
     <!-- Projects -->
     <div slot="content" class="px-8 flex flex-col w-full items-center lg:flex-row lg:flex-wrap lg:justify-between max-w-[600px] lg:max-w-[1200px] lg:gap-y-4 my-12 lg:my-20">
         <span class="text-primary text-start font-ubuntu-mono text-2xl self-start w-full">&lt;projects&gt;</span>
-        <Projects {...projects} client:load />
+        <Projects {...projects} client:visible />
         <span class="text-primary font-ubuntu-mono text-2xl text-end w-full lg:text-end self-end">&lt;/projects&gt;</span>
     </div>
 
