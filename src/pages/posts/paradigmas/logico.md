@@ -3,7 +3,7 @@ layout: ../../../layouts/PostLayout.astro
 title: "Programación Lógica"
 author: "Fernando Haro Calvo"
 description: ""
-date: 2024-06-14
+date: 2024-05-30
 tags: ["paradigmas", "lógico", "prolog"]
 ---
 
@@ -70,10 +70,7 @@ tags: ["paradigmas", "lógico", "prolog"]
 -   [Estructura de árbol](#estructura-de-árbol)
     -   [Camino y localización](#camino-y-localización)
     -   [Altura y valor máximo](#altura-y-valor-máximo)
-
-## Instrucciones
-
-Ir a la página del tutorial de Prolog en tutorialspoint (https://www.tutorialspoint.com/prolog/index.htm), y seguir el tutorial desde la sección Home hasta la sección Tree Data Structure (Case Study); son 17 secciones en total.
+-  [Referencias](#referencias)
 
 ## Introducción
 
@@ -117,14 +114,14 @@ La salida obtenida es la siguiente:
 
 Si deseamos crear un archivo con código Prolog en vez de escribirlo en la consola, podemos crear un archivo con extensión `.pl` y ejecutarlo con el comando `gprolog < archivo.pl`. Opcionalmente también podemos cambiar de directorio desde el intérprete de Prolog con el comando `change_directory('ruta').` y cargar el archivo con extension `.pl` con el comando `[nombre].`.
 
-Código `hello_world.pl`:
+**Código** `hello_world.pl`:
 
 ```prolog
 main :- write('Hola Mundo!'),
 write('Este programa está escrito en el archivo hello_world.pl').
 ```
 
-Salida:
+**Salida:**
 
 ![Salida hola_mundo.pl](./images/image-2.png)
 
@@ -229,7 +226,7 @@ girl(jaya).
 can_cook(priya).
 ```
 
-Salida:
+**Salida:**
 
 ![Salida](./images/image-3.png)
 
@@ -245,7 +242,7 @@ happy(rohit) :- listens_to_music(rohit).
 playes_guitar(rohit) :- listens_to_music(rohit).
 ```
 
-Salida:
+**Salida:**
 
 ![Salida](./images/image-4.png)
 
@@ -347,7 +344,7 @@ sister(X,Y):- parent(Z,X),parent(Z,Y),female(X),X\==Y.
 brother(X,Y):-parent(Z,X),parent(Z,Y),male(X),X\==Y.
 ```
 
-Salida:
+**Salida:**
 
 ![Salida1](./images/image-7.png)
 
@@ -371,7 +368,7 @@ uncle(X,Z) :- brother(X,Y), parent(Y,Z).
 
 Ahora podemos hacer consultas sobre estas relaciones y trazar estas relaciones a la hora de ejecutar el programa.
 
-**Salida:**
+****Salida:****
 
 Tíos:
 
@@ -468,7 +465,7 @@ calc :- X is 100 + 200,write('100 + 200 is '),write(X),nl,
         D is 100 mod 30,write('100 mod 30 is '),write(D),nl.
 ```
 
-Salida:
+**Salida:**
 
 ![alt text](./images/image-18.png)
 
@@ -488,7 +485,7 @@ count_to_10(X) :-
    count_to_10(Y).
 ```
 
-Salida:
+**Salida:**
 
 ![alt text](./images/image-19.png)
 
@@ -506,7 +503,7 @@ count_up(L, H) :-
    write(Z), nl.
 ```
 
-Salida:
+**Salida:**
 
 ![count_down](./images/image-20.png)
 
@@ -531,7 +528,7 @@ gte(X,Y) :- X =:= Y,write('X and Y are same').
 gte(X,Y) :- X < Y,write('X is smaller').
 ```
 
-Salida:
+**Salida:**
 
 ![if else](./images/image-22.png)
 
@@ -564,7 +561,7 @@ mother(X,Y) :- parent(X,Y),female(X).
 child_of(X,Y) :- father(X,Y);mother(X,Y).
 ```
 
-Salida:
+**Salida:**
 
 ![conj_dis](./images/image-23.png)
 
@@ -595,7 +592,7 @@ list_member(X,[X|_]).
 list_member(X,[_|TAIL]) :- list_member(X,TAIL).
 ```
 
-Salida:
+**Salida:**
 
 ![alt text](./images/image-25.png)
 
@@ -714,7 +711,7 @@ girl(lili).
 pay(X,Y) :- boy(X), girl(Y).
 ```
 
-Salida:
+**Salida:**
 
 ![backtracking](./images/image-33.png)
 
@@ -769,7 +766,7 @@ likes(mary, X) :- snake(X), !, fail.
 likes(mary, X) :- animal(X).
 ```
 
-Salida:
+**Salida:**
 
 ![negación](./images/image-36.png)
 
@@ -784,7 +781,7 @@ different(X, X) :- !, fail.
 different(X, Y).
 ```
 
-Salida:
+**Salida:**
 
 ![dif](./images/image-37.png)
 
@@ -794,7 +791,7 @@ Salida:
 not(P) :- P, !, fail ; true.
 ```
 
-Salida:
+**Salida:**
 
 ![not](./images/image-38.png)
 
@@ -821,7 +818,7 @@ process(Number) :-
    write('Cube of '),write(Number),write(': '),write(C),nl, cube.
 ```
 
-Salida:
+**Salida:**
 
 ![read](./images/image-40.png)
 
@@ -853,7 +850,7 @@ process(Line):- %this will print the line into the console
    process_file.
 ```
 
-Salida:
+**Salida:**
 
 ![process file](./images/image-43.png)
 
@@ -931,7 +928,7 @@ X is_at_same_level Y :- W is_parent X,
                         W is_at_same_level Z.
 ```
 
-Salida:
+**Salida:**
 
 ![salida árbol](./images/image-53.png)
 
@@ -971,3 +968,9 @@ max([X|R],M,A) :- (X > M -> max(R,X,A) ; max(R,M,A)).
 ```
 
 ![height](./images/image-55.png)
+
+## Referencias
+
+-   [Prolog - Tutorialspoint](https://www.tutorialspoint.com/prolog/index.htm)
+-   [Prolog - Wikipedia](https://en.wikipedia.org/wiki/Prolog)
+-   [GNU Prolog](http://www.gprolog.org/)
