@@ -17,6 +17,17 @@ const { frontmatter } = Astro.props;
         <link rel="stylesheet" href="/posts.css">
         <link rel="preload" href="/fonts.css" as="style" />
 		<link rel="stylesheet" href="/fonts.css">
+
+        <!-- Google tag (gtag.js) -->
+		<script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-DDC5EB7Z2M"></script>
+		<script type="text/partytown">
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+
+			gtag('config', 'G-DDC5EB7Z2M');
+		</script>
+        
         <title>{frontmatter.title} | harogato</title>
     </head>
 
