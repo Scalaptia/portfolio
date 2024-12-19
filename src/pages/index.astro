@@ -4,6 +4,7 @@ import LinkButton from '../components/LinkButton.astro';
 import CopyToClipboard from '../components/CopyToClipboard';
 import { Projects, type ProjectsProps } from '../components/Projects';
 import Footer from '../components/Footer.astro';
+import Model from '../components/Model';
 
 export const meta = {
     title: 'Fernando Haro Calvo | Software Engineer',
@@ -67,18 +68,21 @@ const projects: ProjectsProps = {
     <meta slot="tags" name="language" content="en" />
 
     <!-- Developer -->
-    <div slot="content" class="flex flex-col w-full lg:flex-row lg:flex-wrap lg:justify-between max-w-[600px] lg:max-w-[1200px] lg:gap-y-12 xl:gap-y-24 lg:pt-12">
+    <div slot="content" class="flex flex-col w-full lg:flex-row lg:flex-wrap lg:justify-between max-w-[600px] lg:max-w-[1200px] lg:gap-y-12 lg:pt-12">
         <section class="w-full px-8 flex flex-col lg:max-w-[44ch]">
             <span class="text-primary font-ubuntu-mono text-2xl">&lt;developer&gt;</span>
     
-            <h1 class="pt-4 text-6xl font-black-han-sans text-text leading-[1.2em] max-w-[8ch]">Fernando Haro</h1>
+            <h1 class="pt-4 text-6xl font-black-han-sans text-text leading-[1.2em] text-center lg:text-left lg:max-w-[8ch]">Fernando Haro</h1>
     
-            <span class="text-primary font-ubuntu-mono text-2xl translate-y-[210px] text-end lg:translate-y-0 lg:text-end lg:w-[26ch]">&lt;/developer&gt;</span>
+            <span class="text-primary font-ubuntu-mono text-2xl text-end lg:text-end lg:w-[26ch]">&lt;/developer&gt;</span>
         </section>
     
         <!-- Image -->
-        <div class="flex justify-center h-[240px] lg:w-[200px] xl:w-[390px]">
+        <!-- <div class="flex justify-center h-[240px] lg:w-[200px] xl:w-[390px]">
             <img class="-z-10 w-[250px] absolute -translate-y-[4.3rem] lg:w-[260px] xl:w-[410px] lg:top-52 xl:top-48 transition-all" src="logo.png" alt="logo">
+        </div> -->
+        <div class="flex justify-center h-[240px] lg:w-[200px] xl:w-[390px]">
+            <Model client:only="react" />
         </div>
 
         <!-- About -->
@@ -101,7 +105,7 @@ const projects: ProjectsProps = {
                     <LinkButton link="https://www.github.com/Scalaptia" svg="/svg/github.svg" text="GitHub" />
                     <LinkButton link="https://www.linkedin.com/in/haro-fernando/" svg="/svg/linkedin.svg" text="LinkedIn" />
                 </div>
-                
+
                 <div class="flex bg-white text-text rounded-full px-5 py-2 gap-3 justify-between">
                     <span class="font-open-sans font-semibold pt-[1px]">fernando.haro.c@gmail.com</span>
         
