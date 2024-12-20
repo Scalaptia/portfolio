@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Copy } from "lucide-react";
 
 interface props {
     text: string;
@@ -19,12 +20,7 @@ export default function CopyToClipboard({ text }: props) {
                 className="flex justify-center items-center cursor-pointer transition-opacity duration-150 hover:opacity-80"
                 onClick={handleClick}
             >
-                <img
-                    className="pointer-events-none"
-                    src="/svg/copy.svg"
-                    alt="copy"
-                    draggable="false"
-                />
+                <Copy className="w-5 h-5" />
             </button>
             {showPopup ? (
                 <div className="pointer-events-none absolute font-open-sans rounded-lg text-center -top-10 -left-32 md:left-0 bg-white text-text p-2 z-10 w-[19ch] transition duration-100 ease-in-out opacity-100">

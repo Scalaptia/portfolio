@@ -1,6 +1,6 @@
 <h2 align="center">
   Portfolio and Blog<br/>
-  <a href="https://fernando.haroware.com/" target="_blank">harogato</a>
+  <a href="https://fernando.haroware.com/" target="_blank">Link</a>
 </h2>
 
 <div align="center">

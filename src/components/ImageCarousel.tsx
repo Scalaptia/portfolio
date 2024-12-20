@@ -1,55 +1,66 @@
-import React, { useState, useEffect } from 'react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { useState } from 'react';
 
 interface ImageCarouselProps {
     images: string[];
-    interval: number;
     live?: string;
 }
 
-export function ImageCarousel({ images, interval, live }: ImageCarouselProps) {
+export function ImageCarousel({ images, live }: ImageCarouselProps) {
     const [activeImageIndex, setActiveImageIndex] = useState(0);
 
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setActiveImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-        }, interval);
-
-        return () => {
-            clearInterval(timer);
-        };
-    }, [images, interval]);
-
     return (
-        <>
-        <div className="relative w-full h-[200px] sm:h-[332px]">
-        {images.map((image, index) => (
-            <img
-                key={index}
-                src={image}
-                alt={`content ${index}`}
-                className={`absolute top-0 left-0 w-full h-full first-letter:object-cover transition-opacity duration-1000 ease-in-out ${
-                    index === activeImageIndex ? 'opacity-100' : 'opacity-0'
-                } ${live && index === activeImageIndex ? 'group-hover:opacity-50 group-hover:duration-200' : ''}`}
-                draggable="false"
-            />
-        ))}
-        </div>
-        {live && (
-            <a
-                href={live}
-                target="_blank"
-                className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-200 ease-in-out group-hover:opacity-100"
-            >
-                <span className="flex gap-3 items-center text-white text-3xl select-none font-extrabold font-ubuntu-mono">
-                    Live Demo{" "}
+        <div className="relative">
+            {/* Images */}
+            <div className="relative w-full aspect-video">
+                {images.map((image, index) => (
                     <img
-                        src="/svg/arrow-up-right-from-square.svg"
+                        key={index}
+                        src={image}
+                        alt={`Project screenshot ${index + 1}`}
+                        className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-300 ${
+                            index === activeImageIndex ? 'opacity-100' : 'opacity-0'
+                        }`}
                         draggable="false"
-                        className="w-7 h-7"
                     />
-                </span>
-            </a>
-        )}
-        </>
+                ))}
+            </div>
+
+            {/* Navigation Arrows */}
+            {images.length > 1 && (
+                <>
+                    <button 
+                        onClick={() => setActiveImageIndex((prev) => (prev - 1 + images.length) % images.length)}
+                        className="absolute left-2 top-1/2 -translate-y-1/2 p-2 border-2 border-text bg-white text-text hover:bg-white transition-colors duration-200 shadow-[2px_2px_0px_0px_rgba(65,44,71,1)]"
+                        aria-label="Previous image"
+                    >
+                        <ArrowLeft className="w-4 h-4" />
+                    </button>
+                    <button 
+                        onClick={() => setActiveImageIndex((prev) => (prev + 1) % images.length)}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 p-2 border-2 border-text bg-white text-text hover:bg-white transition-colors duration-200 shadow-[2px_2px_0px_0px_rgba(65,44,71,1)]"
+                        aria-label="Next image"
+                    >
+                        <ArrowRight className="w-4 h-4" />
+                    </button>
+                </>
+            )}
+
+            {/* Indicators */}
+            {images.length > 1 && (
+                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
+                    {images.map((_, index) => (
+                        <button
+                            key={index}
+                            onClick={() => setActiveImageIndex(index)}
+                            className={`w-3 h-3 border-2 border-text transition-colors ${
+                                index === activeImageIndex ? 'bg-primary' : 'bg-white'
+                            }`}
+                            aria-label={`Go to image ${index + 1}`}
+                        />
+                    ))}
+                </div>
+            )}
+        </div>
     );
 }

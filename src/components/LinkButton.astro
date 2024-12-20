@@ -1,11 +1,13 @@
 ---
+import type { LucideIcon } from 'lucide-react';
+
 type Props = {
-    svg?: string
+    icon: LucideIcon
     link: string
     text: string
 }
 
-const {svg, link, text}: Props = Astro.props
+const { icon: Icon, link, text }: Props = Astro.props
 ---
 
 <a
@@ -14,6 +16,6 @@ const {svg, link, text}: Props = Astro.props
     target="blank"
     rel="noopener noreferrer"
 >
-    <img loading="eager" src={svg} alt="icon" draggable="false">
+    <Icon className="w-6 h-6" />
     <span class="font-black-han-sans text-xl pt-[2px]">{text}</span>
 </a>

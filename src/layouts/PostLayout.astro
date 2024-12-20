@@ -12,7 +12,8 @@ const { frontmatter } = Astro.props;
         <meta name="generator" content={Astro.generator} />
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
-        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+        <!-- <link rel="icon" href="/favicon.ico" type="image/x-icon"> -->
+        <link rel="icon" href="/logo.webp" type="image/svg+xml">
         <link rel="preload" href="/posts.css" as="style" />
         <link rel="stylesheet" href="/posts.css">
         <link rel="preload" href="/fonts.css" as="style" />
@@ -28,7 +29,7 @@ const { frontmatter } = Astro.props;
 			gtag('config', 'G-DDC5EB7Z2M');
 		</script>
         
-        <title>{frontmatter.title} | harogato</title>
+        <title>{frontmatter.title} | Fernando Haro</title>
     </head>
 
     <body class="min-h-screen flex flex-col items-center bg-background bg-noise bg-repeat">
