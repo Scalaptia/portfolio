@@ -38,7 +38,7 @@ function Scene() {
     );
 }
 
-export default function Model() {
+export default function PCModel() {
     return (
         <div>
             <Canvas camera={{ position: [0, 0, 5], fov: 60 }}>

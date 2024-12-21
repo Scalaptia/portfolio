@@ -1,4 +1,4 @@
-import { X, ArrowLeft, ArrowRight } from 'lucide-react'
+import { X, ArrowLeft, ArrowRight, Power } from 'lucide-react'
 import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 
@@ -39,17 +39,17 @@ export function ImageModal({ isOpen, onClose, children, onPrevious, onNext, hasM
             aria-modal="true"
         >
             <button 
-                className="absolute top-4 right-4 p-2 border-2 border-white bg-white/10 text-white shadow-[2px_2px_0px_0px_rgba(65,44,71,1)]"
+                className="absolute top-4 right-4 p-2 border-2 border-white bg-red-800 text-white"
                 onClick={onClose}
                 aria-label="Close modal"
             >
-                <X className="w-6 h-6" />
+                <Power className="w-6 h-6" />
             </button>
 
             <div className="w-full h-full flex items-center justify-center p-4"
             >
                 <div
-                    className="border-4 border-white/50 bg-black/50 p-2 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] relative"
+                    className="border-y-8 border-x-4 border-background bg-slate-800 p-2 relative"
                     onClick={(e) => e.stopPropagation()}
                 >
                     {children}

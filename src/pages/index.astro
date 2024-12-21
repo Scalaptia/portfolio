@@ -4,7 +4,7 @@ import LinkButton from '../components/LinkButton.astro';
 import CopyToClipboard from '../components/CopyToClipboard';
 import ProjectsGrid from '../components/ProjectsGrid';
 import Footer from '../components/Footer.astro';
-import Model from '../components/Model';
+import PCModel from '../components/PCModel';
 import { Github, Linkedin, SendHorizontal } from 'lucide-react';
 
 export const meta = {
@@ -19,22 +19,33 @@ const projects: { projects: Project[] } = {
     projects: [
         {
             title: 'Estilist',
-            description: ['A fashion personalization playform that helps users find clothes that fit their style.', 'This project was developed as a team of 5 using Agile methodologies. I was the team leader and was responsible for the frontend and database design.'],
+            description: [
+                'Fashion discovery platform with personalized style recommendations based on user preferences and colorimetry.',
+                'Led an agile team of 5 and developed the frontend using React and Bootstrap.',
+                'Developed an image recognition system for facial analysis and clothing classification.',
+            ],
             image: ['/images/estilist-1.webp', '/images/estilist-2.webp', '/images/estilist-3.webp', '/images/estilist-4.webp'],
-            tags: ['React', 'Django REST', 'PostgreSQL'],
+            tags: ['React', 'Django REST', 'PostgreSQL', 'Azure'],
             repo: 'https://www.github.com/estilist/',
             live: 'https://blue-coast-0a7c0381e.5.azurestaticapps.net/'
         },
         {
             title: 'Espyntar',
-            description: ['A multiplayer drawing and guessing game.', "This was a team project developed for my school's OOP course. I was responsible for the networking and contributed to game logic and design."],
+            description: [
+                'Multiplayer drawing and guessing game supporting up to 8 concurrent players.',
+                'Implemented networking using TCP sockets and a custom protocol for real-time communication.',
+                'Applied OOP principles to design the game logic and UI.',
+            ],
             image: ['/images/espyntar-1.webp', '/images/espyntar-2.webp', '/images/espyntar-3.webp'],
             tags: ['C++', 'Raylib', 'Socket Programming'],
             repo: 'https://www.github.com/Scalaptia/espyntar'
         },
         {
             title: 'Battleship',
-            description: ['My own version of the popular board game Battleship.', 'This game was made as part of The Odin Project’s curriculum, and its main goal was to learn about unit testing using Jest.'],
+            description: [
+                'Classic battleship game, implemented as a single-player web app with an isometric view.',
+                'Developed the game logic and UI using TypeScript and Jest for testing.',
+            ],
             image: ['/images/battleship-1.webp', '/images/battleship-2.webp'],
             tags: ['TypeScript', 'Jest', 'Vite'],
             repo: 'https://www.github.com/Scalaptia/battleship',
@@ -42,7 +53,10 @@ const projects: { projects: Project[] } = {
         },
         {
             title: '16-BDH',
-            description: ['16-Bits de Historia is an educational RPG that tells the story of “La Batalla de Puebla”.', 'This game was a final project for an introductory structured programming course.'],
+            description: [
+                'Interactive educational RPG exploring the historical Battle of Puebla in 3 chapters.',
+                'Developed the game logic and UI using C and Raylib, and compiled to WebAssembly.',
+            ],
             image: ['/images/16bdh-1.webp', '/images/16bdh-2.webp', '/images/16bdh-3.webp', '/images/16bdh-4.webp'],
             tags: ['C', 'Raylib', 'Emscripten'],
             repo: 'https://github.com/Scalaptia/16-Bits-de-Historia',
@@ -52,7 +66,7 @@ const projects: { projects: Project[] } = {
 };
 ---
 
-<Layout title="harogato">
+<Layout title="home">
     <meta slot="tags" name="description" content={meta.description} />
     <meta slot="tags" property="og:title" content={meta.title} />
     <meta slot="tags" property="og:description" content={meta.description} />
@@ -68,8 +82,9 @@ const projects: { projects: Project[] } = {
     <meta slot="tags" name="author" content="Fernando Haro Calvo" />
     <meta slot="tags" name="language" content="en" />
 
-    <!-- Developer -->
-    <div slot="content" class="flex flex-col w-full lg:flex-row lg:flex-wrap lg:justify-between max-w-[600px] lg:max-w-[1200px] lg:gap-y-12 lg:pt-12">
+    <!-- Hero section -->
+    <div slot="content" class="flex flex-col w-full lg:flex-row lg:flex-wrap lg:justify-between max-w-[600px] lg:max-w-[1200px] lg:gap-y-12 lg:items-center">
+        <!-- Developer -->
         <section class="w-full px-8 flex flex-col lg:max-w-[44ch]">
             <span class="text-primary font-ubuntu-mono text-2xl">&lt;developer&gt;</span>
     
@@ -80,19 +95,26 @@ const projects: { projects: Project[] } = {
     
         <!-- Model -->
         <div class="flex justify-center h-[240px] lg:w-[200px] xl:w-[390px]">
-            <Model client:only="react" />
+            <PCModel client:only="react" />
         </div>
 
         <!-- About -->
         <section class="w-full mt-12 px-8 flex flex-col text-center items-center lg:max-w-[44ch] lg:my-0 order-2 lg:order-none">
             <span class="text-primary text-start font-ubuntu-mono text-2xl self-start">&lt;about&gt;</span>
-    
-            <p class="pt-4 text-xl font-open-sans text-text leading-[1.2em] max-w-[30ch]"><span class="font-semibold text-[#57AAA7]">Software engineering student</span> passionate about programming and design. &NewLine;
-            </p>
-            <p class="pt-4 pb-3 text-xl font-open-sans text-text leading-[1.2em] max-w-[30ch]">
-                My main focus is in <span class="font-semibold text-[#57AAA7]">Full Stack Web Development.</span>
-            </p>
-    
+
+            <div class="pt-4 text-xl font-open-sans text-text leading-[1.2em] max-w-[30ch]">
+                <span class="font-semibold text-[#57AAA7]">Full-stack engineer</span> crafting engaging digital 
+                experiences through clean code and creative solutions.
+                
+                <span class="mt-4 block">
+                    Specialized in
+                    <span class="font-semibold text-[#57AAA7]">React</span>,
+                    <span class="font-semibold text-[#57AAA7]">TypeScript</span>, and
+                    <span class="font-semibold text-[#57AAA7]">Python</span>.
+                    Always exploring new technologies to build better applications.
+                </span>
+            </div>
+
             <span class="text-primary font-ubuntu-mono text-2xl text-end lg:text-end lg:w-[28ch] self-end">&lt;/about&gt;</span>
         </section>
     
@@ -104,7 +126,7 @@ const projects: { projects: Project[] } = {
                     <LinkButton link="https://www.linkedin.com/in/haro-fernando/" text="LinkedIn" icon={Linkedin} />
                 </div>
 
-                <div class="flex bg-white text-text rounded-full px-5 py-2 gap-3 justify-between">
+                <div class="flex bg-white text-text px-5 py-2 gap-3 justify-between items-center border-2 border-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)]">
                     <span class="font-open-sans font-semibold pt-[1px]">fernando.haro.c@gmail.com</span>
         
                     <div class="flex gap-5">
