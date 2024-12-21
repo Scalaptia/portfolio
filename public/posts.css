@@ -10,19 +10,19 @@ pre {
 
 /* This will center all images */
 img {
-    max-width: 90%;
+    max-width: 100%;
     display: block;
     margin-left: auto;
     margin-right: auto;
 }
 
 .markdown-body img {
-    max-width: 80%;
+    max-width: 100%;
     box-sizing: content-box;
 }
 
 .markdown-body pre {
-    max-width: 90%;
+    max-width: 100%;
     display: block;
     margin-left: auto;
     margin-right: auto;

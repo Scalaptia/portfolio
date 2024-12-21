@@ -1,11 +1,7 @@
 import { useState } from "react";
 import { Copy } from "lucide-react";
 
-interface props {
-    text: string;
-}
-
-export default function CopyToClipboard({ text }: props) {
+export default function CopyToClipboard({ text }: { text: string }) {
     const [showPopup, setShowPopup] = useState(false);
 
     const handleClick = async () => {
