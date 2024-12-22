@@ -9,13 +9,21 @@ const { title } = Astro.props;
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<meta slot="tags" name="description" content="Fernando Haro Calvo\'s personal website. Software engineering student. Full Stack Web Developer. Check out my projects and get in touch with me!" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta slot="tags" name="description" content="Full-stack software engineer. Check out my projects and get in touch!" />
+        <meta property="og:image" content="https://fernando.haroware.com/logo.png" />
+        <meta property="og:image:width" content="512" />
+        <meta property="og:image:height" content="512" />
+        <meta property="og:image:type" content="image/png" />
+
+        <!-- Twitter specific -->
+        <meta name="twitter:image" content="https://fernando.haroware.com/logo.png" />
+
 		<link rel="preload" href="/fonts.css" as="style" />
 		<link rel="stylesheet" href="/fonts.css">
 		<slot name="tags" />
 
-		<!-- <link rel="icon" href="/favicon.ico" type="image/x-icon"> -->
-        <link rel="icon" href="/logo.webp" type="image/svg+xml">
+        <link rel="icon" href="/logo.ico" type="image/x-icon">
 
 		<!-- Google tag (gtag.js) -->
 		<script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-DDC5EB7Z2M"></script>

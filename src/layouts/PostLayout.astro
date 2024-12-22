@@ -11,9 +11,16 @@ const { frontmatter } = Astro.props;
         <meta name="viewport" content="width=device-width" />
         <meta name="generator" content={Astro.generator} />
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta slot="tags" name="description" content={frontmatter.description} />
+        <meta property="og:image" content="https://fernando.haroware.com/logo.png" />
+        <meta property="og:image:width" content="512" />
+        <meta property="og:image:height" content="512" />
+        <meta property="og:image:type" content="image/png" />
+
+        <!-- Twitter specific -->
+        <meta name="twitter:image" content="https://fernando.haroware.com/logo.png" />
         
-        <!-- <link rel="icon" href="/favicon.ico" type="image/x-icon"> -->
-        <link rel="icon" href="/logo.webp" type="image/svg+xml">
+        <link rel="icon" href="/logo.ico" type="image/x-icon">
         <link rel="preload" href="/posts.css" as="style" />
         <link rel="stylesheet" href="/posts.css">
         <link rel="preload" href="/fonts.css" as="style" />

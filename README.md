@@ -1,5 +1,5 @@
 <h2 align="center">
-    <img alt="logo" src="./public/logo.webp" style="width: 16px;"/>
+    <img alt="logo" src="./public/logo.png" style="width: 16px;"/>
     <a href="https://fernando.haroware.com/" target="_blank">Portfolio</a>
 </h2>
 
