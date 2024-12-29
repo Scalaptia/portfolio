@@ -5,7 +5,7 @@ export default function ProjectsGrid({ projects }: { projects: Project[] }) {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full">
             {projects.map((project, index) => (
-                <div key={index} className="flex flex-col border-4 border-text bg-slate-100/20 rounded-none p-6 shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] min-h-[600px]">
+                <div key={index} className="flex flex-col border-4 border-text bg-slate-100/20 rounded-none p-6 min-h-[600px]">
                     {/* Project Image */}
                     <div className="relative group border-2 border-text rounded-none overflow-hidden aspect-video">
                         <ImageCarousel 
@@ -47,17 +47,24 @@ export default function ProjectsGrid({ projects }: { projects: Project[] }) {
                             </div>
                         </div>
                         
-                        {/* Description */}
-                        <p className="text-lg mb-4 font-open-sans space-y-4 text-center lg:text-left">
-                            {project.description.map((paragraph: String, i: number) => (
-                                <span key={i} className={`block ${i !== project.description.length - 1 ? 'mb-4' : ''}`}>
-                                    {paragraph}
-                                </span>
-                            ))}
+                        {/* Project Description */}
+                        <p className="text-text text-lg text-center lg:text-left">
+                            {project.description}
                         </p>
 
+                        {/* Contributions */}
+                        <div className="mt-6 border-l-4 border-primary pl-4 mb-6">
+                            <ul className="text-text space-y-4">
+                                {project.contributions.map((contribution, i) => (
+                                    <li key={i} className="text-lg list-none">
+                                        {contribution}.
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
                         {/* Tags */}
-                        <div className="flex flex-wrap gap-2 mt-auto justify-center lg:justify-start">
+                        <div className="flex flex-wrap gap-2 justify-center mt-auto lg:justify-start">
                             {project.tags.map((tag: String, tagIndex: number) => (
                                 <span
                                     key={tagIndex}

@@ -40,7 +40,7 @@ export function ImageCarousel({ images, live }: ImageCarouselProps) {
             <div className="relative">
                 {/* Images */}
                 <div 
-                    className="relative w-full aspect-video cursor-pointer"
+                    className="relative w-full aspect-video cursor-pointer border-2 border-text"
                     onClick={() => setIsModalOpen(true)}
                 >
                     {images.map((image, index) => (

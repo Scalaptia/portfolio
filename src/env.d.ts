@@ -3,7 +3,8 @@
 
 type Project = {
     title: string;
-    description: string[];
+    description: string;
+    contributions: string[];
     tags: string[];
     image: string[];
     live?: string;
