@@ -6,5 +6,15 @@ import partytown from "@astrojs/partytown";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), react(), partytown()]
+  integrations: [tailwind(), react(), partytown()],
+  i18n: {
+    locales: ["en", "es"],
+    defaultLocale: "en",
+    routing: {
+        prefixDefaultLocale: false,
+    },
+    fallback: {
+        es: "en",
+    }
+  }
 });

@@ -1,10 +1,10 @@
 ---
-layout: ../../../layouts/PostLayout.astro
+layout: ../../layouts/PostLayout.astro
 title: "Programación Lógica"
-author: "Fernando Haro Calvo"
+author: "Fernando Haro"
 description: ""
 date: 2024-05-30
-tags: ["paradigmas", "lógico", "prolog"]
+tags: ["paradigmas", "prolog"]
 ---
 
 ## Índice
@@ -86,7 +86,7 @@ En Prolog existen 3 elementos:
 
 ### Diferencias con la programación funcional
 
-![Diferencias entre programación funcional y lógica](./images/image.png)
+![Diferencias entre programación funcional y lógica](./images/paradigma-logico/image.png)
 
 En esta imagen se puede ver la diferencia entre la programación funcional y la lógica. En la programación funcional, se definen procedimientos y funciones que se ejecutan en un orden determinado. En la programación lógica, se define una base de conocimiento y se hacen consultas sobre ella para obtener respuestas a preguntas.
 
@@ -110,7 +110,7 @@ write('Hola, mundo!').
 
 La salida obtenida es la siguiente:
 
-![Salida](./images/image-1.png)
+![Salida](./images/paradigma-logico/image-1.png)
 
 Si deseamos crear un archivo con código Prolog en vez de escribirlo en la consola, podemos crear un archivo con extensión `.pl` y ejecutarlo con el comando `gprolog < archivo.pl`. Opcionalmente también podemos cambiar de directorio desde el intérprete de Prolog con el comando `change_directory('ruta').` y cargar el archivo con extension `.pl` con el comando `[nombre].`.
 
@@ -123,7 +123,7 @@ write('Este programa está escrito en el archivo hello_world.pl').
 
 **Salida:**
 
-![Salida hola_mundo.pl](./images/image-2.png)
+![Salida hola_mundo.pl](./images/paradigma-logico/image-2.png)
 
 ## Conceptos básicos
 
@@ -228,7 +228,7 @@ can_cook(priya).
 
 **Salida:**
 
-![Salida](./images/image-3.png)
+![Salida](./images/paradigma-logico/image-3.png)
 
 #### Ejemplo 2
 
@@ -244,7 +244,7 @@ playes_guitar(rohit) :- listens_to_music(rohit).
 
 **Salida:**
 
-![Salida](./images/image-4.png)
+![Salida](./images/paradigma-logico/image-4.png)
 
 ## Relaciones
 
@@ -268,7 +268,7 @@ Esta clausula nos dirá que piyus y raj son hermanos ya que ambos son hijos de s
 
 ### Relaciones familiares
 
-![Relaciones familiares](./images/image-5.png)
+![Relaciones familiares](./images/paradigma-logico/image-5.png)
 
 Con base a este diagrama de relaciones familiares podemos definir las siguientes relaciones:
 
@@ -310,7 +310,7 @@ sex( bob, masculine).
 
 Para definir una relación entre madre y hermana, podemos hacerlo de la siguiente manera:
 
-![Relacion madre hermana](./images/image-6.png)
+![Relacion madre hermana](./images/paradigma-logico/image-6.png)
 
 ```prolog
 mother(X,Y) :- parent(X,Y), female(X).
@@ -346,15 +346,15 @@ brother(X,Y):-parent(Z,X),parent(Z,Y),male(X),X\==Y.
 
 **Salida:**
 
-![Salida1](./images/image-7.png)
+![Salida1](./images/paradigma-logico/image-7.png)
 
-![Salida2](./images/image-8.png)
+![Salida2](./images/paradigma-logico/image-8.png)
 
 #### Ejemplo extendido
 
 Se pueden establecer relaciones más complejas, como la relación de abuelo. Para definir la relación de abuelo, se puede hacer de la siguiente manera:
 
-![Abuelo](./images/image-9.png)
+![Abuelo](./images/paradigma-logico/image-9.png)
 
 O incluso de esposa, tio, etc:
 
@@ -372,23 +372,23 @@ Ahora podemos hacer consultas sobre estas relaciones y trazar estas relaciones a
 
 Tíos:
 
-![alt text](./images/image-10.png)
+![alt text](./images/paradigma-logico/image-10.png)
 
 Abuelos:
 
-![alt text](./images/image-11.png)
+![alt text](./images/paradigma-logico/image-11.png)
 
 #### Trazar relaciones
 
 Para entrar en el modo de traza, se puede utilizar el comando `trace.`. Este comando activa el modo de traza y muestra cómo se resuelven las consultas paso a paso.
 
-![alt text](./images/image-12.png)
+![alt text](./images/paradigma-logico/image-12.png)
 
 ### Relaciones recursivas
 
 Las relaciones recursivas son relaciones que se definen en términos de sí mismas. Por ejemplo, la relación de ancestro se puede definir de la siguiente manera:
 
-![alt text](./images/image-13.png)
+![alt text](./images/paradigma-logico/image-13.png)
 
 ```prolog
 predecessor(X, Z) :- parent(X, Z).
@@ -399,7 +399,7 @@ predecessor(X, Z) :- parent(X, Y),predecessor(Y, Z).
 
 Los objetos de datos se pueden dividir en varias categorías:
 
-![alt text](./images/image-14.png)
+![alt text](./images/paradigma-logico/image-14.png)
 
 Ejemplos de objetos de datos son:
 
@@ -441,17 +441,17 @@ Si queremos saber quién odia a tom, podemos hacer la siguiente consulta:
 
 La salida será:
 
-![anónimas](./images/image-15.png)
+![anónimas](./images/paradigma-logico/image-15.png)
 
 ## Operadores
 
 ### Operadores comparativos
 
-![comparativos](./images/image-16.png)
+![comparativos](./images/paradigma-logico/image-16.png)
 
 ### Operadores aritméticos
 
-![aritméticos](./images/image-17.png)
+![aritméticos](./images/paradigma-logico/image-17.png)
 
 #### Ejemplo
 
@@ -467,7 +467,7 @@ calc :- X is 100 + 200,write('100 + 200 is '),write(X),nl,
 
 **Salida:**
 
-![alt text](./images/image-18.png)
+![alt text](./images/paradigma-logico/image-18.png)
 
 ## Ciclos y toma de decisiones
 
@@ -487,7 +487,7 @@ count_to_10(X) :-
 
 **Salida:**
 
-![alt text](./images/image-19.png)
+![alt text](./images/paradigma-logico/image-19.png)
 
 #### Ejemplo 2
 
@@ -505,9 +505,9 @@ count_up(L, H) :-
 
 **Salida:**
 
-![count_down](./images/image-20.png)
+![count_down](./images/paradigma-logico/image-20.png)
 
-![count_up](./images/image-21.png)
+![count_up](./images/paradigma-logico/image-21.png)
 
 ### Toma de decisiones
 
@@ -530,7 +530,7 @@ gte(X,Y) :- X < Y,write('X is smaller').
 
 **Salida:**
 
-![if else](./images/image-22.png)
+![if else](./images/paradigma-logico/image-22.png)
 
 ## Conjunciones y disyunciones
 
@@ -563,7 +563,7 @@ child_of(X,Y) :- father(X,Y);mother(X,Y).
 
 **Salida:**
 
-![conj_dis](./images/image-23.png)
+![conj_dis](./images/paradigma-logico/image-23.png)
 
 ## Listas
 
@@ -579,7 +579,7 @@ Ahora, consideremos que tenemos una lista, `L = [a, b, c].` Si escribimos `Tail 
 
 ### Operaciones con listas
 
-![operaciones](./images/image-24.png)
+![operaciones](./images/paradigma-logico/image-24.png)
 
 ### Operación de membresía
 
@@ -594,7 +594,7 @@ list_member(X,[_|TAIL]) :- list_member(X,TAIL).
 
 **Salida:**
 
-![alt text](./images/image-25.png)
+![alt text](./images/paradigma-logico/image-25.png)
 
 #### Calculo de longitud
 
@@ -640,11 +640,11 @@ list_insert(X,L,R) :- list_delete(X,R,L).
 
 ### Operaciones de reposicionamiento
 
-![alt text](./images/image-26.png)
+![alt text](./images/paradigma-logico/image-26.png)
 
 ### Operaciones misceláneas
 
-![alt text](./images/image-27.png)
+![alt text](./images/paradigma-logico/image-27.png)
 
 ## Recursividad y estructuras
 
@@ -661,7 +661,7 @@ is_digesting(X,Y) :-just_ate(X,Z),is_digesting(Z,Y).
 
 #### Ejemplo 2
 
-![recursividad](./images/image-28.png)
+![recursividad](./images/paradigma-logico/image-28.png)
 
 ```prolog
 predecessor(X, Z) :- parent(X, Z).
@@ -672,7 +672,7 @@ predecessor(X, Z) :- parent(X, Y),predecessor(Y, Z).
 
 Las estructuras y los objetos de datos son similares en Prolog. Las estructuras se utilizan para representar datos complejos. Las estructuras se definen con un nombre y una lista de argumentos. Ambos pueden tener múltiples componentes, y una estructura incluso puede contener otra estructura.
 
-![estructuras](./images/image-29.png)
+![estructuras](./images/paradigma-logico/image-29.png)
 
 ### Matching
 
@@ -680,7 +680,7 @@ El matching se utiliza para verificar si dos términos son iguales o no. En Prol
 
 ### Arboles binarios
 
-![árbol binario](./images/image-30.png)
+![árbol binario](./images/paradigma-logico/image-30.png)
 
 Los arboles binarios se pueden representar en Prolog de la siguiente manera utilizando estructuras recursivas:
 
@@ -694,13 +694,13 @@ En esta definición, cada nodo tiene 3 campos: el dato y dos nodos.
 
 El backtracking es un proceso en el se busca el valor de verdad de diferentes predicados al verificar si son correctos o no. El término backtracking es bastante común en el diseño de algoritmos y en diferentes entornos de programación. En Prolog, hasta que alcanza el destino adecuado, intenta retroceder. Cuando se encuentra el destino, se detiene.
 
-![backtracking](./images/image-31.png)
+![backtracking](./images/paradigma-logico/image-31.png)
 
 ### ¿Como funciona?
 
 #### Base de conocimientos
 
-![conocimientos](./images/image-32.png)
+![conocimientos](./images/paradigma-logico/image-32.png)
 
 ```prolog
 boy(tom).
@@ -713,7 +713,7 @@ pay(X,Y) :- boy(X), girl(Y).
 
 **Salida:**
 
-![backtracking](./images/image-33.png)
+![backtracking](./images/paradigma-logico/image-33.png)
 
 ### Prevención de backtracking
 
@@ -743,11 +743,11 @@ En el primer caso, si X es 2, entonces se probará la regla 1, luego la regla 2 
 
 Salida con backtracking:
 
-![backtrack](./images/image-34.png)
+![backtrack](./images/paradigma-logico/image-34.png)
 
 Salida sin backtracking:
 
-![no backtrack](./images/image-35.png)
+![no backtrack](./images/paradigma-logico/image-35.png)
 
 ### Negación como falla
 
@@ -768,7 +768,7 @@ likes(mary, X) :- animal(X).
 
 **Salida:**
 
-![negación](./images/image-36.png)
+![negación](./images/paradigma-logico/image-36.png)
 
 ## Different y not
 
@@ -783,7 +783,7 @@ different(X, Y).
 
 **Salida:**
 
-![dif](./images/image-37.png)
+![dif](./images/paradigma-logico/image-37.png)
 
 ### Ejemplo not
 
@@ -793,7 +793,7 @@ not(P) :- P, !, fail ; true.
 
 **Salida:**
 
-![not](./images/image-38.png)
+![not](./images/paradigma-logico/image-38.png)
 
 ## Inputs y Outputs
 
@@ -801,7 +801,7 @@ not(P) :- P, !, fail ; true.
 
 El predicado `write` se utiliza para imprimir un mensaje en la consola.
 
-![alt text](./images/image-39.png)
+![alt text](./images/paradigma-logico/image-39.png)
 
 ### Read
 
@@ -820,19 +820,19 @@ process(Number) :-
 
 **Salida:**
 
-![read](./images/image-40.png)
+![read](./images/paradigma-logico/image-40.png)
 
 ### Tab
 
 El predicado `tab` se utiliza para insertar un número de espacios en la consola.
 
-![tab](./images/image-41.png)
+![tab](./images/paradigma-logico/image-41.png)
 
 ### Escritura y lectura de archivos
 
 Para escribir en un archivo, se puede utilizar el predicado `tell` y `told`. `tell` toma el nombre del archivo como argumento y `told` se utiliza para cerrar el archivo.
 
-![tell y told](./images/image-42.png)
+![tell y told](./images/paradigma-logico/image-42.png)
 
 Para leer un archivo, se puede utilizar el predicado `see` y `seen`. `see` toma el nombre del archivo como argumento y `seen` se utiliza para cerrar el archivo.
 
@@ -852,7 +852,7 @@ process(Line):- %this will print the line into the console
 
 **Salida:**
 
-![process file](./images/image-43.png)
+![process file](./images/paradigma-logico/image-43.png)
 
 ### Manipulación de caracteres
 
@@ -860,41 +860,41 @@ Para poder escribir y leer caracteres, se pueden utilizar los predicados `put` y
 
 #### put(C) y put_char(C)
 
-![put](./images/image-44.png)
+![put](./images/paradigma-logico/image-44.png)
 
 #### get_char(C) y get_code(C)
 
-![get](./images/image-45.png)
+![get](./images/paradigma-logico/image-45.png)
 
 #### Construcción de átomos
 
-![átomos](./images/image-46.png)
+![átomos](./images/paradigma-logico/image-46.png)
 
 #### Descomposición de átomos
 
-![átomos descompuestos](./images/image-47.png)
+![átomos descompuestos](./images/paradigma-logico/image-47.png)
 
 ### Consult
 
 Las técnica de consult se utiliza para combinar predicados de diferentes archivos. Para hacerlo, se puede utilizar el predicado `consult`. Suponga que queremos combinar los predicados de dos archivos, `prog_1.pl` y `prog_2.pl`. Podemos hacerlo de la siguiente manera:
 
-![prog_1](./images/image-48.png)
+![prog_1](./images/paradigma-logico/image-48.png)
 
-![prog_2](./images/image-49.png)
+![prog_2](./images/paradigma-logico/image-49.png)
 
 ## Predicados integrados
 
 ### Predicados Comunes
 
-![predicados](./images/image-50.png)
+![predicados](./images/paradigma-logico/image-50.png)
 
 ### Predicados Matemáticos
 
-![math](./images/image-51.png)
+![math](./images/paradigma-logico/image-51.png)
 
 ## Estructura de árbol
 
-![árbol](./images/image-52.png)
+![árbol](./images/paradigma-logico/image-52.png)
 
 Para implementar esta estructura de árbol, se puede utilizar el siguiente código:
 
@@ -930,7 +930,7 @@ X is_at_same_level Y :- W is_parent X,
 
 **Salida:**
 
-![salida árbol](./images/image-53.png)
+![salida árbol](./images/paradigma-logico/image-53.png)
 
 ### Camino y localización
 
@@ -949,7 +949,7 @@ locate(Node) :- path(Node),
                 nl.
 ```
 
-![path locate](./images/image-54.png)
+![path locate](./images/paradigma-logico/image-54.png)
 
 ### Altura y valor máximo
 
@@ -967,7 +967,7 @@ max([],M,M).
 max([X|R],M,A) :- (X > M -> max(R,X,A) ; max(R,M,A)).
 ```
 
-![height](./images/image-55.png)
+![height](./images/paradigma-logico/image-55.png)
 
 ## Referencias
 

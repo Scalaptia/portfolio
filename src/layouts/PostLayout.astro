@@ -5,7 +5,7 @@ import Footer from '../components/Footer.astro';
 const { frontmatter } = Astro.props;
 ---
 
-<html lang="en">
+<html lang="en" class="overflow-y-scroll">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width" />
@@ -37,6 +37,12 @@ const { frontmatter } = Astro.props;
 		</script>
         
         <title>{frontmatter.title} | Fernando Haro</title>
+
+        <style>
+            :root {
+                scrollbar-gutter: stable;
+            }
+        </style>
     </head>
 
     <body class="min-h-screen flex flex-col items-center bg-background bg-noise bg-repeat">
