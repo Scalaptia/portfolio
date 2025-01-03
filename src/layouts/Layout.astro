@@ -1,5 +1,6 @@
 ---
 import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
 
 const { title } = Astro.props;
 const { currentLocale } = Astro;
@@ -48,5 +49,6 @@ const { currentLocale } = Astro;
 	<body class="min-h-screen flex flex-col items-center bg-background bg-noise bg-repeat">
         <Header title={title.replace(" | Fernando Haro", "")} />
 		<slot name="content" />
+        <Footer />
 	</body>
 </html>

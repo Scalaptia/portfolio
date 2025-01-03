@@ -1,5 +1,23 @@
 ---
+import { getLangFromUrl, useTranslations, useTranslatedPath } from "@/i18n/utils";
+import { languages } from "@/i18n/ui";
+
+const currentPath = Astro.url;
+const lang = getLangFromUrl(currentPath);
+const translatePath = useTranslatedPath(lang);
 ---
-<footer class="text-lg text-center text-primary font-ubuntu-mono pb-4">
-    <a href="/">&copy; {new Date().getFullYear()} Fernando Haro Calvo</a>
+<footer class="flex flex-col items-center gap-2 mt-auto">
+    <div class="flex gap-4 lg:hidden">
+        {Object.entries(languages).map(([lang, label]) => (
+            <a 
+                href={translatePath(currentPath.pathname, lang)}
+                class="text-primary font-ubuntu-mono hover:underline"
+            >
+                {label}
+            </a>
+        ))}
+    </div>
+    <div class="text-lg text-center text-primary font-ubuntu-mono">
+        <a href="/">&copy; {new Date().getFullYear()} Fernando Haro Calvo</a>
+    </div>
 </footer>
