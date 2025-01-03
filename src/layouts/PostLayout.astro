@@ -48,13 +48,26 @@ const lang = getLangFromUrl(Astro.url);
     </head>
 
     <body class="min-h-screen flex flex-col items-center bg-background bg-noise bg-repeat">
-		<Header title="blog" />
+		<Header title="blog" hideLanguagePicker=true/>
 
         <main class="grid gap-8 pb-12 px-4 pt-0 max-w-[80ch] text-text">
             <div class="justify-self-center max-w-[80ch] text-center font-open-sans">
                 <h1 class="font-open-sans font-extrabold text-4xl pb-4 ">{frontmatter.title}</h1>
-                <p class="font-ubuntu-mono text-xl">{frontmatter.author} - {(new Date(frontmatter.date)).toDateString().slice(4)}</p>
-                <div class="flex justify-center mt-4 flex-wrap gap-4">
+
+                <p class="justify-self-center font-open-sans markdown-body text-left pb-4">{frontmatter.description}</p>
+
+                <p class="font-ubuntu-mono text-xl">
+                    {frontmatter.author} - {
+                      (() => {
+                        const date = new Date(frontmatter.date);
+                        date.setDate(date.getDate() + 1);
+                        return date.toDateString().slice(4);
+                      })()
+                    }
+                </p>                
+
+
+                <div class="flex justify-center mt-4 flex-wrap gap-4 mb-4">
                     {frontmatter.tags.map((tag: string) => (
                         <span class="text-white bg-text border-2 border-white px-4 py-1 text-sm font-ubuntu-mono font-extrabold">{tag}</span>
                     ))}
@@ -65,6 +78,6 @@ const lang = getLangFromUrl(Astro.url);
             </div>
         </main>
         
-        <Footer></Footer>
+        <Footer hideLanguagePicker=true/>
 	</body>
 </html>

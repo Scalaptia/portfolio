@@ -1,0 +1,43 @@
+---
+import BlogPost from '@/components/BlogPost.astro';
+import { getLangFromUrl } from '@/i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+
+export const meta = {
+    title: 'blog | Fernando Haro',
+    description: 'Blog posts and articles written by Fernando Haro Calvo.',
+    url: 'https://fernando.haroware.com/blog/',
+    type: 'website',
+    keywords: 'fernando haro, harogato, software engineering, web development, programming, design, portfolio, developer, engineer, programmer',
+};
+
+// Get all posts from the posts directory and subdirectories
+let posts;
+if (lang === 'es') posts = await Astro.glob('@/pages/es/blog/**.md');
+else posts = await Astro.glob('@/pages/blog/**.md');
+
+posts = posts.sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime());
+---
+
+<meta slot="tags" name="description" content={meta.description} />
+<meta slot="tags" property="og:title" content={meta.title} />
+<meta slot="tags" property="og:description" content={meta.description} />
+<meta slot="tags" property="og:url" content={meta.url} />
+<meta slot="tags" property="og:type" content={meta.type} />
+<meta slot="tags" name="twitter:card" content="summary_large_image" />
+<meta slot="tags" name="twitter:title" content={meta.title} />
+<meta slot="tags" name="twitter:description" content={meta.description} />
+<meta slot="tags" name="twitter:url" content={meta.url} />
+<meta slot="tags" name="twitter:creator" content="@Scalaptia" />
+<meta slot="tags" name="keywords" content={meta.keywords} />
+<meta slot="tags" name="robots" content="index, follow" />
+<meta slot="tags" name="author" content="Fernando Haro" />
+<meta slot="tags" name="language" content="en" />
+
+
+<div slot="content" class="px-8 w-full max-w-[80ch]">
+    <ul class="grid gap-6 w-full">
+        {posts.map((post) => <BlogPost url={post.url} frontmatter={post.frontmatter} />)}
+    </ul>
+</div>

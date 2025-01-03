@@ -1,0 +1,61 @@
+{
+    "TAG_DEVELOPER": "desarrollador",
+    "TAG_ABOUT": "acerca",
+    "TAG_PROJECTS": "proyectos",
+    "TEXT_DESCRIPTION_1": "Desarrollador web full-stack",
+    "TEXT_DESCRIPTION_2": "y estudiante de ingeniería de software.",
+    "TEXT_DESCRIPTION_3": "Me especializo en tecnologías modernas como",
+    "TEXT_DESCRIPTION_4": "React",
+    "TEXT_DESCRIPTION_5": "Django",
+    "TEXT_DESCRIPTION_6": "y",
+    "TEXT_DESCRIPTION_7": "Node.js",
+    "PROJECTS": [
+        {
+            "title": "Estilist",
+            "description": "Plataforma de descubrimiento de moda que ofrece recomendaciones de estilo personalizadas basadas en las preferencias del usuario y su colorimetría.",
+            "contributions": [
+                "Lideré un equipo ágil de 5 desarrolladores a través del ciclo de vida del proyecto",
+                "Implementé sistemas de reconocimiento de imágenes para análisis facial y clasificación de ropa"
+            ],
+            "image": ["/images/estilist-1.webp", "/images/estilist-2.webp", "/images/estilist-3.webp", "/images/estilist-4.webp"],
+            "tags": ["React", "Django REST", "PostgreSQL", "Azure"],
+            "repo": "https://www.github.com/estilist/",
+            "live": "https://blue-coast-0a7c0381e.5.azurestaticapps.net/"
+        },
+        {
+            "title": "Espyntar",
+            "description": "Juego de dibujo y adivinanzas multijugador que admite hasta 8 jugadores concurrentes en tiempo real.",
+            "contributions": [
+                "Implementé la red utilizando sockets TCP con un protocolo de comunicación personalizado",
+                "Diseñé y desarrollé lógica central del juego utilizando principios de POO"
+            ],
+            "image": ["/images/espyntar-1.webp", "/images/espyntar-2.webp", "/images/espyntar-3.webp"],
+            "tags": ["C++", "Raylib", "Winsock"],
+            "repo": "https://www.github.com/Scalaptia/espyntar"
+        },
+        {
+            "title": "Battleship",
+            "description": "Juego clásico, reimaginado como una juego web de un solo jugador con una perspectiva isométrica.",
+            "contributions": [
+                "Integré Jest para pruebas unitarias y alcancé una cobertura del 100%"
+            ],
+            "image": ["/images/battleship-1.webp", "/images/battleship-2.webp"],
+            "tags": ["TypeScript", "Jest"],
+            "repo": "https://www.github.com/Scalaptia/battleship",
+            "live": "https://scalaptia.github.io/battleship/"
+        },
+        {
+            "title": "16-BDH",
+            "description": "RPG educativo interactivo que explora la histórica Batalla de Puebla a través de 3 capítulos.",
+            "contributions": [
+                "Desarrollé un motor de juego personalizado utilizando C y Raylib"
+            ],
+            "image": ["/images/16bdh-1.webp", "/images/16bdh-2.webp", "/images/16bdh-3.webp", "/images/16bdh-4.webp"],
+            "tags": ["C", "Raylib", "Emscripten"],
+            "repo": "https://www.github.com/Scalaptia/16-Bits-de-Historia",
+            "live": "https://scalaptia.github.io/16-Bits-de-Historia/"
+        }
+    ],
+    "TEXT_404": "¡Ups! La página que buscas no existe.",
+    "TEXT_COPIED": "¡Copiado al portapapeles!"
+}
