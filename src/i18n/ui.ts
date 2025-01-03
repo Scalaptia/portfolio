@@ -12,6 +12,7 @@ export const ui = {
     },
     es: {
         'nav.home': 'inicio',
+        'nav.blog': 'blog',
     },
 } as const;
 

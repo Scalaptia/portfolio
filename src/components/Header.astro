@@ -1,21 +1,29 @@
 ---
 import { getLangFromUrl, useTranslations } from "@/i18n/utils";
 import { getRelativeLocaleUrl } from "astro:i18n";
+import LanguagePicker from "./LanguagePicker.astro";
 
 const { title } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
 
-<div class="flex items-center h-20 mt-2 mb-10 justify-evenly w-full md:justify-center md:gap-28">
-    <!-- Left side header link -->
-    <a href={getRelativeLocaleUrl(lang, '/')} class="text-primary font-ubuntu-mono text-2xl font-bold text-center min-w-[8ch] transition-all hover:tracking-widest">&lt;{t("nav.home")}&gt;</a>
+<header class="relative w-full">
 
-    <div class="flex flex-col justify-center text-center font-ubuntu-mono">
-        <h1 class="text-4xl font-bold text-primary">{'{ ' + title[0] + ' }'}</h1>
-        <h2 class="text-xl text-primary">{title}</h2>
+    <div class="flex items-center h-20 mt-2 mb-10 justify-evenly w-full md:justify-center md:gap-28">
+        <!-- Left side header link -->
+        <a href={getRelativeLocaleUrl(lang, '/')} class="text-primary font-ubuntu-mono text-2xl font-bold text-center min-w-[8ch] transition-all hover:scale-110">&lt;{t("nav.home")}&gt;</a>
+
+        <div class="flex flex-col justify-center text-center font-ubuntu-mono">
+            <h1 class="text-4xl font-bold text-primary">{'{ ' + title[0] + ' }'}</h1>
+            <h2 class="text-xl text-primary">{title}</h2>
+        </div>
+
+        <!-- Right side header links -->
+        <a href={getRelativeLocaleUrl(lang, '/blog')} class="text-primary font-ubuntu-mono text-2xl font-bold text-center min-w-[8ch] transition-all hover:scale-110">&lt;{t("nav.blog")}&gt;</a>
     </div>
 
-    <!-- Right side header links -->
-    <a href={getRelativeLocaleUrl(lang, '/blog')} class="text-primary font-ubuntu-mono text-2xl font-bold text-center min-w-[8ch] transition-[letter-spacing] hover:tracking-widest">&lt;{t("nav.blog")}&gt;</a>
-</div>
+    <div class="absolute top-4 right-8">
+        <LanguagePicker lang={lang} />
+    </div>
+</header>
