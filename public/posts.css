@@ -16,16 +16,36 @@ img {
     margin-right: auto;
 }
 
-.markdown-body img {
-    max-width: 100%;
-    box-sizing: content-box;
+.markdown-body {
+    width: 100%;
+    max-width: 100;
+    text-align: justify !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
 .markdown-body pre {
+    width: 100%;
     max-width: 100%;
+    overflow-x: auto;
+    padding: 1rem;
+}
+
+.markdown-body code {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.markdown-body img {
+    max-width: 100%;
+    height: auto;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 1rem auto;
+}
+
+.markdown-body h1 {
+    text-align: center !important;
 }
 
 .markdown-body h2 {
@@ -33,7 +53,8 @@ img {
     margin-bottom: 0.5em;
 }
 
-.markdown-body {
-    overflow: hidden !important;
-    max-width: 98% !important;
+.markdown-body ul {
+    padding-left: 1.5em;
+    /* show bullet points */
+    list-style-type: disc;
 }

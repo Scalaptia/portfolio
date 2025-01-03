@@ -57,5 +57,6 @@
         }
     ],
     "TEXT_404": "Oops! The page you're looking for doesn't exist.",
-    "TEXT_COPIED": "Copied to clipboard!"
+    "TEXT_COPIED": "Copied to clipboard!",
+    "BLOG_MINUTES": "min read"
 }

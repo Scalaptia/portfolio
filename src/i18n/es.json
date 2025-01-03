@@ -57,5 +57,6 @@
         }
     ],
     "TEXT_404": "¡Ups! La página que buscas no existe.",
-    "TEXT_COPIED": "¡Copiado al portapapeles!"
+    "TEXT_COPIED": "¡Copiado al portapapeles!",
+    "BLOG_MINUTES": "min de lectura"
 }

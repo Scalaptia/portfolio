@@ -2,7 +2,7 @@
 layout: '@/layouts/PostLayout.astro'
 title: "Programación Lógica"
 author: "Fernando Haro"
-description: ""
+description: "Introducción a la programación lógica con Prolog."
 date: 2024-05-30
 tags: ["paradigmas", "prolog"]
 ---

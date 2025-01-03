@@ -10,6 +10,7 @@
       "@/components/*": ["src/components/*"],
       "@/i18n/*": ["src/i18n/*"],
       "@/pages/*": ["src/pages/*"],
+      "@/utils/*": ["src/utils/*"],
     }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.astro"]
