@@ -2,7 +2,7 @@
 layout: "@/layouts/PostLayout.astro"
 title: "Building a Developer Portfolio"
 author: "Fernando Haro"
-description: "My experience building this portfolio and why you make one too."
+description: "My experience building this portfolio and why you should make one too."
 date: 2025-01-02
 tags: ["webdev", "portfolio", "astro"]
 ---
