@@ -1,23 +1,27 @@
 ---
-import { getLangFromUrl } from '@/i18n/utils';
-const { url, frontmatter } = Astro.props;
-const { title, date } = frontmatter;
+import { getLangFromUrl } from '@/i18n/utils'
+const { url, frontmatter } = Astro.props
+const { title, date } = frontmatter
 
-const lang = getLangFromUrl(Astro.url);
-const locale = lang === 'es' ? 'es' : 'en-US';
+const lang = getLangFromUrl(Astro.url)
+const locale = lang === 'es' ? 'es' : 'en-US'
 
-const adjustedDate = new Date(date);
-adjustedDate.setDate(adjustedDate.getDate() + 1);
-const formattedDate = new Intl.DateTimeFormat(locale, { 
-    month: 'short', 
-    day: '2-digit', 
-    year: 'numeric' 
-}).format(adjustedDate);
+const adjustedDate = new Date(date)
+adjustedDate.setDate(adjustedDate.getDate() + 1)
+const formattedDate = new Intl.DateTimeFormat(locale, {
+    month: 'short',
+    day: '2-digit',
+    year: 'numeric',
+}).format(adjustedDate)
 ---
 
 <a href={url}>
-  <article class="flex justify-between border-b-2 border-text border-opacity-20">
-    <h2 class="text-lg font-bold text-text font-open-sans">{title}</h2>
-    <time class="text-lg text-text font-ubuntu-mono min-w-[14ch] text-right">{formattedDate}</time>
-  </article>
+    <article
+        class="flex justify-between border-b-2 border-text border-opacity-20"
+    >
+        <h2 class="text-lg font-bold text-text font-open-sans">{title}</h2>
+        <time class="text-lg text-text font-ubuntu-mono min-w-[14ch] text-right"
+            >{formattedDate}</time
+        >
+    </article>
 </a>

@@ -10,4 +10,5 @@ Technologies used
 
 [Astro](https://astro.build/) - [Tailwind](https://tailwindcss.com/) -
 [TypeScript](https://www.typescriptlang.org/) - [React](https://reactjs.org/)
+
 </div>

@@ -17,7 +17,12 @@
                 "Lideré un equipo ágil de 5 desarrolladores a través del ciclo de vida del proyecto",
                 "Implementé sistemas de reconocimiento de imágenes para análisis facial y clasificación de ropa"
             ],
-            "image": ["/images/estilist-1.webp", "/images/estilist-2.webp", "/images/estilist-3.webp", "/images/estilist-4.webp"],
+            "image": [
+                "/images/estilist-1.webp",
+                "/images/estilist-2.webp",
+                "/images/estilist-3.webp",
+                "/images/estilist-4.webp"
+            ],
             "tags": ["React", "Django REST", "PostgreSQL", "Azure"],
             "repo": "https://www.github.com/estilist/",
             "live": "https://blue-coast-0a7c0381e.5.azurestaticapps.net/"
@@ -29,7 +34,11 @@
                 "Implementé la red utilizando sockets TCP con un protocolo de comunicación personalizado",
                 "Diseñé y desarrollé lógica central del juego utilizando principios de POO"
             ],
-            "image": ["/images/espyntar-1.webp", "/images/espyntar-2.webp", "/images/espyntar-3.webp"],
+            "image": [
+                "/images/espyntar-1.webp",
+                "/images/espyntar-2.webp",
+                "/images/espyntar-3.webp"
+            ],
             "tags": ["C++", "Raylib", "Winsock"],
             "repo": "https://www.github.com/Scalaptia/espyntar"
         },
@@ -50,7 +59,12 @@
             "contributions": [
                 "Desarrollé un motor de juego personalizado utilizando C y Raylib"
             ],
-            "image": ["/images/16bdh-1.webp", "/images/16bdh-2.webp", "/images/16bdh-3.webp", "/images/16bdh-4.webp"],
+            "image": [
+                "/images/16bdh-1.webp",
+                "/images/16bdh-2.webp",
+                "/images/16bdh-3.webp",
+                "/images/16bdh-4.webp"
+            ],
             "tags": ["C", "Raylib", "Emscripten"],
             "repo": "https://www.github.com/Scalaptia/16-Bits-de-Historia",
             "live": "https://scalaptia.github.io/16-Bits-de-Historia/"

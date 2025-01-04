@@ -1,12 +1,12 @@
 ---
-import { getI18N } from '@/i18n/index';
+import { getI18N } from '@/i18n/index'
 
-const { currentLocale } = Astro;
-const i18n = getI18N({ currentLocale });
+const { currentLocale } = Astro
+const i18n = getI18N({ currentLocale })
 ---
 
 <div class="flex flex-col gap-4 text-text">
     <h1 class="text-6xl font-black-han-sans text-center">404</h1>
     <p class="text-lg font-open-sans text-center mx-8 mb-12">{i18n.TEXT_404}</p>
-    <img src="/404.png" class="mx-auto w-1/2" alt="">
+    <img src="/404.png" class="mx-auto w-1/2" alt="" />
 </div>

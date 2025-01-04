@@ -1,76 +1,76 @@
 ---
 layout: '@/layouts/PostLayout.astro'
-title: "Programación Lógica"
-author: "Fernando Haro"
-description: "Introducción a la programación lógica con Prolog."
+title: 'Programación Lógica'
+author: 'Fernando Haro'
+description: 'Introducción a la programación lógica con Prolog.'
 date: 2024-05-30
-tags: ["paradigmas", "prolog"]
+tags: ['paradigmas', 'prolog']
 ---
 
 ## Índice
 
--   [Introducción](#introducción)
--   [Instalación](#instalación)
--   [Hola mundo](#hola-mundo)
--   [Conceptos básicos](#conceptos-básicos)
-    -   [Hechos](#hechos)
-    -   [Reglas](#reglas)
-    -   [Consultas](#consultas)
-    -   [Bases de conocimiento](#bases-de-conocimiento)
--   [Relaciones](#relaciones)
-    -   [Relaciones familiares](#relaciones-familiares)
-    -   [Relaciones extendidas](#relaciones-extendidas)
-    -   [Relaciones recursivas](#relaciones-recursivas)
--   [Objetos de datos](#objetos-de-datos)
-    -   [Átomos](#átomos)
-    -   [Números](#números)
-    -   [Variables anonimas](#variables-anónimas)
--   [Operadores](#operadores)
-    -   [Operadores comparativos](#operadores-comparativos)
-    -   [Operadores aritméticos](#operadores-aritméticos)
--   [Ciclos y toma de decisiones](#ciclos-y-toma-de-decisiones)
-    -   [Ciclos](#ciclos)
-    -   [Toma de decisiones](#toma-de-decisiones)
--   [Conjunciones y disyunciones](#conjunciones-y-disyunciones)
-    -   [Conjunciones](#conjunciones)
-    -   [Disyunciones](#disyunciones)
--   [Listas](#listas)
-    -   [Representación de listas](#representación-de-listas)
-    -   [Operaciones con listas](#operaciones-con-listas)
-    -   [Operación de membresía](#operación-de-membresía)
-    -   [Calculo de longitud](#calculo-de-longitud)
-    -   [Concatenación](#concatenación)
-    -   [Eliminar de la lista](#eliminar-de-la-lista)
-    -   [Añadir a la lista](#añadir-a-la-lista)
-    -   [Insertar a la lista](#insertar-a-la-lista)
-    -   [Operaciones de reposicionamiento](#operaciones-de-reposicionamiento)
-    -   [Operaciones misceláneas](#operaciones-misceláneas)
--   [Recursividad y estructuras](#recursividad-y-estructuras)
-    -   [Recursividad](#recursividad)
-    -   [Estructuras](#estructuras)
-    -   [Matching](#matching)
-    -   [Arboles binarios](#arboles-binarios)
--   [Backtracking](#backtracking)
-    -   [¿Como funciona?](#¿como-funciona?)
-    -   [Prevención de backtracking](#prevención-de-backtracking)
-    -   [Negación como falla](#negación-como-falla)
--   [Different y not](#different-y-not)
-    -   [Ejemplo different](#ejemplo-different)
-    -   [Ejemplo not](#ejemplo-not)
--   [Inputs y Outputs](#inputs-y-outputs)
-    -   [Write](#write)
-    -   [Read](#read)
-    -   [Tab](#tab)
-    -   [Escritura y lectura de archivos](#escritura-y-lectura-de-archivos)
-    -   [Manipulación de caracteres](#manipulación-de-caracteres)
-    -   [Consult](#consult)
--   [Predicados integrados](#predicados-integrados)
-    -   [Predicados Comunes](#predicados-comunes)
-    -   [Predicados Matemáticos](#predicados-matemáticos)
--   [Estructura de árbol](#estructura-de-árbol)
-    -   [Camino y localización](#camino-y-localización)
-    -   [Altura y valor máximo](#altura-y-valor-máximo)
--  [Referencias](#referencias)
+- [Introducción](#introducción)
+- [Instalación](#instalación)
+- [Hola mundo](#hola-mundo)
+- [Conceptos básicos](#conceptos-básicos)
+    - [Hechos](#hechos)
+    - [Reglas](#reglas)
+    - [Consultas](#consultas)
+    - [Bases de conocimiento](#bases-de-conocimiento)
+- [Relaciones](#relaciones)
+    - [Relaciones familiares](#relaciones-familiares)
+    - [Relaciones extendidas](#relaciones-extendidas)
+    - [Relaciones recursivas](#relaciones-recursivas)
+- [Objetos de datos](#objetos-de-datos)
+    - [Átomos](#átomos)
+    - [Números](#números)
+    - [Variables anonimas](#variables-anónimas)
+- [Operadores](#operadores)
+    - [Operadores comparativos](#operadores-comparativos)
+    - [Operadores aritméticos](#operadores-aritméticos)
+- [Ciclos y toma de decisiones](#ciclos-y-toma-de-decisiones)
+    - [Ciclos](#ciclos)
+    - [Toma de decisiones](#toma-de-decisiones)
+- [Conjunciones y disyunciones](#conjunciones-y-disyunciones)
+    - [Conjunciones](#conjunciones)
+    - [Disyunciones](#disyunciones)
+- [Listas](#listas)
+    - [Representación de listas](#representación-de-listas)
+    - [Operaciones con listas](#operaciones-con-listas)
+    - [Operación de membresía](#operación-de-membresía)
+    - [Calculo de longitud](#calculo-de-longitud)
+    - [Concatenación](#concatenación)
+    - [Eliminar de la lista](#eliminar-de-la-lista)
+    - [Añadir a la lista](#añadir-a-la-lista)
+    - [Insertar a la lista](#insertar-a-la-lista)
+    - [Operaciones de reposicionamiento](#operaciones-de-reposicionamiento)
+    - [Operaciones misceláneas](#operaciones-misceláneas)
+- [Recursividad y estructuras](#recursividad-y-estructuras)
+    - [Recursividad](#recursividad)
+    - [Estructuras](#estructuras)
+    - [Matching](#matching)
+    - [Arboles binarios](#arboles-binarios)
+- [Backtracking](#backtracking)
+    - [¿Como funciona?](#¿como-funciona?)
+    - [Prevención de backtracking](#prevención-de-backtracking)
+    - [Negación como falla](#negación-como-falla)
+- [Different y not](#different-y-not)
+    - [Ejemplo different](#ejemplo-different)
+    - [Ejemplo not](#ejemplo-not)
+- [Inputs y Outputs](#inputs-y-outputs)
+    - [Write](#write)
+    - [Read](#read)
+    - [Tab](#tab)
+    - [Escritura y lectura de archivos](#escritura-y-lectura-de-archivos)
+    - [Manipulación de caracteres](#manipulación-de-caracteres)
+    - [Consult](#consult)
+- [Predicados integrados](#predicados-integrados)
+    - [Predicados Comunes](#predicados-comunes)
+    - [Predicados Matemáticos](#predicados-matemáticos)
+- [Estructura de árbol](#estructura-de-árbol)
+    - [Camino y localización](#camino-y-localización)
+    - [Altura y valor máximo](#altura-y-valor-máximo)
+- [Referencias](#referencias)
 
 ## Introducción
 
@@ -78,11 +78,11 @@ Prolog, como su nombre sugiere, es un lenguaje de PROgramación LOGica. Es un le
 
 En Prolog existen 3 elementos:
 
--   **Hechos:** Afirmaciones acerca de objetos o relaciones entre objetos. Los hechos son siempre verdaderos.
+- **Hechos:** Afirmaciones acerca de objetos o relaciones entre objetos. Los hechos son siempre verdaderos.
 
--   **Reglas:** Afirmaciones acerca de objetos o relaciones entre objetos que son verdaderas si se cumplen ciertas condiciones.
+- **Reglas:** Afirmaciones acerca de objetos o relaciones entre objetos que son verdaderas si se cumplen ciertas condiciones.
 
--   **Consultas:** Son preguntas acerca de objetos o relaciones entre objetos. Prolog intenta encontrar una respuesta a la consulta basándose en los hechos y reglas que se han definido.
+- **Consultas:** Son preguntas acerca de objetos o relaciones entre objetos. Prolog intenta encontrar una respuesta a la consulta basándose en los hechos y reglas que se han definido.
 
 ### Diferencias con la programación funcional
 
@@ -131,20 +131,20 @@ write('Este programa está escrito en el archivo hello_world.pl').
 
 Usando hechos, podemos definir relaciones explicitas entre objetos y sus propiedades. Se puede decir que un hecho es una afirmación que siempre es verdadera. Algunos ejemplos de hechos son:
 
-> -   Tom is a cat
-> -   Kunal loves to eat Pasta
-> -   Hair is black
-> -   Nawaz loves to play games
-> -   Pratyusha is lazy.
+> - Tom is a cat
+> - Kunal loves to eat Pasta
+> - Hair is black
+> - Nawaz loves to play games
+> - Pratyusha is lazy.
 
 Estos hechos son incondicionalmente verdaderos. Para definir un hecho se deben seguir las siguientes reglas:
 
-> -   Los nombres de las propiedades/comportamientos comienzan con letras minúsculas.
-> -   El nombre de la relación aparece como el primer término.
-> -   Los objetos aparecen como argumentos separados por comas dentro de paréntesis.
-> -   Un punto "." debe terminar un hecho.
-> -   Los objetos también comienzan con letras minúsculas. También pueden comenzar con dígitos (como 1234), y pueden ser cadenas de caracteres encerradas entre comillas, por ejemplo, color(pluma, 'rojo').
-> -   phoneno(agnibha, 1122334455). también se llama predicado o cláusula.
+> - Los nombres de las propiedades/comportamientos comienzan con letras minúsculas.
+> - El nombre de la relación aparece como el primer término.
+> - Los objetos aparecen como argumentos separados por comas dentro de paréntesis.
+> - Un punto "." debe terminar un hecho.
+> - Los objetos también comienzan con letras minúsculas. También pueden comenzar con dígitos (como 1234), y pueden ser cadenas de caracteres encerradas entre comillas, por ejemplo, color(pluma, 'rojo').
+> - phoneno(agnibha, 1122334455). también se llama predicado o cláusula.
 
 #### Sintaxis
 
@@ -166,10 +166,10 @@ lazy(pratyusha).
 
 Las reglas son afirmaciones acerca de objetos o relaciones entre objetos que son verdaderas si se cumplen ciertas condiciones. Las reglas se utilizan para definir relaciones entre objetos basadas en propiedades de esos objetos. Algunos ejemplos de reglas son:=
 
-> -   Lili está feliz si baila.
-> -   Tom tiene hambre si está buscando comida.
-> -   Jack y Bili son amigos si ambos aman jugar al cricket.
-> -   Ryan irá a jugar si la escuela está cerrada y está libre.
+> - Lili está feliz si baila.
+> - Tom tiene hambre si está buscando comida.
+> - Jack y Bili son amigos si ambos aman jugar al cricket.
+> - Ryan irá a jugar si la escuela está cerrada y está libre.
 
 El símbolo `:-` se utiliza para definir una regla. La parte izquierda de la regla se llama cabeza y la parte derecha se llama cuerpo. La regla se lee como "Si el cuerpo es verdadero, entonces la cabeza también es verdadera".
 
@@ -208,10 +208,10 @@ goToPlay(ryan) :- isClosed(school), free(ryan).
 
 Las consultas son preguntas acerca de objetos o relaciones entre objetos. Prolog intenta encontrar una respuesta a la consulta basándose en los hechos y reglas que se han definido. Algunos ejemplos de consultas son:
 
-> -   ¿Tom es un gato?
-> -   ¿A Kunal le gusta comer pasta?
-> -   ¿Lili está feliz?
-> -   ¿Saldrá a jugar Ryan?
+> - ¿Tom es un gato?
+> - ¿A Kunal le gusta comer pasta?
+> - ¿Lili está feliz?
+> - ¿Saldrá a jugar Ryan?
 
 ### Bases de conocimiento
 
@@ -368,7 +368,7 @@ uncle(X,Z) :- brother(X,Y), parent(Y,Z).
 
 Ahora podemos hacer consultas sobre estas relaciones y trazar estas relaciones a la hora de ejecutar el programa.
 
-****Salida:****
+\***\*Salida:\*\***
 
 Tíos:
 
@@ -403,10 +403,10 @@ Los objetos de datos se pueden dividir en varias categorías:
 
 Ejemplos de objetos de datos son:
 
--   **Atoms** − tom, pat, x100, x_45
--   **Numbers** − 100, 1235, 2000.45
--   **Variables** − X, Y, Xval, \_X
--   **Structures** − day(9, jun, 2017), point(10, 25)
+- **Atoms** − tom, pat, x100, x_45
+- **Numbers** − 100, 1235, 2000.45
+- **Variables** − X, Y, Xval, \_X
+- **Structures** − day(9, jun, 2017), point(10, 25)
 
 #### Átomos
 
@@ -721,9 +721,9 @@ El backtracking puede ser un proceso costoso en términos de rendimiento. Para e
 
 #### Double step
 
-> -   Rule 1 &minnus; if X < 3 then Y = 0
-> -   Rule 2 &minnus; if 3 <= X and X < 6 then Y = 2
-> -   Rule 3 &minnus; if 6 <= X then Y = 4
+> - Rule 1 &minnus; if X < 3 then Y = 0
+> - Rule 2 &minnus; if 3 <= X and X < 6 then Y = 2
+> - Rule 3 &minnus; if 6 <= X then Y = 4
 
 ```prolog
 f(X,0) :- X < 3. % Rule 1
@@ -971,6 +971,6 @@ max([X|R],M,A) :- (X > M -> max(R,X,A) ; max(R,M,A)).
 
 ## Referencias
 
--   [Prolog - Tutorialspoint](https://www.tutorialspoint.com/prolog/index.htm)
--   [Prolog - Wikipedia](https://en.wikipedia.org/wiki/Prolog)
--   [GNU Prolog](http://www.gprolog.org/)
+- [Prolog - Tutorialspoint](https://www.tutorialspoint.com/prolog/index.htm)
+- [Prolog - Wikipedia](https://en.wikipedia.org/wiki/Prolog)
+- [GNU Prolog](http://www.gprolog.org/)

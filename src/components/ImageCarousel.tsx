@@ -1,30 +1,32 @@
-import { ArrowLeft, ArrowRight, X } from 'lucide-react';
-import { useState } from 'react';
-import { ImageModal } from './ImageModal';
+import { ArrowLeft, ArrowRight, X } from 'lucide-react'
+import { useState } from 'react'
+import { ImageModal } from './ImageModal'
 
 interface ImageCarouselProps {
-    images: string[];
-    live?: string;
+    images: string[]
+    live?: string
 }
 
 export function ImageCarousel({ images, live }: ImageCarouselProps) {
-    const [activeImageIndex, setActiveImageIndex] = useState(0);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
+    const [activeImageIndex, setActiveImageIndex] = useState(0)
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
 
     return (
         <>
             {/* Modal */}
-            <ImageModal 
-                isOpen={isModalOpen} 
+            <ImageModal
+                isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 onPrevious={(e) => {
-                    e?.stopPropagation();
-                    setActiveImageIndex((prev) => (prev - 1 + images.length) % images.length);
+                    e?.stopPropagation()
+                    setActiveImageIndex(
+                        (prev) => (prev - 1 + images.length) % images.length
+                    )
                 }}
                 onNext={(e) => {
-                    e?.stopPropagation();
-                    setActiveImageIndex((prev) => (prev + 1) % images.length);
+                    e?.stopPropagation()
+                    setActiveImageIndex((prev) => (prev + 1) % images.length)
                 }}
                 hasMultipleImages={images.length > 1}
             >
@@ -39,7 +41,7 @@ export function ImageCarousel({ images, live }: ImageCarouselProps) {
             {/* Main carousel */}
             <div className="relative">
                 {/* Images */}
-                <div 
+                <div
                     className="relative w-full aspect-video cursor-pointer border-2 border-text"
                     onClick={() => setIsModalOpen(true)}
                 >
@@ -49,7 +51,9 @@ export function ImageCarousel({ images, live }: ImageCarouselProps) {
                             src={image}
                             alt={`Project screenshot ${index + 1}`}
                             className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-300 ${
-                                index === activeImageIndex ? 'opacity-100' : 'opacity-0'
+                                index === activeImageIndex
+                                    ? 'opacity-100'
+                                    : 'opacity-0'
                             }`}
                             draggable="false"
                         />
@@ -59,20 +63,26 @@ export function ImageCarousel({ images, live }: ImageCarouselProps) {
                 {/* Navigation Arrows */}
                 {images.length > 1 && (
                     <>
-                        <button 
+                        <button
                             onClick={(e) => {
-                                e.stopPropagation();
-                                setActiveImageIndex((prev) => (prev - 1 + images.length) % images.length);
+                                e.stopPropagation()
+                                setActiveImageIndex(
+                                    (prev) =>
+                                        (prev - 1 + images.length) %
+                                        images.length
+                                )
                             }}
                             className="absolute left-2 top-1/2 -translate-y-1/2 p-2 border-2 border-text bg-white text-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)]"
                             aria-label="Previous image"
                         >
                             <ArrowLeft className="w-4 h-4" />
                         </button>
-                        <button 
+                        <button
                             onClick={(e) => {
-                                e.stopPropagation();
-                                setActiveImageIndex((prev) => (prev + 1) % images.length);
+                                e.stopPropagation()
+                                setActiveImageIndex(
+                                    (prev) => (prev + 1) % images.length
+                                )
                             }}
                             className="absolute right-2 top-1/2 -translate-y-1/2 p-2 border-2 border-text bg-white text-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)]"
                             aria-label="Next image"
@@ -89,11 +99,13 @@ export function ImageCarousel({ images, live }: ImageCarouselProps) {
                             <button
                                 key={index}
                                 onClick={(e) => {
-                                    e.stopPropagation();
-                                    setActiveImageIndex(index);
+                                    e.stopPropagation()
+                                    setActiveImageIndex(index)
                                 }}
                                 className={`w-3 h-3 border-2 border-text transition-colors ${
-                                    index === activeImageIndex ? 'bg-primary' : 'bg-white'
+                                    index === activeImageIndex
+                                        ? 'bg-primary'
+                                        : 'bg-white'
                                 }`}
                                 aria-label={`Go to image ${index + 1}`}
                             />
@@ -102,5 +114,5 @@ export function ImageCarousel({ images, live }: ImageCarouselProps) {
                 )}
             </div>
         </>
-    );
+    )
 }

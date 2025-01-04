@@ -1,31 +1,37 @@
 {
-  "name": "portfolio",
-  "type": "module",
-  "version": "0.0.1",
-  "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "host": "astro dev --host",
-    "build": "astro check && astro build",
-    "preview": "astro preview",
-    "astro": "astro"
-  },
-  "dependencies": {
-    "@astrojs/check": "^0.5.6",
-    "@astrojs/partytown": "^2.1.1",
-    "@astrojs/react": "^3.3.0",
-    "@astrojs/tailwind": "^5.1.4",
-    "@react-three/drei": "^9.120.4",
-    "@react-three/fiber": "^8.17.10",
-    "@types/react": "^18.2.79",
-    "@types/react-dom": "^18.2.25",
-    "astro": "^5.1.2",
-    "lucide-react": "^0.468.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-swipeable": "^7.0.1",
-    "tailwindcss": "^3.4.1",
-    "three": "^0.171.0",
-    "typescript": "^5.4.2"
-  }
+    "name": "portfolio",
+    "type": "module",
+    "version": "0.0.1",
+    "scripts": {
+        "dev": "astro dev",
+        "start": "astro dev",
+        "host": "astro dev --host",
+        "build": "astro check && astro build",
+        "preview": "astro preview",
+        "astro": "astro",
+        "format": "prettier --tab-width 4 --print-width 80 --no-semi --single-quote --trailing-comma es5 --write ."
+    },
+    "dependencies": {
+        "@astrojs/check": "^0.5.6",
+        "@astrojs/partytown": "^2.1.1",
+        "@astrojs/react": "^3.3.0",
+        "@astrojs/tailwind": "^5.1.4",
+        "@react-three/drei": "^9.120.4",
+        "@react-three/fiber": "^8.17.10",
+        "@types/react": "^18.2.79",
+        "@types/react-dom": "^18.2.25",
+        "astro": "^5.1.2",
+        "lucide-react": "^0.468.0",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-swipeable": "^7.0.1",
+        "tailwindcss": "^3.4.1",
+        "three": "^0.171.0",
+        "typescript": "^5.4.2"
+    },
+    "devDependencies": {
+        "eslint-config-prettier": "^9.1.0",
+        "prettier": "3.4.2",
+        "prettier-plugin-astro": "^0.14.1"
+    }
 }

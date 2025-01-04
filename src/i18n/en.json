@@ -17,7 +17,12 @@
                 "Led an agile team of 5 developers through the project lifecycle",
                 "Implemented image recognition systems for facial analysis and clothing classification"
             ],
-            "image": ["/images/estilist-1.webp", "/images/estilist-2.webp", "/images/estilist-3.webp", "/images/estilist-4.webp"],
+            "image": [
+                "/images/estilist-1.webp",
+                "/images/estilist-2.webp",
+                "/images/estilist-3.webp",
+                "/images/estilist-4.webp"
+            ],
             "tags": ["React", "Django REST", "PostgreSQL", "Azure"],
             "repo": "https://www.github.com/estilist/",
             "live": "https://blue-coast-0a7c0381e.5.azurestaticapps.net/"
@@ -29,7 +34,11 @@
                 "Implemented networking using TCP sockets with a custom communication protocol",
                 "Designed and developed core game logic using OOP principles"
             ],
-            "image": ["/images/espyntar-1.webp", "/images/espyntar-2.webp", "/images/espyntar-3.webp"],
+            "image": [
+                "/images/espyntar-1.webp",
+                "/images/espyntar-2.webp",
+                "/images/espyntar-3.webp"
+            ],
             "tags": ["C++", "Raylib", "Winsock"],
             "repo": "https://www.github.com/Scalaptia/espyntar"
         },
@@ -50,7 +59,12 @@
             "contributions": [
                 "Developed a custom game engine using C and Raylib"
             ],
-            "image": ["/images/16bdh-1.webp", "/images/16bdh-2.webp", "/images/16bdh-3.webp", "/images/16bdh-4.webp"],
+            "image": [
+                "/images/16bdh-1.webp",
+                "/images/16bdh-2.webp",
+                "/images/16bdh-3.webp",
+                "/images/16bdh-4.webp"
+            ],
             "tags": ["C", "Raylib", "Emscripten"],
             "repo": "https://github.com/Scalaptia/16-Bits-de-Historia",
             "live": "https://scalaptia.github.io/16-Bits-de-Historia/"
