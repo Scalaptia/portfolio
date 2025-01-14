@@ -23,7 +23,7 @@
                 "/images/estilist-3.webp",
                 "/images/estilist-4.webp"
             ],
-            "tags": ["React", "Django REST", "PostgreSQL", "Azure"],
+            "tags": ["React", "Django REST", "PostgreSQL", "Azure", "Docker"],
             "repo": "https://www.github.com/estilist/",
             "live": "https://blue-coast-0a7c0381e.5.azurestaticapps.net/"
         },

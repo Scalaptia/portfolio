@@ -1,11 +1,14 @@
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, useGLTF } from '@react-three/drei'
-import { useRef } from 'react'
+import { OrbitControls, useGLTF, Preload } from '@react-three/drei'
+import { useRef, Suspense } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
+// Preload the model
+useGLTF.preload('/models/mac_minus.glb')
+
 function Scene() {
-    const { scene } = useGLTF('/models/mac_minus.glb')
+    const { scene } = useGLTF('/models/mac_minus.glb', true)
     const modelRef = useRef<THREE.Group>()
 
     useFrame(() => {
@@ -24,6 +27,7 @@ function Scene() {
                 position={[0, 0, 0]}
                 scale={1.1}
                 rotation={[0, Math.PI + 1.5, 0]}
+                dispose={null} // Prevent disposal of model
             />
             <OrbitControls
                 enableZoom={false}
@@ -40,9 +44,16 @@ function Scene() {
 
 export default function PCModel() {
     return (
-        <div>
-            <Canvas camera={{ position: [0, 0, 5], fov: 60 }}>
-                <Scene />
+        <div style={{ width: '100%', height: '100%' }}>
+            <Canvas 
+                camera={{ position: [0, 0, 5], fov: 60 }}
+                dpr={[1, 2]}
+                performance={{ min: 0.5 }}
+            >
+                <Suspense fallback={null}>
+                    <Scene />
+                    <Preload all />
+                </Suspense>
             </Canvas>
         </div>
     )
