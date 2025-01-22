@@ -1,4 +1,4 @@
-import { X, ArrowLeft, ArrowRight, Power } from 'lucide-react'
+import { X, ArrowLeft, ArrowRight } from 'lucide-react'
 import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 
@@ -49,7 +49,7 @@ export function ImageModal({
                 onClick={onClose}
                 aria-label="Close modal"
             >
-                <Power className="w-6 h-6" />
+                <X className="w-6 h-6" />
             </button>
 
             <div className="w-full h-full flex items-center justify-center p-4">

@@ -1,10 +1,10 @@
 ---
-layout: "@/layouts/PostLayout.astro"
-title: "Building a Developer Portfolio"
-author: "Fernando Haro"
-description: "My experience building this portfolio and why you should make one too."
+layout: '@/layouts/PostLayout.astro'
+title: 'Building a Developer Portfolio'
+author: 'Fernando Haro'
+description: 'My experience building this portfolio and why you should make one too.'
 date: 2025-01-02
-tags: ["webdev", "portfolio", "astro"]
+tags: ['webdev', 'portfolio', 'astro']
 ---
 
 I want to start this post off by saying that I'm not a designer (which should be pretty obvious by looking at this site). I'm primarily an engineering type, which means I'm typically more interested in getting things to work than making them look pretty. That being said, I do think that having a pretty and functional portfolio/blog is important, so I gave it my best shot with this site, and in this post I'll share my personal experience and try to convince you that you could (and probably should) do the same.

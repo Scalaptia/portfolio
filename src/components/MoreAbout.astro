@@ -6,7 +6,7 @@ import { BookOpen } from 'lucide-react'
 import { Image } from 'astro:assets'
 import { parseMarkdown } from '@/utils/markdown'
 
-const { currentLocale } = Astro 
+const { currentLocale } = Astro
 const i18n = getI18N({ currentLocale })
 const lang = getLangFromUrl(Astro.url)
 const t = useTranslations(lang)
@@ -16,19 +16,30 @@ const t = useTranslations(lang)
     <!-- Content Section -->
     <div class="flex flex-col justify-center">
         <div class="flex flex-col gap-4">
-            <p class="text-text text-lg" set:html={parseMarkdown(i18n.TEXT_MORE_ABOUT_1)} />
-            <p class="text-text text-lg" set:html={parseMarkdown(i18n.TEXT_MORE_ABOUT_2)} />
-            <p class="text-text text-lg" set:html={parseMarkdown(i18n.TEXT_MORE_ABOUT_3)} />
+            <p
+                class="text-text text-lg"
+                set:html={parseMarkdown(i18n.TEXT_MORE_ABOUT_1)}
+            />
+            <p
+                class="text-text text-lg"
+                set:html={parseMarkdown(i18n.TEXT_MORE_ABOUT_2)}
+            />
+            <p
+                class="text-text text-lg"
+                set:html={parseMarkdown(i18n.TEXT_MORE_ABOUT_3)}
+            />
         </div>
     </div>
 
     <!-- Profile Image -->
-    <div class="w-full order-first lg:order-last flex justify-center items-center">
+    <div
+        class="w-full order-first lg:order-last flex justify-center items-center"
+    >
         <Image
             class:list={`
                 border-4 border-text aspect-square
             `}
-            src="/images/yo.jpg"
+            src="/images/fernando-haro.jpg"
             alt="Fernando Haro"
             width="300"
             height="300"
