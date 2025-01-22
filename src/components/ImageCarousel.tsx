@@ -35,7 +35,7 @@ export function ImageCarousel({ images, live }: ImageCarouselProps) {
                     alt={`Project screenshot ${activeImageIndex + 1}`}
                     className="max-h-[90vh] max-w-[90vw] object-contain"
                     onLoad={() => setIsLoading(false)}
-                    loading='lazy'
+                    loading="lazy"
                 />
             </ImageModal>
 

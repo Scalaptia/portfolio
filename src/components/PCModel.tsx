@@ -45,7 +45,7 @@ function Scene() {
 export default function PCModel() {
     return (
         <div style={{ width: '100%', height: '100%' }}>
-            <Canvas 
+            <Canvas
                 camera={{ position: [0, 0, 5], fov: 60 }}
                 dpr={[1, 2]}
                 performance={{ min: 0.5 }}

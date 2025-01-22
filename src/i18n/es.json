@@ -1,14 +1,10 @@
 {
     "TAG_DEVELOPER": "desarrollador",
     "TAG_ABOUT": "acerca",
+    "TAG_ABOUT_ME": "sobre_mí",
     "TAG_PROJECTS": "proyectos",
-    "TEXT_DESCRIPTION_1": "Desarrollador web full-stack",
-    "TEXT_DESCRIPTION_2": "y estudiante de ingeniería de software.",
-    "TEXT_DESCRIPTION_3": "Me especializo en tecnologías modernas como",
-    "TEXT_DESCRIPTION_4": "React",
-    "TEXT_DESCRIPTION_5": "Django",
-    "TEXT_DESCRIPTION_6": "y",
-    "TEXT_DESCRIPTION_7": "Node.js",
+    "TEXT_DESCRIPTION_1": "**Desarrollador web full-stack** y estudiante de ingeniería de software.",
+    "TEXT_DESCRIPTION_2": "Me especializo en tecnologías modernas como **React**, **Django**, y **Express**.",
     "PROJECTS": [
         {
             "title": "Estilist",
@@ -23,9 +19,8 @@
                 "/images/estilist-3.webp",
                 "/images/estilist-4.webp"
             ],
-            "tags": ["React", "Django REST", "PostgreSQL", "Azure", "Docker"],
-            "repo": "https://www.github.com/estilist/",
-            "live": "https://blue-coast-0a7c0381e.5.azurestaticapps.net/"
+            "tags": ["React", "Django", "Postgres", "Azure", "Docker"],
+            "repo": "https://www.github.com/estilist/"
         },
         {
             "title": "Espyntar",
@@ -72,5 +67,8 @@
     ],
     "TEXT_404": "¡Ups! La página que buscas no existe.",
     "TEXT_COPIED": "¡Copiado al portapapeles!",
-    "BLOG_MINUTES": "min de lectura"
+    "BLOG_MINUTES": "min de lectura",
+    "TEXT_MORE_ABOUT_1": "Comencé a programar a los 16 con Arduino, ya que me interesaba la electrónica. Conforme fui aprendiendo más sobre programación, me di cuenta de que quería dedicarme al desarrollo de software.",
+    "TEXT_MORE_ABOUT_2": "Actualmente estudio **Ingeniería en Software** en la Universidad Autónoma de Baja California, y he trabajado en varios proyectos tanto personales como en equipo. Además, he tenido la oportunidad de ser **líder del club de programación competitiva** de mi universidad.",
+    "TEXT_MORE_ABOUT_3": "En mi tiempo libre me gusta **jugar videojuegos, leer, y aprender nuevas tecnologías.** Siempre estoy buscando nuevas oportunidades para aprender y mejorar mis habilidades, así como ayudar a otros a hacer lo mismo."
 }
