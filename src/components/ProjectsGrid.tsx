@@ -7,9 +7,7 @@ export default function ProjectsGrid({ projects }: { projects: Project[] }) {
             {projects.map((project, index) => (
                 <div
                     key={index}
-                    className={`flex flex-col bg-slate-100/20 rounded-none p-6 lg:flex lg:flex-row ${
-                        index % 2 !== 0 ? 'lg:flex-row-reverse' : ''
-                    } lg:gap-8 lg:items-center`}
+                    className="flex flex-col bg-slate-100/20 rounded-none p-6 lg:flex lg:flex-row lg:gap-8 lg:items-center"
                 >
                     {/* Project Image */}
                     <div className="relative group border-2 border-text rounded-none overflow-hidden w-full lg:w-1/2">

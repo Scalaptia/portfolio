@@ -1,14 +1,10 @@
 {
     "TAG_DEVELOPER": "developer",
     "TAG_ABOUT": "about",
+    "TAG_ABOUT_ME": "about_me",
     "TAG_PROJECTS": "projects",
-    "TEXT_DESCRIPTION_1": "Full-stack web developer",
-    "TEXT_DESCRIPTION_2": "and software engineering student.",
-    "TEXT_DESCRIPTION_3": "I specialize in modern technologies such as",
-    "TEXT_DESCRIPTION_4": "React",
-    "TEXT_DESCRIPTION_5": "Django",
-    "TEXT_DESCRIPTION_6": "and",
-    "TEXT_DESCRIPTION_7": "Node.js",
+    "TEXT_DESCRIPTION_1": "**Full-stack web developer** and software engineering student.",
+    "TEXT_DESCRIPTION_2": "I specialize in modern technologies such as **React**, **Django**, and **Express**.",
     "PROJECTS": [
         {
             "title": "Estilist",
@@ -72,5 +68,8 @@
     ],
     "TEXT_404": "Oops! The page you're looking for doesn't exist.",
     "TEXT_COPIED": "Copied to clipboard!",
-    "BLOG_MINUTES": "min read"
+    "BLOG_MINUTES": "min read",
+    "TEXT_MORE_ABOUT_1": "I started programming when I was 16 years old, initially with Arduino since I was interested in electronics. As I learned more about programming, I realized that my real passion was software development.", 
+    "TEXT_MORE_ABOUT_2": "I'm currently close to finishing my **Software Engineering** degree at the Autonomous University of Baja California, and I've worked on various personal and team projects. Additionally, I've had the opportunity to be the **competitive programming club leader** at my university.",
+    "TEXT_MORE_ABOUT_3": "In my free time, I enjoy **playing video games**, **reading**, and **learning new technologies**. I also like music, and play the guitar at a basic level. I'm always looking for new opportunities to learn and improve my skills, as well as help others do the same."
 }

@@ -1,11 +1,13 @@
 ---
 import LinkButton from '@/components/LinkButton.astro'
 import ProjectsGrid from '@/components/ProjectsGrid'
+import MoreAbout from '@/components/MoreAbout.astro'
 import PCModel from '@/components/PCModel'
 import { Github, Linkedin, SendHorizontal } from 'lucide-react'
 import CopyToClipboard from '@/components/CopyButton'
 import { getLangFromUrl, useTranslations } from '@/i18n/utils'
 import { getI18N } from '@/i18n/index'
+import { parseMarkdown } from '@/utils/markdown'
 
 const { currentLocale } = Astro
 const i18n = getI18N({ currentLocale })
@@ -78,21 +80,10 @@ export const meta = {
             >
 
             <div
-                class="pt-4 pb-4 text-xl font-open-sans text-text leading-[1.2em]"
+                class="p-4 text-xl font-open-sans text-text leading-[1.3em] flex flex-col gap-4"
             >
-                <span class="font-semibold">{i18n.TEXT_DESCRIPTION_1}</span>
-                <span class="block">{i18n.TEXT_DESCRIPTION_2}</span>
-
-                <span class="mt-4 block">
-                    {i18n.TEXT_DESCRIPTION_3}
-                    <span class="font-semibold">{i18n.TEXT_DESCRIPTION_4}</span
-                    >,
-                    <span class="font-semibold">{i18n.TEXT_DESCRIPTION_5}</span
-                    >,
-                    {i18n.TEXT_DESCRIPTION_6}
-                    <span class="font-semibold">{i18n.TEXT_DESCRIPTION_7}</span
-                    >.
-                </span>
+                <p set:html={parseMarkdown(i18n.TEXT_DESCRIPTION_1)} />
+                <p set:html={parseMarkdown(i18n.TEXT_DESCRIPTION_2)} />
             </div>
 
             <span
@@ -160,6 +151,22 @@ export const meta = {
         <span
             class="text-primary font-ubuntu-mono text-2xl text-end w-full lg:text-end self-end mt-4"
             >&lt;/{i18n.TAG_PROJECTS}&gt;</span
+        >
+    </div>
+
+    <!-- About Me -->
+    <div
+        slot="content"
+        class="px-8 flex flex-col w-full items-center lg:flex-row lg:flex-wrap lg:justify-between max-w-[600px] lg:max-w-[1200px] my-12 lg:my-20"
+    >
+        <span
+            class="text-primary text-start font-ubuntu-mono text-2xl self-start w-full mb-4"
+            >&lt;{i18n.TAG_ABOUT_ME}&gt;</span
+        >
+        <MoreAbout />
+        <span
+            class="text-primary font-ubuntu-mono text-2xl text-end w-full lg:text-end self-end mt-4"
+            >&lt;/{i18n.TAG_ABOUT_ME}&gt;</span
         >
     </div>
 </main>
