@@ -3,14 +3,16 @@ import { ImageCarousel } from './ImageCarousel'
 
 export default function ProjectsGrid({ projects }: { projects: Project[] }) {
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full">
+        <div className="grid grid-cols-1 gap-8 w-full">
             {projects.map((project, index) => (
                 <div
                     key={index}
-                    className="flex flex-col border-4 border-text bg-slate-100/20 rounded-none p-6 min-h-[600px]"
+                    className={`flex flex-col bg-slate-100/20 rounded-none p-6 lg:flex lg:flex-row ${
+                        index % 2 !== 0 ? 'lg:flex-row-reverse' : ''
+                    } lg:gap-8 lg:items-center`}
                 >
                     {/* Project Image */}
-                    <div className="relative group border-2 border-text rounded-none overflow-hidden aspect-video">
+                    <div className="relative group border-2 border-text rounded-none overflow-hidden w-full lg:w-1/2">
                         <ImageCarousel
                             images={project.image}
                             live={project.live}
@@ -18,7 +20,7 @@ export default function ProjectsGrid({ projects }: { projects: Project[] }) {
                     </div>
 
                     {/* Project Info */}
-                    <div className="flex flex-col flex-grow mt-4">
+                    <div className="flex flex-col flex-grow mt-4 lg:mt-0 w-full lg:w-1/2">
                         <div className="flex flex-col sm:flex-row sm:justify-between sm:align-middle mb-4 gap-2">
                             {/* Title */}
                             <h2 className="text-[30px] font-black-han-sans text-text text-center md:text-left">
