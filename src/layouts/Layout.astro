@@ -12,30 +12,41 @@ const { currentLocale } = Astro
         <meta name="viewport" content="width=device-width" />
         <meta name="generator" content={Astro.generator} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- HTML Meta Tags -->
         <meta
-            slot="tags"
             name="description"
-            content="Full-stack software engineer. Check out my projects and get in touch!"
+            content="Fullstack Web Developer. Check out my projects and get in touch!"
+        />
+
+        <!-- Facebook Meta Tags -->
+        <meta property="og:url" content="https://fernando.haroware.com" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Fernando Haro" />
+        <meta
+            property="og:description"
+            content="Fullstack Web Developer. Check out my projects and get in touch!"
         />
         <meta
             property="og:image"
-            content="https://fernando.haroware.com/logo.png"
+            content="https://opengraph.b-cdn.net/production/images/bc3ec5c3-b0ac-4f65-a407-f43415d923bd.png?token=toKgoa0WWUGPwPCJ93wpmekkVfp0EeIpYyI3bZ2opy8&height=600&width=1200&expires=33279283116"
         />
-        <meta property="og:image:width" content="512" />
-        <meta property="og:image:height" content="512" />
-        <meta property="og:image:type" content="image/png" />
 
-        <!-- Twitter specific -->
+        <!-- Twitter Meta Tags -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="twitter:domain" content="fernando.haroware.com" />
+        <meta property="twitter:url" content="https://fernando.haroware.com" />
+        <meta name="twitter:title" content="Fernando Haro" />
+        <meta
+            name="twitter:description"
+            content="Fullstack Web Developer. Check out my projects and get in touch!"
+        />
         <meta
             name="twitter:image"
-            content="https://fernando.haroware.com/logo.png"
+            content="https://opengraph.b-cdn.net/production/images/bc3ec5c3-b0ac-4f65-a407-f43415d923bd.png?token=toKgoa0WWUGPwPCJ93wpmekkVfp0EeIpYyI3bZ2opy8&height=600&width=1200&expires=33279283116"
         />
 
-        <link rel="preload" href="/fonts.css" as="style" />
-        <link rel="stylesheet" href="/fonts.css" />
-        <slot name="tags" />
-
-        <link rel="icon" href="/logo.ico" type="image/x-icon" />
+        <!-- Meta Tags Generated via https://www.opengraph.xyz -->
 
         <!-- Google tag (gtag.js) -->
         <script
@@ -54,6 +65,9 @@ const { currentLocale } = Astro
         </script>
 
         <title>Fernando Haro</title>
+        <link rel="icon" href="/logo.ico" type="image/x-icon" />
+        <link rel="preload" href="/fonts.css" as="style" />
+        <link rel="stylesheet" href="/fonts.css" />
 
         <style>
             :root {
