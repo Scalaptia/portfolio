@@ -1,0 +1,9 @@
+[project]
+  language = "nodejs"
+
+[build]
+  command = "npm run build"
+  output = "dist"
+
+[run]
+  command = "nixpacks serve -p $PORT dist"
