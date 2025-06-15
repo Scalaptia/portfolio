@@ -4,14 +4,30 @@
   "TAG_ABOUT_ME": "about_me",
   "TAG_PROJECTS": "projects",
   "TEXT_DESCRIPTION_1": "**Full-stack web developer** and software engineering student.",
-  "TEXT_DESCRIPTION_2": "I specialize in modern technologies such as **React**, **Django**, and **Express**.",
+  "TEXT_DESCRIPTION_2": "I specialize in modern web technologies like **React** and **Nest.js**.",
   "PROJECTS": [
+    {
+      "title": "Awita",
+      "description": "Real-time water tank monitoring application using IoT sensors to help users manage water usage efficiently in areas with unreliable supply.",
+      "contributions": [
+        "Designed a responsive and user-friendly interface with data visualization and real-time updates",
+        "Built a scalable REST API on AWS Lambda, processing 1000+ daily sensor readings with < 200ms response times"
+      ],
+      "image": [
+        "/images/awita-1.webp",
+        "/images/awita-2.webp",
+        "/images/awita-3.webp"
+      ],
+      "tags": ["React", "NestJS", "MySQL", "AWS", "Arduino", "TensorFlow"],
+      "repo": "https://www.github.com/Scalaptia/awita-app",
+      "live": "https://awita.fharo.dev/"
+    },
     {
       "title": "Estilist",
       "description": "Fashion discovery platform offering personalized style recommendations based on user preferences and colorimetry.",
       "contributions": [
-        "Led an agile team of 5 developers through the project lifecycle",
-        "Implemented image recognition systems for facial analysis and clothing classification"
+        "Led a cross-functional team of 5 developers using Scrum, achieving 100% sprint completion rate",
+        "Implemented an image processing system with 90% accuracy for face shape and colorimetry identification"
       ],
       "image": [
         "/images/estilist-1.webp",
@@ -19,7 +35,7 @@
         "/images/estilist-3.webp",
         "/images/estilist-4.webp"
       ],
-      "tags": ["React", "Django", "Postgres", "Azure", "Docker"],
+      "tags": ["React", "Django REST", "PostgreSQL", "Azure", "Docker"],
       "repo": "https://www.github.com/estilist/",
       "live": "https://estilist.fharo.dev/"
     },
@@ -70,7 +86,7 @@
   ],
   "TEXT_404": "Oops! The page you're looking for doesn't exist.",
   "TEXT_COPIED": "Copied to clipboard!",
-  "TEXT_KEY_CONTRIBUTIONS": "Key Contributions",
+  "TEXT_KEY_CONTRIBUTIONS": "Contributions",
   "TEXT_TECHNOLOGIES": "Technologies",
   "BLOG_MINUTES": "min read",
   "TEXT_MORE_ABOUT_1": "I started programming at 16 using Arduino because I was interested in electronics. As I learned more about programming, I realized that I wanted to pursue software development as a career.",

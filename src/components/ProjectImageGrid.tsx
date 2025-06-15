@@ -22,6 +22,7 @@ export function ProjectImageGrid({
 
   return (
     <>
+      {" "}
       {/* Modal */}
       <ImageModal
         isOpen={isModalOpen}
@@ -37,6 +38,9 @@ export function ProjectImageGrid({
           setActiveImageIndex((prev) => (prev + 1) % images.length);
         }}
         hasMultipleImages={images.length > 1}
+        currentImageIndex={activeImageIndex}
+        totalImages={images.length}
+        onImageSelect={(index) => setActiveImageIndex(index)}
       >
         <img
           src={images[activeImageIndex]}
@@ -45,7 +49,6 @@ export function ProjectImageGrid({
           loading="lazy"
         />
       </ImageModal>
-
       {/* Image Grid */}
       <div className="grid gap-3">
         {/* Main image - takes full width */}

@@ -41,12 +41,12 @@ export default function ProjectsGrid({
             <div className="p-6 relative z-10">
               {/* Title and buttons */}
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-5">
-                <div className="relative">
-                  <h2 className="text-3xl font-black-han-sans text-text text-center sm:text-left leading-tight mb-2">
+                <div className="relative inline-block">
+                  <h2 className="text-3xl font-black-han-sans text-text text-center sm:text-left leading-tight mb-1">
                     {project.title}
                   </h2>
-                  {/* Improved title decoration */}
-                  <div className="w-16 h-1 bg-primary mx-auto sm:mx-0"></div>
+                  {/* Title decoration */}
+                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-primary opacity-50"></div>
                 </div>
 
                 {/* Buttons */}

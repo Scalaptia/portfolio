@@ -29,6 +29,9 @@ export function ImageCarousel({ images, live }: ImageCarouselProps) {
           setActiveImageIndex((prev) => (prev + 1) % images.length);
         }}
         hasMultipleImages={images.length > 1}
+        currentImageIndex={activeImageIndex}
+        totalImages={images.length}
+        onImageSelect={(index) => setActiveImageIndex(index)}
       >
         <img
           src={images[activeImageIndex]}
@@ -40,7 +43,7 @@ export function ImageCarousel({ images, live }: ImageCarouselProps) {
       </ImageModal>
 
       {/* Main carousel */}
-      <div className="relative">
+      <div className="relative group">
         {/* Images */}
         <div
           className="relative w-full aspect-video cursor-pointer bg-background/50 overflow-hidden transition-all duration-300 hover:shadow-[4px_4px_0px_0px_rgba(65,44,71,0.3)]"
@@ -84,7 +87,7 @@ export function ImageCarousel({ images, live }: ImageCarouselProps) {
                   (prev) => (prev - 1 + images.length) % images.length,
                 );
               }}
-              className="absolute left-2 top-1/2 -translate-y-1/2 p-2 border-2 border-text bg-white text-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] hover:shadow-[1px_1px_0px_0px_rgba(65,44,71,1)] hover:translate-x-[1px] hover:translate-y-[1px] transition-all duration-150 hover:bg-primary/10"
+              className="absolute left-2 top-1/2 -translate-y-1/2 p-2 border-2 border-text bg-white text-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] hover:shadow-[1px_1px_0px_0px_rgba(65,44,71,1)] transition-all duration-150 hover:bg-primary/10 opacity-0 group-hover:opacity-100 z-20"
               aria-label="Previous image"
             >
               <ArrowLeft className="w-4 h-4" />
@@ -94,7 +97,7 @@ export function ImageCarousel({ images, live }: ImageCarouselProps) {
                 e.stopPropagation();
                 setActiveImageIndex((prev) => (prev + 1) % images.length);
               }}
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-2 border-2 border-text bg-white text-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] hover:shadow-[1px_1px_0px_0px_rgba(65,44,71,1)] hover:translate-x-[1px] hover:translate-y-[1px] transition-all duration-150 hover:bg-primary/10"
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-2 border-2 border-text bg-white text-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] hover:shadow-[1px_1px_0px_0px_rgba(65,44,71,1)] transition-all duration-150 hover:bg-primary/10 opacity-0 group-hover:opacity-100 z-20"
               aria-label="Next image"
             >
               <ArrowRight className="w-4 h-4" />
@@ -104,7 +107,7 @@ export function ImageCarousel({ images, live }: ImageCarouselProps) {
 
         {/* Indicators */}
         {images.length > 1 && (
-          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2 z-20">
             {images.map((_, index) => (
               <button
                 key={index}
@@ -112,8 +115,10 @@ export function ImageCarousel({ images, live }: ImageCarouselProps) {
                   e.stopPropagation();
                   setActiveImageIndex(index);
                 }}
-                className={`w-3 h-3 border-2 border-text shadow-[1px_1px_0px_0px_rgba(65,44,71,1)] transition-colors ${
-                  index === activeImageIndex ? "bg-primary" : "bg-white"
+                className={`w-3 h-3 border-2 border-text shadow-[1px_1px_0px_0px_rgba(65,44,71,1)] transition-all duration-150 hover:scale-105 ${
+                  index === activeImageIndex
+                    ? "bg-primary"
+                    : "bg-white hover:bg-primary/20"
                 }`}
                 aria-label={`Go to image ${index + 1}`}
               />

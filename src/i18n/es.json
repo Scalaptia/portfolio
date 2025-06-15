@@ -4,14 +4,30 @@
   "TAG_ABOUT_ME": "sobre_mí",
   "TAG_PROJECTS": "proyectos",
   "TEXT_DESCRIPTION_1": "**Desarrollador web full-stack** y estudiante de ingeniería de software.",
-  "TEXT_DESCRIPTION_2": "Me especializo en tecnologías modernas como **React**, **Django**, y **Express**.",
+  "TEXT_DESCRIPTION_2": "Me especializo en tecnologías web modernas como **React** y **Nest.js**.",
   "PROJECTS": [
+    {
+      "title": "Awita",
+      "description": "Aplicación de monitoreo de tanques de agua en tiempo real usando sensores IoT para ayudar a los usuarios a gestionar el uso del agua eficientemente en áreas con suministro irregular.",
+      "contributions": [
+        "Diseñé una interfaz responsiva y fácil de usar con visualización de datos y actualizaciones en tiempo real",
+        "Construí una API REST escalable en AWS Lambda, procesando más de 1000 lecturas diarias con tiempos de respuesta < 100 ms"
+      ],
+      "image": [
+        "/images/awita-1.webp",
+        "/images/awita-2.webp",
+        "/images/awita-3.webp"
+      ],
+      "tags": ["React", "NestJS", "MySQL", "AWS", "Arduino"],
+      "repo": "https://www.github.com/Scalaptia/awita-app",
+      "live": "https://awita.fharo.dev/"
+    },
     {
       "title": "Estilist",
       "description": "Plataforma de descubrimiento de moda que ofrece recomendaciones de estilo personalizadas basadas en las preferencias del usuario y su colorimetría.",
       "contributions": [
-        "Lideré un equipo ágil de 5 desarrolladores a través del ciclo de vida del proyecto",
-        "Implementé sistemas de reconocimiento de imágenes para análisis facial y clasificación de ropa"
+        "Lideré un equipo multifuncional de 5 desarrolladores usando Scrum, logrando 100% de finalización de sprints",
+        "Implementé un sistema de procesamiento de imágenes con 90% de precisión para identificación de forma facial y colorimetría"
       ],
       "image": [
         "/images/estilist-1.webp",
@@ -19,7 +35,7 @@
         "/images/estilist-3.webp",
         "/images/estilist-4.webp"
       ],
-      "tags": ["React", "Django", "Postgres", "Azure", "Docker"],
+      "tags": ["React", "Django REST", "PostgreSQL", "Azure", "Docker"],
       "repo": "https://www.github.com/estilist/",
       "live": "https://estilist.fharo.dev/"
     },
@@ -70,7 +86,7 @@
   ],
   "TEXT_404": "¡Ups! La página que buscas no existe.",
   "TEXT_COPIED": "¡Copiado al portapapeles!",
-  "TEXT_KEY_CONTRIBUTIONS": "Contribuciones Clave",
+  "TEXT_KEY_CONTRIBUTIONS": "Contribuciones",
   "TEXT_TECHNOLOGIES": "Tecnologías",
   "BLOG_MINUTES": "min de lectura",
   "TEXT_MORE_ABOUT_1": "Comencé a programar a los 16 con Arduino, ya que me interesaba la electrónica. Conforme fui aprendiendo más sobre programación, me di cuenta de que quería dedicarme al desarrollo de software.",
