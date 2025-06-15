@@ -1,73 +1,77 @@
 ---
-import Header from '@/components/Header.astro'
-import Footer from '@/components/Footer.astro'
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import BackgroundDecorations from "@/components/BackgroundDecorations.astro";
 
-const { title } = Astro.props
-const { currentLocale } = Astro
+const { title } = Astro.props;
+const { currentLocale } = Astro;
 ---
 
 <html lang={currentLocale} class="overflow-y-scroll">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width" />
-        <meta name="generator" content={Astro.generator} />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <!-- HTML Meta Tags -->
-        <meta
-            name="description"
-            content="Fullstack Web Developer. Check out my projects and get in touch!"
-        />
+    <!-- HTML Meta Tags -->
+    <meta
+      name="description"
+      content="Fullstack Web Developer. Check out my projects and get in touch!"
+    />
 
-        <!-- Facebook Meta Tags -->
-        <meta property="og:url" content="https://fernando.haroware.com" />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Fernando Haro" />
-        <meta
-            property="og:description"
-            content="Fullstack Web Developer. Check out my projects and get in touch!"
-        />
-        <meta
-            property="og:image"
-            content="https://opengraph.b-cdn.net/production/images/bc3ec5c3-b0ac-4f65-a407-f43415d923bd.png?token=toKgoa0WWUGPwPCJ93wpmekkVfp0EeIpYyI3bZ2opy8&height=600&width=1200&expires=33279283116"
-        />
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="https://fernando.haroware.com" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Fernando Haro" />
+    <meta
+      property="og:description"
+      content="Fullstack Web Developer. Check out my projects and get in touch!"
+    />
+    <meta
+      property="og:image"
+      content="https://opengraph.b-cdn.net/production/images/bc3ec5c3-b0ac-4f65-a407-f43415d923bd.png?token=toKgoa0WWUGPwPCJ93wpmekkVfp0EeIpYyI3bZ2opy8&height=600&width=1200&expires=33279283116"
+    />
 
-        <!-- Twitter Meta Tags -->
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta property="twitter:domain" content="fernando.haroware.com" />
-        <meta property="twitter:url" content="https://fernando.haroware.com" />
-        <meta name="twitter:title" content="Fernando Haro" />
-        <meta
-            name="twitter:description"
-            content="Fullstack Web Developer. Check out my projects and get in touch!"
-        />
-        <meta
-            name="twitter:image"
-            content="https://opengraph.b-cdn.net/production/images/bc3ec5c3-b0ac-4f65-a407-f43415d923bd.png?token=toKgoa0WWUGPwPCJ93wpmekkVfp0EeIpYyI3bZ2opy8&height=600&width=1200&expires=33279283116"
-        />
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="fernando.haroware.com" />
+    <meta property="twitter:url" content="https://fernando.haroware.com" />
+    <meta name="twitter:title" content="Fernando Haro" />
+    <meta
+      name="twitter:description"
+      content="Fullstack Web Developer. Check out my projects and get in touch!"
+    />
+    <meta
+      name="twitter:image"
+      content="https://opengraph.b-cdn.net/production/images/bc3ec5c3-b0ac-4f65-a407-f43415d923bd.png?token=toKgoa0WWUGPwPCJ93wpmekkVfp0EeIpYyI3bZ2opy8&height=600&width=1200&expires=33279283116"
+    />
 
-        <!-- Meta Tags Generated via https://www.opengraph.xyz -->
+    <!-- Meta Tags Generated via https://www.opengraph.xyz -->
 
-        <!-- Umami Analytics -->
-        <script defer src="https://umami.fharo.dev/script.js" data-website-id="73abe834-05b6-4a54-b407-5597a7b70e66"></script>
+    <!-- Umami Analytics -->
+    <script
+      defer
+      src="https://umami.fharo.dev/script.js"
+      data-website-id="73abe834-05b6-4a54-b407-5597a7b70e66"></script>
 
-        <title>Fernando Haro</title>
-        <link rel="icon" href="/logo.ico" type="image/x-icon" />
-        <link rel="preload" href="/fonts.css" as="style" />
-        <link rel="stylesheet" href="/fonts.css" />
+    <title>Fernando Haro</title>
+    <link rel="icon" href="/logo.ico" type="image/x-icon" />
+    <link rel="preload" href="/fonts.css" as="style" />
+    <link rel="stylesheet" href="/fonts.css" />
 
-        <style>
-            :root {
-                scrollbar-gutter: stable;
-            }
-        </style>
-    </head>
-
-    <body
-        class="min-h-screen flex flex-col items-center bg-background bg-noise bg-repeat"
-    >
-        <Header title={title.replace(' | Fernando Haro', '')} />
-        <slot name="content" />
-        <Footer />
-    </body>
+    <style>
+      :root {
+        scrollbar-gutter: stable;
+      }
+    </style>
+  </head>
+  <body
+    class="min-h-screen flex flex-col items-center bg-background bg-noise bg-repeat overflow-x-hidden relative"
+  >
+    <BackgroundDecorations />
+    <Header title={title.replace(" | Fernando Haro", "")} />
+    <slot name="content" />
+    <Footer />
+  </body>
 </html>

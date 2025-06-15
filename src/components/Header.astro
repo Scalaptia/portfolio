@@ -1,50 +1,51 @@
 ---
-import { getLangFromUrl, useTranslations } from '@/i18n/utils'
-import { getRelativeLocaleUrl } from 'astro:i18n'
-import LanguagePicker from './LanguagePicker.astro'
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import LanguagePicker from "./LanguagePicker.astro";
 
 export interface HeaderProps {
-    title?: string
-    hideLanguagePicker?: boolean
+  title?: string;
+  hideLanguagePicker?: boolean;
 }
-const { title, hideLanguagePicker } = Astro.props
-const lang = getLangFromUrl(Astro.url)
-const t = useTranslations(lang)
-const currentPath = Astro.url.pathname
+const { title, hideLanguagePicker } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const currentPath = Astro.url.pathname;
 ---
 
 <header class="relative w-full">
-    <div
-        class="flex items-center h-20 mt-2 mb-10 justify-evenly w-full md:justify-center md:gap-28"
+  <!-- Language picker - unified for mobile and desktop -->
+  {
+    !hideLanguagePicker && (
+      <div class="flex justify-end px-4 pt-2 md:px-8 md:pt-4 md:absolute md:top-0 md:right-0 md:z-10">
+        <LanguagePicker />
+      </div>
+    )
+  }
+
+  <div
+    class="flex items-center h-20 mt-2 mb-10 justify-evenly w-full md:justify-center md:gap-28 relative"
+  >
+    <a
+      href={getRelativeLocaleUrl(lang, "/")}
+      class="text-primary font-ubuntu-mono text-2xl font-bold text-center min-w-[8ch]"
+      >{"{" + t("nav.home") + "}"}</a
     >
-        <a
-            href={getRelativeLocaleUrl(lang, '/')}
-            class="text-primary font-ubuntu-mono text-2xl font-bold text-center min-w-[8ch]"
-            >{'{' + t('nav.home') + '}'}</a
-        >
 
-        <a
-            href={currentPath}
-            class="flex flex-col justify-center text-center font-ubuntu-mono"
-        >
-            <h1 class="text-4xl font-bold text-primary">
-                {'{ ' + t(title)[0] + ' }'}
-            </h1>
-            <h2 class="text-xl text-primary">{t(title)}</h2>
-        </a>
+    <a
+      href={currentPath}
+      class="flex flex-col justify-center text-center font-ubuntu-mono"
+    >
+      <h1 class="text-4xl font-bold text-primary">
+        {"{ " + t(title)[0] + " }"}
+      </h1>
+      <h2 class="text-xl text-primary">{t(title)}</h2>
+    </a>
 
-        <a
-            href={getRelativeLocaleUrl(lang, '/blog')}
-            class="text-primary font-ubuntu-mono text-2xl font-bold text-center min-w-[8ch]"
-            >{'{' + t('nav.blog') + '}'}</a
-        >
-    </div>
-
-    {
-        !hideLanguagePicker && (
-            <div class="absolute top-4 right-8 hidden lg:block">
-                <LanguagePicker lang={lang} />
-            </div>
-        )
-    }
+    <a
+      href={getRelativeLocaleUrl(lang, "/blog")}
+      class="text-primary font-ubuntu-mono text-2xl font-bold text-center min-w-[8ch]"
+      >{"{" + t("nav.blog") + "}"}</a
+    >
+  </div>
 </header>

@@ -1,37 +1,23 @@
 ---
 import {
-    getLangFromUrl,
-    useTranslations,
-    useTranslatedPath,
-} from '@/i18n/utils'
-import { languages } from '@/i18n/ui'
+  getLangFromUrl,
+  useTranslations,
+  useTranslatedPath,
+} from "@/i18n/utils";
+import { languages } from "@/i18n/ui";
 
 export interface FooterProps {
-    hideLanguagePicker?: boolean
+  hideLanguagePicker?: boolean;
 }
-const { hideLanguagePicker } = Astro.props
+const { hideLanguagePicker } = Astro.props;
 
-const currentPath = Astro.url
-const lang = getLangFromUrl(currentPath)
-const translatePath = useTranslatedPath(lang)
+const currentPath = Astro.url;
+const lang = getLangFromUrl(currentPath);
+const translatePath = useTranslatedPath(lang);
 ---
 
 <footer class="flex flex-col items-center gap-2 mt-auto">
-    {
-        !hideLanguagePicker && (
-            <div class="flex gap-4 lg:hidden">
-                {Object.entries(languages).map(([lang, label]) => (
-                    <a
-                        href={translatePath(currentPath.pathname, lang)}
-                        class="text-primary font-ubuntu-mono hover:underline"
-                    >
-                        {label}
-                    </a>
-                ))}
-            </div>
-        )
-    }
-    <div class="text-lg text-center text-primary font-ubuntu-mono">
-        <a href="/">&copy; {new Date().getFullYear()} Fernando Haro Calvo</a>
-    </div>
+  <div class="text-lg text-center text-primary font-ubuntu-mono">
+    <a href="/">&copy; {new Date().getFullYear()} Fernando Haro Calvo</a>
+  </div>
 </footer>

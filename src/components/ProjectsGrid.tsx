@@ -1,96 +1,127 @@
-import { ExternalLink, Link } from 'lucide-react'
-import { ImageCarousel } from './ImageCarousel'
+import { ExternalLink, Link } from "lucide-react";
+import { ImageCarousel } from "./ImageCarousel";
 
-export default function ProjectsGrid({ projects }: { projects: Project[] }) {
-    return (
-        <div className="grid grid-cols-1 gap-8 w-full">
-            {projects.map((project, index) => (
-                <div
-                    key={index}
-                    className="flex flex-col bg-slate-100/20 rounded-none p-6 lg:flex lg:flex-row lg:gap-8 lg:items-center"
-                >
-                    {/* Project Image */}
-                    <div className="relative group border-2 border-text rounded-none overflow-hidden w-full lg:w-1/2">
-                        <ImageCarousel
-                            images={project.image}
-                            live={project.live}
-                        />
-                    </div>
+interface ProjectsGridProps {
+  projects: Project[];
+  translations: {
+    keyContributions: string;
+    technologies: string;
+  };
+}
 
-                    {/* Project Info */}
-                    <div className="flex flex-col flex-grow mt-4 lg:mt-0 w-full lg:w-1/2">
-                        <div className="flex flex-col sm:flex-row sm:justify-between sm:align-middle mb-4 gap-2">
-                            {/* Title */}
-                            <h2 className="text-[30px] font-black-han-sans text-text text-center md:text-left">
-                                {project.title}
-                            </h2>
+export default function ProjectsGrid({
+  projects,
+  translations,
+}: ProjectsGridProps) {
+  return (
+    <div className="grid grid-cols-1 gap-10 w-full">
+      {projects.map((project, index) => (
+        <div key={index} className="relative group">
+          {/* Project number indicator */}
+          <div className="absolute -top-4 -right-4 w-10 h-10 bg-primary border-4 border-text flex items-center justify-center shadow-[3px_3px_0px_0px_rgba(65,44,71,1)] font-black-han-sans text-lg text-text z-20">
+            {index + 1}
+          </div>{" "}
+          {/* Main project container */}
+          <div className="w-full bg-background/80 backdrop-blur-sm border-4 border-text shadow-[8px_8px_0px_0px_rgba(65,44,71,1)] relative overflow-hidden">
+            {/* Decorative corner elements */}
+            <div className="absolute top-0 left-0 w-6 h-6 border-r-4 border-b-4 border-text/30"></div>
+            <div className="absolute bottom-0 right-0 w-6 h-6 border-l-4 border-t-4 border-text/30"></div>
 
-                            {/* Buttons */}
-                            <div className="flex gap-2 justify-center md:justify-end">
-                                {project.live && (
-                                    <a
-                                        href={project.live}
-                                        target="_blank"
-                                        className="h-8 px-4 gap-2 flex items-center justify-center text-text border-2 border-text bg-white shadow-[2px_2px_0px_0px_rgba(65,44,71,1)]"
-                                    >
-                                        <p className="font-black-han-sans font-extrabold text-sm mt-[3px]">
-                                            Demo
-                                        </p>
-                                        <ExternalLink className="w-4 h-4" />
-                                    </a>
-                                )}
-                                {project.repo && (
-                                    <a
-                                        href={project.repo}
-                                        target="_blank"
-                                        className="h-8 px-4 gap-2 flex items-center justify-center text-text border-2 border-text bg-white shadow-[2px_2px_0px_0px_rgba(65,44,71,1)]"
-                                    >
-                                        <p className="font-black-han-sans font-extrabold text-sm mt-[3px]">
-                                            Code
-                                        </p>
-                                        <Link className="w-4 h-4" />
-                                    </a>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Project Description */}
-                        <p className="text-text text-lg text-center lg:text-left">
-                            {project.description}
-                        </p>
-
-                        {/* Contributions */}
-                        <div className="mt-6 border-l-4 border-primary pl-4 mb-6">
-                            <ul className="text-text space-y-4">
-                                {project.contributions.map(
-                                    (contribution, i) => (
-                                        <li
-                                            key={i}
-                                            className="text-lg list-none"
-                                        >
-                                            {contribution}.
-                                        </li>
-                                    )
-                                )}
-                            </ul>
-                        </div>
-
-                        {/* Tags */}
-                        <div className="flex flex-wrap gap-2 justify-center mt-auto lg:justify-start">
-                            {project.tags.map(
-                                (tag: String, tagIndex: number) => (
-                                    <span
-                                        key={tagIndex}
-                                        className="text-white bg-text border-2 border-white px-4 py-1 text-sm font-ubuntu-mono font-extrabold"
-                                    >
-                                        {tag}
-                                    </span>
-                                )
-                            )}
-                        </div>
-                    </div>
+            {/* Project Image Section - Top */}
+            <div className="relative">
+              {/* Image container */}
+              <div className="p-6 pb-0">
+                <div className="border-4 border-text overflow-hidden shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] relative z-10">
+                  <ImageCarousel images={project.image} live={project.live} />
                 </div>
-            ))}
+              </div>
+            </div>
+
+            {/* Project Info Section - Bottom */}
+            <div className="p-6 relative z-10">
+              {/* Title and buttons */}
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-5">
+                <div className="relative">
+                  <h2 className="text-3xl font-black-han-sans text-text text-center sm:text-left leading-tight mb-2">
+                    {project.title}
+                  </h2>
+                  {/* Improved title decoration */}
+                  <div className="w-16 h-1 bg-primary mx-auto sm:mx-0"></div>
+                </div>
+
+                {/* Buttons */}
+                <div className="flex gap-2 justify-center sm:justify-end flex-shrink-0">
+                  {project.live && (
+                    <a
+                      href={project.live}
+                      target="_blank"
+                      className="flex items-center justify-center gap-2 px-4 py-2 text-text border-2 border-text bg-white shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] transition-all duration-150 hover:shadow-[1px_1px_0px_0px_rgba(65,44,71,1)] hover:translate-x-[1px] hover:translate-y-[1px]"
+                    >
+                      <span className="font-black-han-sans font-extrabold text-sm">
+                        Demo
+                      </span>
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
+                  )}
+                  {project.repo && (
+                    <a
+                      href={project.repo}
+                      target="_blank"
+                      className="flex items-center justify-center gap-2 px-4 py-2 text-text border-2 border-text bg-white shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] transition-all duration-150 hover:shadow-[1px_1px_0px_0px_rgba(65,44,71,1)] hover:translate-x-[1px] hover:translate-y-[1px]"
+                    >
+                      <span className="font-black-han-sans font-extrabold text-sm">
+                        Code
+                      </span>
+                      <Link className="w-4 h-4" />
+                    </a>
+                  )}
+                </div>
+              </div>
+              {/* Project Description */}
+              <div className="mb-6">
+                <p className="text-text text-lg leading-relaxed text-center sm:text-left font-open-sans">
+                  {project.description}
+                </p>
+              </div>{" "}
+              {/* Contributions - Simplified styling */}
+              <div className="mb-6">
+                <h3 className="text-primary font-ubuntu-mono text-sm font-bold mb-3 uppercase tracking-wide">
+                  {translations.keyContributions}
+                </h3>
+                <div className="border-l-4 border-primary pl-4 py-2 bg-primary/5">
+                  <ul className="text-text space-y-2">
+                    {project.contributions.map((contribution, i) => (
+                      <li
+                        key={i}
+                        className="text-base list-none relative pl-5 font-open-sans"
+                      >
+                        <span className="absolute left-0 top-2 w-2 h-2 bg-primary border border-text rotate-45"></span>
+                        {contribution}.
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>{" "}
+              {/* Technologies - Simplified styling */}
+              <div>
+                <h3 className="text-primary font-ubuntu-mono text-sm font-bold mb-3 uppercase tracking-wide">
+                  {translations.technologies}
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {project.tags.map((tag: String, tagIndex: number) => (
+                    <span
+                      key={tagIndex}
+                      className="text-white bg-text border-2 border-white px-3 py-1 text-sm font-ubuntu-mono font-extrabold shadow-[2px_2px_0px_0px_rgba(253,141,117,0.6)] transition-all duration-150 hover:shadow-[3px_3px_0px_0px_rgba(253,141,117,0.8)] hover:-translate-x-[1px] hover:-translate-y-[1px]"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    )
+      ))}
+    </div>
+  );
 }

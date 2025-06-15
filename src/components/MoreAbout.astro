@@ -1,49 +1,66 @@
 ---
-import { getLangFromUrl, useTranslations } from '@/i18n/utils'
-import LinkButton from '@/components/LinkButton.astro'
-import { getI18N } from '@/i18n/index'
-import { BookOpen } from 'lucide-react'
-import { Image } from 'astro:assets'
-import { parseMarkdown } from '@/utils/markdown'
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+import LinkButton from "@/components/LinkButton.astro";
+import { getI18N } from "@/i18n/index";
+import { BookOpen } from "lucide-react";
+import { Image } from "astro:assets";
+import { parseMarkdown } from "@/utils/markdown";
 
-const { currentLocale } = Astro
-const i18n = getI18N({ currentLocale })
-const lang = getLangFromUrl(Astro.url)
-const t = useTranslations(lang)
+const { currentLocale } = Astro;
+const i18n = getI18N({ currentLocale });
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
-<div class="grid lg:grid-cols-[1fr_300px] gap-8 w-full rounded-lg p-8">
-    <!-- Content Section -->
-    <div class="flex flex-col justify-center">
-        <div class="flex flex-col gap-4">
-            <p
-                class="text-text text-lg"
-                set:html={parseMarkdown(i18n.TEXT_MORE_ABOUT_1)}
-            />
-            <p
-                class="text-text text-lg"
-                set:html={parseMarkdown(i18n.TEXT_MORE_ABOUT_2)}
-            />
-            <p
-                class="text-text text-lg"
-                set:html={parseMarkdown(i18n.TEXT_MORE_ABOUT_3)}
-            />
-        </div>
-    </div>
+<div
+  class="grid lg:grid-cols-[1fr_300px] gap-10 w-full bg-background/80 backdrop-blur-sm border-4 border-text shadow-[8px_8px_0px_0px_rgba(65,44,71,1)] p-8 relative"
+>
+  <!-- Decorative corner elements -->
+  <div
+    class="absolute top-0 left-0 w-6 h-6 border-r-4 border-b-4 border-text/30"
+  >
+  </div>
+  <div
+    class="absolute bottom-0 right-0 w-6 h-6 border-l-4 border-t-4 border-text/30"
+  >
+  </div>
 
-    <!-- Profile Image -->
-    <div
-        class="w-full order-first lg:order-last flex justify-center items-center"
-    >
-        <Image
-            class:list={`
-                border-4 border-text aspect-square
-            `}
-            src="/images/fernando-haro.jpg"
-            alt="Fernando Haro"
-            width="300"
-            height="300"
-            loading="lazy"
-        />
+  <!-- Content Section -->
+  <div class="flex flex-col justify-center relative z-10">
+    <div class="flex flex-col gap-6">
+      <p
+        class="text-text text-lg leading-relaxed"
+        set:html={parseMarkdown(i18n.TEXT_MORE_ABOUT_1)}
+      />
+      <p
+        class="text-text text-lg leading-relaxed"
+        set:html={parseMarkdown(i18n.TEXT_MORE_ABOUT_2)}
+      />
+      <p
+        class="text-text text-lg leading-relaxed"
+        set:html={parseMarkdown(i18n.TEXT_MORE_ABOUT_3)}
+      />
     </div>
+  </div>
+
+  <!-- Profile Image -->
+  <div
+    class="w-full order-first lg:order-last flex justify-center items-center relative z-10"
+  >
+    <div class="relative">
+      <!-- Decorative frame -->
+      <div class="absolute -inset-3 border-4 border-primary/40 -rotate-1"></div>
+
+      <Image
+        class:list={`
+                    border-2 border-text aspect-square relative z-10
+                `}
+        src="/images/fernando-haro.jpg"
+        alt="Fernando Haro"
+        width="300"
+        height="300"
+        loading="lazy"
+      />
+    </div>
+  </div>
 </div>
