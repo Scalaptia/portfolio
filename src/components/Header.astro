@@ -23,15 +23,7 @@ const currentPath = Astro.url.pathname;
     )
   }
 
-  <div
-    class="flex items-center h-20 mt-2 mb-10 justify-evenly w-full md:justify-center md:gap-28 relative"
-  >
-    <a
-      href={getRelativeLocaleUrl(lang, "/")}
-      class="text-primary font-ubuntu-mono text-2xl font-bold text-center min-w-[8ch]"
-      >{"{" + t("nav.home") + "}"}</a
-    >
-
+  <div class="flex items-center h-20 mt-2 mb-10 justify-center w-full relative">
     <a
       href={currentPath}
       class="flex flex-col justify-center text-center font-ubuntu-mono"
@@ -41,11 +33,5 @@ const currentPath = Astro.url.pathname;
       </h1>
       <h2 class="text-xl text-primary">{t(title)}</h2>
     </a>
-
-    <a
-      href={getRelativeLocaleUrl(lang, "/blog")}
-      class="text-primary font-ubuntu-mono text-2xl font-bold text-center min-w-[8ch]"
-      >{"{" + t("nav.blog") + "}"}</a
-    >
   </div>
 </header>
