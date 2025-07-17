@@ -1,37 +1,259 @@
 ---
 import { getLangFromUrl, useTranslations } from "@/i18n/utils";
-import { getRelativeLocaleUrl } from "astro:i18n";
-import LanguagePicker from "./LanguagePicker.astro";
+import { getI18N } from "@/i18n/index";
 
-export interface HeaderProps {
-  title?: string;
-  hideLanguagePicker?: boolean;
-}
-const { title, hideLanguagePicker } = Astro.props;
+const { currentLocale } = Astro;
+const i18n = getI18N({ currentLocale });
 const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
-const currentPath = Astro.url.pathname;
 ---
 
-<header class="relative w-full">
-  <!-- Language picker - unified for mobile and desktop -->
-  {
-    !hideLanguagePicker && (
-      <div class="flex justify-end px-4 pt-2 md:px-8 md:pt-4 md:absolute md:top-0 md:right-0 md:z-10">
-        <LanguagePicker />
+<header
+  class="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b-4 border-text shadow-[0_4px_0px_0px_rgba(65,44,71,1)]"
+>
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
+    <div class="flex items-center justify-between">
+      <!-- Logo/Name -->
+      <div class="flex items-center">
+        <a
+          href="#top"
+          class="text-xl sm:text-2xl font-black-han-sans text-text hover:text-primary transition-colors duration-200"
+        >
+          Fernando Haro
+        </a>
       </div>
-    )
+
+      <!-- Desktop Navigation Links -->
+      <div class="hidden lg:flex items-center space-x-6">
+        <a
+          href="#experience"
+          class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-lg border-b-2 border-transparent hover:border-primary pb-1"
+        >
+          {i18n.TAG_EXPERIENCE}
+        </a>
+        <a
+          href="#projects"
+          class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-lg border-b-2 border-transparent hover:border-primary pb-1"
+        >
+          {i18n.TAG_PROJECTS}
+        </a>
+        <a
+          href="#about"
+          class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-lg border-b-2 border-transparent hover:border-primary pb-1"
+        >
+          {i18n.TAG_ABOUT_ME}
+        </a>
+      </div>
+
+      <!-- Desktop Language Switcher -->
+      <div class="hidden lg:flex items-center">
+        <div
+          class="flex bg-white border-2 border-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] overflow-hidden"
+        >
+          <a
+            href="/"
+            class={`px-4 py-2 font-ubuntu-mono font-semibold text-sm transition-all duration-200 ${
+              lang === "en"
+                ? "bg-primary text-white"
+                : "bg-white text-text hover:bg-primary/10"
+            }`}
+          >
+            EN
+          </a>
+          <a
+            href="/es/"
+            class={`px-4 py-2 font-ubuntu-mono font-semibold text-sm transition-all duration-200 ${
+              lang === "es"
+                ? "bg-primary text-white"
+                : "bg-white text-text hover:bg-primary/10"
+            }`}
+          >
+            ES
+          </a>
+        </div>
+      </div>
+
+      <!-- Mobile Menu Button & Language Switcher -->
+      <div class="lg:hidden flex items-center space-x-3">
+        <!-- Mobile Language Switcher -->
+        <div
+          class="flex bg-white border-2 border-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] overflow-hidden"
+        >
+          <a
+            href="/"
+            class={`px-3 py-1.5 font-ubuntu-mono font-semibold text-xs transition-all duration-200 ${
+              lang === "en"
+                ? "bg-primary text-white"
+                : "bg-white text-text hover:bg-primary/10"
+            }`}
+          >
+            EN
+          </a>
+          <a
+            href="/es/"
+            class={`px-3 py-1.5 font-ubuntu-mono font-semibold text-xs transition-all duration-200 ${
+              lang === "es"
+                ? "bg-primary text-white"
+                : "bg-white text-text hover:bg-primary/10"
+            }`}
+          >
+            ES
+          </a>
+        </div>
+
+        <!-- Simple Mobile Menu Button -->
+        <button
+          id="mobile-menu-button"
+          class="p-2 text-text hover:text-primary transition-colors duration-200"
+          aria-label="Toggle menu"
+        >
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div
+      id="mobile-menu"
+      class="lg:hidden hidden mt-4 pb-4 border-t-2 border-text/20"
+    >
+      <div class="flex flex-col space-y-3 pt-4">
+        <a
+          href="#projects"
+          class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-base py-2 px-2 rounded hover:bg-primary/5"
+        >
+          {i18n.TAG_PROJECTS}
+        </a>
+        <a
+          href="#experience"
+          class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-base py-2 px-2 rounded hover:bg-primary/5"
+        >
+          {i18n.TAG_EXPERIENCE}
+        </a>
+        <a
+          href="#about"
+          class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-base py-2 px-2 rounded hover:bg-primary/5"
+        >
+          {i18n.TAG_ABOUT_ME}
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<script>
+  // Simple mobile menu toggle
+  const mobileMenuButton = document.getElementById("mobile-menu-button");
+  const mobileMenu = document.getElementById("mobile-menu");
+
+  mobileMenuButton?.addEventListener("click", () => {
+    mobileMenu?.classList.toggle("hidden");
+  });
+
+  // Close mobile menu when clicking on a link
+  document.querySelectorAll("#mobile-menu a").forEach((link) => {
+    link.addEventListener("click", () => {
+      mobileMenu?.classList.add("hidden");
+    });
+  });
+
+  // Smooth scrolling for navigation links
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener("click", (e) => {
+      e.preventDefault();
+      const href = (anchor as HTMLAnchorElement).getAttribute("href");
+
+      // Handle scroll to top
+      if (href === "#top") {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+        return;
+      }
+
+      // Handle other section scrolling
+      const target = href ? document.querySelector(href) : null;
+      if (target) {
+        // Get header height to offset the scroll
+        const header = document.querySelector("header");
+        const headerHeight = header ? header.offsetHeight : 0;
+        const targetPosition =
+          (target as HTMLElement).offsetTop - headerHeight - 20;
+
+        window.scrollTo({
+          top: targetPosition,
+          behavior: "smooth",
+        });
+      }
+    });
+  });
+
+  // Add active state to navigation links based on scroll position
+  const sections = ["experience", "projects", "about"];
+  const navLinks = document.querySelectorAll('a[href^="#"]:not([href="#top"])');
+  const logoLink = document.querySelector('a[href="#top"]');
+  function updateActiveLink() {
+    const header = document.querySelector("header");
+    const headerHeight = header ? header.offsetHeight : 0;
+    const scrollY = window.scrollY;
+    const viewportCenter = scrollY + window.innerHeight / 2;
+    let current = "";
+
+    // Check which section is in the center of the viewport
+    sections.forEach((sectionId) => {
+      const section = document.querySelector(`#${sectionId}`);
+      if (section) {
+        const element = section as HTMLElement;
+        const sectionTop = element.offsetTop;
+        const sectionBottom = sectionTop + element.offsetHeight;
+
+        // If the center of the viewport is within this section
+        if (viewportCenter >= sectionTop && viewportCenter <= sectionBottom) {
+          current = sectionId;
+        }
+      }
+    });
+
+    // Check if we're actually in the hero section
+    const firstSection = document.querySelector("#experience");
+    const isInHero =
+      firstSection && viewportCenter < (firstSection as HTMLElement).offsetTop;
+
+    // Update navigation links
+    navLinks.forEach((link) => {
+      const href = link.getAttribute("href");
+      if (href === `#${current}`) {
+        link.classList.add("text-primary", "border-primary");
+        link.classList.remove("border-transparent");
+      } else {
+        link.classList.remove("text-primary", "border-primary");
+        link.classList.add("border-transparent");
+      }
+    });
+
+    // Update logo color
+    if (logoLink) {
+      if (isInHero) {
+        logoLink.classList.add("text-primary");
+        logoLink.classList.remove("text-text");
+      } else {
+        logoLink.classList.remove("text-primary");
+        logoLink.classList.add("text-text");
+      }
+    }
   }
 
-  <div class="flex items-center h-20 mt-2 mb-10 justify-center w-full relative">
-    <a
-      href={currentPath}
-      class="flex flex-col justify-center text-center font-ubuntu-mono"
-    >
-      <h1 class="text-4xl font-bold text-primary">
-        {"{ " + t(title)[0] + " }"}
-      </h1>
-      <h2 class="text-xl text-primary">{t(title)}</h2>
-    </a>
-  </div>
-</header>
+  window.addEventListener("scroll", updateActiveLink);
+  updateActiveLink();
+</script>

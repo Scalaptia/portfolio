@@ -3,8 +3,35 @@
   "TAG_ABOUT": "about",
   "TAG_ABOUT_ME": "about_me",
   "TAG_PROJECTS": "projects",
-  "TEXT_DESCRIPTION_1": "**Full-stack web developer** and software engineering student.",
-  "TEXT_DESCRIPTION_2": "I specialize in modern web technologies like **React** and **Nest.js**.",
+  "TAG_SKILLS": "skills",
+  "TAG_EXPERIENCE": "experience",
+  "TEXT_DESCRIPTION_1": "**Full-stack developer** from Baja California, Mexico. Specialized in building **web apps** and **cloud solutions**.",
+  "EXPERIENCE": [
+    {
+      "title": "Developer & Research Assistant",
+      "company": "Tech4Good Research Lab",
+      "link": "https://www.tech4goodresearchlab.com/",
+      "period": "Mar 2025 - Present",
+      "description": "Developing a React Native app to support caregivers and adults with Autism Spectrum Disorder (ASD) by providing access to resources, screening questionnaires, and connections to local professionals.",
+      "type": "work"
+    },
+    {
+      "title": "Competitive Programming Club Co-Leader",
+      "company": "CTRL-Coders Club",
+      "link": "https://www.instagram.com/ctrl.coders/",
+      "period": "Oct 2024 - Present",
+      "description": "Helping lead the competitive programming club at my university, assisting students in improving their algorithmic thinking and problem-solving skills.",
+      "type": "leadership"
+    },
+    {
+      "title": "Full-Stack Developer",
+      "company": "Espy Software",
+      "link": "https://espy.software/",
+      "period": "May 2023 - Present",
+      "description": "Developing tailored web applications and working as a full-stack developer. Focused on creating efficient, scalable solutions.",
+      "type": "work"
+    }
+  ],
   "PROJECTS": [
     {
       "title": "Awita",
@@ -55,18 +82,6 @@
       "repo": "https://www.github.com/Scalaptia/espyntar"
     },
     {
-      "title": "Battleship",
-      "description": "Classic battleship game reimagined as a single-player web application with an isometric perspective.",
-      "contributions": [
-        "Integrated Jest for unit testing and reached 100% coverage",
-        "Implemented drag-and-drop ship placement with collision detection"
-      ],
-      "image": ["/images/battleship-1.webp", "/images/battleship-2.webp"],
-      "tags": ["TypeScript", "Jest"],
-      "repo": "https://www.github.com/Scalaptia/battleship",
-      "live": "https://scalaptia.github.io/battleship/"
-    },
-    {
       "title": "16-BDH",
       "description": "Interactive educational RPG that explores the historical Battle of Puebla through 3 chapters.",
       "contributions": [
@@ -88,7 +103,7 @@
   "TEXT_COPIED": "Copied to clipboard!",
   "TEXT_KEY_CONTRIBUTIONS": "Contributions",
   "TEXT_TECHNOLOGIES": "Technologies",
-  "TEXT_MORE_ABOUT_1": "I started programming at 16 using Arduino because I was interested in electronics. As I learned more about programming, I realized that I wanted to pursue software development as a career.",
-  "TEXT_MORE_ABOUT_2": "I'm currently studying **Software Engineering** at the Autonomous University of Baja California, and I've worked on various personal and team projects. Additionally, I've had the opportunity to be a leader for the **competitive programming club** at my university.",
-  "TEXT_MORE_ABOUT_3": "In my free time, I enjoy **playing video games, reading, and learning new technologies**. I'm always looking for new opportunities to learn and improve my skills, as well as helping others do the same."
+  "TEXT_MORE_ABOUT_1": "I discovered my passion for programming at 16 through Arduino projects, which sparked my interest in software development. This early experience taught me the importance of problem-solving and creative thinking in technology.",
+  "TEXT_MORE_ABOUT_2": "When I'm not coding, I enjoy gaming, spending time with friends and family, reading, and playing guitar. I'm always eager to learn and chat about new tech.",
+  "TEXT_RESUME_DOWNLOAD": "Download Resume"
 }

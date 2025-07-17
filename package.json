@@ -15,6 +15,7 @@
         "@astrojs/check": "^0.9.4",
         "@astrojs/react": "^4.1.6",
         "@astrojs/tailwind": "^5.1.5",
+        "@emailjs/browser": "^4.4.1",
         "@react-three/drei": "^9.120.4",
         "@react-three/fiber": "^8.17.10",
         "@types/react": "^18.2.79",
@@ -25,6 +26,7 @@
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-swipeable": "^7.0.1",
+        "sonner": "^2.0.6",
         "tailwindcss": "^3.4.1",
         "three": "^0.171.0",
         "typescript": "^5.4.2"

@@ -2,6 +2,7 @@
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import BackgroundDecorations from "@/components/BackgroundDecorations.astro";
+import Toast from "@/components/Toast";
 
 const { title } = Astro.props;
 const { currentLocale } = Astro;
@@ -64,14 +65,38 @@ const { currentLocale } = Astro;
       :root {
         scrollbar-gutter: stable;
       }
+
+      /* Add scroll margin for sections to account for fixed header */
+      section[id],
+      div[id] {
+        scroll-margin-top: 120px; /* Adjust based on header height + padding */
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .animate-fade-in-up {
+        animation: fadeInUp 0.8s ease-out forwards;
+        opacity: 0;
+      }
     </style>
   </head>
   <body
-    class="min-h-screen flex flex-col items-center bg-background bg-noise bg-repeat overflow-x-hidden relative"
+    class="min-h-screen flex flex-col items-center bg-background bg-noise bg-repeat overflow-x-hidden relative pt-20"
   >
     <BackgroundDecorations />
-    <Header title={title.replace(" | Fernando Haro", "")} />
+    <Header />
+    <br />
     <slot name="content" />
     <Footer />
+    <Toast client:load />
   </body>
 </html>
