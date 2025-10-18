@@ -11,7 +11,7 @@
       "title": "Practicante en Pruebas Automatizadas",
       "company": "EPAM Systems",
       "link": "https://www.epam.com/",
-      "period": "Oct 2025 - Present",
+      "period": "Oct 2025 - Presente",
       "description": "Implementando pruebas automatizadas utilizando Selenium y Java para mejorar la cobertura y eficiencia de las pruebas en aplicaciones empresariales.",
       "type": "work"
     },
@@ -22,6 +22,14 @@
       "period": "Mar 2025 - Oct 2025",
       "description": "Desarrollando una aplicación con React Native para apoyar a cuidadores y adultos con Trastorno del Espectro Autista (TEA) al proporcionar acceso a recursos, cuestionarios de evaluación y conexiones con profesionales locales.",
       "type": "work"
+    },
+    {
+      "title": "Co-Líder del Club de Programación Competitiva",
+      "company": "CTRL-Coders Club",
+      "link": "https://www.instagram.com/ctrl.coders/",
+      "period": "Oct 2024 - Presente",
+      "description": "Ayudando a liderar el club de programación competitiva en mi universidad, asistiendo a estudiantes en la mejora de su pensamiento algorítmico y habilidades de resolución de problemas.",
+      "type": "leadership"
     }
   ],
   "PROJECTS": [
