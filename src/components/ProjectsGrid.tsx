@@ -41,17 +41,17 @@ export default function ProjectsGrid({
             <div className="p-6 relative z-10">
               {/* Title and buttons */}
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-5">
-                <div className="relative inline-block">
-                  <h2 className="text-3xl font-black-han-sans text-text text-center sm:text-left leading-tight mb-1">
-                    {project.title}
-                  </h2>
-                  {/* Title decoration */}
-                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-primary opacity-50"></div>
+                <div className="inline-block">
+                  <div className="relative">
+                    <h2 className="text-3xl font-black-han-sans text-text text-center sm:text-left leading-tight mb-1">
+                      {project.title}
+                    </h2>
+                  </div>
 
                   {/* Context badge */}
                   {project.context && (
-                    <div className="mt-3">
-                      <span className="inline-block text-text/70 font-ubuntu-mono text-xs font-semibold px-3 py-1 border-2 border-text/30 bg-primary/10">
+                    <div className="flex justify-center sm:justify-start mt-3">
+                      <span className="inline-block text-text/70 font-ubuntu-mono text-xs font-semibold px-3 py-1 border-2 border-text/30 bg-primary/10 text-center">
                         {project.context}
                       </span>
                     </div>
