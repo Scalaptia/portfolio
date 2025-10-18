@@ -8,34 +8,44 @@
   "TEXT_DESCRIPTION_1": "**Desarrollador full-stack** de Baja California, México. Especializado en construir **aplicaciones web** y **soluciones en la nube**.",
   "EXPERIENCE": [
     {
-      "title": "Desarrollador & Asistente de Investigación",
-      "company": "Tech4Good Research Lab",
-      "link": "https://www.tech4goodresearchlab.com/",
-      "period": "Mar 2025 - Presente",
-      "description": "Desarrollando una aplicación con React Native para apoyar a cuidadores y adultos con Trastorno del Espectro Autista (TEA) al proporcionar acceso a recursos, cuestionarios de evaluación y conexiones con profesionales locales.",
+      "title": "Practicante en Pruebas Automatizadas",
+      "company": "EPAM Systems",
+      "link": "https://www.epam.com/",
+      "period": "Oct 2025 - Present",
+      "description": "Implementando pruebas automatizadas utilizando Selenium y Java para mejorar la cobertura y eficiencia de las pruebas en aplicaciones empresariales.",
       "type": "work"
     },
     {
-      "title": "Co-Líder del Club de Programación Competitiva",
-      "company": "CTRL-Coders Club",
-      "link": "https://www.instagram.com/ctrl.coders/",
-      "period": "Oct 2024 - Presente",
-      "description": "Ayudando a liderar el club de programación competitiva en mi universidad, asistiendo a estudiantes en la mejora de su pensamiento algorítmico y habilidades de resolución de problemas.",
-      "type": "leadership"
-    },
-    {
-      "title": "Desarrollador Full-Stack",
-      "company": "Espy Software",
-      "link": "https://espy.software/",
-      "period": "May 2023 - Presente",
-      "description": "Desarrollando aplicaciones web personalizadas y trabajando como desarrollador full-stack. Enfocado en crear soluciones eficientes y escalables.",
+      "title": "Desarrollador & Asistente de Investigación",
+      "company": "Tech4Good Research Lab",
+      "link": "https://www.tech4goodresearchlab.com/",
+      "period": "Mar 2025 - Oct 2025",
+      "description": "Desarrollando una aplicación con React Native para apoyar a cuidadores y adultos con Trastorno del Espectro Autista (TEA) al proporcionar acceso a recursos, cuestionarios de evaluación y conexiones con profesionales locales.",
       "type": "work"
     }
   ],
   "PROJECTS": [
     {
+      "title": "NASA Explorer",
+      "description": "Motor de conocimiento de biología espacial que utiliza IA para resumir y analizar publicaciones científicas de la NASA, permitiendo a investigadores explorar décadas de experimentos mediante lenguaje natural.",
+      "context": "Equipo de 6 • 1er Lugar Local (NASA Space Apps Challenge 2025)",
+      "contributions": [
+        "Desarrollé módulos cruciales del backend e integré MongoDB Atlas como base de datos principal",
+        "Implementé autenticación e integré APIs del backend usando React Query "
+      ],
+      "image": [
+        "/images/nasaexplorer-1.webp",
+        "/images/nasaexplorer-2.webp",
+        "/images/nasaexplorer-3.webp"
+      ],
+      "tags": ["React", "NestJS", "MongoDB", "Google Cloud Vertex AI"],
+      "repo": "https://github.com/tessarivas/NASA2025_FRONT",
+      "live": "https://nasaexplorer2025.vercel.app/"
+    },
+    {
       "title": "Awita",
       "description": "Aplicación de monitoreo de tanques de agua en tiempo real usando sensores IoT para ayudar a los usuarios a gestionar el uso del agua eficientemente en áreas con suministro irregular.",
+      "context": "Proyecto Personal",
       "contributions": [
         "Diseñé una interfaz responsiva y fácil de usar con visualización de datos y actualizaciones en tiempo real",
         "Construí una API REST escalable en AWS Lambda, procesando más de 1000 lecturas diarias con tiempos de respuesta < 100 ms"
@@ -52,8 +62,9 @@
     {
       "title": "Estilist",
       "description": "Plataforma de descubrimiento de moda que ofrece recomendaciones de estilo personalizadas basadas en las preferencias del usuario y su colorimetría.",
+      "context": "Equipo de 5 • Proyecto Académico",
       "contributions": [
-        "Lideré un equipo multifuncional de 5 desarrolladores usando Scrum, logrando 100% de finalización de sprints",
+        "Lideré un equipo multifuncional de desarrolladores usando Scrum, logrando 100% de finalización de sprints",
         "Implementé un sistema de procesamiento de imágenes con 90% de precisión para identificación de forma facial y colorimetría"
       ],
       "image": [
@@ -63,12 +74,12 @@
         "/images/estilist-4.webp"
       ],
       "tags": ["React", "Django REST", "PostgreSQL", "Azure", "Docker"],
-      "repo": "https://www.github.com/estilist/",
-      "live": "https://estilist.fharo.dev/"
+      "repo": "https://www.github.com/estilist/"
     },
     {
       "title": "Espyntar",
       "description": "Juego multijugador de dibujo y adivinanzas que soporta hasta 8 jugadores concurrentes en tiempo real.",
+      "context": "Equipo de 3 • Proyecto del curso de POO",
       "contributions": [
         "Implementé networking usando sockets TCP con un protocolo de comunicación personalizado",
         "Diseñé y desarrollé la lógica central del juego usando principios de POO"
@@ -84,6 +95,7 @@
     {
       "title": "16-BDH",
       "description": "RPG educativo interactivo que explora la histórica Batalla de Puebla a través de 3 capítulos.",
+      "context": "Equipo de 2 • Curso de Programación Estructurada",
       "contributions": [
         "Desarrollé un motor de juego personalizado usando C y Raylib",
         "Implementé compilación multiplataforma usando Emscripten para despliegue web"

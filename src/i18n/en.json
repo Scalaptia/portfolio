@@ -8,34 +8,44 @@
   "TEXT_DESCRIPTION_1": "**Full-stack developer** from Baja California, Mexico. Specialized in building **web apps** and **cloud solutions**.",
   "EXPERIENCE": [
     {
+      "title": "Automation Test Engineer Intern",
+      "company": "EPAM Systems",
+      "link": "https://www.epam.com/",
+      "period": "Oct 2025 - Present",
+      "description": "Implementing automated testing using Selenium and Java to improve test coverage and efficiency in enterprise applications.",
+      "type": "internship"
+    },
+    {
       "title": "Developer & Research Assistant",
       "company": "Tech4Good Research Lab",
       "link": "https://www.tech4goodresearchlab.com/",
-      "period": "Mar 2025 - Present",
+      "period": "Mar 2025 - Oct 2025",
       "description": "Developing a React Native app to support caregivers and adults with Autism Spectrum Disorder (ASD) by providing access to resources, screening questionnaires, and connections to local professionals.",
-      "type": "work"
-    },
-    {
-      "title": "Competitive Programming Club Co-Leader",
-      "company": "CTRL-Coders Club",
-      "link": "https://www.instagram.com/ctrl.coders/",
-      "period": "Oct 2024 - Present",
-      "description": "Helping lead the competitive programming club at my university, assisting students in improving their algorithmic thinking and problem-solving skills.",
-      "type": "leadership"
-    },
-    {
-      "title": "Full-Stack Developer",
-      "company": "Espy Software",
-      "link": "https://espy.software/",
-      "period": "May 2023 - Present",
-      "description": "Developing tailored web applications and working as a full-stack developer. Focused on creating efficient, scalable solutions.",
-      "type": "work"
+      "type": "internship"
     }
   ],
   "PROJECTS": [
     {
+      "title": "NASA Explorer",
+      "description": "Space biology knowledge engine that uses AI to summarize and analyze NASA scientific publications, enabling researchers to explore decades of experiments through natural language.",
+      "context": "Team of 6 • 1st Place Local Winner (NASA Space Apps Challenge 2025)",
+      "contributions": [
+        "Developed backend modules (chat, history, users) and integrated MongoDB Atlas as the primary database",
+        "Implemented authentication and integrated backend APIs using React Query"
+      ],
+      "image": [
+        "/images/nasaexplorer-1.webp",
+        "/images/nasaexplorer-2.webp",
+        "/images/nasaexplorer-3.webp"
+      ],
+      "tags": ["React", "NestJS", "MongoDB", "Google Cloud Vertex AI"],
+      "repo": "https://github.com/tessarivas/NASA2025_FRONT",
+      "live": "https://nasaexplorer2025.vercel.app/"
+    },
+    {
       "title": "Awita",
       "description": "Real-time water tank monitoring application using IoT sensors to help users manage water usage efficiently in areas with unreliable supply.",
+      "context": "Personal Project",
       "contributions": [
         "Designed a responsive and user-friendly interface with data visualization and real-time updates",
         "Built a scalable REST API on AWS Lambda, processing 1000+ daily sensor readings with < 200ms response times"
@@ -52,8 +62,9 @@
     {
       "title": "Estilist",
       "description": "Fashion discovery platform offering personalized style recommendations based on user preferences and colorimetry.",
+      "context": "Team of 5 • Academic Project",
       "contributions": [
-        "Led a cross-functional team of 5 developers using Scrum, achieving 100% sprint completion rate",
+        "Led a cross-functional team of developers using Scrum, achieving 100% sprint completion rate",
         "Implemented an image processing system with 90% accuracy for face shape and colorimetry identification"
       ],
       "image": [
@@ -63,12 +74,12 @@
         "/images/estilist-4.webp"
       ],
       "tags": ["React", "Django REST", "PostgreSQL", "Azure", "Docker"],
-      "repo": "https://www.github.com/estilist/",
-      "live": "https://estilist.fharo.dev/"
+      "repo": "https://www.github.com/estilist/"
     },
     {
       "title": "Espyntar",
       "description": "Multiplayer drawing and guessing game supporting up to 8 concurrent players in real-time.",
+      "context": "Team of 3 • OOP Course Project",
       "contributions": [
         "Implemented networking using TCP sockets with a custom communication protocol",
         "Designed and developed core game logic using OOP principles"
@@ -84,6 +95,7 @@
     {
       "title": "16-BDH",
       "description": "Interactive educational RPG that explores the historical Battle of Puebla through 3 chapters.",
+      "context": "Team of 2 • Structured Programming Course Project",
       "contributions": [
         "Developed a custom game engine using C and Raylib",
         "Implemented cross-platform compilation using Emscripten for web deployment"

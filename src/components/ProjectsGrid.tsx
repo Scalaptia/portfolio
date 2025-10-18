@@ -47,6 +47,15 @@ export default function ProjectsGrid({
                   </h2>
                   {/* Title decoration */}
                   <div className="absolute bottom-0 left-0 right-0 h-1 bg-primary opacity-50"></div>
+
+                  {/* Context badge */}
+                  {project.context && (
+                    <div className="mt-3">
+                      <span className="inline-block text-text/70 font-ubuntu-mono text-xs font-semibold px-3 py-1 border-2 border-text/30 bg-primary/10">
+                        {project.context}
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Buttons */}

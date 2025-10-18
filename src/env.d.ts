@@ -2,11 +2,12 @@
 /// <reference types="astro/client" />
 
 type Project = {
-    title: string
-    description: string
-    contributions: string[]
-    tags: string[]
-    image: string[]
-    live?: string
-    repo?: string
-}
+  title: string;
+  description: string;
+  context?: string;
+  contributions: string[];
+  tags: string[];
+  image: string[];
+  live?: string;
+  repo?: string;
+};
