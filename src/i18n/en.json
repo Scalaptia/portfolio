@@ -125,5 +125,6 @@
   "TEXT_TECHNOLOGIES": "Technologies",
   "TEXT_MORE_ABOUT_1": "I discovered my passion for programming at 16 through Arduino projects, which sparked my interest in software development. This early experience taught me the importance of problem-solving and creative thinking in technology.",
   "TEXT_MORE_ABOUT_2": "When I'm not coding, I enjoy gaming, spending time with friends and family, reading, and playing guitar. I'm always eager to learn and chat about new tech.",
-  "TEXT_RESUME_DOWNLOAD": "Download Resume"
+  "TEXT_RESUME_DOWNLOAD": "Download Resume",
+  "CLICK_ME": "Click me!"
 }
