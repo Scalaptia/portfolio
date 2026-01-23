@@ -18,11 +18,11 @@ export default function ProjectsGrid({
       {projects.map((project, index) => (
         <div key={index} className="relative group">
           {/* Project number indicator */}
-          <div className="absolute -top-4 -right-4 w-10 h-10 bg-primary border-4 border-text flex items-center justify-center shadow-[3px_3px_0px_0px_rgba(65,44,71,1)] font-black-han-sans text-lg text-text z-20">
+          <div className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 w-8 h-8 sm:w-10 sm:h-10 bg-primary border-2 sm:border-4 border-text flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] sm:shadow-[3px_3px_0px_0px_rgba(65,44,71,1)] font-black-han-sans text-base sm:text-lg text-text z-20">
             {index + 1}
           </div>{" "}
           {/* Main project container */}
-          <div className="w-full bg-background/80 backdrop-blur-sm border-4 border-text shadow-[8px_8px_0px_0px_rgba(65,44,71,1)] relative overflow-hidden">
+          <div className="w-full bg-background/80 backdrop-blur-sm border-2 sm:border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] sm:shadow-[8px_8px_0px_0px_rgba(65,44,71,1)] relative overflow-hidden">
             {/* Decorative corner elements */}
             <div className="absolute top-0 left-0 w-6 h-6 border-r-4 border-b-4 border-text/30"></div>
             <div className="absolute bottom-0 right-0 w-6 h-6 border-l-4 border-t-4 border-text/30"></div>
@@ -30,15 +30,15 @@ export default function ProjectsGrid({
             {/* Project Image Section - Top */}
             <div className="relative">
               {/* Image container */}
-              <div className="p-6 pb-0">
-                <div className="border-4 border-text overflow-hidden shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] relative z-10">
+              <div className="p-4 sm:p-6 pb-0">
+                <div className="border-2 sm:border-4 border-text overflow-hidden shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] sm:shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] relative z-10">
                   <ImageCarousel images={project.image} live={project.live} />
                 </div>
               </div>
             </div>
 
             {/* Project Info Section - Bottom */}
-            <div className="p-6 relative z-10">
+            <div className="p-4 sm:p-6 relative z-10">
               {/* Title and buttons */}
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-5">
                 <div className="inline-block">

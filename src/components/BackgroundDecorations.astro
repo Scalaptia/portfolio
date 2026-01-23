@@ -2,7 +2,7 @@
 
 ---
 
-<div class="fixed inset-0 pointer-events-none overflow-hidden z-[-1]">
+<div class="fixed inset-0 pointer-events-none overflow-hidden z-[-1] w-full">
   <!-- Decoraciones de fondo con efecto parallax -->
   <!-- Primer grupo - movimiento ultra lento -->
   <div class="absolute w-full parallax-ultra-slow" style="height: 200vh;">
@@ -283,6 +283,14 @@
     .parallax-fast > div:nth-child(n + 5) {
       display: none;
     }
+
+    /* Reduce el tamaño de las decoraciones en tablets */
+    .parallax-ultra-slow > div,
+    .parallax-slow > div,
+    .parallax-medium > div,
+    .parallax-fast > div {
+      transform: scale(0.8);
+    }
   }
 
   @media (max-width: 480px) {
@@ -300,6 +308,14 @@
 
     .parallax-fast > div:nth-child(n + 3) {
       display: none;
+    }
+
+    /* Reduce aún más el tamaño en móviles */
+    .parallax-ultra-slow > div,
+    .parallax-slow > div,
+    .parallax-medium > div,
+    .parallax-fast > div {
+      transform: scale(0.6);
     }
   }
 </style>

@@ -5,8 +5,8 @@ const { currentLocale } = Astro
 const i18n = getI18N({ currentLocale })
 ---
 
-<div class="flex flex-col gap-4 text-text">
-    <h1 class="text-6xl font-black-han-sans text-center">404</h1>
-    <p class="text-lg font-open-sans text-center mx-8 mb-12">{i18n.TEXT_404}</p>
-    <img src="/404.png" class="mx-auto w-1/2" alt="" />
+<div class="flex flex-col gap-4 text-text px-4">
+    <h1 class="text-5xl sm:text-6xl font-black-han-sans text-center">404</h1>
+    <p class="text-base sm:text-lg font-open-sans text-center mb-12">{i18n.TEXT_404}</p>
+    <img src="/404.png" class="mx-auto w-full max-w-md" alt="" />
 </div>

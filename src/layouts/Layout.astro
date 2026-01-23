@@ -66,6 +66,12 @@ const { currentLocale } = Astro;
         scrollbar-gutter: stable;
       }
 
+      /* Prevent horizontal overflow */
+      html, body {
+        max-width: 100vw;
+        overflow-x: hidden;
+      }
+
       /* Add scroll margin for sections to account for fixed header */
       section[id],
       div[id] {
@@ -90,7 +96,7 @@ const { currentLocale } = Astro;
     </style>
   </head>
   <body
-    class="min-h-screen flex flex-col items-center bg-background bg-noise bg-repeat overflow-x-hidden relative pt-20"
+    class="min-h-screen flex flex-col items-center bg-background bg-noise bg-repeat overflow-x-hidden relative pt-16 sm:pt-20 w-full"
   >
     <BackgroundDecorations />
     <Header />

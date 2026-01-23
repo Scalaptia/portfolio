@@ -8,15 +8,15 @@ const lang = getLangFromUrl(Astro.url);
 ---
 
 <header
-  class="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b-4 border-text shadow-[0_4px_0px_0px_rgba(65,44,71,1)]"
+  class="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b-2 sm:border-b-4 border-text shadow-[0_2px_0px_0px_rgba(65,44,71,1)] sm:shadow-[0_4px_0px_0px_rgba(65,44,71,1)]"
 >
-  <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
+  <nav class="max-w-6xl mx-auto px-3 sm:px-6 py-2 sm:py-4">
     <div class="flex items-center justify-between">
       <!-- Logo/Name -->
-      <div class="flex items-center">
+      <div class="flex items-center min-w-0">
         <a
           href="#top"
-          class="text-xl sm:text-2xl font-black-han-sans text-text hover:text-primary transition-colors duration-200"
+          class="text-lg sm:text-xl lg:text-2xl font-black-han-sans text-text hover:text-primary transition-colors duration-200 truncate"
         >
           Fernando Haro
         </a>
@@ -73,14 +73,14 @@ const lang = getLangFromUrl(Astro.url);
       </div>
 
       <!-- Mobile Menu Button & Language Switcher -->
-      <div class="lg:hidden flex items-center space-x-3">
+      <div class="lg:hidden flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
         <!-- Mobile Language Switcher -->
         <div
-          class="flex bg-white border-2 border-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] overflow-hidden"
+          class="flex bg-white border-2 border-text shadow-[1px_1px_0px_0px_rgba(65,44,71,1)] sm:shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] overflow-hidden"
         >
           <a
             href="/"
-            class={`px-3 py-1.5 font-ubuntu-mono font-semibold text-xs transition-all duration-200 ${
+            class={`px-2 sm:px-3 py-1 sm:py-1.5 font-ubuntu-mono font-semibold text-xs transition-all duration-200 ${
               lang === "en"
                 ? "bg-primary text-white"
                 : "bg-white text-text hover:bg-primary/10"
@@ -90,7 +90,7 @@ const lang = getLangFromUrl(Astro.url);
           </a>
           <a
             href="/es/"
-            class={`px-3 py-1.5 font-ubuntu-mono font-semibold text-xs transition-all duration-200 ${
+            class={`px-2 sm:px-3 py-1 sm:py-1.5 font-ubuntu-mono font-semibold text-xs transition-all duration-200 ${
               lang === "es"
                 ? "bg-primary text-white"
                 : "bg-white text-text hover:bg-primary/10"
@@ -103,11 +103,11 @@ const lang = getLangFromUrl(Astro.url);
         <!-- Simple Mobile Menu Button -->
         <button
           id="mobile-menu-button"
-          class="p-2 text-text hover:text-primary transition-colors duration-200"
+          class="p-1 sm:p-2 text-text hover:text-primary transition-colors duration-200"
           aria-label="Toggle menu"
         >
           <svg
-            class="w-6 h-6"
+            class="w-5 h-5 sm:w-6 sm:h-6"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
