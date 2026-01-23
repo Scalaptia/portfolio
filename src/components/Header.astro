@@ -16,29 +16,29 @@ const lang = getLangFromUrl(Astro.url);
       <div class="flex items-center min-w-0">
         <a
           href="#top"
-          class="text-lg sm:text-xl lg:text-2xl font-black-han-sans text-text hover:text-primary transition-colors duration-200 truncate"
+          class="text-lg sm:text-xl lg:text-2xl font-black-han-sans text-text hover:text-primary transition-colors duration-200 truncate leading-none flex items-center pt-0.5"
         >
           Fernando Haro
         </a>
       </div>
 
       <!-- Desktop Navigation Links -->
-      <div class="hidden lg:flex items-center space-x-6">
+      <div class="hidden lg:flex items-center gap-6">
         <a
           href="#experience"
-          class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-lg border-b-2 border-transparent hover:border-primary pb-1"
+          class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-lg border-b-2 border-transparent hover:border-primary pb-1 leading-none flex items-center"
         >
           {i18n.TAG_EXPERIENCE}
         </a>
         <a
           href="#projects"
-          class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-lg border-b-2 border-transparent hover:border-primary pb-1"
+          class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-lg border-b-2 border-transparent hover:border-primary pb-1 leading-none flex items-center"
         >
           {i18n.TAG_PROJECTS}
         </a>
         <a
           href="#about"
-          class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-lg border-b-2 border-transparent hover:border-primary pb-1"
+          class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-lg border-b-2 border-transparent hover:border-primary pb-1 leading-none flex items-center"
         >
           {i18n.TAG_ABOUT_ME}
         </a>
@@ -47,11 +47,11 @@ const lang = getLangFromUrl(Astro.url);
       <!-- Desktop Language Switcher -->
       <div class="hidden lg:flex items-center">
         <div
-          class="flex bg-white border-2 border-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] overflow-hidden"
+          class="flex items-center bg-white border-2 border-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] overflow-hidden"
         >
           <a
             href="/"
-            class={`px-4 py-2 font-ubuntu-mono font-semibold text-sm transition-all duration-200 ${
+            class={`px-4 py-2 font-ubuntu-mono font-semibold text-sm leading-none transition-all duration-200 flex items-center ${
               lang === "en"
                 ? "bg-primary text-white"
                 : "bg-white text-text hover:bg-primary/10"
@@ -61,7 +61,7 @@ const lang = getLangFromUrl(Astro.url);
           </a>
           <a
             href="/es/"
-            class={`px-4 py-2 font-ubuntu-mono font-semibold text-sm transition-all duration-200 ${
+            class={`px-4 py-2 font-ubuntu-mono font-semibold text-sm leading-none transition-all duration-200 flex items-center ${
               lang === "es"
                 ? "bg-primary text-white"
                 : "bg-white text-text hover:bg-primary/10"
@@ -73,14 +73,14 @@ const lang = getLangFromUrl(Astro.url);
       </div>
 
       <!-- Mobile Menu Button & Language Switcher -->
-      <div class="lg:hidden flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
+      <div class="lg:hidden flex items-center gap-2 sm:gap-3 flex-shrink-0">
         <!-- Mobile Language Switcher -->
         <div
-          class="flex bg-white border-2 border-text shadow-[1px_1px_0px_0px_rgba(65,44,71,1)] sm:shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] overflow-hidden"
+          class="flex items-center bg-white border-2 border-text shadow-[1px_1px_0px_0px_rgba(65,44,71,1)] sm:shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] overflow-hidden"
         >
           <a
             href="/"
-            class={`px-2 sm:px-3 py-1 sm:py-1.5 font-ubuntu-mono font-semibold text-xs transition-all duration-200 ${
+            class={`px-2 sm:px-3 py-1 sm:py-1.5 font-ubuntu-mono font-semibold text-xs leading-none transition-all duration-200 flex items-center ${
               lang === "en"
                 ? "bg-primary text-white"
                 : "bg-white text-text hover:bg-primary/10"
@@ -90,7 +90,7 @@ const lang = getLangFromUrl(Astro.url);
           </a>
           <a
             href="/es/"
-            class={`px-2 sm:px-3 py-1 sm:py-1.5 font-ubuntu-mono font-semibold text-xs transition-all duration-200 ${
+            class={`px-2 sm:px-3 py-1 sm:py-1.5 font-ubuntu-mono font-semibold text-xs leading-none transition-all duration-200 flex items-center ${
               lang === "es"
                 ? "bg-primary text-white"
                 : "bg-white text-text hover:bg-primary/10"
@@ -103,7 +103,7 @@ const lang = getLangFromUrl(Astro.url);
         <!-- Simple Mobile Menu Button -->
         <button
           id="mobile-menu-button"
-          class="p-1 sm:p-2 text-text hover:text-primary transition-colors duration-200"
+          class="p-1 sm:p-2 text-text hover:text-primary transition-colors duration-200 flex items-center justify-center"
           aria-label="Toggle menu"
         >
           <svg

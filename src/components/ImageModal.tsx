@@ -24,10 +24,19 @@ export function ImageModal({
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
   const [imageTransition, setImageTransition] = useState(false);
+  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
   const imageContainerRef = useRef<HTMLDivElement>(null);
 
   const minSwipeDistance = 75;
   const hasMultipleImages = images.length > 1;
+  const isCurrentImageLoaded = loadedImages.has(currentImageIndex);
+
+  // Reset loaded images when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      setLoadedImages(new Set());
+    }
+  }, [isOpen]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -61,15 +70,21 @@ export function ImageModal({
 
     if (isOpen) {
       document.addEventListener("keydown", handleKeyDown);
+      // Prevent body scroll
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
       document.body.style.overflow = "hidden";
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+      document.documentElement.style.overflow = "hidden";
       // Prevent pinch zoom on mobile
       document.body.style.touchAction = "none";
     }
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "unset";
-      document.body.style.touchAction = "auto";
+      document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
+      document.documentElement.style.overflow = "";
+      document.body.style.touchAction = "";
     };
   }, [isOpen, onClose, onPrevious, onNext, hasMultipleImages, images.length, onImageSelect]);
 
@@ -120,8 +135,9 @@ export function ImageModal({
 
   return createPortal(
     <div
-      className="fixed inset-0 bg-black/90 z-50 backdrop-blur-sm animate-in fade-in duration-200"
+      className="fixed inset-0 bg-black/90 z-50 backdrop-blur-sm animate-in fade-in duration-200 overflow-hidden"
       onClick={onClose}
+      onWheel={(e) => e.preventDefault()}
       role="dialog"
       aria-modal="true"
       aria-label="Image gallery modal"
@@ -139,15 +155,17 @@ export function ImageModal({
       </button>
 
       <div 
-        className="w-full h-full flex flex-col items-center justify-center p-4 sm:p-6 gap-4 sm:gap-6 animate-in fade-in zoom-in-95 duration-200"
+        className="w-full h-full flex flex-col items-center justify-center p-4 sm:p-6 gap-4 sm:gap-6"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        {/* Image container with border */}
+        {/* Image container with border - only show when image is loaded */}
         <div
           ref={imageContainerRef}
-          className="border-2 sm:border-4 border-text bg-background shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] sm:shadow-[6px_6px_0px_0px_rgba(65,44,71,1)] relative p-2 sm:p-3 select-none"
+          className={`border-2 sm:border-4 border-text bg-background shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] sm:shadow-[6px_6px_0px_0px_rgba(65,44,71,1)] relative p-2 sm:p-3 select-none transition-opacity duration-200 ${
+            isCurrentImageLoaded ? "opacity-100" : "opacity-0"
+          }`}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Decorative corner elements */}
@@ -161,10 +179,13 @@ export function ImageModal({
                 key={index}
                 src={image}
                 alt={`Project screenshot ${index + 1}`}
-                className={`max-h-[70vh] max-w-[85vw] sm:max-h-[75vh] sm:max-w-[85vw] object-contain transition-opacity duration-300 block ${
+                className={`max-h-[60vh] max-w-[80vw] sm:max-h-[65vh] sm:max-w-[75vw] lg:max-h-[70vh] lg:max-w-[70vw] object-contain transition-opacity duration-300 block ${
                   index === currentImageIndex ? "opacity-100 relative" : "opacity-0 absolute pointer-events-none"
                 }`}
                 draggable="false"
+                onLoad={() => {
+                  setLoadedImages(prev => new Set(prev).add(index));
+                }}
                 style={{ display: 'block' }}
               />
             ))}
@@ -197,8 +218,8 @@ export function ImageModal({
           )}
         </div>
 
-        {/* Dot indicators outside container */}
-        {hasMultipleImages && (
+        {/* Dot indicators outside container - only show when image is loaded */}
+        {hasMultipleImages && isCurrentImageLoaded && (
           <div className="flex gap-2 sm:gap-3">
             {images.map((_, index) => (
               <button

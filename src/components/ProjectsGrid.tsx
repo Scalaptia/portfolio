@@ -14,7 +14,7 @@ export default function ProjectsGrid({
   translations,
 }: ProjectsGridProps) {
   return (
-    <div className="grid grid-cols-1 gap-10 w-full">
+    <div className="grid grid-cols-1 gap-8 lg:gap-10 w-full">
       {projects.map((project, index) => (
         <div key={index} className="relative group">
           {/* Project number indicator */}
@@ -43,7 +43,7 @@ export default function ProjectsGrid({
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-5">
                 <div className="inline-block">
                   <div className="relative">
-                    <h2 className="text-3xl font-black-han-sans text-text text-center sm:text-left leading-tight mb-1">
+                    <h2 className="text-2xl sm:text-3xl font-black-han-sans text-text text-center sm:text-left leading-tight mb-1">
                       {project.title}
                     </h2>
                   </div>
@@ -87,13 +87,13 @@ export default function ProjectsGrid({
                 </div>
               </div>
               {/* Project Description */}
-              <div className="mb-6">
-                <p className="text-text text-lg leading-relaxed text-center sm:text-left font-open-sans">
+              <div className="mb-5">
+                <p className="text-text text-base sm:text-lg leading-relaxed text-center sm:text-left font-open-sans">
                   {project.description}
                 </p>
               </div>{" "}
               {/* Contributions - Simplified styling */}
-              <div className="mb-6">
+              <div className="mb-5">
                 <h3 className="text-primary font-ubuntu-mono text-sm font-bold mb-3 uppercase tracking-wide">
                   {translations.keyContributions}
                 </h3>
