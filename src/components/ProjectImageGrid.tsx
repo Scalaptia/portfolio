@@ -10,7 +10,6 @@ interface ProjectImageGridProps {
 export function ProjectImageGrid({
   images,
   projectTitle,
-  live,
 }: ProjectImageGridProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
@@ -27,28 +26,18 @@ export function ProjectImageGrid({
       <ImageModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onPrevious={(e) => {
-          e?.stopPropagation();
+        images={images}
+        currentImageIndex={activeImageIndex}
+        onPrevious={() => {
           setActiveImageIndex(
             (prev) => (prev - 1 + images.length) % images.length,
           );
         }}
-        onNext={(e) => {
-          e?.stopPropagation();
+        onNext={() => {
           setActiveImageIndex((prev) => (prev + 1) % images.length);
         }}
-        hasMultipleImages={images.length > 1}
-        currentImageIndex={activeImageIndex}
-        totalImages={images.length}
         onImageSelect={(index) => setActiveImageIndex(index)}
-      >
-        <img
-          src={images[activeImageIndex]}
-          alt={`${projectTitle} screenshot ${activeImageIndex + 1}`}
-          className="max-h-[90vh] max-w-[90vw] object-contain"
-          loading="lazy"
-        />
-      </ImageModal>
+      />
       {/* Image Grid */}
       <div className="grid gap-3">
         {/* Main image - takes full width */}
