@@ -14,6 +14,8 @@ export default function CopyToClipboard({
     try {
       await navigator.clipboard.writeText(text);
       toast(copiedText, { id: "copy-toast" });
+      // Trigger email copied event for PC cat reaction
+      window.dispatchEvent(new CustomEvent('emailCopied'));
     } catch (error) {
       toast("Failed to copy to clipboard", { id: "copy-toast" });
     }

@@ -1,182 +1,203 @@
-import { Canvas, useThree } from '@react-three/fiber'
+import { Canvas, useFrame } from '@react-three/fiber'
 import { useGLTF, Preload } from '@react-three/drei'
 import { useRef, Suspense, useState, useEffect } from 'react'
-import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
-// Preload the model
-useGLTF.preload('/models/mac_minus.glb')
+import { FACES, BLINK_FACE } from './pc-model/faces'
+import { playMeowSound } from './pc-model/sounds'
+import { drawFace, createFaceCanvas, drawFromArt } from './pc-model/drawing'
 
-// Robotic cat meow sound effects with variations
-const playMeowSound = (variant: number = 0) => {
-    try {
-        const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
-        const oscillator = audioContext.createOscillator()
-        const gainNode = audioContext.createGain()
-        const filter = audioContext.createBiquadFilter()
-        
-        // Connect audio nodes
-        oscillator.connect(filter)
-        filter.connect(gainNode)
-        gainNode.connect(audioContext.destination)
-        
-        // Different cat-like meow variants
-        const variants = [
-            // Variant 0: Classic "meow" - starts high, dips, rises
-            {
-                type: 'sine' as OscillatorType,
-                freqPoints: [
-                    { time: 0, freq: 800 },
-                    { time: 0.08, freq: 500 },
-                    { time: 0.2, freq: 700 }
-                ],
-                duration: 0.25,
-                filterFreq: 3000
-            },
-            // Variant 1: Short "mew" - high pitched
-            {
-                type: 'triangle' as OscillatorType,
-                freqPoints: [
-                    { time: 0, freq: 1000 },
-                    { time: 0.05, freq: 800 },
-                    { time: 0.12, freq: 650 }
-                ],
-                duration: 0.15,
-                filterFreq: 3500
-            },
-            // Variant 2: Questioning "mrrow?" - rises at end
-            {
-                type: 'sine' as OscillatorType,
-                freqPoints: [
-                    { time: 0, freq: 600 },
-                    { time: 0.1, freq: 500 },
-                    { time: 0.22, freq: 900 }
-                ],
-                duration: 0.28,
-                filterFreq: 2800
-            },
-            // Variant 3: Playful chirp - quick up and down
-            {
-                type: 'triangle' as OscillatorType,
-                freqPoints: [
-                    { time: 0, freq: 700 },
-                    { time: 0.06, freq: 1100 },
-                    { time: 0.15, freq: 600 }
-                ],
-                duration: 0.18,
-                filterFreq: 3200
-            }
-        ]
-        
-        const sound = variants[variant % variants.length]
-        
-        // Add slight randomness for natural variation
-        const randomFactor = 0.95 + Math.random() * 0.1
-        
-        // Setup oscillator
-        oscillator.type = sound.type
-        
-        // Create meow-like frequency curve
-        oscillator.frequency.setValueAtTime(sound.freqPoints[0].freq * randomFactor, audioContext.currentTime)
-        
-        for (let i = 1; i < sound.freqPoints.length; i++) {
-            const point = sound.freqPoints[i]
-            oscillator.frequency.linearRampToValueAtTime(
-                point.freq * randomFactor,
-                audioContext.currentTime + point.time
-            )
-        }
-        
-        // Setup filter for robotic edge
-        filter.type = 'lowpass'
-        filter.frequency.setValueAtTime(sound.filterFreq, audioContext.currentTime)
-        filter.Q.setValueAtTime(3, audioContext.currentTime)
-        
-        // Natural meow envelope - starts medium, peaks, fades
-        gainNode.gain.setValueAtTime(0.15, audioContext.currentTime)
-        gainNode.gain.linearRampToValueAtTime(0.25, audioContext.currentTime + 0.05)
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + sound.duration)
-        
-        oscillator.start(audioContext.currentTime)
-        oscillator.stop(audioContext.currentTime + sound.duration)
-    } catch (e) {
-        // Silently fail if audio context not available
-    }
-}
+useGLTF.preload('/models/mac_minus.glb')
 
 function Scene() {
     const { scene } = useGLTF('/models/mac_minus.glb', true)
     const modelRef = useRef<THREE.Group>(null)
-    const [isFollowing, setIsFollowing] = useState(false)
+    
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
     const [bounce, setBounce] = useState(0)
-    const [clickCount, setClickCount] = useState(0)
-    const { camera, size } = useThree()
+    const [expression, setExpression] = useState(0)
+    const [isBlinking, setIsBlinking] = useState(false)
+    const [isHeroHovered, setIsHeroHovered] = useState(false)
+    
+    const canvasRef = useRef<HTMLCanvasElement | null>(null)
+    const textureRef = useRef<THREE.CanvasTexture | null>(null)
+    const blinkTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
+    // MOUSE TRACKING
     useEffect(() => {
-        const handleMouseMove = (event: MouseEvent) => {
-            if (isFollowing) {
-                // Get canvas bounds to calculate relative position
-                const canvas = document.querySelector('canvas')
-                if (canvas) {
-                    const rect = canvas.getBoundingClientRect()
-                    // Calculate mouse position relative to canvas center
-                    const x = ((event.clientX - rect.left) / rect.width) * 2 - 1
-                    const y = -((event.clientY - rect.top) / rect.height) * 2 + 1
-                    
-                    setMousePos({ x, y })
-                }
+        const handleMouseMove = (e: MouseEvent) => {
+            const canvas = document.querySelector('canvas')
+            if (canvas) {
+                const rect = canvas.getBoundingClientRect()
+                const x = ((e.clientX - rect.left) / rect.width) * 2 - 1
+                const y = -((e.clientY - rect.top) / rect.height) * 2 + 1
+                setMousePos({ x, y })
             }
         }
-
         window.addEventListener('mousemove', handleMouseMove)
         return () => window.removeEventListener('mousemove', handleMouseMove)
-    }, [isFollowing])
+    }, [])
 
-    const handleClick = () => {
-        setBounce(1)
-        setTimeout(() => setBounce(0), 300)
-        
-        // Toggle following mode and play different sound each time
-        const newClickCount = clickCount + 1
-        setClickCount(newClickCount)
-        playMeowSound(newClickCount % 4)
-        setIsFollowing(!isFollowing)
-    }
-
-    useFrame(() => {
-        if (modelRef.current) {
-            if (isFollowing) {
-                // Calculate angle to look at mouse (only rotation, no position change)
-                const targetRotationY = Math.atan2(mousePos.x, 1) * 0.5 + Math.PI + 1.5
-                const targetRotationX = -mousePos.y * 0.2
-                
-                // Smooth rotation towards mouse
-                modelRef.current.rotation.y += (targetRotationY - modelRef.current.rotation.y) * 0.1
-                modelRef.current.rotation.x += (targetRotationX - modelRef.current.rotation.x) * 0.1
-            } else {
-                // Smooth return to neutral X rotation
-                modelRef.current.rotation.x += (0 - modelRef.current.rotation.x) * 0.05
-                
-                // Continuous gentle Y rotation (idle animation)
-                modelRef.current.rotation.y += 0.002
-            }
-            
-            // Bounce effect
-            if (bounce > 0) {
-                const scale = 1.1 + Math.sin(bounce * Math.PI) * 0.2
-                modelRef.current.scale.set(scale, scale, scale)
-            } else {
-                // Smooth return to normal scale
-                const currentScale = modelRef.current.scale.x
-                const targetScale = 1.1
-                modelRef.current.scale.set(
-                    currentScale + (targetScale - currentScale) * 0.1,
-                    currentScale + (targetScale - currentScale) * 0.1,
-                    currentScale + (targetScale - currentScale) * 0.1
-                )
+    // EASTER EGGS & INTERACTIONS
+    useEffect(() => {
+        const handleHeroHover = (e: CustomEvent) => {
+            setIsHeroHovered(e.detail.hovered)
+            if (e.detail.hovered) {
+                triggerBounce()
+                playMeowSound(4)
             }
         }
+
+        const handlePageInteraction = (e: CustomEvent) => {
+            const { type, hovered } = e.detail
+            
+            switch (type) {
+                case 'project':
+                    if (hovered) {
+                        setExpression(2) // Surprised when hovering
+                    } else {
+                        setTimeout(() => setExpression(0), 300) // Back to normal after leaving
+                    }
+                    break
+                case 'social':
+                    triggerBounce()
+                    setExpression(1)
+                    playMeowSound(1)
+                    setTimeout(() => setExpression(0), 2000)
+                    break
+                case 'email':
+                    setExpression(3)
+                    playMeowSound(3)
+                    setTimeout(() => setExpression(0), 1500)
+                    break
+            }
+        }
+
+        window.addEventListener('heroHover' as any, handleHeroHover)
+        window.addEventListener('pageInteraction' as any, handlePageInteraction)
+        
+        return () => {
+            window.removeEventListener('heroHover' as any, handleHeroHover)
+            window.removeEventListener('pageInteraction' as any, handlePageInteraction)
+        }
+    }, [])
+
+    // TEXTURE INITIALIZATION
+    useEffect(() => {
+        if (canvasRef.current) return
+        
+        canvasRef.current = createFaceCanvas(128)
+        const ctx = canvasRef.current.getContext('2d')
+        if (!ctx) return
+
+        // Draw initial face
+        drawFace(ctx, FACES[0])
+        
+        const texture = new THREE.CanvasTexture(canvasRef.current)
+        texture.minFilter = THREE.NearestFilter
+        texture.magFilter = THREE.NearestFilter
+        texture.flipY = false
+        textureRef.current = texture
+
+        // Setup screen mesh
+        scene.traverse((child) => {
+            if (child instanceof THREE.Mesh && child.name === 'Screen_Material_0') {
+                const uvAttr = child.geometry.attributes.uv
+                if (uvAttr) {
+                    let minU = Infinity, maxU = -Infinity
+                    let minV = Infinity, maxV = -Infinity
+                    
+                    for (let i = 0; i < uvAttr.count; i++) {
+                        minU = Math.min(minU, uvAttr.getX(i))
+                        maxU = Math.max(maxU, uvAttr.getX(i))
+                        minV = Math.min(minV, uvAttr.getY(i))
+                        maxV = Math.max(maxV, uvAttr.getY(i))
+                    }
+                    
+                    for (let i = 0; i < uvAttr.count; i++) {
+                        uvAttr.setXY(
+                            i,
+                            (uvAttr.getX(i) - minU) / (maxU - minU),
+                            (uvAttr.getY(i) - minV) / (maxV - minV)
+                        )
+                    }
+                    uvAttr.needsUpdate = true
+                }
+
+                child.material = new THREE.MeshBasicMaterial({
+                    map: texture,
+                    side: THREE.DoubleSide
+                })
+            }
+        })
+    }, [scene])
+
+    // FACE UPDATES
+    const updateFace = () => {
+        if (!canvasRef.current || !textureRef.current) return
+        const ctx = canvasRef.current.getContext('2d')
+        if (!ctx) return
+
+        if (isHeroHovered) {
+            drawFace(ctx, FACES[4])
+        } else if (isBlinking) {
+            drawFromArt(ctx, BLINK_FACE.art, BLINK_FACE.color)
+        } else {
+            drawFace(ctx, FACES[expression % FACES.length])
+        }
+        textureRef.current.needsUpdate = true
+    }
+
+    useEffect(updateFace, [expression, isHeroHovered, isBlinking])
+
+    // BLINK ANIMATION
+    useEffect(() => {
+        const scheduleBlink = () => {
+            const delay = 3000 + Math.random() * 5000
+            blinkTimer.current = setTimeout(() => {
+                if (expression === 0 && !isHeroHovered) {
+                    setIsBlinking(true)
+                    setTimeout(() => setIsBlinking(false), 120)
+                }
+                scheduleBlink()
+            }, delay)
+        }
+
+        scheduleBlink()
+        return () => {
+            if (blinkTimer.current) clearTimeout(blinkTimer.current)
+        }
+    }, [isHeroHovered, expression])
+
+    // INTERACTION
+    const triggerBounce = () => {
+        setBounce(1)
+        setTimeout(() => setBounce(0), 300)
+    }
+
+    const handleClick = () => {
+        triggerBounce()
+        const next = (expression + 1) % FACES.length
+        setExpression(next)
+        playMeowSound(next)
+    }
+
+    // ANIMATION FRAME
+    useFrame(() => {
+        if (!modelRef.current) return
+
+        const frontAngle = Math.PI + 1.5
+        const targetY = Math.atan2(mousePos.x, 1) * 0.5 + frontAngle
+        // Limit vertical rotation: can look up a bit and down
+        const targetX = Math.max(-0.35, Math.min(0.8, -mousePos.y * 0.3))
+
+        modelRef.current.rotation.y += (targetY - modelRef.current.rotation.y) * 0.08
+        modelRef.current.rotation.x += (targetX - modelRef.current.rotation.x) * 0.08
+
+        const targetScale = 1.1 + (bounce > 0 ? Math.sin(bounce * Math.PI) * 0.15 : 0)
+        const currentScale = modelRef.current.scale.x
+        const newScale = currentScale + (targetScale - currentScale) * 0.15
+        modelRef.current.scale.set(newScale, newScale, newScale)
     })
 
     return (
@@ -200,7 +221,7 @@ function Scene() {
 
 export default function PCModel() {
     return (
-        <div style={{ width: '100%', height: '100%' }}>
+        <div className="w-full h-full">
             <Canvas
                 camera={{ position: [0, 0, 5], fov: 60 }}
                 dpr={[1, 2]}

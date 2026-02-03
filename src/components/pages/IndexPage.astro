@@ -35,11 +35,13 @@ const t = useTranslations(lang);
         class="pt-6 px-4 sm:px-[23px] lg:px-0 text-5xl sm:text-6xl font-black-han-sans text-text leading-[1.2em] text-center lg:text-left lg:max-w-[8ch] relative z-10 drop-shadow-sm"
       >
         <span
-          class="inline-block hover:text-primary transition-colors duration-300 cursor-default"
+          id="hero-name-1"
+          class="hero-name inline-block hover:text-primary hover:scale-110 transition-all duration-300 cursor-pointer select-none"
           >Fernando</span
         >
         <span
-          class="inline-block hover:text-primary transition-colors duration-300 cursor-default"
+          id="hero-name-2"  
+          class="hero-name inline-block hover:text-primary hover:scale-110 transition-all duration-300 cursor-pointer select-none"
           >Haro</span
         >
       </h1>
@@ -52,12 +54,14 @@ const t = useTranslations(lang);
 
     <!-- Model -->
     <div
-      class="absolute left-1/2 transform -translate-x-1/2 h-[240px] w-[240px]
-            top-[350px] sm:top-1/3 -translate-y-1/2"
+      id="pc-model-container"
+      class="pc-model-hero absolute left-1/2 -translate-x-1/2 w-[200px] h-[200px] sm:w-[240px] sm:h-[240px] lg:w-[240px] lg:h-[240px]
+            top-[240px] sm:top-[300px] md:top-[150px] lg:top-[150px] lg:-translate-y-1/2 transition-all duration-300"
     >
       <PCModel client:only="react" />
-      <div class="absolute bottom-0 left-1/2 -translate-x-1/2 text-center pointer-events-none">
-        <p class="text-text/50 text-xs font-ubuntu-mono animate-pulse">
+
+      <div id="click-me-text" class="absolute bottom-0 left-1/2 -translate-x-1/2 text-center pointer-events-none transition-opacity duration-300">
+        <p class="text-text/50 text-xs font-ubuntu-mono">
           {i18n.CLICK_ME || "Click me!"}
         </p>
       </div>
@@ -192,3 +196,102 @@ const t = useTranslations(lang);
     >
   </div>
 </main>
+
+<script>
+  // Easter egg: Hero name hover triggers PC cat reaction
+  const heroNames = document.querySelectorAll('.hero-name');
+  
+  heroNames.forEach(name => {
+    name.addEventListener('mouseenter', () => {
+      window.dispatchEvent(new CustomEvent('heroHover', { detail: { hovered: true } }));
+    });
+    
+    name.addEventListener('mouseleave', () => {
+      window.dispatchEvent(new CustomEvent('heroHover', { detail: { hovered: false } }));
+    });
+  });
+
+  // Clear sticky styles so CSS classes take over again (no position jump)
+  function returnToHero() {
+    const pcContainer = document.querySelector('#pc-model-container') as HTMLElement;
+    if (!pcContainer) return;
+    
+    pcContainer.style.removeProperty('position');
+    pcContainer.style.removeProperty('bottom');
+    pcContainer.style.removeProperty('right');
+    pcContainer.style.removeProperty('left');
+    pcContainer.style.removeProperty('top');
+    pcContainer.style.removeProperty('transform');
+    pcContainer.style.removeProperty('width');
+    pcContainer.style.removeProperty('height');
+    pcContainer.style.removeProperty('z-index');
+  }
+
+  // Make PC sticky when scrolling (only on desktop)
+  window.addEventListener('scroll', () => {
+    // Skip sticky behavior on mobile
+    if (window.innerWidth < 1024) return;
+    
+    const pcContainer = document.querySelector('#pc-model-container') as HTMLElement;
+    const clickMeText = document.querySelector('#click-me-text') as HTMLElement;
+    
+    if (pcContainer) {
+      if (window.scrollY > 400) {
+        // Make sticky
+        pcContainer.style.position = 'fixed';
+        pcContainer.style.bottom = '2rem';
+        pcContainer.style.right = '2rem';
+        pcContainer.style.left = 'auto';
+        pcContainer.style.top = 'auto';
+        pcContainer.style.transform = 'none';
+        pcContainer.style.width = '180px';
+        pcContainer.style.height = '180px';
+        pcContainer.style.zIndex = '50';
+        
+        if (clickMeText) clickMeText.style.opacity = '0';
+      } else {
+        // Back to normal
+        returnToHero();
+        if (clickMeText) clickMeText.style.opacity = '1';
+      }
+    }
+  });
+
+  // On resize: if sticky and now mobile/tablet, clear sticky so classes apply
+  window.addEventListener('resize', () => {
+    const pcContainer = document.querySelector('#pc-model-container') as HTMLElement;
+    if (!pcContainer) return;
+    if (pcContainer.style.position === 'fixed' && window.innerWidth < 1024) {
+      returnToHero();
+      const clickMeText = document.querySelector('#click-me-text') as HTMLElement;
+      if (clickMeText) clickMeText.style.opacity = '1';
+    }
+  });
+
+  // Subtle interactions with page elements
+  document.addEventListener('DOMContentLoaded', () => {
+    // React when hovering over project cards
+    const projectCards = document.querySelectorAll('[class*="border-4"]');
+    projectCards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        window.dispatchEvent(new CustomEvent('pageInteraction', { detail: { type: 'project', hovered: true } }));
+      });
+      card.addEventListener('mouseleave', () => {
+        window.dispatchEvent(new CustomEvent('pageInteraction', { detail: { type: 'project', hovered: false } }));
+      });
+    });
+
+    // React when clicking social links
+    const socialLinks = document.querySelectorAll('a[href*="github"], a[href*="linkedin"]');
+    socialLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        window.dispatchEvent(new CustomEvent('pageInteraction', { detail: { type: 'social' } }));
+      });
+    });
+
+    // React when email is copied
+    window.addEventListener('emailCopied', () => {
+      window.dispatchEvent(new CustomEvent('pageInteraction', { detail: { type: 'email' } }));
+    });
+  });
+</script>
