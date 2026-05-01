@@ -188,8 +188,8 @@ function Scene() {
 
         const frontAngle = Math.PI + 1.5
         const targetY = Math.atan2(mousePos.x, 1) * 0.5 + frontAngle
-        // Limit vertical rotation: can look up a bit and down
-        const targetX = Math.max(-0.35, Math.min(0.8, -mousePos.y * 0.3))
+        // Limit vertical rotation: subtle look up/down
+        const targetX = Math.max(-0.15, Math.min(0.25, -mousePos.y * 0.15))
 
         modelRef.current.rotation.y += (targetY - modelRef.current.rotation.y) * 0.08
         modelRef.current.rotation.x += (targetX - modelRef.current.rotation.x) * 0.08
