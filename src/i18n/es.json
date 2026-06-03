@@ -76,21 +76,22 @@
       "live": "https://awita.fharo.dev/"
     },
     {
-      "title": "Estilist",
-      "description": "Plataforma de descubrimiento de moda que ofrece recomendaciones de estilo personalizadas basadas en las preferencias del usuario y su colorimetría.",
-      "context": "Equipo de 5 • Proyecto Académico",
+      "title": "Stilo",
+      "description": "Asistente de moda impulsado por IA y plataforma de recomendación de atuendos que digitaliza guardarropas personales y genera conjuntos combinados utilizando un pipeline RAG con espacio vectorial dual.",
+      "context": "Equipo de 5 • Coautor y Desarrollador Líder",
       "contributions": [
-        "Lideré un equipo multifuncional de desarrolladores usando Scrum, logrando 100% de finalización de sprints",
-        "Implementé un sistema de procesamiento de imágenes con 90% de precisión para identificación de forma facial y colorimetría"
+        "Diseñé e implementé el pipeline RAG de espacio vectorial dual integrando Google Gemini para planeación semántica y pgvector para búsqueda por similitud de coseno",
+        "Desarrollé la aplicación móvil utilizando React Native (Expo) con un lienzo interactivo personalizado para composición de atuendos en tiempo real",
+        "Diseñé e implementé la arquitectura en la nube mediante OpenTofu (Terraform) en Azure Container Apps, integrando servicios NestJS GraphQL y FastAPI"
       ],
       "image": [
-        "/images/estilist-1.webp",
-        "/images/estilist-2.webp",
-        "/images/estilist-3.webp",
-        "/images/estilist-4.webp"
+        "/images/stilo-1.png",
+        "/images/stilo-2.png",
+        "/images/stilo-3.png",
+        "/images/stilo-4.png"
       ],
-      "tags": ["React", "Django REST", "PostgreSQL", "Azure", "Docker"],
-      "repo": "https://www.github.com/estilist/"
+      "tags": ["React Native", "NestJS", "FastAPI", "PostgreSQL", "Azure", "Terraform", "Google Gemini"],
+      "repo": "https://www.github.com/Scalaptia/Stilo"
     },
     {
       "title": "Espyntar",

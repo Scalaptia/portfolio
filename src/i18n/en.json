@@ -76,21 +76,22 @@
       "live": "https://awita.fharo.dev/"
     },
     {
-      "title": "Estilist",
-      "description": "Fashion discovery platform offering personalized style recommendations based on user preferences and colorimetry.",
-      "context": "Team of 5 • Academic Project",
+      "title": "Stilo",
+      "description": "AI-powered fashion assistant and outfit recommendation platform that digitizes personal wardrobes and generates personalized outfits using a dual-vector space RAG pipeline.",
+      "context": "Team of 5 • Co-Author & Lead Developer",
       "contributions": [
-        "Led a cross-functional team of developers using Scrum, achieving 100% sprint completion rate",
-        "Implemented an image processing system with 90% accuracy for face shape and colorimetry identification"
+        "Designed and implemented the dual-vector space RAG pipeline integrating Google Gemini for semantic planning and pgvector for similarity search",
+        "Developed the mobile application using React Native (Expo) and styled it with Tailwind CSS (NativeWind)",
+        "Engineered the cloud infrastructure using OpenTofu (Terraform) on Azure Container Apps, integrating NestJS GraphQL and FastAPI services"
       ],
       "image": [
-        "/images/estilist-1.webp",
-        "/images/estilist-2.webp",
-        "/images/estilist-3.webp",
-        "/images/estilist-4.webp"
+        "/images/stilo-1.png",
+        "/images/stilo-2.png",
+        "/images/stilo-3.png",
+        "/images/stilo-4.png"
       ],
-      "tags": ["React", "Django REST", "PostgreSQL", "Azure", "Docker"],
-      "repo": "https://www.github.com/estilist/"
+      "tags": ["React Native", "NestJS", "FastAPI", "PostgreSQL", "Azure", "Terraform", "Google Gemini"],
+      "repo": "https://www.github.com/Scalaptia/Stilo"
     },
     {
       "title": "Espyntar",
