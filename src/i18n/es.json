@@ -1,18 +1,16 @@
 {
-  "TAG_DEVELOPER": "desarrollador",
-  "TAG_ABOUT": "acerca_de",
   "TAG_ABOUT_ME": "sobre_mi",
   "TAG_PROJECTS": "proyectos",
-  "TAG_SKILLS": "habilidades",
   "TAG_EXPERIENCE": "experiencia",
-  "TEXT_DESCRIPTION_1": "**Desarrollador full-stack** de Baja California, México. Especializado en construir **aplicaciones web** y **soluciones en la nube**.",
+  "TAG_OTHER_PROJECTS": "otros_proyectos",
+  "TEXT_DESCRIPTION_1": "**Desarrollador full-stack** de Baja California, M\u00e9xico. Construyo **aplicaciones web** e **infraestructura en la nube**.",
   "EXPERIENCE": [
     {
       "title": "Practicante en Desarrollo de Aplicaciones",
       "company": "P\\S\\L Group",
       "link": "https://www.pslgroup.com/",
       "period": "Mar 2026 - Presente",
-      "description": "Desarrollador y contribuidor de QA Automatizado para SoundBoard AI, una plataforma de insights impulsada por IA para la industria farmacéutica. Actualmente escalo la suite de pruebas automatizadas con Playwright e implemento funcionalidades frontend utilizando React y AWS Amplify dentro de un equipo internacional bajo metodologías ágiles.",
+      "description": "Desarrollo aplicaciones con IA para usuarios finales en varios proyectos usando React. Dise\u00f1\u00e9 e implement\u00e9 un pipeline automatizado de reportes de pruebas usando Playwright, GitHub Actions y AWS (S3, CloudFront, WAF) que entrega vistas previas de reportes directamente en Google Chat. Tambi\u00e9n contribuyo a mejoras de UI/UX en funcionalidades principales.",
       "type": "work"
     },
     {
@@ -20,69 +18,36 @@
       "company": "EPAM Systems",
       "link": "https://www.epam.com/",
       "period": "Oct 2025 - Mar 2026",
-      "description": "Desarrollé suites de pruebas automatizadas y flujos de QA utilizando herramientas estándar de la industria como Selenium, RestAssured y JUnit durante un programa intensivo de calidad de software a nivel empresarial.",
+      "description": "Desarroll\u00e9 suites de pruebas automatizadas y flujos de QA con Selenium, RestAssured y TestNG como parte de un programa de formaci\u00f3n en calidad de software a nivel empresarial.",
       "type": "work"
     },
     {
-      "title": "Desarrollador & Asistente de Investigación",
+      "title": "Desarrollador & Asistente de Investigaci\u00f3n",
       "company": "Tech4Good Research Lab",
       "link": "https://www.tech4goodresearchlab.com/",
       "period": "Mar 2025 - Oct 2025",
-      "description": "Desarrollé una aplicación con React Native para apoyar a cuidadores y adultos con Trastorno del Espectro Autista (TEA) al proporcionar acceso a recursos, cuestionarios de evaluación y conexiones con profesionales locales.",
+      "description": "Constru\u00ed una app React Native para la comunidad TEA. Dise\u00f1\u00e9 un esquema de base de datos compatible con HIPAA en Supabase, realic\u00e9 sesiones de dise\u00f1o centrado en el usuario y redact\u00e9 la especificaci\u00f3n de requisitos de software.",
       "type": "work"
     },
     {
-      "title": "Co-Líder del Club de Programación Competitiva",
+      "title": "Co-Fundador del Club de Programaci\u00f3n Competitiva",
       "company": "CTRL-Coders Club",
       "link": "https://www.instagram.com/ctrl.coders/",
-      "period": "Oct 2024 - Presente",
-      "description": "Co-lidero el club de programación competitiva en mi universidad, asistiendo a estudiantes en la mejora de su pensamiento algorítmico y habilidades de resolución de problemas.",
+      "period": "Oct 2024 - May 2026",
+      "description": "Co-lider\u00e9 el club de programaci\u00f3n competitiva de la universidad. Mentoric\u00e9 estudiantes y dirig\u00ed talleres de resoluci\u00f3n de problemas, manej\u00e9 redes sociales y grab\u00e9 tutoriales en video para apoyar el aprendizaje.",
       "type": "leadership"
     }
   ],
   "PROJECTS": [
     {
-      "title": "NASA Explorer",
-      "description": "Motor de conocimiento de biología espacial que utiliza IA para resumir y analizar publicaciones científicas de la NASA, permitiendo a investigadores explorar décadas de experimentos mediante lenguaje natural.",
-      "context": "Equipo de 6 • 1er Lugar Local (NASA Space Apps Challenge 2025)",
-      "contributions": [
-        "Desarrollé módulos cruciales del backend e integré MongoDB Atlas como base de datos principal",
-        "Implementé autenticación e integré APIs del backend usando React Query "
-      ],
-      "image": [
-        "/images/nasaexplorer-1.webp",
-        "/images/nasaexplorer-2.webp",
-        "/images/nasaexplorer-3.webp"
-      ],
-      "tags": ["React", "NestJS", "MongoDB", "Google Cloud Vertex AI"],
-      "repo": "https://github.com/tessarivas/NASA2025_FRONT",
-      "live": "https://nasaexplorer2025.vercel.app/"
-    },
-    {
-      "title": "Awita",
-      "description": "Aplicación de monitoreo de tanques de agua en tiempo real usando sensores IoT para ayudar a los usuarios a gestionar el uso del agua eficientemente en áreas con suministro irregular.",
-      "context": "Proyecto Personal",
-      "contributions": [
-        "Diseñé una interfaz responsiva y fácil de usar con visualización de datos y actualizaciones en tiempo real",
-        "Construí una API REST escalable en AWS Lambda, procesando más de 1000 lecturas diarias con tiempos de respuesta < 100 ms"
-      ],
-      "image": [
-        "/images/awita-1.webp",
-        "/images/awita-2.webp",
-        "/images/awita-3.webp"
-      ],
-      "tags": ["React", "NestJS", "MySQL", "AWS", "Arduino"],
-      "repo": "https://www.github.com/Scalaptia/awita-app",
-      "live": "https://awita.fharo.dev/"
-    },
-    {
+      "slug": "stilo",
       "title": "Stilo",
-      "description": "Asistente de moda impulsado por IA y plataforma de recomendación de atuendos que digitaliza guardarropas personales y genera conjuntos combinados utilizando un pipeline RAG con espacio vectorial dual.",
-      "context": "Equipo de 5 • Coautor y Desarrollador Líder",
+      "description": "App de gesti\u00f3n de armario que sugiere atuendos con tu propia ropa. Sube lo que tienes, describe lo que necesitas, y arma conjuntos con IA. Coescrib\u00ed un art\u00edculo de investigaci\u00f3n sobre la creaci\u00f3n de atuendos asistida por IA.",
+      "context": "Coautor y Desarrollador L\u00edder",
       "contributions": [
-        "Diseñé e implementé el pipeline RAG de espacio vectorial dual integrando Google Gemini para planeación semántica y pgvector para búsqueda por similitud de coseno",
-        "Desarrollé la aplicación móvil utilizando React Native (Expo) con un lienzo interactivo personalizado para composición de atuendos en tiempo real",
-        "Diseñé e implementé la arquitectura en la nube mediante OpenTofu (Terraform) en Azure Container Apps, integrando servicios NestJS GraphQL y FastAPI"
+        "Dise\u00f1\u00e9 el pipeline de recomendaciones que interpreta prompts, encuentra ropa compatible y arma conjuntos.",
+        "Constru\u00ed la app multiplataforma con un lienzo interactivo para armar atuendos.",
+        "Provision\u00e9 toda la infraestructura cloud en Azure usando OpenTofu."
       ],
       "image": [
         "/images/stilo-1.png",
@@ -94,46 +59,124 @@
       "repo": "https://www.github.com/Scalaptia/Stilo"
     },
     {
-      "title": "Espyntar",
-      "description": "Juego multijugador de dibujo y adivinanzas que soporta hasta 8 jugadores concurrentes en tiempo real.",
-      "context": "Equipo de 3 • Proyecto del curso de POO",
+      "slug": "nasa-explorer",
+      "title": "NASA Explorer",
+      "description": "Buscador para la investigaci\u00f3n de biolog\u00eda espacial de la NASA. Haz preguntas en espa\u00f1ol o ingl\u00e9s y obt\u00e9n respuestas con citas de publicaciones reales.",
+      "context": "Equipo de 6 \u2022 1er Lugar \u2014 NASA Space Apps Challenge 2025",
       "contributions": [
-        "Implementé networking usando sockets TCP con un protocolo de comunicación personalizado",
-        "Diseñé y desarrollé la lógica central del juego usando principios de POO"
+        "Constru\u00ed el backend \u2014 chat, historial, usuarios y orquestaci\u00f3n RAG con Vertex AI.",
+        "Desarroll\u00e9 funcionalidades del frontend: grafo interactivo de conocimiento, favoritos e integraci\u00f3n del chat."
       ],
       "image": [
-        "/images/espyntar-1.webp",
-        "/images/espyntar-2.webp",
-        "/images/espyntar-3.webp"
+        "/images/nasaexplorer-1.webp",
+        "/images/nasaexplorer-2.webp",
+        "/images/nasaexplorer-3.webp"
       ],
+      "tags": ["React", "NestJS", "MongoDB", "Google Cloud Vertex AI"],
+      "repo": "https://github.com/tessarivas/NASA2025_FRONT",
+      "live": "https://nasaexplorer2025.vercel.app/"
+    },
+    {
+      "slug": "awita",
+      "title": "Awita",
+      "description": "Monitor IoT de agua construido para regiones con suministro de agua irregular. Los sensores miden el nivel del tanque, el dashboard muestra datos en tiempo real, y ML predice cu\u00e1ndo te quedar\u00e1s sin agua.",
+      "context": "Proyecto Personal",
+      "contributions": [
+        "Dise\u00f1\u00e9 el sistema completo \u2014 firmware Arduino, Lambda en Go para datos de sensores, API backend, y dashboard React.",
+        "Constru\u00ed el modelo LSTM que predice el consumo de agua y avisa antes de que el tanque se vac\u00ede."
+      ],
+      "image": [
+        "/images/awita-1.webp",
+        "/images/awita-2.webp",
+        "/images/awita-3.webp"
+      ],
+      "tags": ["React", "NestJS", "MySQL", "AWS", "Arduino", "TensorFlow"],
+      "repo": "https://www.github.com/Scalaptia/awita-app",
+      "live": "https://awita.fharo.dev/"
+    }
+  ],
+  "OTHER_PROJECTS": [
+    {
+      "title": "Espyntar",
+      "description": "Pictionary multijugador en C++. Hasta 8 jugadores dibujan y adivinan sobre TCP con un protocolo binario personalizado.",
       "tags": ["C++", "Raylib", "Winsock"],
       "repo": "https://www.github.com/Scalaptia/espyntar"
     },
     {
       "title": "16-BDH",
-      "description": "RPG educativo interactivo que explora la histórica Batalla de Puebla a través de 3 capítulos.",
-      "context": "Equipo de 2 • Curso de Programación Estructurada",
-      "contributions": [
-        "Desarrollé un motor de juego personalizado usando C y Raylib",
-        "Implementé compilación multiplataforma usando Emscripten para despliegue web"
-      ],
-      "image": [
-        "/images/16bdh-1.webp",
-        "/images/16bdh-2.webp",
-        "/images/16bdh-3.webp",
-        "/images/16bdh-4.webp"
-      ],
+      "description": "RPG educativo sobre la Batalla de Puebla, construido sobre un motor de juego propio en C con Raylib. Jugable en escritorio y web v\u00eda Emscripten.",
       "tags": ["C", "Raylib", "Emscripten"],
-      "repo": "https://github.com/Scalaptia/16-Bits-de-Historia",
-      "live": "https://scalaptia.github.io/16-Bits-de-Historia/"
+      "repo": "https://github.com/Scalaptia/16-Bits-de-Historia"
     }
   ],
-  "TEXT_404": "¡Oops! La página que buscas no existe.",
-  "TEXT_COPIED": "¡Copiado al portapapeles!",
+  "TEXT_404": "\u00a1Oops! La p\u00e1gina que buscas no existe.",
+  "TEXT_COPIED": "\u00a1Copiado al portapapeles!",
   "TEXT_KEY_CONTRIBUTIONS": "Contribuciones",
-  "TEXT_TECHNOLOGIES": "Tecnologías",
-  "TEXT_MORE_ABOUT_1": "Descubrí mi pasión por la programación a los 16 años a través de proyectos con Arduino, lo que despertó mi interés en el desarrollo de software. Esta experiencia temprana me enseñó la importancia de la resolución de problemas y el pensamiento creativo en tecnología.",
-  "TEXT_MORE_ABOUT_2": "Cuando no estoy programando, disfruto de los videojuegos, pasar tiempo con amigos y familia, leer y tocar la guitarra. Siempre estoy ansioso por aprender y platicar sobre nuevas tecnologías.",
+  "TEXT_TECHNOLOGIES": "Tecnolog\u00edas",
+  "TEXT_THE_PROBLEM": "El Problema",
+  "TEXT_HOW_IT_WORKS": "C\u00f3mo Funciona",
+  "TEXT_WHAT_I_BUILT": "Qu\u00e9 Constru\u00ed",
+  "TEXT_RESULTS": "Resultados",
+  "TEXT_MORE_ABOUT_1": "Descubr\u00ed mi pasi\u00f3n por la programaci\u00f3n a los 16 a\u00f1os con proyectos de Arduino, lo que despert\u00f3 mi inter\u00e9s por el desarrollo de software. Esta experiencia temprana me ense\u00f1\u00f3 la importancia de la resoluci\u00f3n de problemas y el pensamiento creativo en la tecnolog\u00eda.",
+  "TEXT_MORE_ABOUT_2": "Cuando no estoy programando, disfruto de los videojuegos, pasar tiempo con amigos y familia, leer, y tocar la guitarra. Siempre estoy dispuesto a aprender y conversar sobre tecnolog\u00eda nueva.",
   "TEXT_RESUME_DOWNLOAD": "Descargar CV",
-  "CLICK_ME": "¡Haz click!"
+  "CLICK_ME": "\u00a1Haz click!",
+  "TEXT_SWIPE_HINT": "\u2190 Desliza \u2192",
+  "TEXT_READ_MORE": "Leer m\u00e1s",
+  "TEXT_OTHER_PROJECTS": "Otros proyectos",
+  "TEXT_HIGHLIGHTS": "destacados",
+  "HIGHLIGHTS": [
+    {
+      "photo": "/images/highlights/datathon-may-2026.jpeg",
+      "title": "Mención Honorífica",
+      "event": "DSC Datathon 5 — Tec de Monterrey",
+      "period": "May 2026"
+    },
+    {
+      "photo": "/images/highlights/icpc-apr-2026.jpg",
+      "title": "Ronda Regional",
+      "event": "ICPC — Gran Premio de México",
+      "period": "Apr 2026"
+    },
+    {
+      "photo": "/images/highlights/ctrl-coders-apr-2026.jpg",
+      "title": "Sesi\u00f3n del Club",
+      "event": "CTRL-Coders",
+      "description": "Impartiendo un taller semanal de resoluci\u00f3n de problemas en la universidad.",
+      "period": "Apr 2026"
+    },
+    {
+      "photo": "/images/highlights/enitci-nov-2025.jpeg",
+      "title": "1er Lugar — Divisi\u00f3n de Ingenier\u00eda y Tecnolog\u00eda",
+      "event": "ENITCI",
+      "description": "Present\u00e9 una app React Native para la comunidad TEA, reconocida por su base de datos compatible con HIPAA y metodolog\u00eda de dise\u00f1o centrado en el usuario.",
+      "period": "Nov 2025"
+    },
+    {
+      "photo": "/images/highlights/nasa-space-apps-oct-2025.jpeg",
+      "title": "1er Lugar & Nominado Global",
+      "event": "NASA Space Apps Challenge",
+      "description": "Construimos un motor de conocimiento en biolog\u00eda espacial con Vertex AI en un fin de semana con un equipo de seis.",
+      "period": "Oct 2025"
+    },
+    {
+      "photo": "/images/highlights/icpc-jun-2025.jpeg",
+      "title": "Ronda Regional",
+      "event": "ICPC — Gran Premio de México",
+      "period": "Jun 2025"
+    },
+    {
+      "photo": "/images/highlights/ctrlcoders-contest-apr-2025.jpeg",
+      "title": "1er Lugar",
+      "event": "Concurso de Programaci\u00f3n Competitiva CTRL-Coders",
+      "description": "Form\u00e9 equipo con un compa\u00f1ero y competimos contra m\u00e1s de 40 estudiantes para ganar el primer lugar.",
+      "period": "Apr 2025"
+    },
+    {
+      "photo": "/images/highlights/elegistech3-mar-2025.jpeg",
+      "title": "Menci\u00f3n Honor\u00edfica",
+      "event": "ElegisTech 3 Hackathon",
+      "period": "Mar 2025"
+    }
+  ]
 }

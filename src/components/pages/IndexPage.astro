@@ -1,10 +1,12 @@
 ---
 import LinkButton from "@/components/LinkButton.astro";
 import ProjectsGrid from "@/components/ProjectsGrid";
+import OtherProjects from "@/components/OtherProjects.astro";
 import MoreAbout from "@/components/MoreAbout.astro";
+import Highlights from "@/components/Highlights.astro";
 import PCModel from "@/components/PCModel";
 import Experience from "@/components/Experience";
-import { Github, Linkedin, SendHorizontal, Download } from "lucide-react";
+import PixelIcon from "@/components/PixelIcon";
 import CopyToClipboard from "@/components/CopyButton";
 import { getLangFromUrl, useTranslations } from "@/i18n/utils";
 import { getI18N } from "@/i18n/index";
@@ -21,98 +23,52 @@ const t = useTranslations(lang);
   <!-- Hero section -->
   <div
     slot="content"
-    class="relative flex flex-col w-full lg:flex-row lg:flex-wrap lg:justify-between max-w-[600px] lg:max-w-[1000px] lg:gap-y-16 lg:items-center"
+    class="relative flex flex-col lg:flex-row lg:items-center lg:justify-between max-w-[600px] lg:max-w-[1000px] mb-16 lg:mb-24 pt-8 lg:pt-16 px-4 sm:px-6 lg:px-8"
   >
-    <!-- Developer -->
-    <section
-      class="w-full px-4 sm:px-6 lg:px-8 flex flex-col lg:max-w-[44ch] mb-64 lg:mb-0 relative z-10"
-    >
-      <span class="text-primary font-ubuntu-mono text-2xl relative z-10"
-        >&lt;{i18n.TAG_DEVELOPER}&gt;</span
-      >
-
+    <!-- Left: Name + Description + Links -->
+    <div class="flex flex-col w-full lg:max-w-[52ch] relative z-10">
       <h1
-        class="pt-6 px-4 sm:px-[23px] lg:px-0 text-5xl sm:text-6xl font-black-han-sans text-text leading-[1.2em] text-center lg:text-left lg:max-w-[8ch] relative z-10 drop-shadow-sm"
+        class="text-5xl sm:text-6xl font-black-han-sans text-text leading-[1.1em] text-center lg:text-left drop-shadow-sm group cursor-pointer hover:scale-[1.02] transition-transform duration-300 origin-center lg:origin-left"
       >
         <span
           id="hero-name-1"
-          class="hero-name inline-block hover:text-primary hover:scale-110 transition-all duration-300 cursor-pointer select-none"
+          class="hero-name inline-block group-hover:text-primary transition-colors duration-300 select-none"
           >Fernando</span
         >
         <span
-          id="hero-name-2"  
-          class="hero-name inline-block hover:text-primary hover:scale-110 transition-all duration-300 cursor-pointer select-none"
+          id="hero-name-2"
+          class="hero-name inline-block group-hover:text-primary transition-colors duration-300 select-none"
           >Haro</span
         >
       </h1>
 
-      <span
-        class="text-primary font-ubuntu-mono text-2xl text-end lg:text-end lg:w-[26ch] relative z-10"
-        >&lt;/{i18n.TAG_DEVELOPER}&gt;</span
-      >
-    </section>
+      <p
+        class="mt-4 text-lg sm:text-xl font-open-sans text-text leading-[1.5em] text-center lg:text-left"
+        set:html={parseMarkdown(i18n.TEXT_DESCRIPTION_1)}
+      />
 
-    <!-- Model -->
-    <div
-      id="pc-model-container"
-      class="pc-model-hero absolute left-1/2 -translate-x-1/2 w-[200px] h-[200px] sm:w-[240px] sm:h-[240px] lg:w-[240px] lg:h-[240px]
-            top-[240px] sm:top-[300px] md:top-[150px] lg:top-[150px] lg:-translate-y-1/2 transition-all duration-300"
-    >
-      <PCModel client:only="react" />
-
-      <div id="click-me-text" class="absolute bottom-0 left-1/2 -translate-x-1/2 text-center pointer-events-none transition-opacity duration-300">
-        <p class="text-text/50 text-xs font-ubuntu-mono">
-          {i18n.CLICK_ME || "Click me!"}
-        </p>
-      </div>
-    </div>
-
-    <!-- About -->
-    <section
-      class="w-full mt-12 px-4 sm:px-6 lg:px-8 flex flex-col text-center items-center lg:max-w-[44ch] lg:my-0 order-2 lg:order-none relative z-10"
-    >
-      <span
-        class="text-primary text-start font-ubuntu-mono text-2xl self-start relative z-10"
-        >&lt;{i18n.TAG_ABOUT}&gt;</span
-      >
-
-      <div
-        class="py-6 text-xl font-open-sans text-text leading-[1.4em] flex flex-col gap-6 relative z-10"
-      >
-        <p set:html={parseMarkdown(i18n.TEXT_DESCRIPTION_1)} />
-      </div>
-
-      <span
-        class="text-primary font-ubuntu-mono text-2xl text-end lg:text-end lg:w-[28ch] self-end relative z-10"
-        >&lt;/{i18n.TAG_ABOUT}&gt;</span
-      >
-    </section>
-
-    <!-- Links -->
-    <div
-      class="flex w-full justify-center mt-6 lg:mt-4 sm:w-auto lg:w-full items-center order-1 lg:order-none relative z-10"
-    >
-      <div class="grid grid-cols gap-6 sm:gap-8 px-4 sm:px-6 max-w-[600px] w-full sm:w-auto">
-        <div class="grid grid-cols-1 sm:grid-cols-3 w-full gap-6">
+      <!-- Links -->
+      <div class="mt-8 w-full max-w-[600px] mx-auto lg:mx-0">
+        <div class="grid grid-cols-1 sm:grid-cols-3 w-full gap-4">
           <LinkButton
             link="https://www.github.com/Scalaptia"
             text="GitHub"
-            icon={Github}
+            icon="github"
           />
           <LinkButton
             link="https://www.linkedin.com/in/haro-fernando/"
             text="LinkedIn"
-            icon={Linkedin}
+            icon="linkedin"
           />
           <LinkButton
             link="/Resume_Fernando_Haro.pdf"
             text="Resume"
-            icon={Download}
+            icon="download"
           />
         </div>
 
         <div
-          class="flex bg-white text-text px-3 sm:px-6 py-3 sm:py-4 gap-2 sm:gap-4 justify-between items-center border-2 sm:border-4 border-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] sm:shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] min-w-0 w-full hover:shadow-[3px_3px_0px_0px_rgba(65,44,71,1)] sm:hover:shadow-[6px_6px_0px_0px_rgba(65,44,71,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200"
+          class="mt-4 flex bg-white text-text px-3 sm:px-6 py-3 sm:py-4 gap-2 sm:gap-4 justify-between items-center border-2 sm:border-4 border-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] sm:shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] min-w-0 w-full hover:shadow-[3px_3px_0px_0px_rgba(65,44,71,1)] sm:hover:shadow-[6px_6px_0px_0px_rgba(65,44,71,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200"
         >
           <span
             class="font-open-sans font-semibold pt-[1px] text-xs sm:text-sm lg:text-base truncate flex-1 min-w-0"
@@ -124,7 +80,7 @@ const t = useTranslations(lang);
               href="mailto:fernando.haro.c@gmail.com"
               class="flex transition-all duration-150 hover:scale-110 hover:text-primary"
             >
-              <SendHorizontal className="w-5 h-5" />
+              <PixelIcon name="send" className="w-5 h-5" />
             </a>
 
             <CopyToClipboard
@@ -136,13 +92,27 @@ const t = useTranslations(lang);
         </div>
       </div>
     </div>
+
+    <!-- PC Model -->
+    <div
+      id="pc-model-container"
+      class="relative w-[200px] h-[200px] mx-auto mt-10 lg:mx-0 lg:w-[300px] lg:h-[300px] lg:flex-shrink-0 lg:-mt-8 transition-all duration-300"
+    >
+      <PCModel client:only="react" />
+
+      <div id="click-me-text" class="absolute -bottom-4 left-1/2 -translate-x-1/2 text-center pointer-events-none transition-opacity duration-300">
+        <p class="text-text/50 text-xs font-ubuntu-mono">
+          {i18n.CLICK_ME || "Click me!"}
+        </p>
+      </div>
+    </div>
   </div>
 
   <!-- Experience -->
   <div
     id="experience"
     slot="content"
-    class="px-4 sm:px-6 lg:px-8 flex flex-col w-full items-center lg:flex-row lg:flex-wrap lg:justify-between max-w-[600px] lg:max-w-[1000px] lg:gap-y-8 my-8 lg:my-12 relative"
+    class="px-4 sm:px-6 lg:px-8 flex flex-col w-full items-center lg:flex-row lg:flex-wrap lg:justify-between max-w-[600px] lg:max-w-[1000px] lg:gap-y-8 mt-16 lg:mt-24 relative"
   >
     <span
       class="text-primary text-start font-ubuntu-mono text-2xl self-start w-full mb-6 relative z-10"
@@ -150,7 +120,7 @@ const t = useTranslations(lang);
     >
     <Experience experiences={i18n.EXPERIENCE} client:visible />
     <span
-      class="text-primary font-ubuntu-mono text-2xl text-end w-full lg:text-end self-end mt-6 relative z-10"
+      class="text-primary font-ubuntu-mono text-2xl text-end w-full lg:text-end self-end mt-4 relative z-10"
       >&lt;/{i18n.TAG_EXPERIENCE}&gt;</span
     >
   </div>
@@ -159,7 +129,7 @@ const t = useTranslations(lang);
   <div
     id="projects"
     slot="content"
-    class="px-4 sm:px-6 lg:px-8 flex flex-col w-full items-center lg:flex-row lg:flex-wrap lg:justify-between max-w-[600px] lg:max-w-[1000px] lg:gap-y-8 my-8 lg:my-12 relative"
+    class="px-4 sm:px-6 lg:px-8 flex flex-col w-full items-center lg:flex-row lg:flex-wrap lg:justify-between max-w-[600px] lg:max-w-[1000px] lg:gap-y-8 mt-16 lg:mt-24 relative"
   >
     <span
       class="text-primary text-start font-ubuntu-mono text-2xl self-start w-full mb-6 relative z-10"
@@ -170,12 +140,42 @@ const t = useTranslations(lang);
       translations={{
         keyContributions: i18n.TEXT_KEY_CONTRIBUTIONS,
         technologies: i18n.TEXT_TECHNOLOGIES,
+        swipeHint: i18n.TEXT_SWIPE_HINT,
+        readMore: i18n.TEXT_READ_MORE,
       }}
+      locale={lang}
       client:visible
     />
+    <!-- Other Projects -->
+    {i18n.OTHER_PROJECTS && i18n.OTHER_PROJECTS.length > 0 && (
+      <div class="w-full mt-8 lg:mt-10 reveal">
+        <OtherProjects
+          projects={i18n.OTHER_PROJECTS}
+          heading={i18n.TEXT_OTHER_PROJECTS}
+        />
+      </div>
+    )}
+
     <span
-      class="text-primary font-ubuntu-mono text-2xl text-end w-full lg:text-end self-end mt-6 relative z-10"
+      class="text-primary font-ubuntu-mono text-2xl text-end w-full lg:text-end self-end mt-4 relative z-10"
       >&lt;/{i18n.TAG_PROJECTS}&gt;</span
+    >
+  </div>
+
+  <!-- Highlights -->
+  <div
+    id="events"
+    slot="content"
+    class="px-4 sm:px-6 lg:px-8 flex flex-col w-full items-center lg:flex-row lg:flex-wrap lg:justify-between max-w-[600px] lg:max-w-[1000px] mt-16 lg:mt-24 relative"
+  >
+    <span
+      class="text-primary text-start font-ubuntu-mono text-2xl self-start w-full mb-6 relative z-10"
+      >&lt;{i18n.TEXT_HIGHLIGHTS}&gt;</span
+    >
+    <Highlights highlights={i18n.HIGHLIGHTS} />
+    <span
+      class="text-primary font-ubuntu-mono text-2xl text-end w-full lg:text-end self-end mt-4 relative z-10"
+      >&lt;/{i18n.TEXT_HIGHLIGHTS}&gt;</span
     >
   </div>
 
@@ -183,7 +183,7 @@ const t = useTranslations(lang);
   <div
     id="about"
     slot="content"
-    class="px-4 sm:px-6 lg:px-8 flex flex-col w-full items-center lg:flex-row lg:flex-wrap lg:justify-between max-w-[600px] lg:max-w-[1000px] my-8 lg:my-12 relative"
+    class="px-4 sm:px-6 lg:px-8 flex flex-col w-full items-center lg:flex-row lg:flex-wrap lg:justify-between max-w-[600px] lg:max-w-[1000px] mt-16 lg:mt-24 mb-16 lg:mb-24 relative"
   >
     <span
       class="text-primary text-start font-ubuntu-mono text-2xl self-start w-full mb-6 relative z-10"
@@ -191,31 +191,29 @@ const t = useTranslations(lang);
     >
     <MoreAbout />
     <span
-      class="text-primary font-ubuntu-mono text-2xl text-end w-full lg:text-end self-end mt-6 relative z-10"
+      class="text-primary font-ubuntu-mono text-2xl text-end w-full lg:text-end self-end mt-4 relative z-10"
       >&lt;/{i18n.TAG_ABOUT_ME}&gt;</span
     >
   </div>
 </main>
 
 <script>
-  // Easter egg: Hero name hover triggers PC cat reaction
   const heroNames = document.querySelectorAll('.hero-name');
-  
+
   heroNames.forEach(name => {
     name.addEventListener('mouseenter', () => {
       window.dispatchEvent(new CustomEvent('heroHover', { detail: { hovered: true } }));
     });
-    
+
     name.addEventListener('mouseleave', () => {
       window.dispatchEvent(new CustomEvent('heroHover', { detail: { hovered: false } }));
     });
   });
 
-  // Clear sticky styles so CSS classes take over again (no position jump)
   function returnToHero() {
     const pcContainer = document.querySelector('#pc-model-container') as HTMLElement;
     if (!pcContainer) return;
-    
+
     pcContainer.style.removeProperty('position');
     pcContainer.style.removeProperty('bottom');
     pcContainer.style.removeProperty('right');
@@ -227,37 +225,32 @@ const t = useTranslations(lang);
     pcContainer.style.removeProperty('z-index');
   }
 
-  // Make PC sticky when scrolling (only on desktop)
   window.addEventListener('scroll', () => {
-    // Skip sticky behavior on mobile
     if (window.innerWidth < 1024) return;
-    
+
     const pcContainer = document.querySelector('#pc-model-container') as HTMLElement;
     const clickMeText = document.querySelector('#click-me-text') as HTMLElement;
-    
+
     if (pcContainer) {
       if (window.scrollY > 400) {
-        // Make sticky
         pcContainer.style.position = 'fixed';
         pcContainer.style.bottom = '2rem';
         pcContainer.style.right = '2rem';
         pcContainer.style.left = 'auto';
         pcContainer.style.top = 'auto';
         pcContainer.style.transform = 'none';
-        pcContainer.style.width = '180px';
-        pcContainer.style.height = '180px';
+        pcContainer.style.width = '200px';
+        pcContainer.style.height = '200px';
         pcContainer.style.zIndex = '50';
-        
+
         if (clickMeText) clickMeText.style.opacity = '0';
       } else {
-        // Back to normal
         returnToHero();
         if (clickMeText) clickMeText.style.opacity = '1';
       }
     }
   });
 
-  // On resize: if sticky and now mobile/tablet, clear sticky so classes apply
   window.addEventListener('resize', () => {
     const pcContainer = document.querySelector('#pc-model-container') as HTMLElement;
     if (!pcContainer) return;
@@ -268,9 +261,7 @@ const t = useTranslations(lang);
     }
   });
 
-  // Subtle interactions with page elements
   document.addEventListener('DOMContentLoaded', () => {
-    // React when hovering over project cards
     const projectCards = document.querySelectorAll('[class*="border-4"]');
     projectCards.forEach(card => {
       card.addEventListener('mouseenter', () => {
@@ -281,7 +272,6 @@ const t = useTranslations(lang);
       });
     });
 
-    // React when clicking social links
     const socialLinks = document.querySelectorAll('a[href*="github"], a[href*="linkedin"]');
     socialLinks.forEach(link => {
       link.addEventListener('click', () => {
@@ -289,7 +279,6 @@ const t = useTranslations(lang);
       });
     });
 
-    // React when email is copied
     window.addEventListener('emailCopied', () => {
       window.dispatchEvent(new CustomEvent('pageInteraction', { detail: { type: 'email' } }));
     });

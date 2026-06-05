@@ -12,8 +12,28 @@ const lang = getLangFromUrl(Astro.url);
 >
   <nav class="max-w-6xl mx-auto px-3 sm:px-6 py-2 sm:py-4">
     <div class="flex items-center justify-between">
-      <!-- Logo/Name -->
-      <div class="flex items-center min-w-0">
+      <!-- Left: Hamburger (mobile) + Logo -->
+      <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+        <!-- Simple Mobile Menu Button -->
+        <button
+          id="mobile-menu-button"
+          class="lg:hidden p-1 sm:p-2 text-text hover:text-primary transition-colors duration-200 flex items-center justify-center flex-shrink-0"
+          aria-label="Toggle menu"
+        >
+          <svg
+            class="w-5 h-5 sm:w-6 sm:h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+
         <a
           href="#top"
           class="text-lg sm:text-xl lg:text-2xl font-black-han-sans text-text hover:text-primary transition-colors duration-200 truncate leading-none flex items-center pt-0.5"
@@ -37,6 +57,12 @@ const lang = getLangFromUrl(Astro.url);
           {i18n.TAG_PROJECTS}
         </a>
         <a
+          href="#events"
+          class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-lg border-b-2 border-transparent hover:border-primary pb-1 leading-none flex items-center"
+        >
+          {i18n.TEXT_HIGHLIGHTS}
+        </a>
+        <a
           href="#about"
           class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-lg border-b-2 border-transparent hover:border-primary pb-1 leading-none flex items-center"
         >
@@ -44,81 +70,63 @@ const lang = getLangFromUrl(Astro.url);
         </a>
       </div>
 
-      <!-- Desktop Language Switcher -->
-      <div class="hidden lg:flex items-center">
-        <div
-          class="flex items-center bg-white border-2 border-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] overflow-hidden"
-        >
-          <a
-            href="/"
-            class={`px-4 py-2 font-ubuntu-mono font-semibold text-sm leading-none transition-all duration-200 flex items-center ${
-              lang === "en"
-                ? "bg-primary text-white"
-                : "bg-white text-text hover:bg-primary/10"
-            }`}
+      <!-- Language Switcher -->
+      <div class="flex items-center">
+        <!-- Desktop -->
+        <div class="hidden lg:flex items-center">
+          <div
+            class="flex items-center bg-white border-2 border-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] overflow-hidden"
           >
-            EN
-          </a>
-          <a
-            href="/es/"
-            class={`px-4 py-2 font-ubuntu-mono font-semibold text-sm leading-none transition-all duration-200 flex items-center ${
-              lang === "es"
-                ? "bg-primary text-white"
-                : "bg-white text-text hover:bg-primary/10"
-            }`}
-          >
-            ES
-          </a>
-        </div>
-      </div>
-
-      <!-- Mobile Menu Button & Language Switcher -->
-      <div class="lg:hidden flex items-center gap-2 sm:gap-3 flex-shrink-0">
-        <!-- Mobile Language Switcher -->
-        <div
-          class="flex items-center bg-white border-2 border-text shadow-[1px_1px_0px_0px_rgba(65,44,71,1)] sm:shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] overflow-hidden"
-        >
-          <a
-            href="/"
-            class={`px-2 sm:px-3 py-1 sm:py-1.5 font-ubuntu-mono font-semibold text-xs leading-none transition-all duration-200 flex items-center ${
-              lang === "en"
-                ? "bg-primary text-white"
-                : "bg-white text-text hover:bg-primary/10"
-            }`}
-          >
-            EN
-          </a>
-          <a
-            href="/es/"
-            class={`px-2 sm:px-3 py-1 sm:py-1.5 font-ubuntu-mono font-semibold text-xs leading-none transition-all duration-200 flex items-center ${
-              lang === "es"
-                ? "bg-primary text-white"
-                : "bg-white text-text hover:bg-primary/10"
-            }`}
-          >
-            ES
-          </a>
+            <a
+              href="/"
+              class={`px-4 py-2 font-ubuntu-mono font-semibold text-sm leading-none transition-all duration-200 flex items-center ${
+                lang === "en"
+                  ? "bg-primary text-white"
+                  : "bg-white text-text hover:bg-primary/10"
+              }`}
+            >
+              EN
+            </a>
+            <a
+              href="/es/"
+              class={`px-4 py-2 font-ubuntu-mono font-semibold text-sm leading-none transition-all duration-200 flex items-center ${
+                lang === "es"
+                  ? "bg-primary text-white"
+                  : "bg-white text-text hover:bg-primary/10"
+              }`}
+            >
+              ES
+            </a>
+          </div>
         </div>
 
-        <!-- Simple Mobile Menu Button -->
-        <button
-          id="mobile-menu-button"
-          class="p-1 sm:p-2 text-text hover:text-primary transition-colors duration-200 flex items-center justify-center"
-          aria-label="Toggle menu"
-        >
-          <svg
-            class="w-5 h-5 sm:w-6 sm:h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+        <!-- Mobile -->
+        <div class="lg:hidden flex items-center">
+          <div
+            class="flex items-center bg-white border-2 border-text shadow-[1px_1px_0px_0px_rgba(65,44,71,1)] sm:shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] overflow-hidden"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
-        </button>
+            <a
+              href="/"
+              class={`px-2 sm:px-3 py-1 sm:py-1.5 font-ubuntu-mono font-semibold text-xs leading-none transition-all duration-200 flex items-center ${
+                lang === "en"
+                  ? "bg-primary text-white"
+                  : "bg-white text-text hover:bg-primary/10"
+              }`}
+            >
+              EN
+            </a>
+            <a
+              href="/es/"
+              class={`px-2 sm:px-3 py-1 sm:py-1.5 font-ubuntu-mono font-semibold text-xs leading-none transition-all duration-200 flex items-center ${
+                lang === "es"
+                  ? "bg-primary text-white"
+                  : "bg-white text-text hover:bg-primary/10"
+              }`}
+            >
+              ES
+            </a>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -129,16 +137,22 @@ const lang = getLangFromUrl(Astro.url);
     >
       <div class="flex flex-col space-y-3 pt-4">
         <a
+          href="#experience"
+          class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-base py-2 px-2 rounded hover:bg-primary/5"
+        >
+          {i18n.TAG_EXPERIENCE}
+        </a>
+        <a
           href="#projects"
           class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-base py-2 px-2 rounded hover:bg-primary/5"
         >
           {i18n.TAG_PROJECTS}
         </a>
         <a
-          href="#experience"
+          href="#events"
           class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-base py-2 px-2 rounded hover:bg-primary/5"
         >
-          {i18n.TAG_EXPERIENCE}
+          {i18n.TEXT_HIGHLIGHTS}
         </a>
         <a
           href="#about"
@@ -200,7 +214,7 @@ const lang = getLangFromUrl(Astro.url);
   });
 
   // Add active state to navigation links based on scroll position
-  const sections = ["experience", "projects", "about"];
+  const sections = ["experience", "projects", "events", "about"];
   const navLinks = document.querySelectorAll('a[href^="#"]:not([href="#top"])');
   const logoLink = document.querySelector('a[href="#top"]');
   function updateActiveLink() {

@@ -1,5 +1,5 @@
 import React from "react";
-import { Briefcase, GraduationCap, Users } from "lucide-react";
+import PixelIcon from "./PixelIcon";
 
 interface ExperienceItem {
   title: string;
@@ -15,16 +15,16 @@ interface ExperienceProps {
 }
 
 const Experience: React.FC<ExperienceProps> = ({ experiences }) => {
-  const getIcon = (type: string) => {
+  const getIcon = (type: string): string => {
     switch (type) {
       case "work":
-        return <Briefcase className="w-5 h-5" />;
+        return "briefcase";
       case "education":
-        return <GraduationCap className="w-5 h-5" />;
+        return "graduation-cap";
       case "leadership":
-        return <Users className="w-5 h-5" />;
+        return "users";
       default:
-        return <Briefcase className="w-5 h-5" />;
+        return "briefcase";
     }
   };
 
@@ -39,7 +39,7 @@ const Experience: React.FC<ExperienceProps> = ({ experiences }) => {
             <div key={index} className="relative flex items-start gap-3 sm:gap-6">
               {/* Timeline dot */}
               <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-primary border-2 sm:border-4 border-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] sm:shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] flex items-center justify-center text-background relative z-10">
-                {getIcon(experience.type)}
+                <PixelIcon name={getIcon(experience.type) as any} className="w-5 h-5" />
               </div>
 
               {/* Content */}

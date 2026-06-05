@@ -10,7 +10,7 @@ export const getI18N = ({
     currentLocale = 'en',
 }: {
     currentLocale: string | undefined
-}) => {
-    if (currentLocale === LANG.SPANISH) return { ...english, ...spanish }
+}): typeof english => {
+    if (currentLocale === LANG.SPANISH) return { ...english, ...spanish } as typeof english
     return english
 }

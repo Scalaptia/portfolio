@@ -1,5 +1,5 @@
 import React from "react";
-import { Download } from "lucide-react";
+import PixelIcon from "./PixelIcon";
 
 interface ResumeDownloadProps {
   text: string;
@@ -25,7 +25,7 @@ const ResumeDownload: React.FC<ResumeDownloadProps> = ({ text }) => {
         <div className="relative z-10 text-center">
           <div className="mb-6">
             <div className="w-16 h-16 bg-primary border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] flex items-center justify-center mx-auto mb-4">
-              <Download className="w-8 h-8 text-background" />
+              <PixelIcon name="download" className="w-8 h-8 text-background" />
             </div>
             <h3 className="text-xl font-ubuntu-mono text-primary font-bold mb-2">
               Resume
@@ -39,7 +39,7 @@ const ResumeDownload: React.FC<ResumeDownloadProps> = ({ text }) => {
             onClick={handleDownload}
             className="flex items-center gap-2 bg-primary text-background px-6 py-3 font-ubuntu-mono font-bold border-2 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] transition-all duration-150 hover:translate-x-1 hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] mx-auto"
           >
-            <Download className="w-4 h-4" />
+            <PixelIcon name="download" className="w-4 h-4" />
             {text}
           </button>
         </div>

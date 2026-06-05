@@ -1,4 +1,4 @@
-import { Copy } from "lucide-react";
+import PixelIcon from "./PixelIcon";
 import { toast } from "sonner";
 
 interface CopyToClipboardProps {
@@ -22,11 +22,11 @@ export default function CopyToClipboard({
   };
 
   return (
-    <button
-      className="flex justify-center items-center cursor-pointer"
-      onClick={handleClick}
-    >
-      <Copy className="w-5 h-5" />
+      <button
+        className="flex justify-center items-center cursor-pointer transition-all duration-150 hover:scale-110 hover:text-primary"
+        onClick={handleClick}
+      >
+      <PixelIcon name="copy" className="w-5 h-5" />
     </button>
   );
 }

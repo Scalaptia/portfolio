@@ -5,7 +5,7 @@ import {
   useTranslations,
   useTranslatedPath,
 } from "@/i18n/utils";
-import { ChevronDown } from "lucide-react";
+import PixelIcon from '@/components/PixelIcon';
 
 const currentLang = getLangFromUrl(Astro.url);
 const currentLabel = languages[currentLang];
@@ -24,7 +24,7 @@ const translatePath = useTranslatedPath(lang);
   >
     {currentLabel}
     <span id="dropdown-arrow" class="transition-transform duration-200">
-      <ChevronDown size={14} className="md:size-4" />
+      <PixelIcon name="chevron-down" className="w-3.5 h-3.5 md:w-4 md:h-4" />
     </span>
   </button>
 

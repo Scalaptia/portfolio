@@ -1,0 +1,56 @@
+---
+import PixelIcon from '@/components/PixelIcon';
+
+export interface Props {
+  url: string;
+}
+const { url } = Astro.props;
+
+const isYouTube = url.includes("youtube.com") || url.includes("youtu.be");
+
+function getYouTubeId(url: string): string | null {
+  const patterns = [
+    /(?:youtube\.com\/watch\?v=)([^&]+)/,
+    /(?:youtu\.be\/)([^?]+)/,
+    /(?:youtube\.com\/embed\/)([^?]+)/,
+  ];
+  for (const p of patterns) {
+    const match = url.match(p);
+    if (match) return match[1];
+  }
+  return null;
+}
+
+const videoId = isYouTube ? getYouTubeId(url) : null;
+---
+
+<div class="w-full bg-background/80 backdrop-blur-sm border-2 sm:border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] sm:shadow-[8px_8px_0px_0px_rgba(65,44,71,1)] relative overflow-hidden">
+  <div class="absolute top-0 left-0 w-6 h-6 border-r-4 border-b-4 border-text/30 z-10"></div>
+  <div class="absolute bottom-0 right-0 w-6 h-6 border-l-4 border-t-4 border-text/30 z-10"></div>
+
+  {
+    videoId ? (
+      <div class="relative w-full" style="padding-bottom: 56.25%">
+        <iframe
+          class="absolute inset-0 w-full h-full"
+          src={`https://www.youtube.com/embed/${videoId}`}
+          title="Project demo"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          style="border: 0;"
+        />
+      </div>
+    ) : (
+      <a
+        href={url}
+        target="_blank"
+        class="flex flex-col items-center justify-center gap-3 p-12 text-text hover:text-primary transition-colors duration-150 group"
+      >
+        <div class="w-16 h-16 bg-primary border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] flex items-center justify-center group-hover:shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] group-hover:translate-x-[2px] group-hover:translate-y-[2px] transition-all duration-150">
+          <PixelIcon name="play" className="w-7 h-7 text-background ml-1" />
+        </div>
+        <span class="font-ubuntu-mono text-sm font-semibold">Watch demo</span>
+      </a>
+    )
+  }
+</div>

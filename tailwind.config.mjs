@@ -11,7 +11,7 @@ export default {
       },
       fontFamily: {
         "ubuntu-mono": ["Ubuntu Mono", "monospace"],
-        "black-han-sans": ["Black Han Sans", "sans-serif"],
+        "black-han-sans": ["Archivo Black", "sans-serif"],
         "open-sans": ["Open Sans", "sans-serif"],
       },
       backgroundImage: {

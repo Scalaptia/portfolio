@@ -1,17 +1,21 @@
-import { ExternalLink, Link } from "lucide-react";
-import { ImageCarousel } from "./ImageCarousel";
+import { MediaGallery } from "./MediaGallery";
+import PixelIcon from "./PixelIcon";
 
 interface ProjectsGridProps {
   projects: Project[];
   translations: {
     keyContributions: string;
     technologies: string;
+    swipeHint?: string;
+    readMore: string;
   };
+  locale: string;
 }
 
 export default function ProjectsGrid({
   projects,
   translations,
+  locale,
 }: ProjectsGridProps) {
   return (
     <div className="grid grid-cols-1 gap-8 lg:gap-10 w-full">
@@ -28,13 +32,12 @@ export default function ProjectsGrid({
             <div className="absolute bottom-0 right-0 w-6 h-6 border-l-4 border-t-4 border-text/30"></div>
 
             {/* Project Image Section - Top */}
-            <div className="relative">
-              {/* Image container */}
-              <div className="p-4 sm:p-6 pb-0">
-                <div className="border-2 sm:border-4 border-text overflow-hidden shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] sm:shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] relative z-10">
-                  <ImageCarousel images={project.image} live={project.live} />
-                </div>
-              </div>
+            <div className="relative px-4 sm:px-6 pt-4 sm:pt-6">
+              <MediaGallery
+                items={project.image.map((src) => ({ type: "image" as const, src }))}
+                mode="carousel"
+                swipeHint={translations.swipeHint}
+              />
             </div>
 
             {/* Project Info Section - Bottom */}
@@ -43,7 +46,7 @@ export default function ProjectsGrid({
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-5">
                 <div className="inline-block">
                   <div className="relative">
-                    <h2 className="text-2xl sm:text-3xl font-black-han-sans text-text text-center sm:text-left leading-tight mb-1">
+                      <h2 className="text-2xl sm:text-3xl font-black-han-sans text-text text-center sm:text-left leading-tight mb-1">
                       {project.title}
                     </h2>
                   </div>
@@ -60,6 +63,16 @@ export default function ProjectsGrid({
 
                 {/* Buttons */}
                 <div className="flex gap-2 justify-center sm:justify-end flex-shrink-0">
+                  {project.slug && (
+                    <a
+                      href={locale === "es" ? `/es/projects/${project.slug}` : `/projects/${project.slug}`}
+                      className="flex items-center justify-center px-4 py-2 text-text border-2 border-text bg-white shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] transition-all duration-150 hover:shadow-[1px_1px_0px_0px_rgba(65,44,71,1)] hover:translate-x-[1px] hover:translate-y-[1px]"
+                    >
+                      <span className="font-black-han-sans font-extrabold text-sm text-center leading-tight">
+                        {translations.readMore}
+                      </span>
+                    </a>
+                  )}
                   {project.live && (
                     <a
                       href={project.live}
@@ -69,7 +82,7 @@ export default function ProjectsGrid({
                       <span className="font-black-han-sans font-extrabold text-sm">
                         Demo
                       </span>
-                      <ExternalLink className="w-4 h-4" />
+                      <PixelIcon name="external-link" className="w-4 h-4" />
                     </a>
                   )}
                   {project.repo && (
@@ -81,7 +94,7 @@ export default function ProjectsGrid({
                       <span className="font-black-han-sans font-extrabold text-sm">
                         Code
                       </span>
-                      <Link className="w-4 h-4" />
+                      <PixelIcon name="link" className="w-4 h-4" />
                     </a>
                   )}
                 </div>
@@ -105,7 +118,7 @@ export default function ProjectsGrid({
                         className="text-base list-none relative pl-5 font-open-sans"
                       >
                         <span className="absolute left-0 top-2 w-2 h-2 bg-primary border border-text rotate-45"></span>
-                        {contribution}.
+                        {contribution}
                       </li>
                     ))}
                   </ul>

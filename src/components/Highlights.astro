@@ -1,0 +1,18 @@
+---
+import { HighlightGallery } from "@/components/HighlightGallery";
+
+interface Highlight {
+  photo: string;
+  title: string;
+  event: string;
+  description?: string;
+  period: string;
+}
+
+export interface Props {
+  highlights: Highlight[];
+}
+const { highlights } = Astro.props;
+---
+
+<HighlightGallery client:visible highlights={highlights} />

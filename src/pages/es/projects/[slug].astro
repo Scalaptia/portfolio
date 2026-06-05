@@ -1,0 +1,18 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import ProjectDetailPage from '@/components/pages/ProjectDetailPage.astro';
+
+export function getStaticPaths() {
+    return [
+        { params: { slug: 'stilo' } },
+        { params: { slug: 'nasa-explorer' } },
+        { params: { slug: 'awita' } },
+    ];
+}
+
+const { slug } = Astro.params;
+---
+
+<Layout title="project">
+    <ProjectDetailPage slug={slug} slot="content" />
+</Layout>
