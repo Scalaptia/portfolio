@@ -1,10 +1,11 @@
 ---
-import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+import { getLangFromUrl } from "@/i18n/utils";
 import { getI18N } from "@/i18n/index";
 
 const { currentLocale } = Astro;
 const i18n = getI18N({ currentLocale });
 const lang = getLangFromUrl(Astro.url);
+const base = lang === "en" ? "/" : "/es/";
 ---
 
 <header
@@ -35,7 +36,7 @@ const lang = getLangFromUrl(Astro.url);
         </button>
 
         <a
-          href="#top"
+          href={base}
           class="text-lg sm:text-xl lg:text-2xl font-black-han-sans text-text hover:text-primary transition-colors duration-200 truncate leading-none flex items-center pt-0.5"
         >
           Fernando Haro
@@ -45,25 +46,25 @@ const lang = getLangFromUrl(Astro.url);
       <!-- Desktop Navigation Links -->
       <div class="hidden lg:flex items-center gap-6">
         <a
-          href="#experience"
+          href={`${base}#experience`}
           class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-lg border-b-2 border-transparent hover:border-primary pb-1 leading-none flex items-center"
         >
           {i18n.TAG_EXPERIENCE}
         </a>
         <a
-          href="#projects"
+          href={`${base}#projects`}
           class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-lg border-b-2 border-transparent hover:border-primary pb-1 leading-none flex items-center"
         >
           {i18n.TAG_PROJECTS}
         </a>
         <a
-          href="#events"
+          href={`${base}#events`}
           class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-lg border-b-2 border-transparent hover:border-primary pb-1 leading-none flex items-center"
         >
           {i18n.TEXT_HIGHLIGHTS}
         </a>
         <a
-          href="#about"
+          href={`${base}#about`}
           class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-lg border-b-2 border-transparent hover:border-primary pb-1 leading-none flex items-center"
         >
           {i18n.TAG_ABOUT_ME}
@@ -137,25 +138,25 @@ const lang = getLangFromUrl(Astro.url);
     >
       <div class="flex flex-col space-y-3 pt-4">
         <a
-          href="#experience"
+          href={`${base}#experience`}
           class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-base py-2 px-2 rounded hover:bg-primary/5"
         >
           {i18n.TAG_EXPERIENCE}
         </a>
         <a
-          href="#projects"
+          href={`${base}#projects`}
           class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-base py-2 px-2 rounded hover:bg-primary/5"
         >
           {i18n.TAG_PROJECTS}
         </a>
         <a
-          href="#events"
+          href={`${base}#events`}
           class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-base py-2 px-2 rounded hover:bg-primary/5"
         >
           {i18n.TEXT_HIGHLIGHTS}
         </a>
         <a
-          href="#about"
+          href={`${base}#about`}
           class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-base py-2 px-2 rounded hover:bg-primary/5"
         >
           {i18n.TAG_ABOUT_ME}
@@ -166,7 +167,6 @@ const lang = getLangFromUrl(Astro.url);
 </header>
 
 <script>
-  // Simple mobile menu toggle
   const mobileMenuButton = document.getElementById("mobile-menu-button");
   const mobileMenu = document.getElementById("mobile-menu");
 
@@ -174,49 +174,47 @@ const lang = getLangFromUrl(Astro.url);
     mobileMenu?.classList.toggle("hidden");
   });
 
-  // Close mobile menu when clicking on a link
   document.querySelectorAll("#mobile-menu a").forEach((link) => {
     link.addEventListener("click", () => {
       mobileMenu?.classList.add("hidden");
     });
   });
 
-  // Smooth scrolling for navigation links
-  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+  // Smooth scrolling for same-page anchor links
+  document.querySelectorAll('a[href*="#"]').forEach((anchor) => {
     anchor.addEventListener("click", (e) => {
-      e.preventDefault();
       const href = (anchor as HTMLAnchorElement).getAttribute("href");
+      const hashIndex = href?.indexOf("#") ?? -1;
+      if (hashIndex === -1) return;
+      const hash = href!.slice(hashIndex);
+      const target = document.querySelector(hash);
+      if (!target) return;
 
-      // Handle scroll to top
-      if (href === "#top") {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-        return;
-      }
-
-      // Handle other section scrolling
-      const target = href ? document.querySelector(href) : null;
-      if (target) {
-        // Get header height to offset the scroll
-        const header = document.querySelector("header");
-        const headerHeight = header ? header.offsetHeight : 0;
-        const targetPosition =
-          (target as HTMLElement).offsetTop - headerHeight - 20;
-
-        window.scrollTo({
-          top: targetPosition,
-          behavior: "smooth",
-        });
-      }
+      e.preventDefault();
+      const header = document.querySelector("header");
+      const headerHeight = header ? header.offsetHeight : 0;
+      window.scrollTo({
+        top: (target as HTMLElement).offsetTop - headerHeight - 20,
+        behavior: "smooth",
+      });
+      mobileMenu?.classList.add("hidden");
     });
   });
 
-  // Add active state to navigation links based on scroll position
+  // Logo: scroll to top if on main page
+  const logoLink = document.querySelector('a[href="/"], a[href="/es/"]');
+  logoLink?.addEventListener("click", (e) => {
+    const isMainPage = document.querySelector("#experience");
+    if (isMainPage) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  });
+
+  // Active link state based on scroll position
   const sections = ["experience", "projects", "events", "about"];
-  const navLinks = document.querySelectorAll('a[href^="#"]:not([href="#top"])');
-  const logoLink = document.querySelector('a[href="#top"]');
+  const navLinks = document.querySelectorAll('a[href*="#"]:not([href$="/"])');
+  const logoLinkEl = logoLink;
   function updateActiveLink() {
     const header = document.querySelector("header");
     const headerHeight = header ? header.offsetHeight : 0;
@@ -224,7 +222,6 @@ const lang = getLangFromUrl(Astro.url);
     const viewportCenter = scrollY + window.innerHeight / 2;
     let current = "";
 
-    // Check which section is in the center of the viewport
     sections.forEach((sectionId) => {
       const section = document.querySelector(`#${sectionId}`);
       if (section) {
@@ -232,22 +229,21 @@ const lang = getLangFromUrl(Astro.url);
         const sectionTop = element.offsetTop;
         const sectionBottom = sectionTop + element.offsetHeight;
 
-        // If the center of the viewport is within this section
         if (viewportCenter >= sectionTop && viewportCenter <= sectionBottom) {
           current = sectionId;
         }
       }
     });
 
-    // Check if we're actually in the hero section
     const firstSection = document.querySelector("#experience");
     const isInHero =
       firstSection && viewportCenter < (firstSection as HTMLElement).offsetTop;
 
-    // Update navigation links
     navLinks.forEach((link) => {
       const href = link.getAttribute("href");
-      if (href === `#${current}`) {
+      const hashIndex = href?.indexOf("#") ?? -1;
+      const hash = hashIndex !== -1 ? href!.slice(hashIndex) : "";
+      if (hash === `#${current}`) {
         link.classList.add("text-primary", "border-primary");
         link.classList.remove("border-transparent");
       } else {
@@ -256,14 +252,13 @@ const lang = getLangFromUrl(Astro.url);
       }
     });
 
-    // Update logo color
-    if (logoLink) {
+    if (logoLinkEl) {
       if (isInHero) {
-        logoLink.classList.add("text-primary");
-        logoLink.classList.remove("text-text");
+        logoLinkEl.classList.add("text-primary");
+        logoLinkEl.classList.remove("text-text");
       } else {
-        logoLink.classList.remove("text-primary");
-        logoLink.classList.add("text-text");
+        logoLinkEl.classList.remove("text-primary");
+        logoLinkEl.classList.add("text-text");
       }
     }
   }
