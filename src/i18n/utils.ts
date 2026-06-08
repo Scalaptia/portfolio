@@ -15,12 +15,8 @@ export function useTranslations(lang: keyof typeof ui) {
 
 export function useTranslatedPath(lang: keyof typeof ui) {
     return function translatePath(path: string, l: string = lang) {
-        // Get current path from window.location if available
-        const currentPath =
-            typeof window !== 'undefined' ? window.location.pathname : path
-
-        // Remove language prefix if exists
-        const pathWithoutLang = currentPath.replace(/^\/[a-z]{2}\//, '/')
+        // Strip any existing language prefix
+        let pathWithoutLang = path.replace(/^\/es\b/, '') || '/'
 
         // Return path with new language prefix
         return !showDefaultLang && l === defaultLang

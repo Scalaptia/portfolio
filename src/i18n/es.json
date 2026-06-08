@@ -42,12 +42,12 @@
     {
       "slug": "stilo",
       "title": "Stilo",
-      "description": "App de gesti\u00f3n de armario que sugiere atuendos con tu propia ropa. Sube lo que tienes, describe lo que necesitas, y arma conjuntos con IA. Coescrib\u00ed un art\u00edculo de investigaci\u00f3n sobre la creaci\u00f3n de atuendos asistida por IA.",
+      "description": "App m\u00f3vil que arma atuendos con tu propia ropa usando IA. Incluye un m\u00f3dulo de colorimetr\u00eda que encuentra tus paletas m\u00e1s favorecedoras, un pipeline RAG que convierte descripciones en lenguaje natural en conjuntos coordinados, y un lienzo interactivo para editar con drag-and-drop.",
       "context": "Coautor y Desarrollador L\u00edder",
       "contributions": [
         "Dise\u00f1\u00e9 el pipeline de recomendaciones que interpreta prompts, encuentra ropa compatible y arma conjuntos.",
         "Constru\u00ed la app multiplataforma con un lienzo interactivo para armar atuendos.",
-        "Provision\u00e9 toda la infraestructura cloud en Azure usando OpenTofu."
+        "Provision\u00e9 toda la infraestructura cloud en Azure usando Terraform."
       ],
       "image": [
         "/images/stilo-1.png",
@@ -55,8 +55,7 @@
         "/images/stilo-3.png",
         "/images/stilo-4.png"
       ],
-      "tags": ["React Native", "NestJS", "FastAPI", "PostgreSQL", "Azure", "Terraform", "Google Gemini"],
-      "repo": "https://www.github.com/Scalaptia/Stilo"
+      "tags": ["React Native", "NestJS", "FastAPI", "PostgreSQL", "Azure", "Terraform", "Google Gemini"]
     },
     {
       "slug": "nasa-explorer",
@@ -128,14 +127,14 @@
   "HIGHLIGHTS": [
     {
       "photo": "/images/highlights/datathon-may-2026.jpeg",
-      "title": "Mención Honorífica",
-      "event": "DSC Datathon 5 — Tec de Monterrey",
+      "title": "Participante",
+      "event": "DSC Datathon 5, Tec de Monterrey",
       "period": "May 2026"
     },
     {
       "photo": "/images/highlights/icpc-apr-2026.jpg",
       "title": "Ronda Regional",
-      "event": "ICPC — Gran Premio de México",
+      "event": "ICPC, Gran Premio de México",
       "period": "Apr 2026"
     },
     {
@@ -147,7 +146,7 @@
     },
     {
       "photo": "/images/highlights/enitci-nov-2025.jpeg",
-      "title": "1er Lugar — Divisi\u00f3n de Ingenier\u00eda y Tecnolog\u00eda",
+      "title": "1er Lugar, Divisi\u00f3n de Ingenier\u00eda y Tecnolog\u00eda",
       "event": "ENITCI",
       "description": "Present\u00e9 una app React Native para la comunidad TEA, reconocida por su base de datos compatible con HIPAA y metodolog\u00eda de dise\u00f1o centrado en el usuario.",
       "period": "Nov 2025"
@@ -162,7 +161,7 @@
     {
       "photo": "/images/highlights/icpc-jun-2025.jpeg",
       "title": "Ronda Regional",
-      "event": "ICPC — Gran Premio de México",
+      "event": "ICPC, Gran Premio de México",
       "period": "Jun 2025"
     },
     {

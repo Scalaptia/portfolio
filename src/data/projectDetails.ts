@@ -11,38 +11,38 @@ export const projectDetails: Record<string, { en: ProjectDetail; es: ProjectDeta
   stilo: {
     en: {
       problem:
-        "Choosing what to wear takes time and mental energy. Most people wear the same few outfits repeatedly while the rest of their wardrobe sits unused. Stilo set out to answer: can an AI system help people make better use of the clothes they already own?",
+        "Closet overabundance increases daily cognitive load and leads to chronic underutilization of personal inventory. People gravitate toward the same few outfits while most garments sit idle. Stilo was built to test whether an AI system could reduce the mental effort of choosing what to wear and improve wardrobe rotation.",
       howItWorks: [
-        "You upload photos of your clothes. The app removes the background automatically and extracts the dominant colors.",
-        "When you need an outfit, describe what you're looking for: 'something casual for a coffee date' or 'business casual for a client meeting.'",
-        "The RAG pipeline interprets your request, searches your wardrobe for matching items using vector similarity, and assembles outfits that respect your color palette and style preferences.",
-        "You can iterate \u2014 'make it more formal' or 'swap the jacket' \u2014 and the system regenerates without starting over."
+        "When you create your account, you fill out a style profile questionnaire and take a photo of your face. The app analyzes your facial colorimetry to find the color palettes that suit you best.",
+        "You upload photos of your clothes or browse items from partner stores. The app removes backgrounds and extracts dominant colors and tags from each piece.",
+        "You can assemble outfits manually on the interactive canvas, or describe the occasion in plain language and let the RAG pipeline generate coordinated outfits that respect your color palette and style preferences.",
+        "You can iterate, 'make it more formal' or 'swap the jacket', and the system regenerates without starting over."
       ],
       whatIBuilt: [
-        "Designed the full RAG pipeline: a Google Gemini-powered planning step that breaks prompts down into clothing categories, pgvector similarity search to find matching items, and a composition step that assembles coherent outfits.",
-        "Built the React Native (Expo) mobile app with an interactive canvas for manually arranging outfits \u2014 drag, scale, rotate \u2014 plus the wardrobe and recommendation flows.",
-        "Provisioned all cloud infrastructure on Azure using OpenTofu (Terraform): Container Apps for the NestJS and FastAPI services, PostgreSQL Flexible Server with pgvector, Blob Storage for images."
+        "Designed the three-phase RAG pipeline: a planning step where Gemini breaks prompts into clothing categories, a vector similarity search via pgvector to retrieve matching items from the wardrobe, and a composition step that assembles coherent outfits factoring in the user's color palette and style preferences.",
+        "Built the React Native mobile app with an interactive canvas for manually arranging outfits, drag, scale, rotate, plus the wardrobe and recommendation flows.",
+        "Provisioned all cloud infrastructure on Azure using Terraform."
       ],
       results:
-        "We ran a controlled experiment with 10 participants comparing manual vs. AI-assisted outfit creation using a standardized 25-item wardrobe. The AI approach reduced UI interactions by 83.4% (p = 0.001), cut cognitive load by 22.3% (NASA-TLX), and achieved an 86.75/100 SUS usability score. We're publishing the findings as a research paper.",
+        "A controlled experiment with 10 participants compared manual vs. AI-assisted outfit creation using a standardized 25-item capsule wardrobe. The AI condition reduced UI interactions by 83.4% (p = 0.001), lowered cognitive load by 22.3% (NASA-TLX), and scored 86.75/100 on the System Usability Scale.",
       extraImages: [],
     },
     es: {
       problem:
-        "Elegir qu\u00e9 ponerse consume tiempo y energ\u00eda mental. La mayor\u00eda usa las mismas prendas repetidamente mientras el resto del guardarropa queda sin usar. Stilo busc\u00f3 responder: \u00bfpuede un sistema de IA ayudar a aprovechar mejor la ropa que ya tienes?",
+        "La sobreabundancia de prendas en el guardarropa incrementa la carga cognitiva diaria y provoca la subutilización crónica del inventario. Las personas gravitan hacia las mismas prendas mientras la mayoría queda sin usar. Stilo se construyó para evaluar si un sistema de IA puede reducir el esfuerzo mental de elegir qué ponerse y mejorar la rotación del guardarropa.",
       howItWorks: [
-        "Subes fotos de tu ropa. La app elimina el fondo autom\u00e1ticamente y extrae los colores dominantes.",
-        "Cuando necesitas un atuendo, describes lo que buscas: 'algo casual para un caf\u00e9' o 'business casual para una junta con clientes'.",
-        "El pipeline RAG interpreta tu solicitud, busca en tu guardarropa prendas compatibles usando similitud vectorial y arma conjuntos que respetan tu paleta de color y preferencias de estilo.",
-        "Puedes iterar \u2014 'hazlo m\u00e1s formal' o 'cambia la chamarra' \u2014 y el sistema regenera sin empezar de cero."
+        "Al crear tu cuenta, llenas un cuestionario de perfil de estilo y tomas una foto de tu rostro. La app analiza tu colorimetría facial para encontrar las paletas de colores que más te favorecen.",
+        "Subes fotos de tus prendas o exploras artículos de tiendas aliadas. La app elimina los fondos y extrae los colores dominantes y etiquetas de cada pieza.",
+        "Puedes armar atuendos manualmente en el lienzo interactivo, o describir la ocasión en lenguaje natural y dejar que el pipeline RAG genere conjuntos coordinados que respetan tu paleta de color y preferencias de estilo.",
+        "Puedes iterar, 'hazlo más formal' o 'cambia la chamarra', y el sistema regenera sin empezar de cero."
       ],
       whatIBuilt: [
-        "Dise\u00f1\u00e9 el pipeline RAG completo: un paso de planeaci\u00f3n con Google Gemini que desglosa prompts en categor\u00edas de ropa, b\u00fasqueda por similitud con pgvector y un paso de composici\u00f3n que arma conjuntos coherentes.",
-        "Constru\u00ed la app m\u00f3vil con React Native (Expo) y un lienzo interactivo para armar atuendos manualmente \u2014 arrastrar, escalar, rotar \u2014 m\u00e1s los flujos de guardarropa y recomendaciones.",
-        "Provision\u00e9 toda la infraestructura cloud en Azure usando OpenTofu (Terraform): Container Apps para los servicios NestJS y FastAPI, PostgreSQL Flexible Server con pgvector, Blob Storage para im\u00e1genes."
+        "Diseñé el pipeline RAG de tres fases: un paso de planeación donde Gemini desglosa los prompts en categorías de ropa, una búsqueda por similitud vectorial con pgvector para recuperar las prendas compatibles del armario, y un paso de composición que arma conjuntos coherentes considerando la paleta de color y preferencias del usuario.",
+        "Construí la app móvil con React Native y un lienzo interactivo para armar atuendos manualmente, arrastrar, escalar, rotar, más los flujos de guardarropa y recomendaciones.",
+        "Provisioné toda la infraestructura cloud en Azure usando Terraform."
       ],
       results:
-        "Realizamos un experimento controlado con 10 participantes comparando creaci\u00f3n manual vs. asistida por IA usando un guardarropa estandarizado de 25 prendas. El enfoque con IA redujo las interacciones en un 83.4% (p = 0.001), disminuy\u00f3 la carga cognitiva en 22.3% (NASA-TLX) y obtuvo un puntaje SUS de 86.75/100. Estamos publicando los hallazgos como art\u00edculo de investigaci\u00f3n.",
+        "Un experimento controlado con 10 participantes comparó la creación de atuendos manual vs. asistida por IA con un guardarropa cápsula de 25 prendas. La condición con IA redujo las interacciones en un 83.4% (p = 0.001), disminuyó la carga cognitiva en 22.3% (NASA-TLX) y obtuvo 86.75/100 en la escala SUS.",
       extraImages: [],
     },
   },
@@ -53,7 +53,7 @@ export const projectDetails: Record<string, { en: ProjectDetail; es: ProjectDeta
         "NASA has published decades of space biology research, but it's scattered across databases, PDFs, and institutional repositories. Scientists spend hours searching through papers instead of asking questions and getting answers. Our team entered NASA Space Apps 2025 to solve this.",
       howItWorks: [
         "You type a question about space biology in plain English: 'How does microgravity affect bone density in mice?' or 'What experiments have studied plant growth on the ISS?'",
-        "The backend searches a RAG corpus built from NASA Task Book, OSDR, and PubMed Central articles — verified scientific sources, not random web content.",
+        "The backend searches a RAG corpus built from NASA Task Book, OSDR, and PubMed Central articles, verified scientific sources, not random web content.",
         "Google Gemini 2.5 Flash Lite synthesizes an answer with inline citations. Each response includes a list of referenced articles with titles, authors, years, and DOI links.",
         "An interactive D3.js knowledge graph in the sidebar shows how research topics connect, letting you explore related areas by clicking nodes.",
         "You can save articles to favorites, revisit past conversations, and explore pre-built prompt suggestions organized by topic."
@@ -64,7 +64,7 @@ export const projectDetails: Record<string, { en: ProjectDetail; es: ProjectDeta
         "Wrote the entire Python data pipeline that scraped and ingested NASA publications from multiple sources into the RAG corpus."
       ],
       results:
-        "Built in a weekend by a team of 6. Won 1st place in the local round of NASA Space Apps Challenge 2025. The project was evaluated on technical implementation, scientific accuracy, and potential impact on NASA's open science mission.",
+        "Built in a weekend by a team of 6. Won 1st place in the local round of NASA Space Apps Challenge 2025 and was selected as a Global Nominee. The project was evaluated on technical implementation, scientific accuracy, and potential impact on NASA's open science mission.",
       extraImages: [],
     },
     es: {
@@ -83,7 +83,7 @@ export const projectDetails: Record<string, { en: ProjectDetail; es: ProjectDeta
         "Escrib\u00ed todo el pipeline de datos en Python que extrajo e index\u00f3 publicaciones de la NASA desde m\u00faltiples fuentes al corpus RAG."
       ],
       results:
-        "Construido en un fin de semana por un equipo de 6. Gan\u00f3 1er lugar en la ronda local de NASA Space Apps Challenge 2025. El proyecto fue evaluado en implementaci\u00f3n t\u00e9cnica, precisi\u00f3n cient\u00edfica e impacto potencial en la misi\u00f3n de ciencia abierta de la NASA.",
+        "Construido en un fin de semana por un equipo de 6. Gan\u00f3 1er lugar en la ronda local de NASA Space Apps Challenge 2025 y fue seleccionado como Nominado Global. El proyecto fue evaluado en implementaci\u00f3n t\u00e9cnica, precisi\u00f3n cient\u00edfica e impacto potencial en la misi\u00f3n de ciencia abierta de la NASA.",
       extraImages: [],
     },
   },
@@ -93,36 +93,36 @@ export const projectDetails: Record<string, { en: ProjectDetail; es: ProjectDeta
       problem:
         "In Baja California, water isn't guaranteed. Many homes rely on water trucks that deliver on irregular schedules, and storage tanks are the buffer between having water and running dry. I wanted to build something that would tell you exactly how much water you have left and warn you before it runs out.",
       howItWorks: [
-        "An Arduino (ESP32 or D1 Mini) with an ultrasonic sensor sits on top of your water tank, measuring the distance to the water surface every 60 seconds.",
-        "Readings are sent to an AWS Lambda (Go) via API Gateway, which calculates the water level percentage and stores it in MySQL.",
+        "An Arduino with an ultrasonic sensor sits on top of your water tank, measuring the distance to the water surface every 60 seconds.",
+        "Readings are sent to an AWS Lambda via API Gateway, which calculates the water level percentage and stores it in MySQL.",
         "A React dashboard shows your current water level as an animated gauge, with 24-hour, 7-day, and 30-day historical charts.",
         "A separate LSTM model (Python/TensorFlow) analyzes usage patterns and predicts how many hours until your tank is empty, with confidence scores.",
         "Email alerts notify you when water drops below a configurable threshold or when the sensor stops reporting (disconnection)."
       ],
       whatIBuilt: [
-        "Designed the full system architecture: Arduino firmware that registers itself on first boot, Go Lambda for sensor ingestion and notification dispatch, NestJS API behind API Gateway, and a React SPA with Clerk authentication.",
+        "Designed the full system architecture: Arduino firmware that registers itself on first boot, Lambda for sensor ingestion and notification dispatch, NestJS API behind API Gateway, and a React SPA with Clerk authentication.",
         "Built the ML prediction service: an LSTM neural network trained on historical usage data with hyperparameters optimized via genetic algorithm. Predictions are cached in Redis and served through a FastAPI endpoint."
       ],
       results:
-        "The system handles 1,000+ daily sensor readings at < 200 ms latency. The prediction model achieves strong accuracy for 24-hour forecasts. Deployed and running — you can try it with the demo sensor at awita.fharo.dev.",
+        "The system handles 1,000+ daily sensor readings at < 200 ms latency. The prediction model achieves strong accuracy for 24-hour forecasts.",
       extraImages: [],
     },
     es: {
       problem:
         "En Baja California, el agua no est\u00e1 garantizada. Muchos hogares dependen de pipas que llegan en horarios irregulares, y los tanques de almacenamiento son el \u00fanico amortiguador entre tener agua y quedarse seco. Quer\u00eda construir algo que te dijera exactamente cu\u00e1nta agua te queda y te avisara antes de que se acabe.",
       howItWorks: [
-        "Un Arduino (ESP32 o D1 Mini) con un sensor ultras\u00f3nico se coloca sobre tu tanque de agua, midiendo la distancia a la superficie cada 60 segundos.",
-        "Las lecturas se env\u00edan a una Lambda de AWS (Go) mediante API Gateway, que calcula el porcentaje de agua y lo almacena en MySQL.",
+        "Un Arduino con un sensor ultrasónico se coloca sobre tu tanque de agua, midiendo la distancia a la superficie cada 60 segundos.",
+        "Las lecturas se envían a una Lambda de AWS mediante API Gateway, que calcula el porcentaje de agua y lo almacena en MySQL.",
         "Un dashboard en React muestra tu nivel actual de agua como un medidor animado, con gr\u00e1ficos hist\u00f3ricos de 24 horas, 7 d\u00edas y 30 d\u00edas.",
         "Un modelo LSTM (Python/TensorFlow) analiza patrones de uso y predice cu\u00e1ntas horas faltan para que el tanque se vac\u00ede, con puntajes de confianza.",
         "Alertas por correo te notifican cuando el agua baja de un umbral configurable o cuando el sensor deja de reportar (desconexi\u00f3n)."
       ],
       whatIBuilt: [
-        "Dise\u00f1\u00e9 la arquitectura completa: firmware Arduino que se registra solo al primer arranque, Lambda en Go para ingesta de sensores y env\u00edo de notificaciones, API NestJS detr\u00e1s de API Gateway, y un SPA React con autenticaci\u00f3n Clerk.",
+        "Diseñé la arquitectura completa: firmware Arduino que se registra solo al primer arranque, Lambda para ingesta de sensores y envío de notificaciones, API NestJS detrás de API Gateway, y un SPA React con autenticación Clerk.",
         "Constru\u00ed el servicio de predicciones: una red neuronal LSTM entrenada con datos hist\u00f3ricos de uso e hiperpar\u00e1metros optimizados con algoritmo gen\u00e9tico. Las predicciones se cachean en Redis y se sirven mediante un endpoint de FastAPI."
       ],
       results:
-        "El sistema procesa m\u00e1s de 1,000 lecturas diarias con latencia < 200 ms. El modelo de predicci\u00f3n logra buena precisi\u00f3n en pron\u00f3sticos de 24 horas. Desplegado y funcionando \u2014 puedes probarlo con el sensor demo en awita.fharo.dev.",
+        "El sistema procesa m\u00e1s de 1,000 lecturas diarias con latencia < 200 ms. El modelo de predicci\u00f3n logra buena precisi\u00f3n en pron\u00f3sticos de 24 horas.",
       extraImages: [],
     },
   },

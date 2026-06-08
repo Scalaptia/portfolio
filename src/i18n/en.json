@@ -42,12 +42,12 @@
     {
       "slug": "stilo",
       "title": "Stilo",
-      "description": "Wardrobe management app that suggests outfits from your own clothes. Upload what you own, tell it what you need — it assembles outfits using AI. Co-authored a research paper on AI-assisted outfit creation.",
+      "description": "Mobile app that builds outfits from your own clothes using AI. Includes a colorimetry module that finds your most flattering palettes, a RAG pipeline that turns plain-language prompts into coordinated outfits, and an interactive canvas for drag-and-drop editing.",
       "context": "Co-Author & Lead Developer",
       "contributions": [
         "Designed the recommendation pipeline that interprets prompts, finds matching clothes, and assembles outfits.",
         "Built the multiplatform app with a custom drag-and-drop outfit canvas.",
-        "Provisioned cloud infrastructure on Azure using OpenTofu."
+        "Provisioned cloud infrastructure on Azure using Terraform."
       ],
       "image": [
         "/images/stilo-1.png",
@@ -55,8 +55,7 @@
         "/images/stilo-3.png",
         "/images/stilo-4.png"
       ],
-      "tags": ["React Native", "NestJS", "FastAPI", "PostgreSQL", "Azure", "Terraform", "Google Gemini"],
-      "repo": "https://www.github.com/Scalaptia/Stilo"
+      "tags": ["React Native", "NestJS", "FastAPI", "PostgreSQL", "Azure", "Terraform", "Google Gemini"]
     },
     {
       "slug": "nasa-explorer",
@@ -130,14 +129,14 @@
   "HIGHLIGHTS": [
     {
       "photo": "/images/highlights/datathon-may-2026.jpeg",
-      "title": "Honorable Mention",
-      "event": "DSC Datathon 5 — Tec de Monterrey",
+      "title": "Participant",
+      "event": "DSC Datathon 5, Tec de Monterrey",
       "period": "May 2026"
     },
     {
       "photo": "/images/highlights/icpc-apr-2026.jpg",
       "title": "Regional Round",
-      "event": "ICPC — Mexico Regionals",
+      "event": "ICPC, Mexico Regionals",
       "period": "Apr 2026"
     },
     {
@@ -149,7 +148,7 @@
     },
     {
       "photo": "/images/highlights/enitci-nov-2025.jpeg",
-      "title": "1st Place — Engineering & Technology Division",
+      "title": "1st Place, Engineering & Technology Division",
       "event": "ENITCI",
       "description": "Presented a React Native app for the ASD community, recognized for its HIPAA-compliant database design and user-centered development methodology.",
       "period": "Nov 2025"
@@ -164,7 +163,7 @@
     {
       "photo": "/images/highlights/icpc-jun-2025.jpeg",
       "title": "Regional Round",
-      "event": "ICPC — Mexico Regionals",
+      "event": "ICPC, Mexico Regionals",
       "period": "Jun 2025"
     },
     {

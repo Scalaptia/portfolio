@@ -8,6 +8,7 @@ export interface MediaItem {
   alt?: string;
   caption?: string;
   description?: string;
+  lightboxSrc?: string;
 }
 
 interface MediaLightboxProps {
@@ -26,7 +27,6 @@ export function MediaLightbox({
   onNavigate,
 }: MediaLightboxProps) {
   const [touchStartX, setTouchStartX] = useState(0);
-  const [isLoaded, setIsLoaded] = useState(false);
   const minSwipe = 50;
   const hasMultiple = items.length > 1;
 
@@ -35,13 +35,11 @@ export function MediaLightbox({
   const goPrev = useCallback(() => {
     if (!hasMultiple) return;
     onNavigate(currentIndex === 0 ? items.length - 1 : currentIndex - 1);
-    setIsLoaded(false);
   }, [currentIndex, hasMultiple, items.length, onNavigate]);
 
   const goNext = useCallback(() => {
     if (!hasMultiple) return;
     onNavigate(currentIndex === items.length - 1 ? 0 : currentIndex + 1);
-    setIsLoaded(false);
   }, [currentIndex, hasMultiple, items.length, onNavigate]);
 
   // Keyboard nav
@@ -85,16 +83,11 @@ export function MediaLightbox({
     preload(currentIndex + 1);
   }, [currentIndex, isOpen, hasMultiple, items]);
 
-  // Reset loaded state when item changes
-  useEffect(() => {
-    setIsLoaded(false);
-  }, [currentIndex]);
-
   if (!isOpen || !currentItem) return null;
 
   return createPortal(
     <div
-      className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center"
+      className="fixed inset-0 bg-black/95 z-50 flex flex-col items-center justify-center"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
@@ -112,7 +105,7 @@ export function MediaLightbox({
         <PixelIcon name="x" className="w-5 h-5" />
       </button>
 
-      {/* Prev arrow — fixed left side of viewport */}
+      {/* Prev arrow */}
       {hasMultiple && (
         <button
           onClick={(e) => {
@@ -126,7 +119,7 @@ export function MediaLightbox({
         </button>
       )}
 
-      {/* Next arrow — fixed right side of viewport */}
+      {/* Next arrow */}
       {hasMultiple && (
         <button
           onClick={(e) => {
@@ -140,9 +133,9 @@ export function MediaLightbox({
         </button>
       )}
 
-      {/* Content area — click outside media to close */}
+      {/* Content — no container, image sizes naturally on dark backdrop */}
       <div
-        className="flex flex-col items-center justify-center gap-4 sm:gap-6 w-full h-full px-4 sm:px-20 py-16 sm:py-20"
+        className="flex flex-col items-center justify-center gap-4 sm:gap-6 w-full h-full px-4 sm:px-8 lg:px-16 py-14 sm:py-16 lg:py-20"
         onTouchStart={(e) => {
           setTouchStartX(e.changedTouches[0].screenX);
         }}
@@ -155,48 +148,28 @@ export function MediaLightbox({
           }
         }}
       >
-        {/* Media container — fixed min size, click stops propagation */}
-        <div
-          className="relative border-2 sm:border-4 border-white bg-background shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] p-2 sm:p-3 flex items-center justify-center min-w-[280px] min-h-[200px] sm:min-w-[520px] sm:min-h-[340px] lg:min-w-[600px] lg:min-h-[400px] max-w-full max-h-[55vh]"
-          onClick={(e) => e.stopPropagation()}
-        >
-          {/* Corner decorations */}
-          <div className="absolute top-0 left-0 w-4 h-4 sm:w-6 sm:h-6 border-r-4 border-b-4 border-text/30"></div>
-          <div className="absolute bottom-0 right-0 w-4 h-4 sm:w-6 sm:h-6 border-l-4 border-t-4 border-text/30"></div>
+        {/* Image */}
+        {currentItem.type === "image" && (
+          <img
+            src={currentItem.lightboxSrc || currentItem.src}
+            alt={currentItem.alt || "Gallery image"}
+            className="max-w-full max-h-[70vh] lg:max-h-[82vh] object-contain select-none"
+            draggable="false"
+            onClick={(e) => e.stopPropagation()}
+          />
+        )}
 
-          {/* Image */}
-          {currentItem.type === "image" && (
-            <img
-              key={currentIndex}
-              src={currentItem.src}
-              alt={currentItem.alt || "Gallery image"}
-              className="max-w-full max-h-[50vh] sm:max-h-[52vh] object-contain"
-              draggable="false"
-              onLoad={() => setIsLoaded(true)}
-              style={{ display: "block" }}
-            />
-          )}
+        {/* Video */}
+        {currentItem.type === "video" && (
+          <video
+            controls
+            className="max-w-full max-h-[70vh] lg:max-h-[82vh] object-contain"
+            src={currentItem.lightboxSrc || currentItem.src}
+            onClick={(e) => e.stopPropagation()}
+          />
+        )}
 
-          {/* Video */}
-          {currentItem.type === "video" && (
-            <video
-              key={currentIndex}
-              controls
-              className="max-w-full max-h-[50vh] sm:max-h-[52vh] object-contain"
-              src={currentItem.src}
-              onLoadedData={() => setIsLoaded(true)}
-            />
-          )}
-
-          {/* Loading state */}
-          {!isLoaded && (
-            <div className="absolute inset-0 flex items-center justify-center bg-background">
-              <div className="w-8 h-8 border-4 border-text/30 border-t-primary animate-spin"></div>
-            </div>
-          )}
-        </div>
-
-        {/* Info — period + caption + description */}
+        {/* Caption + description */}
         {currentItem.caption && (
           <div className="text-center max-w-lg px-4">
             <span className="text-white/40 font-ubuntu-mono text-xs">{currentItem.caption}</span>
@@ -208,7 +181,7 @@ export function MediaLightbox({
           </div>
         )}
 
-        {/* Dots only */}
+        {/* Dots */}
         {hasMultiple && (
           <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
             {items.map((_, i) => (
@@ -217,7 +190,6 @@ export function MediaLightbox({
                 onClick={(e) => {
                   e.stopPropagation();
                   onNavigate(i);
-                  setIsLoaded(false);
                 }}
                 className={`w-3 h-3 border-2 border-white shadow-[2px_2px_0px_0px_rgba(255,255,255,0.3)] transition-colors duration-150 flex-shrink-0 ${
                   i === currentIndex

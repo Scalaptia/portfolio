@@ -26,7 +26,7 @@ const t = useTranslations(lang);
     class="relative flex flex-col lg:flex-row lg:items-center lg:justify-between max-w-[600px] lg:max-w-[1000px] mb-16 lg:mb-24 pt-8 lg:pt-16 px-4 sm:px-6 lg:px-8"
   >
     <!-- Left: Name + Description + Links -->
-    <div class="flex flex-col w-full lg:max-w-[52ch] relative z-10">
+    <div class="flex flex-col w-full lg:flex-1 lg:pr-10 relative z-10">
       <h1
         class="text-5xl sm:text-6xl font-black-han-sans text-text leading-[1.1em] text-center lg:text-left drop-shadow-sm group cursor-pointer hover:scale-[1.02] transition-transform duration-300 origin-center lg:origin-left"
       >
@@ -48,7 +48,7 @@ const t = useTranslations(lang);
       />
 
       <!-- Links -->
-      <div class="mt-8 w-full max-w-[600px] mx-auto lg:mx-0">
+      <div class="mt-8 w-full max-w-[600px] lg:max-w-none mx-auto lg:mx-0">
         <div class="grid grid-cols-1 sm:grid-cols-3 w-full gap-4">
           <LinkButton
             link="https://www.github.com/Scalaptia"
@@ -96,7 +96,7 @@ const t = useTranslations(lang);
     <!-- PC Model -->
     <div
       id="pc-model-container"
-      class="relative w-[200px] h-[200px] mx-auto mt-10 lg:mx-0 lg:w-[300px] lg:h-[300px] lg:flex-shrink-0 lg:-mt-8 transition-all duration-300"
+      class="relative w-[200px] h-[200px] mx-auto mt-10 lg:mx-0 lg:w-[240px] lg:h-[240px] lg:flex-shrink-0 lg:-mt-8 transition-all duration-300"
     >
       <PCModel client:only="react" />
 
@@ -106,6 +106,9 @@ const t = useTranslations(lang);
         </p>
       </div>
     </div>
+
+    <!-- Spacer maintains layout space when PC model becomes fixed -->
+    <div id="pc-model-spacer" class="hidden lg:w-[240px] lg:h-[240px] lg:flex-shrink-0"></div>
   </div>
 
   <!-- Experience -->
@@ -223,6 +226,9 @@ const t = useTranslations(lang);
     pcContainer.style.removeProperty('width');
     pcContainer.style.removeProperty('height');
     pcContainer.style.removeProperty('z-index');
+
+    const spacer = document.querySelector('#pc-model-spacer') as HTMLElement;
+    if (spacer) spacer.classList.add('hidden');
   }
 
   window.addEventListener('scroll', () => {
@@ -230,6 +236,7 @@ const t = useTranslations(lang);
 
     const pcContainer = document.querySelector('#pc-model-container') as HTMLElement;
     const clickMeText = document.querySelector('#click-me-text') as HTMLElement;
+    const spacer = document.querySelector('#pc-model-spacer') as HTMLElement;
 
     if (pcContainer) {
       if (window.scrollY > 400) {
@@ -244,6 +251,7 @@ const t = useTranslations(lang);
         pcContainer.style.zIndex = '50';
 
         if (clickMeText) clickMeText.style.opacity = '0';
+        if (spacer) spacer.classList.remove('hidden');
       } else {
         returnToHero();
         if (clickMeText) clickMeText.style.opacity = '1';

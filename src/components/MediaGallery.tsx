@@ -90,7 +90,7 @@ export function MediaGallery({
         <div ref={carouselRef} className={`relative group ${className}`}>
           {/* Carousel viewport */}
           <div
-            className="relative w-full aspect-video cursor-pointer bg-background/50 overflow-hidden border-2 sm:border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] sm:shadow-[6px_6px_0px_0px_rgba(65,44,71,1)] transition-all duration-300 hover:shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] sm:hover:shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] hover:translate-x-[2px] hover:translate-y-[2px] touch-pan-y select-none"
+            className="relative w-full aspect-video cursor-pointer bg-background/50 overflow-hidden border-2 sm:border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] sm:shadow-[6px_6px_0px_0px_rgba(65,44,71,1)] touch-pan-y select-none"
             onClick={() => openLightbox(activeIndex)}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
@@ -202,14 +202,14 @@ export function MediaGallery({
       <div className={`grid gap-3 ${className}`}>
         {/* Main image */}
         <div
-          className="relative aspect-video cursor-pointer overflow-hidden border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] transition-all duration-300 hover:shadow-[6px_6px_0px_0px_rgba(65,44,71,1)] hover:-translate-x-[2px] hover:-translate-y-[2px]"
+          className="relative aspect-video cursor-pointer overflow-hidden border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)]"
           onClick={() => openLightbox(0)}
         >
           {items[0].type === "image" ? (
             <img
               src={items[0].src}
               alt={items[0].alt || "Main image"}
-              className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+              className="w-full h-full object-cover"
               loading="eager"
             />
           ) : (
@@ -221,7 +221,6 @@ export function MediaGallery({
               preload="metadata"
             />
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
           {hasMultiple && (
             <div className="absolute bottom-3 right-3 bg-text/80 text-white px-3 py-1 text-sm font-ubuntu-mono font-bold border-2 border-white">
               1/{items.length}
@@ -235,14 +234,14 @@ export function MediaGallery({
             {items.slice(1, 4).map((item, index) => (
               <div
                 key={index + 1}
-                className="relative aspect-video cursor-pointer overflow-hidden border-3 border-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] transition-all duration-300 hover:shadow-[3px_3px_0px_0px_rgba(65,44,71,1)] hover:-translate-x-[1px] hover:-translate-y-[1px]"
+                className="relative aspect-video cursor-pointer overflow-hidden border-3 border-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)]"
                 onClick={() => openLightbox(index + 1)}
               >
                 {item.type === "image" ? (
                   <img
                     src={item.src}
                     alt={item.alt || `Thumbnail ${index + 2}`}
-                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                    className="w-full h-full object-cover"
                     loading="lazy"
                   />
                 ) : (
@@ -250,7 +249,6 @@ export function MediaGallery({
                     <PixelIcon name="play" className="w-6 h-6 text-text/60" />
                   </div>
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
                 {index === 2 && items.length > 4 && (
                   <div className="absolute inset-0 bg-text/80 flex items-center justify-center">
                     <span className="text-white text-2xl font-black-han-sans">

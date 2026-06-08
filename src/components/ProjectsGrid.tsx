@@ -34,7 +34,7 @@ export default function ProjectsGrid({
             {/* Project Image Section - Top */}
             <div className="relative px-4 sm:px-6 pt-4 sm:pt-6">
               <MediaGallery
-                items={project.image.map((src) => ({ type: "image" as const, src }))}
+                items={project.image.map((src) => ({ type: "image" as const, src, lightboxSrc: src.includes('/stilo-') ? src.replace('.png', '-cropped.png') : undefined }))}
                 mode="carousel"
                 swipeHint={translations.swipeHint}
               />
@@ -129,7 +129,7 @@ export default function ProjectsGrid({
                 <h3 className="text-primary font-ubuntu-mono text-sm font-bold mb-3 uppercase tracking-wide">
                   {translations.technologies}
                 </h3>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
                   {project.tags.map((tag: String, tagIndex: number) => (
                     <span
                       key={tagIndex}

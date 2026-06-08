@@ -1,11 +1,14 @@
 ---
-import { getLangFromUrl } from "@/i18n/utils";
+import { getLangFromUrl, useTranslatedPath } from "@/i18n/utils";
 import { getI18N } from "@/i18n/index";
 
 const { currentLocale } = Astro;
 const i18n = getI18N({ currentLocale });
 const lang = getLangFromUrl(Astro.url);
 const base = lang === "en" ? "/" : "/es/";
+const translatePath = useTranslatedPath(lang);
+const enPath = translatePath(Astro.url.pathname, "en");
+const esPath = translatePath(Astro.url.pathname, "es");
 ---
 
 <header
@@ -79,7 +82,7 @@ const base = lang === "en" ? "/" : "/es/";
             class="flex items-center bg-white border-2 border-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] overflow-hidden"
           >
             <a
-              href="/"
+              href={enPath}
               class={`px-4 py-2 font-ubuntu-mono font-semibold text-sm leading-none transition-all duration-200 flex items-center ${
                 lang === "en"
                   ? "bg-primary text-white"
@@ -89,7 +92,7 @@ const base = lang === "en" ? "/" : "/es/";
               EN
             </a>
             <a
-              href="/es/"
+              href={esPath}
               class={`px-4 py-2 font-ubuntu-mono font-semibold text-sm leading-none transition-all duration-200 flex items-center ${
                 lang === "es"
                   ? "bg-primary text-white"
@@ -107,7 +110,7 @@ const base = lang === "en" ? "/" : "/es/";
             class="flex items-center bg-white border-2 border-text shadow-[1px_1px_0px_0px_rgba(65,44,71,1)] sm:shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] overflow-hidden"
           >
             <a
-              href="/"
+              href={enPath}
               class={`px-2 sm:px-3 py-1 sm:py-1.5 font-ubuntu-mono font-semibold text-xs leading-none transition-all duration-200 flex items-center ${
                 lang === "en"
                   ? "bg-primary text-white"
@@ -117,7 +120,7 @@ const base = lang === "en" ? "/" : "/es/";
               EN
             </a>
             <a
-              href="/es/"
+              href={esPath}
               class={`px-2 sm:px-3 py-1 sm:py-1.5 font-ubuntu-mono font-semibold text-xs leading-none transition-all duration-200 flex items-center ${
                 lang === "es"
                   ? "bg-primary text-white"

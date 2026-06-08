@@ -44,7 +44,7 @@ export function HighlightGallery({ highlights }: HighlightGalleryProps) {
         {highlights.map((h, i) => (
           <button
             key={i}
-            className="group border-2 sm:border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] sm:shadow-[6px_6px_0px_0px_rgba(65,44,71,1)] overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] hover:translate-x-[2px] hover:translate-y-[2px] text-left bg-background"
+            className="group border-2 sm:border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] sm:shadow-[6px_6px_0px_0px_rgba(65,44,71,1)] overflow-hidden cursor-pointer text-left bg-background"
             onClick={() => open(i)}
             aria-label={`Open ${h.title} - ${h.event}`}
           >
@@ -52,7 +52,7 @@ export function HighlightGallery({ highlights }: HighlightGalleryProps) {
               <img
                 src={h.photo}
                 alt={h.event}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                className="w-full h-full object-cover"
                 loading={i < 2 ? "eager" : "lazy"}
                 draggable="false"
               />
