@@ -15,4 +15,9 @@ export default defineConfig({
             es: 'en',
         },
     },
+    vite: {
+        ssr: {
+            noExternal: ['pixelarticons'],
+        },
+    },
 })
