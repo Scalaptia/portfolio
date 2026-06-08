@@ -8,5 +8,7 @@ RUN npm run build
 
 # Production stage
 FROM nginx:alpine
+# Keep /app/dist for Coolify static extraction
+COPY --from=builder /app/dist /app/dist
 COPY --from=builder /app/dist /usr/share/nginx/html
 EXPOSE 80
