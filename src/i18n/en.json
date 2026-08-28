@@ -38,7 +38,7 @@
       "period": "Mar 2025 - Oct 2025",
       "description": [
         "Developed La Br\u00fajula del Autismo, a React Native rebuild of Blue Piece, a published autism research platform. Built 20+ screens and a questionnaire engine where new screening instruments are added by config, not code.",
-        "Ran it as a user-centered design process, on PostgreSQL and Supabase with row-level security. First place at ENITCI 2025."
+        "Ran it as a user-centered design process, on PostgreSQL and Supabase with row-level security."
       ],
       "type": "work"
     },
