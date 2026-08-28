@@ -102,11 +102,15 @@ const personSchema = {
 
     <link rel="icon" href="/logo.ico" type="image/x-icon" />
 
-    <!-- Archivo Black was loaded twice, self-hosted here and again from Google with display=swap.
-         The swap is what made the header and hero text jump once the web font arrived. Google's
-         copy is gone, and the three faces we serve ourselves are preloaded so they are in flight
-         before the stylesheet asks for them. -->
-    <link rel="preload" href="/fonts/archivo-black-v23-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Archivo Black still comes from Google, because the file we shipped as
+         archivo-black-v23-latin.woff2 was actually the latin-ext subset. Its cmap has no ASCII
+         letters, so it never rendered a single character of a title and Google's copy was quietly
+         doing all the work. It is now requested with display=block rather than swap, which is what
+         made the header and the hero name jump once the web font arrived.
+         Open Sans and Ubuntu Mono are ours and are preloaded. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=block" rel="stylesheet" />
     <link rel="preload" href="/fonts/open-sans-v40-latin-regular.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/ubuntu-mono-v17-latin-regular.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="/fonts.css" />
