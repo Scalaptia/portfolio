@@ -46,7 +46,9 @@ Two options, and I would take the first:
 
 `public/images` is 6.9 MB. Four Stilo screenshots are still PNG at 516 KB, 452 KB, 364 KB and one
 more, while everything else is already WebP. Converting them drops about 1.2 MB for no visible
-difference. Five of nineteen images also have no `loading="lazy"`.
+difference. Lazy loading is already handled correctly: every image without `loading="lazy"` is a
+deliberate eager load, the first carousel slide, the main gallery image, and the lightbox, which only
+mounts when opened.
 
 ## The content gap that matters most
 
