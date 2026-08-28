@@ -99,7 +99,9 @@ function Scene() {
     useEffect(() => {
         if (canvasRef.current) return
         
-        canvasRef.current = createFaceCanvas(128)
+        // 256 rather than 128: the block art looks the same under NearestFilter, but words in
+        // the boot frames get twice the pixels and stop reading as smudges.
+        canvasRef.current = createFaceCanvas(256)
         const ctx = canvasRef.current.getContext('2d')
         if (!ctx) return
 

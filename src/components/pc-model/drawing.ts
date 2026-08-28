@@ -54,26 +54,61 @@ export function drawFromArt(
                     ctx.fillStyle = colors.bg
                     ctx.fillRect(px + 2, py + 2, pixelSize - 4, pixelSize - 4)
                     break
-                case '.':
-                    // Empty - do nothing
-                    break
                 default:
-                    // Draw as text character - flip it back so it reads correctly
-                    ctx.save()
-                    ctx.translate(px + pixelSize / 2, py + pixelSize / 2)
-                    ctx.scale(-1, 1) // Flip text back
-                    ctx.fillStyle = colors.fg
-                    ctx.font = `bold ${pixelSize * 0.7}px monospace`
-                    ctx.textAlign = 'center'
-                    ctx.textBaseline = 'middle'
-                    ctx.fillText(char, 0, 0)
-                    ctx.restore()
+                    // Anything that is not a block is text, and text is handled below in one
+                    // pass per word rather than per character.
                     break
             }
         })
     })
 
     ctx.restore()
+
+    // Text runs, drawn outside the mirrored transform.
+    //
+    // The block pass above runs mirrored so the art lines up with the screen mesh UVs. Characters
+    // used to be drawn inside that transform and flipped back one at a time, which fixed each
+    // glyph but left the columns in reverse order, so FERNANDO came out as ODNANREF. Drawing a
+    // whole word here, at the mirrored position, keeps the order and the orientation. Sizing per
+    // run also gets the type off the old 0.7-cell font, which was about seven pixels and turned
+    // into mush once the texture hit the model.
+    ctx.fillStyle = colors.fg
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+
+    art.forEach((row, y) => {
+        const chars = row.split('')
+        let start = -1
+
+        const flush = (end: number) => {
+            if (start < 0) return
+            const word = chars.slice(start, end).join('')
+            const runWidth = (end - start) * pixelSize
+            // Mirror the run's centre back into screen space.
+            const cx = w - ((start + end) / 2) * pixelSize
+            const cy = (y + 0.5) * pixelSize
+
+            let fontSize = pixelSize * 1.5
+            ctx.font = `bold ${fontSize}px monospace`
+            const measured = ctx.measureText(word).width
+            if (measured > runWidth * 0.95) {
+                fontSize *= (runWidth * 0.95) / measured
+                ctx.font = `bold ${fontSize}px monospace`
+            }
+
+            ctx.fillText(word, cx, cy)
+            start = -1
+        }
+
+        chars.forEach((char, x) => {
+            if (char === '.' || char === '#' || char === '@' || char === 'O') {
+                flush(x)
+            } else if (start < 0) {
+                start = x
+            }
+        })
+        flush(chars.length)
+    })
 }
 
 // Draw a face expression
