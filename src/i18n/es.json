@@ -37,8 +37,8 @@
       "link": "https://www.tech4goodresearchlab.com/",
       "period": "Mar 2025 - Oct 2025",
       "description": [
-        "Desarroll\u00e9 La Br\u00fajula del Autismo, una reconstrucci\u00f3n en React Native de Blue Piece, una plataforma de investigaci\u00f3n publicada que hab\u00eda quedado obsoleta. Lo trabaj\u00e9 con dise\u00f1o centrado en el usuario: entrevistas con cuidadores y especialistas, encuestas a padres en una feria del autismo, y una especificaci\u00f3n de requisitos de software escrita antes de la primera l\u00ednea de c\u00f3digo. Despu\u00e9s constru\u00ed m\u00e1s de 20 pantallas y un motor de cuestionarios donde los nuevos instrumentos de tamizaje se agregan por configuraci\u00f3n y no por c\u00f3digo.",
-        "Dise\u00f1\u00e9 el esquema de PostgreSQL y el backend con PostgREST en Supabase, con seguridad a nivel de fila. Gan\u00e9 el primer lugar presentando este trabajo en ENITCI 2025."
+        "Desarroll\u00e9 La Br\u00fajula del Autismo, una reconstrucci\u00f3n en React Native de Blue Piece, una plataforma publicada de investigaci\u00f3n sobre autismo. Constru\u00ed m\u00e1s de 20 pantallas y un motor de cuestionarios donde los instrumentos de tamizaje se agregan por configuraci\u00f3n, no por c\u00f3digo.",
+        "Lo trabaj\u00e9 con dise\u00f1o centrado en el usuario, sobre PostgreSQL y Supabase con seguridad a nivel de fila. Primer lugar en ENITCI 2025."
       ],
       "type": "work"
     },

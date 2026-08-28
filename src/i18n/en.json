@@ -37,8 +37,8 @@
       "link": "https://www.tech4goodresearchlab.com/",
       "period": "Mar 2025 - Oct 2025",
       "description": [
-        "Developed La Br\u00fajula del Autismo, a React Native rebuild of Blue Piece, a published research platform that had aged out. Ran it as a user-centered design process: interviews with caregivers and specialists, parent surveys at a local autism fair, and a software requirements specification written before any code. Then built 20+ screens and a questionnaire engine where new clinical screening instruments are added by config rather than code.",
-        "Designed the PostgreSQL schema and the backend with PostgREST in Supabase, with row-level security. Won first place presenting this work at ENITCI 2025."
+        "Developed La Br\u00fajula del Autismo, a React Native rebuild of Blue Piece, a published autism research platform. Built 20+ screens and a questionnaire engine where new screening instruments are added by config, not code.",
+        "Ran it as a user-centered design process, on PostgreSQL and Supabase with row-level security. First place at ENITCI 2025."
       ],
       "type": "work"
     },
