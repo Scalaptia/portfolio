@@ -7,6 +7,12 @@ import type { ColorScheme, FaceData, IntroFrame } from './faces'
 const GRID_SIZE = 12
 
 // Draw ASCII art to canvas
+//
+// The whole thing is drawn mirrored because the screen mesh's UVs are flipped, so what is painted
+// backwards here reads forwards on the model. Text used to be flipped back a glyph at a time, which
+// un-mirrored each letter but left the columns reversed, and then drawing it upright instead just
+// moved the mirroring to the model. Words are now drawn inside the same mirrored transform as the
+// blocks, so the mesh undoes both the letter shapes and their order in one go.
 export function drawFromArt(
     ctx: CanvasRenderingContext2D,
     art: string[],
@@ -27,51 +33,28 @@ export function drawFromArt(
         ctx.fillRect(0, y, w, 1)
     }
 
-    // Flip canvas horizontally for correct orientation
     ctx.save()
     ctx.translate(w, 0)
     ctx.scale(-1, 1)
 
-    // Draw pixels
+    // Blocks
     art.forEach((row, y) => {
         row.split('').forEach((char, x) => {
             const px = x * pixelSize
             const py = y * pixelSize
 
-            switch (char) {
-                case '#':
-                    ctx.fillStyle = colors.fg
-                    ctx.fillRect(px, py, pixelSize, pixelSize)
-                    break
-                case '@':
-                    ctx.fillStyle = accent || colors.fg
-                    ctx.fillRect(px, py, pixelSize, pixelSize)
-                    break
-                case 'O':
-                    // Hollow effect - draw foreground then cut out center
-                    ctx.fillStyle = colors.fg
-                    ctx.fillRect(px, py, pixelSize, pixelSize)
-                    ctx.fillStyle = colors.bg
-                    ctx.fillRect(px + 2, py + 2, pixelSize - 4, pixelSize - 4)
-                    break
-                default:
-                    // Anything that is not a block is text, and text is handled below in one
-                    // pass per word rather than per character.
-                    break
+            if (char === '#') {
+                ctx.fillStyle = colors.fg
+                ctx.fillRect(px, py, pixelSize, pixelSize)
+            } else if (char === '@') {
+                ctx.fillStyle = accent || colors.fg
+                ctx.fillRect(px, py, pixelSize, pixelSize)
             }
         })
     })
 
-    ctx.restore()
-
-    // Text runs, drawn outside the mirrored transform.
-    //
-    // The block pass above runs mirrored so the art lines up with the screen mesh UVs. Characters
-    // used to be drawn inside that transform and flipped back one at a time, which fixed each
-    // glyph but left the columns in reverse order, so FERNANDO came out as ODNANREF. Drawing a
-    // whole word here, at the mirrored position, keeps the order and the orientation. Sizing per
-    // run also gets the type off the old 0.7-cell font, which was about seven pixels and turned
-    // into mush once the texture hit the model.
+    // Words, one run at a time rather than one letter at a time, so each is sized to the space it
+    // has instead of the old fixed 0.7-of-a-cell font that came out around seven pixels tall.
     ctx.fillStyle = colors.fg
     ctx.textAlign = 'center'
     ctx.textBaseline = 'middle'
@@ -84,8 +67,7 @@ export function drawFromArt(
             if (start < 0) return
             const word = chars.slice(start, end).join('')
             const runWidth = (end - start) * pixelSize
-            // Mirror the run's centre back into screen space.
-            const cx = w - ((start + end) / 2) * pixelSize
+            const cx = ((start + end) / 2) * pixelSize
             const cy = (y + 0.5) * pixelSize
 
             let fontSize = pixelSize * 1.5
@@ -101,7 +83,7 @@ export function drawFromArt(
         }
 
         chars.forEach((char, x) => {
-            if (char === '.' || char === '#' || char === '@' || char === 'O') {
+            if (char === '.' || char === '#' || char === '@') {
                 flush(x)
             } else if (start < 0) {
                 start = x
@@ -109,6 +91,8 @@ export function drawFromArt(
         })
         flush(chars.length)
     })
+
+    ctx.restore()
 }
 
 // Draw a face expression

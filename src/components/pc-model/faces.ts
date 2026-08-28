@@ -3,8 +3,10 @@
 //   . = empty (background)
 //   # = main color (foreground)
 //   @ = accent color (blush, tongue, etc)
-//   O = hollow effect (draws background color inside)
-//   Any letter/symbol = drawn as text
+//   Any letter or symbol = drawn as text, a word at a time
+// There is no hollow-block marker. 'O' used to be one, which quietly turned the O in FERNANDO,
+// HARO, BOOTING and WELCOME into a square. If you want hollow blocks again, pick a character that
+// cannot appear in a word.
 
 export const CRT_COLORS = {
     green: { bg: '#001100', fg: '#00FF41', glow: '#00FF4180' },
