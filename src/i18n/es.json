@@ -6,27 +6,34 @@
   "TEXT_DESCRIPTION_1": "**Desarrollador full-stack** de Baja California, M\u00e9xico. Construyo **aplicaciones web** e **infraestructura en la nube**.",
   "EXPERIENCE": [
     {
+      "title": "Desarrollador Frontend Freelance",
+      "company": "Lands End Charters",
+      "period": "Ago 2026 - Presente",
+      "description": "Construyo el sitio de reservaciones de una operadora de yates y pesca deportiva en Los Cabos, con Next.js y Strapi.",
+      "type": "work"
+    },
+    {
       "title": "Practicante en Desarrollo de Aplicaciones",
       "company": "P\\S\\L Group",
       "link": "https://www.pslgroup.com/",
-      "period": "Mar 2026 - Presente",
-      "description": "Desarrollo aplicaciones con IA para usuarios finales en varios proyectos usando React. Dise\u00f1\u00e9 e implement\u00e9 un pipeline automatizado de reportes de pruebas usando Playwright, GitHub Actions y AWS (S3, CloudFront, WAF) que entrega vistas previas de reportes directamente en Google Chat. Tambi\u00e9n contribuyo a mejoras de UI/UX en funcionalidades principales.",
+      "period": "Mar 2026 - Ago 2026",
+      "description": "Desarrollo de funcionalidades frontend en DougallGPT y DougallEYE, un asistente m\u00e9dico con IA multimarca, con React, TanStack Query, Redux Toolkit y Vite. Llev\u00e9 un redise\u00f1o a producci\u00f3n y reduje el cierre de sesi\u00f3n de 30 segundos a 5. Tambi\u00e9n constru\u00ed herramientas internas para el equipo: skills de Claude Code, validaciones autom\u00e1ticas de build, y un pipeline de reportes de Playwright en AWS que entrega los resultados en Google Chat.",
       "type": "work"
     },
     {
-      "title": "Practicante en Pruebas Automatizadas",
+      "title": "Trainee en Pruebas Automatizadas",
       "company": "EPAM Systems",
       "link": "https://www.epam.com/",
       "period": "Oct 2025 - Mar 2026",
-      "description": "Desarroll\u00e9 suites de pruebas automatizadas y flujos de QA con Selenium, RestAssured y TestNG como parte de un programa de formaci\u00f3n en calidad de software a nivel empresarial.",
+      "description": "Programa de formaci\u00f3n universidad-empresa en automatizaci\u00f3n de pruebas. Constru\u00ed suites de pruebas y librer\u00edas de utilidades reutilizables en Java con Selenium, RestAssured y TestNG, aplicando principios SOLID y el patr\u00f3n Page Object.",
       "type": "work"
     },
     {
-      "title": "Desarrollador & Asistente de Investigaci\u00f3n",
+      "title": "Desarrollador de Software y Asistente de Investigaci\u00f3n",
       "company": "Tech4Good Research Lab",
       "link": "https://www.tech4goodresearchlab.com/",
       "period": "Mar 2025 - Oct 2025",
-      "description": "Constru\u00ed una app React Native para la comunidad TEA. Dise\u00f1\u00e9 un esquema de base de datos compatible con HIPAA en Supabase, realic\u00e9 sesiones de dise\u00f1o centrado en el usuario y redact\u00e9 la especificaci\u00f3n de requisitos de software.",
+      "description": "\u00danico desarrollador de La Br\u00fajula del Autismo, una reconstrucci\u00f3n en React Native de Blue Piece, una plataforma publicada de tamizaje de autismo que hab\u00eda quedado obsoleta. Lo trabaj\u00e9 con dise\u00f1o centrado en el usuario: entrevistas con 8 cuidadores y 3 especialistas, encuestas a padres en una feria del autismo, y una especificaci\u00f3n de requisitos de software escrita antes de la primera l\u00ednea de c\u00f3digo. Dise\u00f1\u00e9 el esquema de PostgreSQL y las pol\u00edticas de seguridad a nivel de fila que limitan cada expediente a su cuidador, el especialista tratante y un administrador.",
       "type": "work"
     },
     {
@@ -43,7 +50,7 @@
       "slug": "stilo",
       "title": "Stilo",
       "description": "App m\u00f3vil que arma atuendos con tu propia ropa usando IA. Incluye un m\u00f3dulo de colorimetr\u00eda que encuentra tus paletas m\u00e1s favorecedoras, un pipeline RAG que convierte descripciones en lenguaje natural en conjuntos coordinados, y un lienzo interactivo para editar con drag-and-drop.",
-      "context": "Coautor y Desarrollador L\u00edder",
+      "context": "Coautor y Desarrollador L\u00edder \u2022 Art\u00edculo aceptado en MexIHC 2026",
       "contributions": [
         "Dise\u00f1\u00e9 el pipeline de recomendaciones que interpreta prompts, encuentra ropa compatible y arma conjuntos.",
         "Constru\u00ed la app multiplataforma con un lienzo interactivo para armar atuendos.",
@@ -78,23 +85,28 @@
     {
       "slug": "awita",
       "title": "Awita",
-      "description": "Monitor IoT de agua construido para regiones con suministro de agua irregular. Los sensores miden el nivel del tanque, el dashboard muestra datos en tiempo real, y ML predice cu\u00e1ndo te quedar\u00e1s sin agua.",
+      "description": "Monitor IoT de agua para regiones con suministro irregular. Un Arduino mide el nivel del tanque cada minuto, el dashboard lo muestra en vivo, y las alertas por correo avisan antes de que se acabe. Lleva m\u00e1s de un a\u00f1o funcionando en el tanque de mi casa.",
       "context": "Proyecto Personal",
       "contributions": [
-        "Dise\u00f1\u00e9 el sistema completo \u2014 firmware Arduino, Lambda en Go para datos de sensores, API backend, y dashboard React.",
-        "Constru\u00ed el modelo LSTM que predice el consumo de agua y avisa antes de que el tanque se vac\u00ede."
+        "Dise\u00f1\u00e9 el sistema completo \u2014 firmware Arduino, una Lambda en Go para la ingesta de sensores, la API en NestJS y el dashboard en React.",
+        "Entren\u00e9 un modelo LSTM para predecir cu\u00e1ndo se vaciar\u00eda el tanque, lo evalu\u00e9 contra la latencia que agregaba, y lo apagu\u00e9."
       ],
       "image": [
         "/images/awita-1.webp",
         "/images/awita-2.webp",
         "/images/awita-3.webp"
       ],
-      "tags": ["React", "NestJS", "MySQL", "AWS", "Arduino", "TensorFlow"],
+      "tags": ["React", "NestJS", "Go", "MySQL", "AWS", "Arduino"],
       "repo": "https://www.github.com/Scalaptia/awita-app",
       "live": "https://awita.fharo.dev/"
     }
   ],
   "OTHER_PROJECTS": [
+    {
+      "title": "Havi",
+      "description": "Copiloto financiero proactivo construido en dos d\u00edas para el datathon de Hey Banco. Constru\u00ed el cliente m\u00f3vil: 8 pantallas, una librer\u00eda de componentes compartida, y una capa de contexto tipada que cae a datos simulados cuando el backend est\u00e1 abajo.",
+      "tags": ["React Native", "Expo", "FastAPI", "Gemini"]
+    },
     {
       "title": "Espyntar",
       "description": "Pictionary multijugador en C++. Hasta 8 jugadores dibujan y adivinan sobre TCP con un protocolo binario personalizado.",
@@ -134,7 +146,7 @@
     {
       "photo": "/images/highlights/icpc-apr-2026.jpg",
       "title": "Ronda Regional",
-      "event": "ICPC, Gran Premio de México",
+      "event": "ICPC, Gran Premio de M\u00e9xico",
       "period": "Apr 2026"
     },
     {
@@ -148,7 +160,7 @@
       "photo": "/images/highlights/enitci-nov-2025.jpeg",
       "title": "1er Lugar, Divisi\u00f3n de Ingenier\u00eda y Tecnolog\u00eda",
       "event": "ENITCI",
-      "description": "Present\u00e9 una app React Native para la comunidad TEA, reconocida por su base de datos compatible con HIPAA y metodolog\u00eda de dise\u00f1o centrado en el usuario.",
+      "description": "Present\u00e9 una app React Native para la comunidad TEA, reconocida por su proceso de dise\u00f1o centrado en el usuario y su control de acceso a nivel de fila sobre datos de salud sensibles.",
       "period": "Nov 2025"
     },
     {
@@ -161,7 +173,7 @@
     {
       "photo": "/images/highlights/icpc-jun-2025.jpeg",
       "title": "Ronda Regional",
-      "event": "ICPC, Gran Premio de México",
+      "event": "ICPC, Gran Premio de M\u00e9xico",
       "period": "Jun 2025"
     },
     {
