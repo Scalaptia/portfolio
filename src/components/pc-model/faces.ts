@@ -11,6 +11,7 @@ export const CRT_COLORS = {
     amber: { bg: '#110800', fg: '#FFB000', glow: '#FFB00080' },
     blue: { bg: '#000815', fg: '#00D4FF', glow: '#00D4FF80' },
     pink: { bg: '#150010', fg: '#FF6B9D', glow: '#FF6B9D80' },
+    off: { bg: '#050505', fg: '#050505', glow: '#05050500' },
 } as const
 
 export type ColorScheme = typeof CRT_COLORS[keyof typeof CRT_COLORS]
@@ -189,6 +190,33 @@ export const BLINK_FACE: FaceData = {
         '............',
         '............',
     ]
+}
+
+// Shown when someone will not stop clicking. Crossed-out eyes, flat mouth, amber warning.
+export const DIZZY_FACE: FaceData = {
+    name: 'Dizzy',
+    color: CRT_COLORS.amber,
+    art: [
+        '............',
+        '............',
+        '..#.#..#.#..',
+        '...#....#...',
+        '..#.#..#.#..',
+        '............',
+        '.....##.....',
+        '............',
+        '...######...',
+        '............',
+        '............',
+        '............',
+    ]
+}
+
+// The screen after it gives up. Nothing lit but the scanlines.
+export const OFF_FACE: FaceData = {
+    name: 'Off',
+    color: CRT_COLORS.off,
+    art: Array(12).fill('............'),
 }
 
 // Boot/intro animation frames

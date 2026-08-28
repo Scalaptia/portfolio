@@ -3,9 +3,14 @@ import { useGLTF, Preload } from '@react-three/drei'
 import { useRef, Suspense, useState, useEffect } from 'react'
 import * as THREE from 'three'
 
-import { FACES, BLINK_FACE } from './pc-model/faces'
-import { playMeowSound } from './pc-model/sounds'
-import { drawFace, createFaceCanvas, drawFromArt } from './pc-model/drawing'
+import { FACES, BLINK_FACE, DIZZY_FACE, OFF_FACE, INTRO_FRAMES } from './pc-model/faces'
+import { playMeowSound, playPowerDownSound, playBootSound } from './pc-model/sounds'
+import { drawFace, createFaceCanvas, drawFromArt, drawIntroFrame } from './pc-model/drawing'
+
+// Click it enough times in a row and it has had enough.
+const RAGE_LIMIT = 8
+// Clicks stop counting toward that once you leave it alone for a moment.
+const RAGE_WINDOW_MS = 1500
 
 useGLTF.preload('/models/mac_minus.glb')
 
@@ -18,6 +23,14 @@ function Scene() {
     const [expression, setExpression] = useState(0)
     const [isBlinking, setIsBlinking] = useState(false)
     const [isHeroHovered, setIsHeroHovered] = useState(false)
+    // 'awake' is the normal state. 'dizzy' is the warning, 'off' is the shutdown, 'booting'
+    // replays the intro frames that were already in the repo but never used anywhere.
+    const [mode, setMode] = useState<'awake' | 'dizzy' | 'off' | 'booting'>('awake')
+    const [bootFrame, setBootFrame] = useState(0)
+
+    const rageCount = useRef(0)
+    const lastClick = useRef(0)
+    const rageTimers = useRef<ReturnType<typeof setTimeout>[]>([])
     
     const canvasRef = useRef<HTMLCanvasElement | null>(null)
     const textureRef = useRef<THREE.CanvasTexture | null>(null)
@@ -138,6 +151,24 @@ function Scene() {
         const ctx = canvasRef.current.getContext('2d')
         if (!ctx) return
 
+        if (mode === 'off') {
+            drawFace(ctx, OFF_FACE)
+            textureRef.current.needsUpdate = true
+            return
+        }
+
+        if (mode === 'booting') {
+            drawIntroFrame(ctx, INTRO_FRAMES[Math.min(bootFrame, INTRO_FRAMES.length - 1)])
+            textureRef.current.needsUpdate = true
+            return
+        }
+
+        if (mode === 'dizzy') {
+            drawFace(ctx, DIZZY_FACE)
+            textureRef.current.needsUpdate = true
+            return
+        }
+
         if (isHeroHovered) {
             drawFace(ctx, FACES[4])
         } else if (isBlinking) {
@@ -148,14 +179,55 @@ function Scene() {
         textureRef.current.needsUpdate = true
     }
 
-    useEffect(updateFace, [expression, isHeroHovered, isBlinking])
+    useEffect(updateFace, [expression, isHeroHovered, isBlinking, mode, bootFrame])
+
+    // RAGE-CLICK SHUTDOWN
+    const clearRageTimers = () => {
+        rageTimers.current.forEach(clearTimeout)
+        rageTimers.current = []
+    }
+
+    useEffect(() => clearRageTimers, [])
+
+    const scheduleRage = (fn: () => void, delay: number) => {
+        rageTimers.current.push(setTimeout(fn, delay))
+    }
+
+    const triggerShutdown = () => {
+        clearRageTimers()
+        rageCount.current = 0
+        setMode('dizzy')
+
+        scheduleRage(() => {
+            setMode('off')
+            playPowerDownSound()
+        }, 900)
+
+        scheduleRage(() => {
+            setMode('booting')
+            setBootFrame(0)
+            playBootSound()
+
+            let elapsed = 0
+            INTRO_FRAMES.forEach((frame, i) => {
+                if (i === 0) return
+                elapsed += INTRO_FRAMES[i - 1].duration
+                scheduleRage(() => setBootFrame(i), elapsed)
+            })
+            const total = INTRO_FRAMES.reduce((sum, f) => sum + f.duration, 0)
+            scheduleRage(() => {
+                setMode('awake')
+                setExpression(0)
+            }, total)
+        }, 2600)
+    }
 
     // BLINK ANIMATION
     useEffect(() => {
         const scheduleBlink = () => {
             const delay = 3000 + Math.random() * 5000
             blinkTimer.current = setTimeout(() => {
-                if (expression === 0 && !isHeroHovered) {
+                if (expression === 0 && !isHeroHovered && mode === 'awake') {
                     setIsBlinking(true)
                     setTimeout(() => setIsBlinking(false), 120)
                 }
@@ -167,7 +239,7 @@ function Scene() {
         return () => {
             if (blinkTimer.current) clearTimeout(blinkTimer.current)
         }
-    }, [isHeroHovered, expression])
+    }, [isHeroHovered, expression, mode])
 
     // INTERACTION
     const triggerBounce = () => {
@@ -176,6 +248,18 @@ function Scene() {
     }
 
     const handleClick = () => {
+        // While it is off or rebooting, poking it does nothing. That is the joke.
+        if (mode !== 'awake') return
+
+        const now = Date.now()
+        rageCount.current = now - lastClick.current < RAGE_WINDOW_MS ? rageCount.current + 1 : 1
+        lastClick.current = now
+
+        if (rageCount.current >= RAGE_LIMIT) {
+            triggerShutdown()
+            return
+        }
+
         triggerBounce()
         const next = (expression + 1) % FACES.length
         setExpression(next)
@@ -183,10 +267,24 @@ function Scene() {
     }
 
     // ANIMATION FRAME
-    useFrame(() => {
+    useFrame((state) => {
         if (!modelRef.current) return
 
         const frontAngle = Math.PI + 1.5
+
+        // While it is dizzy it shakes and stops following the cursor. While it is off it slumps.
+        if (mode === 'dizzy') {
+            const t = state.clock.elapsedTime
+            modelRef.current.rotation.y = frontAngle + Math.sin(t * 30) * 0.08
+            modelRef.current.rotation.x = Math.sin(t * 22) * 0.04
+            return
+        }
+        if (mode === 'off' || mode === 'booting') {
+            modelRef.current.rotation.y += (frontAngle - modelRef.current.rotation.y) * 0.08
+            modelRef.current.rotation.x += (0.12 - modelRef.current.rotation.x) * 0.08
+            return
+        }
+
         const targetY = Math.atan2(mousePos.x, 1) * 0.5 + frontAngle
         // Limit vertical rotation: subtle look up/down
         const targetX = Math.max(-0.15, Math.min(0.25, -mousePos.y * 0.15))

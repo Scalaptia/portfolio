@@ -101,10 +101,14 @@ const personSchema = {
       data-website-id="73abe834-05b6-4a54-b407-5597a7b70e66"></script>
 
     <link rel="icon" href="/logo.ico" type="image/x-icon" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet" />
-    <link rel="preload" href="/fonts.css" as="style" />
+
+    <!-- Archivo Black was loaded twice, self-hosted here and again from Google with display=swap.
+         The swap is what made the header and hero text jump once the web font arrived. Google's
+         copy is gone, and the three faces we serve ourselves are preloaded so they are in flight
+         before the stylesheet asks for them. -->
+    <link rel="preload" href="/fonts/archivo-black-v23-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/open-sans-v40-latin-regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/ubuntu-mono-v17-latin-regular.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="/fonts.css" />
     <ClientRouter />
 

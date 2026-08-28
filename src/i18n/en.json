@@ -2,7 +2,6 @@
   "TAG_ABOUT_ME": "about_me",
   "TAG_PROJECTS": "projects",
   "TAG_EXPERIENCE": "experience",
-  "TAG_SKILLS": "skills",
   "TAG_OTHER_PROJECTS": "other_projects",
   "TEXT_DESCRIPTION_1": "**Full-stack developer** from Baja California, Mexico. I build **web apps** and **cloud infrastructure**.",
   "EXPERIENCE": [
@@ -10,7 +9,7 @@
       "title": "Freelance Frontend Developer",
       "company": "Lands End Charters",
       "period": "Aug 2026 - Present",
-      "description": "Building the booking site for a yacht and sport-fishing charter operator in Los Cabos, with Next.js and Strapi.",
+      "description": "Frontend work on the booking platform of a yacht and sport-fishing charter operator in Los Cabos, built with Next.js and Strapi.",
       "type": "work"
     },
     {
@@ -19,7 +18,7 @@
       "link": "https://www.pslgroup.com/",
       "period": "Mar 2026 - Aug 2026",
       "description": [
-        "Frontend feature work on DougallGPT and DougallEYE, a multibrand medical AI assistant built with React, TanStack Query, Redux Toolkit and Vite. Shipped a redesign to production and cut logout from 30 seconds to 5.",
+        "Frontend feature work on DougallGPT and DougallEYE, a multibrand medical AI assistant built with React, TanStack Query, Redux Toolkit and Vite.",
         "Built internal tooling for the team as well: Claude Code skills, automated build checks, and a Playwright report pipeline on AWS that delivers results into Google Chat."
       ],
       "type": "work"
@@ -38,18 +37,17 @@
       "link": "https://www.tech4goodresearchlab.com/",
       "period": "Mar 2025 - Oct 2025",
       "description": [
-        "Sole developer of La Br\u00fajula del Autismo, a React Native rebuild of Blue Piece, a published autism screening platform that had aged out.",
-        "Ran it as a user-centered design process: interviews with 8 caregivers and 3 specialists, parent surveys at a local autism fair, and a software requirements specification written before any code.",
-        "Designed the PostgreSQL schema and the row-level security scoping each patient record to its caregiver, treating specialist and an admin."
+        "Developed La Br\u00fajula del Autismo, a React Native rebuild of Blue Piece, a published research platform that had aged out. Ran it as a user-centered design process: interviews with caregivers and specialists, parent surveys at a local autism fair, and a software requirements specification written before any code. Then built 20+ screens and a questionnaire engine where new clinical screening instruments are added by config rather than code.",
+        "Designed the PostgreSQL schema and the backend with PostgREST in Supabase, with row-level security. Won first place presenting this work at ENITCI 2025."
       ],
       "type": "work"
     },
     {
       "title": "Competitive Programming Club Co-Founder",
       "company": "CTRL-Coders Club",
-      "link": "https://www.instagram.com/ctrl.coders/",
+      "link": "https://ctrlcoders.com",
       "period": "Oct 2024 - May 2026",
-      "description": "Co-led the university competitive programming club. Mentored students and led problem-solving workshops, managed social media, and recorded video tutorials to support the learning process.",
+      "description": "Co-led the university competitive programming club. Mentored students and led problem-solving workshops, and built and shipped the club's website, including the app that ran its raffle.",
       "type": "leadership"
     }
   ],
@@ -113,19 +111,29 @@
     {
       "title": "Havi",
       "description": "Proactive banking copilot built in two days for the Hey Banco datathon. I built the mobile client: 8 screens, a shared component library, and a typed context layer that falls back to mock data when the backend is down.",
-      "tags": ["React Native", "Expo", "FastAPI", "Gemini"]
+      "tags": ["React Native", "Expo", "FastAPI", "Gemini"],
+      "image": "/images/havi-1.webp"
     },
     {
       "title": "Espyntar",
       "description": "Multiplayer Pictionary in C++. Up to 8 players draw and guess over raw TCP with a custom binary protocol.",
       "tags": ["C++", "Raylib", "Winsock"],
+      "image": "/images/espyntar-1.webp",
       "repo": "https://www.github.com/Scalaptia/espyntar"
     },
     {
       "title": "16-BDH",
       "description": "Educational RPG about the Battle of Puebla, built on a custom game engine in C with Raylib. Playable on desktop and web via Emscripten.",
       "tags": ["C", "Raylib", "Emscripten"],
+      "image": "/images/16bdh-1.webp",
       "repo": "https://github.com/Scalaptia/16-Bits-de-Historia"
+    },
+    {
+      "title": "Espify",
+      "description": "Listen to music with other people from the terminal. A socket server keeps rooms in sync, streams the audio to every client, and takes commands like join-room, add-song and skip.",
+      "tags": ["Java", "Spring Shell", "Sockets", "Maven"],
+      "image": "/images/espify-1.webp",
+      "repo": "https://github.com/EspySoftware/espify"
     }
   ],
   "TEXT_404": "Oops! The page you're looking for doesn't exist.",
@@ -198,32 +206,6 @@
       "title": "Honorable Mention",
       "event": "ElegisTech 3 Hackathon",
       "period": "Mar 2025"
-    }
-  ],
-  "SKILLS": [
-    {
-      "label": "frontend",
-      "items": ["React", "React Native", "TypeScript", "Next.js", "Astro", "Tailwind", "Redux Toolkit", "TanStack Query"]
-    },
-    {
-      "label": "backend",
-      "items": ["Node.js", "NestJS", "FastAPI", "GraphQL", "PostgreSQL", "Supabase", "Prisma", "MongoDB"]
-    },
-    {
-      "label": "cloud & devops",
-      "items": ["AWS Lambda", "S3", "CloudFront", "Terraform", "Docker", "GitHub Actions", "Serverless"]
-    },
-    {
-      "label": "ai & agents",
-      "items": ["Claude Code", "MCP", "RAG", "Vertex AI", "Gemini", "pgvector"]
-    },
-    {
-      "label": "testing",
-      "items": ["Playwright", "Selenium", "TestNG", "RestAssured", "Vitest"]
-    },
-    {
-      "label": "languages",
-      "items": ["TypeScript", "Python", "Java", "Go", "C", "C++"]
     }
   ]
 }

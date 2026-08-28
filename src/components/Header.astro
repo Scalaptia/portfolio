@@ -49,12 +49,6 @@ const esPath = translatePath(Astro.url.pathname, "es");
       <!-- Desktop Navigation Links -->
       <div class="hidden lg:flex items-center gap-6">
         <a
-          href={`${base}#skills`}
-          class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-lg border-b-2 border-transparent hover:border-primary pb-1 leading-none flex items-center"
-        >
-          {i18n.TAG_SKILLS}
-        </a>
-        <a
           href={`${base}#experience`}
           class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-lg border-b-2 border-transparent hover:border-primary pb-1 leading-none flex items-center"
         >
@@ -147,12 +141,6 @@ const esPath = translatePath(Astro.url.pathname, "es");
     >
       <div class="flex flex-col space-y-3 pt-4">
         <a
-          href={`${base}#skills`}
-          class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-base py-2 px-2 rounded hover:bg-primary/5"
-        >
-          {i18n.TAG_SKILLS}
-        </a>
-        <a
           href={`${base}#experience`}
           class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-base py-2 px-2 rounded hover:bg-primary/5"
         >
@@ -219,7 +207,7 @@ const esPath = translatePath(Astro.url.pathname, "es");
   // Logo: scroll to top if on main page
   const logoLink = document.querySelector('a[href="/"], a[href="/es/"]');
   logoLink?.addEventListener("click", (e) => {
-    const isMainPage = document.querySelector("#skills");
+    const isMainPage = document.querySelector("#experience");
     if (isMainPage) {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -227,7 +215,7 @@ const esPath = translatePath(Astro.url.pathname, "es");
   });
 
   // Active link state based on scroll position
-  const sections = ["skills", "experience", "projects", "events", "about"];
+  const sections = ["experience", "projects", "events", "about"];
   const navLinks = document.querySelectorAll('a[href*="#"]:not([href$="/"])');
   const logoLinkEl = logoLink;
   function updateActiveLink() {
@@ -250,7 +238,7 @@ const esPath = translatePath(Astro.url.pathname, "es");
       }
     });
 
-    const firstSection = document.querySelector("#skills");
+    const firstSection = document.querySelector("#experience");
     const isInHero =
       firstSection && viewportCenter < (firstSection as HTMLElement).offsetTop;
 

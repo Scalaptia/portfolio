@@ -2,7 +2,6 @@
   "TAG_ABOUT_ME": "sobre_mi",
   "TAG_PROJECTS": "proyectos",
   "TAG_EXPERIENCE": "experiencia",
-  "TAG_SKILLS": "habilidades",
   "TAG_OTHER_PROJECTS": "otros_proyectos",
   "TEXT_DESCRIPTION_1": "**Desarrollador full-stack** de Baja California, M\u00e9xico. Construyo **aplicaciones web** e **infraestructura en la nube**.",
   "EXPERIENCE": [
@@ -10,7 +9,7 @@
       "title": "Desarrollador Frontend Freelance",
       "company": "Lands End Charters",
       "period": "Ago 2026 - Presente",
-      "description": "Construyo el sitio de reservaciones de una operadora de yates y pesca deportiva en Los Cabos, con Next.js y Strapi.",
+      "description": "Trabajo de frontend en la plataforma de reservaciones de una operadora de yates y pesca deportiva en Los Cabos, construida con Next.js y Strapi.",
       "type": "work"
     },
     {
@@ -19,7 +18,7 @@
       "link": "https://www.pslgroup.com/",
       "period": "Mar 2026 - Ago 2026",
       "description": [
-        "Desarrollo de funcionalidades frontend en DougallGPT y DougallEYE, un asistente m\u00e9dico con IA multimarca, con React, TanStack Query, Redux Toolkit y Vite. Llev\u00e9 un redise\u00f1o a producci\u00f3n y reduje el cierre de sesi\u00f3n de 30 segundos a 5.",
+        "Desarrollo de funcionalidades frontend en DougallGPT y DougallEYE, un asistente m\u00e9dico con IA multimarca, con React, TanStack Query, Redux Toolkit y Vite.",
         "Tambi\u00e9n constru\u00ed herramientas internas para el equipo: skills de Claude Code, validaciones autom\u00e1ticas de build, y un pipeline de reportes de Playwright en AWS que entrega los resultados en Google Chat."
       ],
       "type": "work"
@@ -38,18 +37,17 @@
       "link": "https://www.tech4goodresearchlab.com/",
       "period": "Mar 2025 - Oct 2025",
       "description": [
-        "\u00danico desarrollador de La Br\u00fajula del Autismo, una reconstrucci\u00f3n en React Native de Blue Piece, una plataforma publicada de tamizaje de autismo que hab\u00eda quedado obsoleta.",
-        "Lo trabaj\u00e9 con dise\u00f1o centrado en el usuario: entrevistas con 8 cuidadores y 3 especialistas, encuestas a padres en una feria del autismo, y una especificaci\u00f3n de requisitos de software escrita antes de la primera l\u00ednea de c\u00f3digo.",
-        "Dise\u00f1\u00e9 el esquema de PostgreSQL y las pol\u00edticas de seguridad a nivel de fila que limitan cada expediente a su cuidador, el especialista tratante y un administrador."
+        "Desarroll\u00e9 La Br\u00fajula del Autismo, una reconstrucci\u00f3n en React Native de Blue Piece, una plataforma de investigaci\u00f3n publicada que hab\u00eda quedado obsoleta. Lo trabaj\u00e9 con dise\u00f1o centrado en el usuario: entrevistas con cuidadores y especialistas, encuestas a padres en una feria del autismo, y una especificaci\u00f3n de requisitos de software escrita antes de la primera l\u00ednea de c\u00f3digo. Despu\u00e9s constru\u00ed m\u00e1s de 20 pantallas y un motor de cuestionarios donde los nuevos instrumentos de tamizaje se agregan por configuraci\u00f3n y no por c\u00f3digo.",
+        "Dise\u00f1\u00e9 el esquema de PostgreSQL y el backend con PostgREST en Supabase, con seguridad a nivel de fila. Gan\u00e9 el primer lugar presentando este trabajo en ENITCI 2025."
       ],
       "type": "work"
     },
     {
       "title": "Co-Fundador del Club de Programaci\u00f3n Competitiva",
       "company": "CTRL-Coders Club",
-      "link": "https://www.instagram.com/ctrl.coders/",
+      "link": "https://ctrlcoders.com",
       "period": "Oct 2024 - May 2026",
-      "description": "Co-lider\u00e9 el club de programaci\u00f3n competitiva de la universidad. Mentoric\u00e9 estudiantes y dirig\u00ed talleres de resoluci\u00f3n de problemas, manej\u00e9 redes sociales y grab\u00e9 tutoriales en video para apoyar el aprendizaje.",
+      "description": "Co-lider\u00e9 el club de programaci\u00f3n competitiva de la universidad. Mentoric\u00e9 estudiantes y dirig\u00ed talleres de resoluci\u00f3n de problemas, y constru\u00ed el sitio web del club, incluyendo la app con la que se corri\u00f3 su rifa.",
       "type": "leadership"
     }
   ],
@@ -113,19 +111,29 @@
     {
       "title": "Havi",
       "description": "Copiloto financiero proactivo construido en dos d\u00edas para el datathon de Hey Banco. Constru\u00ed el cliente m\u00f3vil: 8 pantallas, una librer\u00eda de componentes compartida, y una capa de contexto tipada que cae a datos simulados cuando el backend est\u00e1 abajo.",
-      "tags": ["React Native", "Expo", "FastAPI", "Gemini"]
+      "tags": ["React Native", "Expo", "FastAPI", "Gemini"],
+      "image": "/images/havi-1.webp"
     },
     {
       "title": "Espyntar",
       "description": "Pictionary multijugador en C++. Hasta 8 jugadores dibujan y adivinan sobre TCP con un protocolo binario personalizado.",
       "tags": ["C++", "Raylib", "Winsock"],
+      "image": "/images/espyntar-1.webp",
       "repo": "https://www.github.com/Scalaptia/espyntar"
     },
     {
       "title": "16-BDH",
       "description": "RPG educativo sobre la Batalla de Puebla, construido sobre un motor de juego propio en C con Raylib. Jugable en escritorio y web v\u00eda Emscripten.",
       "tags": ["C", "Raylib", "Emscripten"],
+      "image": "/images/16bdh-1.webp",
       "repo": "https://github.com/Scalaptia/16-Bits-de-Historia"
+    },
+    {
+      "title": "Espify",
+      "description": "Escuchar m\u00fasica con otras personas desde la terminal. Un servidor de sockets mantiene las salas sincronizadas, transmite el audio a cada cliente, y recibe comandos como join-room, add-song y skip.",
+      "tags": ["Java", "Spring Shell", "Sockets", "Maven"],
+      "image": "/images/espify-1.webp",
+      "repo": "https://github.com/EspySoftware/espify"
     }
   ],
   "TEXT_404": "\u00a1Oops! La p\u00e1gina que buscas no existe.",
@@ -196,32 +204,6 @@
       "title": "Menci\u00f3n Honor\u00edfica",
       "event": "ElegisTech 3 Hackathon",
       "period": "Mar 2025"
-    }
-  ],
-  "SKILLS": [
-    {
-      "label": "frontend",
-      "items": ["React", "React Native", "TypeScript", "Next.js", "Astro", "Tailwind", "Redux Toolkit", "TanStack Query"]
-    },
-    {
-      "label": "backend",
-      "items": ["Node.js", "NestJS", "FastAPI", "GraphQL", "PostgreSQL", "Supabase", "Prisma", "MongoDB"]
-    },
-    {
-      "label": "nube y devops",
-      "items": ["AWS Lambda", "S3", "CloudFront", "Terraform", "Docker", "GitHub Actions", "Serverless"]
-    },
-    {
-      "label": "ia y agentes",
-      "items": ["Claude Code", "MCP", "RAG", "Vertex AI", "Gemini", "pgvector"]
-    },
-    {
-      "label": "pruebas",
-      "items": ["Playwright", "Selenium", "TestNG", "RestAssured", "Vitest"]
-    },
-    {
-      "label": "lenguajes",
-      "items": ["TypeScript", "Python", "Java", "Go", "C", "C++"]
     }
   ]
 }
