@@ -24,7 +24,7 @@ export const projectDetails: Record<string, { en: ProjectDetail; es: ProjectDeta
         "Provisioned all cloud infrastructure on Azure using Terraform."
       ],
       results:
-        "A controlled experiment with 10 participants compared manual vs. AI-assisted outfit creation using a standardized 25-item capsule wardrobe. The AI condition reduced UI interactions by 83.4% (p = 0.001), lowered cognitive load by 22.3% (NASA-TLX), and scored 86.75/100 on the System Usability Scale.",
+        "A controlled experiment with 10 participants compared manual vs. AI-assisted outfit creation using a standardized 25-item capsule wardrobe. The AI condition reduced UI interactions by 83.4% (p = 0.001), lowered cognitive load by 22.3% (NASA-TLX), and scored 86.75/100 on the System Usability Scale. The study was accepted for publication at MexIHC 2026.",
       extraImages: [],
     },
     es: {
@@ -42,7 +42,7 @@ export const projectDetails: Record<string, { en: ProjectDetail; es: ProjectDeta
         "Provisioné toda la infraestructura cloud en Azure usando Terraform."
       ],
       results:
-        "Un experimento controlado con 10 participantes comparó la creación de atuendos manual vs. asistida por IA con un guardarropa cápsula de 25 prendas. La condición con IA redujo las interacciones en un 83.4% (p = 0.001), disminuyó la carga cognitiva en 22.3% (NASA-TLX) y obtuvo 86.75/100 en la escala SUS.",
+        "Un experimento controlado con 10 participantes comparó la creación de atuendos manual vs. asistida por IA con un guardarropa cápsula de 25 prendas. La condición con IA redujo las interacciones en un 83.4% (p = 0.001), disminuyó la carga cognitiva en 22.3% (NASA-TLX) y obtuvo 86.75/100 en la escala SUS. El estudio fue aceptado para publicación en MexIHC 2026.",
       extraImages: [],
     },
   },
@@ -96,15 +96,14 @@ export const projectDetails: Record<string, { en: ProjectDetail; es: ProjectDeta
         "An Arduino with an ultrasonic sensor sits on top of your water tank, measuring the distance to the water surface every 60 seconds.",
         "Readings are sent to an AWS Lambda via API Gateway, which calculates the water level percentage and stores it in MySQL.",
         "A React dashboard shows your current water level as an animated gauge, with 24-hour, 7-day, and 30-day historical charts.",
-        "A separate LSTM model (Python/TensorFlow) analyzes usage patterns and predicts how many hours until your tank is empty, with confidence scores.",
         "Email alerts notify you when water drops below a configurable threshold or when the sensor stops reporting (disconnection)."
       ],
       whatIBuilt: [
         "Designed the full system architecture: Arduino firmware that registers itself on first boot, Lambda for sensor ingestion and notification dispatch, NestJS API behind API Gateway, and a React SPA with Clerk authentication.",
-        "Built the ML prediction service: an LSTM neural network trained on historical usage data with hyperparameters optimized via genetic algorithm. Predictions are cached in Redis and served through a FastAPI endpoint."
+        "Built an LSTM prediction service on FastAPI, trained on historical usage with hyperparameters tuned by a genetic algorithm and cached in Redis. I measured it against the latency it added and switched it off. A simpler regression is what I would build in its place."
       ],
       results:
-        "The system handles 1,000+ daily sensor readings at < 200 ms latency. The prediction model achieves strong accuracy for 24-hour forecasts.",
+        "About 1,440 readings a day at under 100 ms per write. The system has been running on my family's tank in Ensenada since 2025, and my dad and my brother use it too.",
       extraImages: [],
     },
     es: {
@@ -114,15 +113,14 @@ export const projectDetails: Record<string, { en: ProjectDetail; es: ProjectDeta
         "Un Arduino con un sensor ultrasónico se coloca sobre tu tanque de agua, midiendo la distancia a la superficie cada 60 segundos.",
         "Las lecturas se envían a una Lambda de AWS mediante API Gateway, que calcula el porcentaje de agua y lo almacena en MySQL.",
         "Un dashboard en React muestra tu nivel actual de agua como un medidor animado, con gr\u00e1ficos hist\u00f3ricos de 24 horas, 7 d\u00edas y 30 d\u00edas.",
-        "Un modelo LSTM (Python/TensorFlow) analiza patrones de uso y predice cu\u00e1ntas horas faltan para que el tanque se vac\u00ede, con puntajes de confianza.",
         "Alertas por correo te notifican cuando el agua baja de un umbral configurable o cuando el sensor deja de reportar (desconexi\u00f3n)."
       ],
       whatIBuilt: [
         "Diseñé la arquitectura completa: firmware Arduino que se registra solo al primer arranque, Lambda para ingesta de sensores y envío de notificaciones, API NestJS detrás de API Gateway, y un SPA React con autenticación Clerk.",
-        "Constru\u00ed el servicio de predicciones: una red neuronal LSTM entrenada con datos hist\u00f3ricos de uso e hiperpar\u00e1metros optimizados con algoritmo gen\u00e9tico. Las predicciones se cachean en Redis y se sirven mediante un endpoint de FastAPI."
+        "Construí un servicio de predicciones LSTM sobre FastAPI, entrenado con datos históricos e hiperparámetros optimizados con algoritmo genético y cacheado en Redis. Lo evalué contra la latencia que agregaba y lo apagué. Una regresión más simple es lo que construiría en su lugar."
       ],
       results:
-        "El sistema procesa m\u00e1s de 1,000 lecturas diarias con latencia < 200 ms. El modelo de predicci\u00f3n logra buena precisi\u00f3n en pron\u00f3sticos de 24 horas.",
+        "Alrededor de 1,440 lecturas diarias con menos de 100 ms por escritura. Lleva funcionando en el tanque de mi casa en Ensenada desde 2025, y mi papá y mi hermano también lo usan.",
       extraImages: [],
     },
   },
