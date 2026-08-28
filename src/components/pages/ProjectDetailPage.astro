@@ -55,7 +55,7 @@ if (!detail || !project) {
       <div class="w-full">
         <MediaGallery
           client:visible
-          items={project.image.map((src) => ({ type: "image" as const, src, lightboxSrc: src.includes('/stilo-') ? src.replace('.png', '-cropped.png') : undefined }))}
+          items={project.image.map((src) => ({ type: "image" as const, src, lightboxSrc: src.includes('/stilo-') ? src.replace('.webp', '-cropped.webp') : undefined }))}
           mode="grid"
         />
       </div>

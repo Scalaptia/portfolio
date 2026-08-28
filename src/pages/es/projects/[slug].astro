@@ -1,6 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import ProjectDetailPage from '@/components/pages/ProjectDetailPage.astro';
+import { getI18N } from '@/i18n/index';
 
 export function getStaticPaths() {
     return [
@@ -11,8 +12,16 @@ export function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
+const { currentLocale } = Astro;
+const i18n = getI18N({ currentLocale });
+
+// Title and description come from the project itself, so each page is distinct in search
+// results and in link previews.
+const project = i18n.PROJECTS.find((p) => p.slug === slug);
+const title = project?.title;
+const description = project?.description;
 ---
 
-<Layout title="project">
+<Layout title={title} description={description}>
     <ProjectDetailPage slug={slug} slot="content" />
 </Layout>

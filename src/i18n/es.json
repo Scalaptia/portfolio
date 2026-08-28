@@ -2,6 +2,7 @@
   "TAG_ABOUT_ME": "sobre_mi",
   "TAG_PROJECTS": "proyectos",
   "TAG_EXPERIENCE": "experiencia",
+  "TAG_SKILLS": "habilidades",
   "TAG_OTHER_PROJECTS": "otros_proyectos",
   "TEXT_DESCRIPTION_1": "**Desarrollador full-stack** de Baja California, M\u00e9xico. Construyo **aplicaciones web** e **infraestructura en la nube**.",
   "EXPERIENCE": [
@@ -17,7 +18,10 @@
       "company": "P\\S\\L Group",
       "link": "https://www.pslgroup.com/",
       "period": "Mar 2026 - Ago 2026",
-      "description": "Desarrollo de funcionalidades frontend en DougallGPT y DougallEYE, un asistente m\u00e9dico con IA multimarca, con React, TanStack Query, Redux Toolkit y Vite. Llev\u00e9 un redise\u00f1o a producci\u00f3n y reduje el cierre de sesi\u00f3n de 30 segundos a 5. Tambi\u00e9n constru\u00ed herramientas internas para el equipo: skills de Claude Code, validaciones autom\u00e1ticas de build, y un pipeline de reportes de Playwright en AWS que entrega los resultados en Google Chat.",
+      "description": [
+        "Desarrollo de funcionalidades frontend en DougallGPT y DougallEYE, un asistente m\u00e9dico con IA multimarca, con React, TanStack Query, Redux Toolkit y Vite. Llev\u00e9 un redise\u00f1o a producci\u00f3n y reduje el cierre de sesi\u00f3n de 30 segundos a 5.",
+        "Tambi\u00e9n constru\u00ed herramientas internas para el equipo: skills de Claude Code, validaciones autom\u00e1ticas de build, y un pipeline de reportes de Playwright en AWS que entrega los resultados en Google Chat."
+      ],
       "type": "work"
     },
     {
@@ -33,7 +37,11 @@
       "company": "Tech4Good Research Lab",
       "link": "https://www.tech4goodresearchlab.com/",
       "period": "Mar 2025 - Oct 2025",
-      "description": "\u00danico desarrollador de La Br\u00fajula del Autismo, una reconstrucci\u00f3n en React Native de Blue Piece, una plataforma publicada de tamizaje de autismo que hab\u00eda quedado obsoleta. Lo trabaj\u00e9 con dise\u00f1o centrado en el usuario: entrevistas con 8 cuidadores y 3 especialistas, encuestas a padres en una feria del autismo, y una especificaci\u00f3n de requisitos de software escrita antes de la primera l\u00ednea de c\u00f3digo. Dise\u00f1\u00e9 el esquema de PostgreSQL y las pol\u00edticas de seguridad a nivel de fila que limitan cada expediente a su cuidador, el especialista tratante y un administrador.",
+      "description": [
+        "\u00danico desarrollador de La Br\u00fajula del Autismo, una reconstrucci\u00f3n en React Native de Blue Piece, una plataforma publicada de tamizaje de autismo que hab\u00eda quedado obsoleta.",
+        "Lo trabaj\u00e9 con dise\u00f1o centrado en el usuario: entrevistas con 8 cuidadores y 3 especialistas, encuestas a padres en una feria del autismo, y una especificaci\u00f3n de requisitos de software escrita antes de la primera l\u00ednea de c\u00f3digo.",
+        "Dise\u00f1\u00e9 el esquema de PostgreSQL y las pol\u00edticas de seguridad a nivel de fila que limitan cada expediente a su cuidador, el especialista tratante y un administrador."
+      ],
       "type": "work"
     },
     {
@@ -50,17 +58,17 @@
       "slug": "stilo",
       "title": "Stilo",
       "description": "App m\u00f3vil que arma atuendos con tu propia ropa usando IA. Incluye un m\u00f3dulo de colorimetr\u00eda que encuentra tus paletas m\u00e1s favorecedoras, un pipeline RAG que convierte descripciones en lenguaje natural en conjuntos coordinados, y un lienzo interactivo para editar con drag-and-drop.",
-      "context": "Coautor y Desarrollador L\u00edder \u2022 Art\u00edculo aceptado en MexIHC 2026",
+      "context": "Coautor y Desarrollador L\u00edder • Art\u00edculo aceptado en MexIHC 2026",
       "contributions": [
         "Dise\u00f1\u00e9 el pipeline de recomendaciones que interpreta prompts, encuentra ropa compatible y arma conjuntos.",
         "Constru\u00ed la app multiplataforma con un lienzo interactivo para armar atuendos.",
         "Provision\u00e9 toda la infraestructura cloud en Azure usando Terraform."
       ],
       "image": [
-        "/images/stilo-1.png",
-        "/images/stilo-2.png",
-        "/images/stilo-3.png",
-        "/images/stilo-4.png"
+        "/images/stilo-1.webp",
+        "/images/stilo-2.webp",
+        "/images/stilo-3.webp",
+        "/images/stilo-4.webp"
       ],
       "tags": ["React Native", "NestJS", "FastAPI", "PostgreSQL", "Azure", "Terraform", "Google Gemini"]
     },
@@ -68,7 +76,7 @@
       "slug": "nasa-explorer",
       "title": "NASA Explorer",
       "description": "Buscador para la investigaci\u00f3n de biolog\u00eda espacial de la NASA. Haz preguntas en espa\u00f1ol o ingl\u00e9s y obt\u00e9n respuestas con citas de publicaciones reales.",
-      "context": "Equipo de 6 \u2022 1er Lugar \u2014 NASA Space Apps Challenge 2025",
+      "context": "Equipo de 6 • 1er Lugar \u2014 NASA Space Apps Challenge 2025",
       "contributions": [
         "Constru\u00ed el backend \u2014 chat, historial, usuarios y orquestaci\u00f3n RAG con Vertex AI.",
         "Desarroll\u00e9 funcionalidades del frontend: grafo interactivo de conocimiento, favoritos e integraci\u00f3n del chat."
@@ -188,6 +196,32 @@
       "title": "Menci\u00f3n Honor\u00edfica",
       "event": "ElegisTech 3 Hackathon",
       "period": "Mar 2025"
+    }
+  ],
+  "SKILLS": [
+    {
+      "label": "frontend",
+      "items": ["React", "React Native", "TypeScript", "Next.js", "Astro", "Tailwind", "Redux Toolkit", "TanStack Query"]
+    },
+    {
+      "label": "backend",
+      "items": ["Node.js", "NestJS", "FastAPI", "GraphQL", "PostgreSQL", "Supabase", "Prisma", "MongoDB"]
+    },
+    {
+      "label": "nube y devops",
+      "items": ["AWS Lambda", "S3", "CloudFront", "Terraform", "Docker", "GitHub Actions", "Serverless"]
+    },
+    {
+      "label": "ia y agentes",
+      "items": ["Claude Code", "MCP", "RAG", "Vertex AI", "Gemini", "pgvector"]
+    },
+    {
+      "label": "pruebas",
+      "items": ["Playwright", "Selenium", "TestNG", "RestAssured", "Vitest"]
+    },
+    {
+      "label": "lenguajes",
+      "items": ["TypeScript", "Python", "Java", "Go", "C", "C++"]
     }
   ]
 }
