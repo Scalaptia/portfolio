@@ -5,8 +5,54 @@ import BackgroundDecorations from "@/components/BackgroundDecorations.astro";
 import Toast from "@/components/Toast";
 import { ClientRouter } from "astro:transitions";
 
-const { title } = Astro.props;
+const { title, description } = Astro.props;
 const { currentLocale } = Astro;
+
+const SITE = "https://fharo.dev";
+const lang = currentLocale === "es" ? "es" : "en";
+
+// Every page passes a title. Fall back to the bare name for anything that does not.
+const pageTitle = title ? `${title} | Fernando Haro` : "Fernando Haro";
+
+const DEFAULT_DESCRIPTION = {
+  en: "Fernando Haro, software engineer in Ensenada, Mexico. React, TypeScript and Node, with the projects and the code behind them.",
+  es: "Fernando Haro, ingeniero de software en Ensenada, Mexico. React, TypeScript y Node, con los proyectos y el codigo detras de ellos.",
+};
+const pageDescription = description ?? DEFAULT_DESCRIPTION[lang];
+
+// Both language versions of the current page, so crawlers stop reading them as duplicates.
+const pathWithoutLang = Astro.url.pathname.replace(/^\/es(?=\/|$)/, "") || "/";
+const enHref = new URL(pathWithoutLang, SITE).href;
+const esHref = new URL(`/es${pathWithoutLang === "/" ? "/" : pathWithoutLang}`, SITE).href;
+const canonical = lang === "es" ? esHref : enHref;
+const ogImage = new URL("/og.png", SITE).href;
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Fernando Haro Calvo",
+  alternateName: "Fernando Haro",
+  url: SITE,
+  image: ogImage,
+  jobTitle: "Software Engineer",
+  email: "mailto:fernando.haro.c@gmail.com",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Ensenada",
+    addressRegion: "Baja California",
+    addressCountry: "MX",
+  },
+  alumniOf: {
+    "@type": "CollegeOrUniversity",
+    name: "Universidad Autonoma de Baja California",
+  },
+  knowsLanguage: ["es", "en"],
+  sameAs: [
+    "https://github.com/Scalaptia",
+    "https://www.linkedin.com/in/haro-fernando/",
+    "https://www.tech4goodresearchlab.com/projects/la-brujula-del-autismo",
+  ],
+};
 ---
 
 <html lang={currentLocale} class="overflow-y-scroll">
@@ -17,40 +63,36 @@ const { currentLocale } = Astro;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- HTML Meta Tags -->
-    <title>Fernando Haro</title>
-    <meta
-      name="description"
-      content="Check out my projects and get in touch!"
-    />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en" href={enHref} />
+    <link rel="alternate" hreflang="es" href={esHref} />
+    <link rel="alternate" hreflang="x-default" href={enHref} />
 
     <!-- Facebook Meta Tags -->
-    <meta property="og:url" content="https://fharo.dev/" />
+    <meta property="og:url" content={canonical} />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Fernando Haro" />
-    <meta
-      property="og:description"
-      content="Check out my projects and get in touch!"
-    />
-    <meta
-      property="og:image"
-      content="https://i.ibb.co/JW4yZg6h/Untitled.png"
-    />
+    <meta property="og:site_name" content="Fernando Haro" />
+    <meta property="og:locale" content={lang === "es" ? "es_MX" : "en_US"} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta property="twitter:domain" content="fharo.dev" />
-    <meta property="twitter:url" content="https://fharo.dev/" />
-    <meta name="twitter:title" content="Fernando Haro" />
-    <meta
-      name="twitter:description"
-      content="Check out my projects and get in touch!"
-    />
-    <meta
-      name="twitter:image"
-      content="https://i.ibb.co/JW4yZg6h/Untitled.png"
-    />
+    <meta property="twitter:url" content={canonical} />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={ogImage} />
 
-    <!-- Meta Tags Generated via https://www.opengraph.xyz -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(personSchema)}
+    />
 
     <!-- Umami Analytics -->
     <script
@@ -59,10 +101,18 @@ const { currentLocale } = Astro;
       data-website-id="73abe834-05b6-4a54-b407-5597a7b70e66"></script>
 
     <link rel="icon" href="/logo.ico" type="image/x-icon" />
+
+    <!-- Archivo Black still comes from Google, because the file we shipped as
+         archivo-black-v23-latin.woff2 was actually the latin-ext subset. Its cmap has no ASCII
+         letters, so it never rendered a single character of a title and Google's copy was quietly
+         doing all the work. It is now requested with display=block rather than swap, which is what
+         made the header and the hero name jump once the web font arrived.
+         Open Sans and Ubuntu Mono are ours and are preloaded. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet" />
-    <link rel="preload" href="/fonts.css" as="style" />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=block" rel="stylesheet" />
+    <link rel="preload" href="/fonts/open-sans-v40-latin-regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/ubuntu-mono-v17-latin-regular.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="/fonts.css" />
     <ClientRouter />
 
@@ -133,6 +183,25 @@ const { currentLocale } = Astro;
         to {
           opacity: 1;
           transform: scale(1);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .animate-fade-in-up {
+          animation: none;
+          opacity: 1;
+        }
+
+        ::view-transition-group(*),
+        ::view-transition-old(*),
+        ::view-transition-new(*) {
+          animation-duration: 1ms !important;
+        }
+
+        *,
+        *::before,
+        *::after {
+          transition-duration: 0.01ms !important;
         }
       }
 

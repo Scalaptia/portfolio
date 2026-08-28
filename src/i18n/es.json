@@ -9,7 +9,7 @@
       "title": "Desarrollador Frontend Freelance",
       "company": "Lands End Charters",
       "period": "Ago 2026 - Presente",
-      "description": "Construyo el sitio de reservaciones de una operadora de yates y pesca deportiva en Los Cabos, con Next.js y Strapi.",
+      "description": "Trabajo de frontend en la plataforma de reservaciones de una operadora de yates y pesca deportiva en Los Cabos, construida con Next.js y Strapi.",
       "type": "work"
     },
     {
@@ -17,7 +17,10 @@
       "company": "P\\S\\L Group",
       "link": "https://www.pslgroup.com/",
       "period": "Mar 2026 - Ago 2026",
-      "description": "Desarrollo de funcionalidades frontend en DougallGPT y DougallEYE, un asistente m\u00e9dico con IA multimarca, con React, TanStack Query, Redux Toolkit y Vite. Llev\u00e9 un redise\u00f1o a producci\u00f3n y reduje el cierre de sesi\u00f3n de 30 segundos a 5. Tambi\u00e9n constru\u00ed herramientas internas para el equipo: skills de Claude Code, validaciones autom\u00e1ticas de build, y un pipeline de reportes de Playwright en AWS que entrega los resultados en Google Chat.",
+      "description": [
+        "Desarrollo de funcionalidades frontend en DougallGPT y DougallEYE, un asistente m\u00e9dico con IA multimarca, con React, TanStack Query, Redux Toolkit y Vite.",
+        "Tambi\u00e9n constru\u00ed herramientas internas para el equipo: skills de Claude Code, validaciones autom\u00e1ticas de build, y un pipeline de reportes de Playwright en AWS que entrega los resultados en Google Chat."
+      ],
       "type": "work"
     },
     {
@@ -33,15 +36,18 @@
       "company": "Tech4Good Research Lab",
       "link": "https://www.tech4goodresearchlab.com/",
       "period": "Mar 2025 - Oct 2025",
-      "description": "\u00danico desarrollador de La Br\u00fajula del Autismo, una reconstrucci\u00f3n en React Native de Blue Piece, una plataforma publicada de tamizaje de autismo que hab\u00eda quedado obsoleta. Lo trabaj\u00e9 con dise\u00f1o centrado en el usuario: entrevistas con 8 cuidadores y 3 especialistas, encuestas a padres en una feria del autismo, y una especificaci\u00f3n de requisitos de software escrita antes de la primera l\u00ednea de c\u00f3digo. Dise\u00f1\u00e9 el esquema de PostgreSQL y las pol\u00edticas de seguridad a nivel de fila que limitan cada expediente a su cuidador, el especialista tratante y un administrador.",
+      "description": [
+        "Desarroll\u00e9 La Br\u00fajula del Autismo, una reconstrucci\u00f3n en React Native de Blue Piece, una plataforma publicada de investigaci\u00f3n sobre autismo. Constru\u00ed m\u00e1s de 20 pantallas y un motor de cuestionarios donde los instrumentos de tamizaje se agregan por configuraci\u00f3n, no por c\u00f3digo.",
+        "Lo trabaj\u00e9 con dise\u00f1o centrado en el usuario, sobre PostgreSQL y Supabase con seguridad a nivel de fila."
+      ],
       "type": "work"
     },
     {
       "title": "Co-Fundador del Club de Programaci\u00f3n Competitiva",
       "company": "CTRL-Coders Club",
-      "link": "https://www.instagram.com/ctrl.coders/",
+      "link": "https://ctrlcoders.com",
       "period": "Oct 2024 - May 2026",
-      "description": "Co-lider\u00e9 el club de programaci\u00f3n competitiva de la universidad. Mentoric\u00e9 estudiantes y dirig\u00ed talleres de resoluci\u00f3n de problemas, manej\u00e9 redes sociales y grab\u00e9 tutoriales en video para apoyar el aprendizaje.",
+      "description": "Co-lider\u00e9 el club de programaci\u00f3n competitiva de la universidad. Mentoric\u00e9 estudiantes y dirig\u00ed talleres de resoluci\u00f3n de problemas, y constru\u00ed el sitio web del club, incluyendo la app con la que se corri\u00f3 su rifa.",
       "type": "leadership"
     }
   ],
@@ -50,17 +56,17 @@
       "slug": "stilo",
       "title": "Stilo",
       "description": "App m\u00f3vil que arma atuendos con tu propia ropa usando IA. Incluye un m\u00f3dulo de colorimetr\u00eda que encuentra tus paletas m\u00e1s favorecedoras, un pipeline RAG que convierte descripciones en lenguaje natural en conjuntos coordinados, y un lienzo interactivo para editar con drag-and-drop.",
-      "context": "Coautor y Desarrollador L\u00edder \u2022 Art\u00edculo aceptado en MexIHC 2026",
+      "context": "Coautor y Desarrollador L\u00edder • Art\u00edculo aceptado en MexIHC 2026",
       "contributions": [
         "Dise\u00f1\u00e9 el pipeline de recomendaciones que interpreta prompts, encuentra ropa compatible y arma conjuntos.",
         "Constru\u00ed la app multiplataforma con un lienzo interactivo para armar atuendos.",
         "Provision\u00e9 toda la infraestructura cloud en Azure usando Terraform."
       ],
       "image": [
-        "/images/stilo-1.png",
-        "/images/stilo-2.png",
-        "/images/stilo-3.png",
-        "/images/stilo-4.png"
+        "/images/stilo-1.webp",
+        "/images/stilo-2.webp",
+        "/images/stilo-3.webp",
+        "/images/stilo-4.webp"
       ],
       "tags": ["React Native", "NestJS", "FastAPI", "PostgreSQL", "Azure", "Terraform", "Google Gemini"]
     },
@@ -68,7 +74,7 @@
       "slug": "nasa-explorer",
       "title": "NASA Explorer",
       "description": "Buscador para la investigaci\u00f3n de biolog\u00eda espacial de la NASA. Haz preguntas en espa\u00f1ol o ingl\u00e9s y obt\u00e9n respuestas con citas de publicaciones reales.",
-      "context": "Equipo de 6 \u2022 1er Lugar \u2014 NASA Space Apps Challenge 2025",
+      "context": "Equipo de 6 • 1er Lugar \u2014 NASA Space Apps Challenge 2025",
       "contributions": [
         "Constru\u00ed el backend \u2014 chat, historial, usuarios y orquestaci\u00f3n RAG con Vertex AI.",
         "Desarroll\u00e9 funcionalidades del frontend: grafo interactivo de conocimiento, favoritos e integraci\u00f3n del chat."
@@ -105,19 +111,29 @@
     {
       "title": "Havi",
       "description": "Copiloto financiero proactivo construido en dos d\u00edas para el datathon de Hey Banco. Constru\u00ed el cliente m\u00f3vil: 8 pantallas, una librer\u00eda de componentes compartida, y una capa de contexto tipada que cae a datos simulados cuando el backend est\u00e1 abajo.",
-      "tags": ["React Native", "Expo", "FastAPI", "Gemini"]
+      "tags": ["React Native", "Expo", "FastAPI", "Gemini"],
+      "image": "/images/havi-1.webp"
     },
     {
       "title": "Espyntar",
       "description": "Pictionary multijugador en C++. Hasta 8 jugadores dibujan y adivinan sobre TCP con un protocolo binario personalizado.",
       "tags": ["C++", "Raylib", "Winsock"],
+      "image": "/images/espyntar-1.webp",
       "repo": "https://www.github.com/Scalaptia/espyntar"
     },
     {
       "title": "16-BDH",
       "description": "RPG educativo sobre la Batalla de Puebla, construido sobre un motor de juego propio en C con Raylib. Jugable en escritorio y web v\u00eda Emscripten.",
       "tags": ["C", "Raylib", "Emscripten"],
+      "image": "/images/16bdh-1.webp",
       "repo": "https://github.com/Scalaptia/16-Bits-de-Historia"
+    },
+    {
+      "title": "Espify",
+      "description": "Escuchar m\u00fasica con otras personas desde la terminal. Un servidor de sockets mantiene las salas sincronizadas, transmite el audio a cada cliente, y recibe comandos como join-room, add-song y skip.",
+      "tags": ["Java", "Spring Shell", "Sockets", "Maven"],
+      "image": "/images/espify-1.webp",
+      "repo": "https://github.com/EspySoftware/espify"
     }
   ],
   "TEXT_404": "\u00a1Oops! La p\u00e1gina que buscas no existe.",

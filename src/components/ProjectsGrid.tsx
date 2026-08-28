@@ -34,7 +34,7 @@ export default function ProjectsGrid({
             {/* Project Image Section - Top */}
             <div className="relative px-4 sm:px-6 pt-4 sm:pt-6">
               <MediaGallery
-                items={project.image.map((src) => ({ type: "image" as const, src, lightboxSrc: src.includes('/stilo-') ? src.replace('.png', '-cropped.png') : undefined }))}
+                items={project.image.map((src) => ({ type: "image" as const, src, lightboxSrc: src.includes('/stilo-') ? src.replace('.webp', '-cropped.webp') : undefined }))}
                 mode="carousel"
                 swipeHint={translations.swipeHint}
               />

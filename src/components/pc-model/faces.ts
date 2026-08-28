@@ -3,14 +3,17 @@
 //   . = empty (background)
 //   # = main color (foreground)
 //   @ = accent color (blush, tongue, etc)
-//   O = hollow effect (draws background color inside)
-//   Any letter/symbol = drawn as text
+//   Any letter or symbol = drawn as text, a word at a time
+// There is no hollow-block marker. 'O' used to be one, which quietly turned the O in FERNANDO,
+// HARO, BOOTING and WELCOME into a square. If you want hollow blocks again, pick a character that
+// cannot appear in a word.
 
 export const CRT_COLORS = {
     green: { bg: '#001100', fg: '#00FF41', glow: '#00FF4180' },
     amber: { bg: '#110800', fg: '#FFB000', glow: '#FFB00080' },
     blue: { bg: '#000815', fg: '#00D4FF', glow: '#00D4FF80' },
     pink: { bg: '#150010', fg: '#FF6B9D', glow: '#FF6B9D80' },
+    off: { bg: '#050505', fg: '#050505', glow: '#05050500' },
 } as const
 
 export type ColorScheme = typeof CRT_COLORS[keyof typeof CRT_COLORS]
@@ -191,6 +194,33 @@ export const BLINK_FACE: FaceData = {
     ]
 }
 
+// Shown when someone will not stop clicking. Crossed-out eyes, flat mouth, amber warning.
+export const DIZZY_FACE: FaceData = {
+    name: 'Dizzy',
+    color: CRT_COLORS.amber,
+    art: [
+        '............',
+        '............',
+        '..#.#..#.#..',
+        '...#....#...',
+        '..#.#..#.#..',
+        '............',
+        '.....##.....',
+        '............',
+        '...######...',
+        '............',
+        '............',
+        '............',
+    ]
+}
+
+// The screen after it gives up. Nothing lit but the scanlines.
+export const OFF_FACE: FaceData = {
+    name: 'Off',
+    color: CRT_COLORS.off,
+    art: Array(12).fill('............'),
+}
+
 // Boot/intro animation frames
 export interface IntroFrame {
     art: string[]
@@ -207,7 +237,7 @@ export const INTRO_FRAMES: IntroFrame[] = [
             '............',
             '..BOOTING...',
             '............',
-            '..[##.....]..',
+            '.[##.....]..',
             '............',
             '............',
             '............',
@@ -225,7 +255,7 @@ export const INTRO_FRAMES: IntroFrame[] = [
             '............',
             '..BOOTING...',
             '............',
-            '..[####...]..',
+            '.[####...]..',
             '............',
             '............',
             '............',
@@ -243,7 +273,7 @@ export const INTRO_FRAMES: IntroFrame[] = [
             '............',
             '..BOOTING...',
             '............',
-            '..[######.]..',
+            '.[######.]..',
             '............',
             '............',
             '............',
@@ -261,7 +291,7 @@ export const INTRO_FRAMES: IntroFrame[] = [
             '............',
             '..BOOTING...',
             '............',
-            '..[########]..',
+            '.[########].',
             '............',
             '....OK!.....',
             '............',
@@ -278,8 +308,8 @@ export const INTRO_FRAMES: IntroFrame[] = [
             '............',
             '............',
             '............',
-            '..FERNANDO..',
-            '....HARO....',
+            '............',
+            '..HAROGATO..',
             '............',
             '....<3<3....',
             '............',

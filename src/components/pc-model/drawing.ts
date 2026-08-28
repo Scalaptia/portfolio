@@ -7,6 +7,12 @@ import type { ColorScheme, FaceData, IntroFrame } from './faces'
 const GRID_SIZE = 12
 
 // Draw ASCII art to canvas
+//
+// The whole thing is drawn mirrored because the screen mesh's UVs are flipped, so what is painted
+// backwards here reads forwards on the model. Text used to be flipped back a glyph at a time, which
+// un-mirrored each letter but left the columns reversed, and then drawing it upright instead just
+// moved the mirroring to the model. Words are now drawn inside the same mirrored transform as the
+// blocks, so the mesh undoes both the letter shapes and their order in one go.
 export function drawFromArt(
     ctx: CanvasRenderingContext2D,
     art: string[],
@@ -27,50 +33,63 @@ export function drawFromArt(
         ctx.fillRect(0, y, w, 1)
     }
 
-    // Flip canvas horizontally for correct orientation
     ctx.save()
     ctx.translate(w, 0)
     ctx.scale(-1, 1)
 
-    // Draw pixels
+    // Blocks
     art.forEach((row, y) => {
         row.split('').forEach((char, x) => {
             const px = x * pixelSize
             const py = y * pixelSize
 
-            switch (char) {
-                case '#':
-                    ctx.fillStyle = colors.fg
-                    ctx.fillRect(px, py, pixelSize, pixelSize)
-                    break
-                case '@':
-                    ctx.fillStyle = accent || colors.fg
-                    ctx.fillRect(px, py, pixelSize, pixelSize)
-                    break
-                case 'O':
-                    // Hollow effect - draw foreground then cut out center
-                    ctx.fillStyle = colors.fg
-                    ctx.fillRect(px, py, pixelSize, pixelSize)
-                    ctx.fillStyle = colors.bg
-                    ctx.fillRect(px + 2, py + 2, pixelSize - 4, pixelSize - 4)
-                    break
-                case '.':
-                    // Empty - do nothing
-                    break
-                default:
-                    // Draw as text character - flip it back so it reads correctly
-                    ctx.save()
-                    ctx.translate(px + pixelSize / 2, py + pixelSize / 2)
-                    ctx.scale(-1, 1) // Flip text back
-                    ctx.fillStyle = colors.fg
-                    ctx.font = `bold ${pixelSize * 0.7}px monospace`
-                    ctx.textAlign = 'center'
-                    ctx.textBaseline = 'middle'
-                    ctx.fillText(char, 0, 0)
-                    ctx.restore()
-                    break
+            if (char === '#') {
+                ctx.fillStyle = colors.fg
+                ctx.fillRect(px, py, pixelSize, pixelSize)
+            } else if (char === '@') {
+                ctx.fillStyle = accent || colors.fg
+                ctx.fillRect(px, py, pixelSize, pixelSize)
             }
         })
+    })
+
+    // Words, one run at a time rather than one letter at a time, so each is sized to the space it
+    // has instead of the old fixed 0.7-of-a-cell font that came out around seven pixels tall.
+    ctx.fillStyle = colors.fg
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+
+    art.forEach((row, y) => {
+        const chars = row.split('')
+        let start = -1
+
+        const flush = (end: number) => {
+            if (start < 0) return
+            const word = chars.slice(start, end).join('')
+            const runWidth = (end - start) * pixelSize
+            const cx = ((start + end) / 2) * pixelSize
+            const cy = (y + 0.5) * pixelSize
+
+            let fontSize = pixelSize * 1.5
+            ctx.font = `bold ${fontSize}px monospace`
+            const measured = ctx.measureText(word).width
+            if (measured > runWidth * 0.95) {
+                fontSize *= (runWidth * 0.95) / measured
+                ctx.font = `bold ${fontSize}px monospace`
+            }
+
+            ctx.fillText(word, cx, cy)
+            start = -1
+        }
+
+        chars.forEach((char, x) => {
+            if (char === '.' || char === '#' || char === '@') {
+                flush(x)
+            } else if (start < 0) {
+                start = x
+            }
+        })
+        flush(chars.length)
     })
 
     ctx.restore()

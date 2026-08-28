@@ -128,11 +128,32 @@ function makeDistortionCurve(amount: number): Float32Array {
     return curve
 }
 
+// Browsers cap how many AudioContexts a tab may hold, and this used to open a fresh one on every
+// click and never close it. After a handful of clicks the constructor threw, the catch below
+// swallowed it, and the cat went silent for the rest of the visit. One shared context fixes it.
+let sharedContext: AudioContext | null = null
+
+function getAudioContext(): AudioContext | null {
+    try {
+        const Ctor = window.AudioContext || (window as any).webkitAudioContext
+        if (!Ctor) return null
+        if (!sharedContext || sharedContext.state === 'closed') {
+            sharedContext = new Ctor()
+        }
+        // Autoplay policy suspends the context until a gesture; a click is one.
+        if (sharedContext.state === 'suspended') void sharedContext.resume()
+        return sharedContext
+    } catch {
+        return null
+    }
+}
+
 // Play a chiptune meow sound
 export function playMeowSound(variant: number = 0): void {
     try {
-        const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
-        
+        const audioContext = getAudioContext()
+        if (!audioContext) return
+
         // Create audio nodes
         const osc1 = audioContext.createOscillator()
         const osc2 = audioContext.createOscillator()
@@ -175,6 +196,74 @@ export function playMeowSound(variant: number = 0): void {
         osc2.start(audioContext.currentTime)
         osc1.stop(audioContext.currentTime + duration)
         osc2.stop(audioContext.currentTime + duration)
+
+        // Release the graph once the sound is done, so a long session does not accumulate nodes.
+        osc2.onended = () => {
+            osc1.disconnect()
+            osc2.disconnect()
+            gain2.disconnect()
+            filter.disconnect()
+            distortion.disconnect()
+            gainNode.disconnect()
+        }
+    } catch {
+        // Silently fail if audio not available
+    }
+}
+
+// CRT winding down: pitch falls away and the gain closes.
+export function playPowerDownSound(): void {
+    try {
+        const ctx = getAudioContext()
+        if (!ctx) return
+
+        const osc = ctx.createOscillator()
+        const gain = ctx.createGain()
+        osc.type = 'sawtooth'
+        osc.connect(gain)
+        gain.connect(ctx.destination)
+
+        const now = ctx.currentTime
+        osc.frequency.setValueAtTime(440, now)
+        osc.frequency.exponentialRampToValueAtTime(40, now + 0.7)
+        gain.gain.setValueAtTime(0.14, now)
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.75)
+
+        osc.start(now)
+        osc.stop(now + 0.78)
+        osc.onended = () => {
+            osc.disconnect()
+            gain.disconnect()
+        }
+    } catch {
+        // Silently fail if audio not available
+    }
+}
+
+// Two rising blips, the sound of the machine coming back.
+export function playBootSound(): void {
+    try {
+        const ctx = getAudioContext()
+        if (!ctx) return
+
+        const now = ctx.currentTime
+        ;[[440, 0], [660, 0.12]].forEach(([freq, offset]) => {
+            const osc = ctx.createOscillator()
+            const gain = ctx.createGain()
+            osc.type = 'square'
+            osc.frequency.setValueAtTime(freq, now + offset)
+            osc.connect(gain)
+            gain.connect(ctx.destination)
+            gain.gain.setValueAtTime(0.001, now + offset)
+            gain.gain.linearRampToValueAtTime(0.1, now + offset + 0.01)
+            gain.gain.exponentialRampToValueAtTime(0.001, now + offset + 0.1)
+            osc.start(now + offset)
+            osc.stop(now + offset + 0.12)
+            osc.onended = () => {
+                osc.disconnect()
+                gain.disconnect()
+            }
+        })
     } catch {
         // Silently fail if audio not available
     }

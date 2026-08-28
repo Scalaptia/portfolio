@@ -1,10 +1,7 @@
-/* Archivo Black */
-@font-face {
-    font-family: 'Archivo Black';
-    font-style: normal;
-    font-weight: 400;
-    src: url('/fonts/archivo-black-v23-latin.woff2') format('woff2');
-}
+/* Archivo Black is loaded from Google in Layout.astro. The file that used to be declared here,
+   archivo-black-v23-latin.woff2, was the latin-ext subset by mistake: 161 glyphs, none of them an
+   ASCII letter. It downloaded 14 KB on every visit and rendered nothing. Replace it with the real
+   latin subset and this block can come back. */
 
 /* open-sans-regular - latin */
 @font-face {

@@ -6,9 +6,12 @@ interface ExperienceItem {
   company: string;
   link?: string;
   period: string;
-  description: string;
+  description: string | string[];
   type: string;
 }
+
+// A role is current when its period has no end date. Both locales use their own word for it.
+const isCurrent = (period: string) => /present|presente|actual/i.test(period);
 
 interface ExperienceProps {
   experiences: ExperienceItem[];
@@ -35,11 +38,19 @@ const Experience: React.FC<ExperienceProps> = ({ experiences }) => {
         <div className="absolute left-5 sm:left-6 top-0 bottom-0 w-1 bg-primary/30"></div>
 
         <div className="space-y-8">
-          {experiences.map((experience, index) => (
+          {experiences.map((experience, index) => {
+            const current = isCurrent(experience.period);
+
+            return (
             <div key={index} className="relative flex items-start gap-3 sm:gap-6">
               {/* Timeline dot */}
-              <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-primary border-2 sm:border-4 border-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] sm:shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] flex items-center justify-center text-background relative z-10">
-                <PixelIcon name={getIcon(experience.type) as any} className="w-5 h-5" />
+              <div className="flex-shrink-0 relative z-10">
+                {current && (
+                  <span className="absolute -inset-1 border-2 border-primary animate-ping opacity-60 motion-reduce:hidden" />
+                )}
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary border-2 sm:border-4 border-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] sm:shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] flex items-center justify-center text-background relative">
+                  <PixelIcon name={getIcon(experience.type) as any} className="w-5 h-5" />
+                </div>
               </div>
 
               {/* Content */}
@@ -53,7 +64,13 @@ const Experience: React.FC<ExperienceProps> = ({ experiences }) => {
                     <h3 className="text-base sm:text-xl font-ubuntu-mono text-primary font-bold text-center sm:text-left">
                       {experience.title}
                     </h3>
-                    <span className="text-text font-ubuntu-mono text-xs sm:text-sm bg-primary/20 px-3 py-1 border-2 border-text/20 mt-2 sm:mt-0 self-center sm:self-start">
+                    <span
+                      className={`font-ubuntu-mono text-xs sm:text-sm px-3 py-1 border-2 mt-2 sm:mt-0 self-center sm:self-start whitespace-nowrap ${
+                        current
+                          ? "bg-primary text-background border-text font-bold"
+                          : "text-text bg-primary/20 border-text/20"
+                      }`}
+                    >
                       {experience.period}
                     </span>
                   </div>
@@ -73,13 +90,24 @@ const Experience: React.FC<ExperienceProps> = ({ experiences }) => {
                     </span>
                   )}
 
-                  <p className="text-text font-open-sans text-sm sm:text-base leading-relaxed text-center sm:text-left">
-                    {experience.description}
-                  </p>
+                  <div className="flex flex-col gap-3">
+                    {(Array.isArray(experience.description)
+                      ? experience.description
+                      : [experience.description]
+                    ).map((line, i) => (
+                      <p
+                        key={i}
+                        className="text-text font-open-sans text-sm sm:text-base leading-relaxed text-center sm:text-left"
+                      >
+                        {line}
+                      </p>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>
