@@ -29,7 +29,7 @@
 \addtolength{\evensidemargin}{-0.5in}
 \addtolength{\textwidth}{1in}
 \addtolength{\topmargin}{-.5in}
-\addtolength{\textheight}{1.0in}
+\addtolength{\textheight}{1.15in}
  
 \urlstyle{same}
  
@@ -73,119 +73,119 @@
  
 %-------------------------------------------
 \begin{document}
- 
+
 %----------HEADING----------
 \begin{center}
     \textbf{\Huge \scshape Fernando Haro Calvo} \\ \vspace{3pt}
-    \href{tel:+526****7575}{\small +52 646-161-7575} $|$ 
-    \href{mailto:fernando.haro.c@gmail.com}{\uline{fernando.haro.c@gmail.com}} $|$ 
-    \href{https://www.linkedin.com/in/haro-fernando/}{\uline{linkedin.com/in/haro-fernando}} $|$ 
+    {\small Ensenada, Mexico $|$ Open to remote work $|$ Spanish (Native), English (Fluent)} \\ \vspace{2pt}
+    \href{tel:+526461617575}{\small +52 646-161-7575} $|$
+    \href{mailto:fernando.haro.c@gmail.com}{\uline{fernando.haro.c@gmail.com}} $|$
+    \href{https://www.linkedin.com/in/haro-fernando/}{\uline{linkedin.com/in/haro-fernando}} $|$
     \href{https://github.com/Scalaptia}{\uline{github.com/Scalaptia}} $|$
     \href{https://fharo.dev}{\uline{fharo.dev}}
 \end{center}
 \vspace{-8pt}
- 
+
 %-----------EDUCATION-----------
 \section{EDUCATION}
 \resumeSubHeadingListStart
   \resumeSubheading
-    {Universidad Autonoma de Baja California}{Ensenada, BC}
-    {B.S. in Software and Emerging Technologies Engineering $|$ GPA: 9.6/10.0}{Aug 2022 -- Jun 2026}
-  \resumeItemListStart
-    \resumeItem{\textbf{CENEVAL EGEL Plus ISOFT} -- Excellence Recognition (top 1\% nationally) on Mexico's software engineering exit exam.}
-  \resumeItemListEnd
+    {Universidad Aut\'onoma de Baja California}{Ensenada, BC}
+    {B.S. in Software and Emerging Technologies Engineering $|$ GPA 9.6/10.0}{Aug 2022 -- Jun 2026}
 \resumeSubHeadingListEnd
- 
+\vspace{-3pt}
+
 %-----------WORK EXPERIENCE-----------
 \section{WORK EXPERIENCE}
 \resumeSubHeadingListStart
- 
+
     \resumeSubheading
       {PSL Group}{Remote}
-      {App Dev Intern $|$ React, Node.js, AWS, TypeScript}{Mar 2026 -- Present}
+      {Application Developer Intern $|$ React, Redux Toolkit, TanStack Query, Vite, TypeScript}{Mar 2026 -- Aug 2026}
       \resumeItemListStart
-        \resumeItem{Developed and shipped \textbf{React} and \textbf{Node.js} features across multiple AI-driven web applications in an international Agile team.}
-        \resumeItem{Built a continuous delivery pipeline with \textbf{GitHub Actions}, \textbf{AWS (S3, CloudFront, WAF)}, and Google Chat.}
-        \resumeItem{Scaled \textbf{Playwright} regression suites from 25\% to 85\% coverage, reducing manual testing time by $\sim$50\%.}
+        \resumeItem{Built \textbf{DougallEYE Conditions} components shipped to production: prompt bar, side panel, topbar brand fit, cookie banner, feedback modal, and mobile scroll restore across the article round-trip.}
+        \resumeItem{Cut logout from \textbf{30s to $\sim$5s} with async teardown and a blocking overlay.}
+        \resumeItem{Fixed DougallEYE answering from the wrong product's content, and an ad slot returning nothing \textbf{100\% of the time}.}
+        \resumeItem{Added four automated build checks that fail a release when brand assets, themes, translations or config drift.}
+        \resumeItem{Proposed and built automated report delivery on \textbf{AWS S3} and CloudFront, and took regression coverage to \textbf{95\% of the documented test sheet}. A readiness gate and a per-brand matrix cut monthly CI from \textbf{94 to 38 minutes}.}
       \resumeItemListEnd
 
     \resumeSubheading
       {EPAM Systems}{Remote}
-      {Automated Testing Trainee $|$ Java, Selenium, TestNG, RestAssured, Jenkins}{Oct 2025 -- Mar 2026}
-      \resumeItemListStart
-        \resumeItem{Implemented automated testing frameworks applying \textbf{SOLID} principles and \textbf{Page Object Model} during an intensive enterprise training program.}
-      \resumeItemListEnd
- 
+      {Automated Testing Trainee, university-company program $|$ Java, Selenium, TestNG, RestAssured}{Oct 2025 -- Mar 2026}
+
     \resumeSubheading
-      {Tech4Good Research Lab}{Ensenada, BC}
-      {Fullstack Developer Intern $|$ React Native, Supabase, TypeScript}{Mar 2025 -- Oct 2025}
+      {Tech4Good Research Lab, UABC}{Ensenada, BC}
+      {Software Developer \& Research Assistant $|$ React Native, Supabase, TypeScript}{Mar 2025 -- Oct 2025}
       \resumeItemListStart
-        \resumeItem{Architected and built \textbf{The Autism Compass}, a React Native app connecting families to ASD screening tools and specialists.}
-        \resumeItem{Designed a security-focused schema with Row-Level Security and Edge Functions for sensitive health data handling.}
+        \resumeItem{Sole developer of the \textbf{La Br\'ujula del Autismo} rebuild: 20+ screens across auth, institutions and questionnaires.}
+        \resumeItem{Built the questionnaire engine for three clinical autism screening tests, adding new ones by config, not code.}
+        \resumeItem{Designed the normalized PostgreSQL schema, Deno Edge Functions, and row-level security over patient records.}
+        \resumeItem{Presented the project at ENITCI 2025, taking \textbf{1st place} in the Engineering \& Technological Development division.}
       \resumeItemListEnd
- 
+
 \resumeSubHeadingListEnd
- 
+
 %-----------PROJECTS-----------
 \section{PROJECTS}
 \resumeSubHeadingListStart
- 
+
     \resumeProjectHeading
-      {\href{https://github.com/tessarivas/NASA2025_FRONT}{\textbf{\uline{NASA Explorer}}} $|$ \emph{React, NestJS, MongoDB, GCP, Vertex AI}}{Oct 2025}
+      {\href{https://awita.fharo.dev}{\textbf{\uline{Awita}}} $|$ \emph{React, NestJS, Go, AWS Lambda, Serverless, Arduino}}{Mar 2025 -- Present}
       \resumeItemListStart
-        \resumeItem{Built a RAG pipeline with \textbf{Vertex AI} enabling natural-language queries over 600+ NASA space biology papers.}
-        \resumeItem{Developed scalable backend APIs with \textbf{NestJS} and an interactive \textbf{D3.js} citation knowledge graph.}
-        \resumeItem{Wrote the \textbf{Python} data pipeline that ingested publications from multiple sources using \textbf{Beautiful Soup}.}
-      \resumeItemListEnd
- 
-    \resumeProjectHeading
-      {\href{https://github.com/EspySoftware/stilo-app}{{\textbf{\uline{Stilo}}}} $|$ \emph{React Native, NestJS, PostgreSQL, Azure, Gemini, OpenTofu}}{Oct 2025 -- Present}
-      \resumeItemListStart
-        \resumeItem{Engineered an AI fashion app: take photos of your wardrobe and get coordinated outfits. RAG pipeline with \textbf{Gemini}, \textbf{pgvector} similarity search, and colorimetry-aware outfit composition.}
-        \resumeItem{Ran a controlled experiment (n=10): AI-assisted creation reduced UI interactions by \textbf{83.4\% (p=0.001)}, lowered cognitive load by 22.3\% (NASA-TLX), scored 86.75/100 SUS.}
+        \resumeItem{Built an IoT water-tank monitor \textbf{running in production for over a year}: Arduino sensors post to a Go Lambda ingesting about 1,400 readings/day at \textbf{under 100ms}, behind a NestJS API on Serverless and a FastAPI forecasting service.}
       \resumeItemListEnd
 
     \resumeProjectHeading
-      {\href{https://github.com/Scalaptia/awita-app}{{\textbf{\uline{Awita}}}} $|$ \emph{React, NestJS, AWS, Serverless, Arduino, LSTM}}{Aug 2025 -- Dec 2025}
+      {\href{https://github.com/EspySoftware/stilo-app}{\textbf{\uline{Stilo}}} $|$ \emph{React Native, NestJS, PostgreSQL + pgvector, Gemini, Azure, Terraform}}{Oct 2025 -- Present}
       \resumeItemListStart
-        \resumeItem{Designed an IoT water monitor with \textbf{Arduino} sensing, \textbf{AWS Lambda} ingestion handling 1,000+ daily readings at $<$200ms, and an \textbf{LSTM model} predicting when water tanks would run dry.}
-        \resumeItem{Built a \textbf{NestJS} backend with \textbf{Clerk} auth, email alerts, and a \textbf{React} dashboard with real-time and historical charts.}
+        \resumeItem{Built the React Native client, the NestJS \textbf{GraphQL} API on Prisma, and the Python recommendation service.}
+        \resumeItem{Built the AI outfit engine: an LLM plans the outfit, \textbf{pgvector} finds the clothes, composition applies style rules.}
+        \resumeItem{Co-authored the study, \textbf{accepted for publication at MexIHC 2026}: \textbf{83.4\% fewer UI interactions}, \textbf{SUS 86.75/100}.}
       \resumeItemListEnd
- 
+
+    \resumeProjectHeading
+      {\href{https://nasaexplorer2025.vercel.app}{\textbf{\uline{NASA Explorer}}} $|$ \emph{NestJS, MongoDB, Vertex AI, Python}}{Oct 2025}
+      \resumeItemListStart
+        \resumeItem{Built the NestJS backend (chat, history, RAG on \textbf{Vertex AI}) and the Python pipeline over 600+ NASA papers.}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{Havi} $|$ \emph{React Native, Expo, TypeScript, FastAPI, Gemini}}{May 2026}
+      \resumeItemListStart
+        \resumeItem{Built the entire mobile app for Hey Banco's datathon in \textbf{2 days}: 8 screens, a component library, offline fallback.}
+      \resumeItemListEnd
+
 \resumeSubHeadingListEnd
- 
+
 %-----------AWARDS-----------
 \section{HONORS \& AWARDS}
 \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l r }
-  \small \textbf{1st Place} in ENITCI 2025 (Engineering and Development Category) & \small Nov 2025 \\
-  \small \textbf{1st Place Local \& Global Nominee} in NASA Space Apps Challenge 2025 & \small Oct 2025 \\
-  \small \textbf{1st Place} in CTRL-Coders 1st open competitive programming contest & \small Apr 2025 \\
-  \small \textbf{Honorable Mention} in Elegis-Tech 3 Hackathon & \small Mar 2025 \\
+  \small \textbf{National Engineering Exit Exam} (CENEVAL EGEL-ISOFT) -- Outstanding Performance, highest band & \small Apr 2026 \\
+  \small \textbf{1st Place (Local) \& Global Nominee}, NASA Space Apps Challenge & \small Oct 2025 \\
+  \small \textbf{1st Place}, CTRL-Coders Open Competitive Programming Contest & \small Apr 2025 \\
 \end{tabular*}
- 
+
 %-----------SKILLS-----------
 \section{PROGRAMMING LANGUAGES \& TECHNOLOGIES}
 \small
 \begin{tabular*}{\textwidth}{@{} l @{\hspace{1em}} l}
-  \textbf{Languages:} & TypeScript, JavaScript, Python, Java, C++, SQL \\
-  \textbf{Frontend:} & React, React Native, Next.js, TanStack, Shadcn, Tailwind \\
-  \textbf{Backend \& APIs:} & Node.js, NestJS, FastAPI, Express, Prisma \\
-  \textbf{Databases:} & PostgreSQL, MongoDB, Redis \\
-  \textbf{Cloud \& DevOps:} & AWS, Azure, GCP, Docker, Jenkins, GitHub \\
-  \textbf{Testing \& Tools:} & Playwright, Selenium, Vitest, Git, Linux, Jira, Postman \\
-  \textbf{Spoken Languages:} & Spanish (Native), English (B2 -- Professional Working Proficiency) \\
+  \textbf{Languages:} & TypeScript, JavaScript, Python, Java, Go, C++, SQL \\
+  \textbf{Backend:} & Node.js, NestJS, REST APIs, GraphQL, FastAPI, Express, PostgreSQL, Supabase, Prisma, Redis \\
+  \textbf{Frontend:} & React, React Native, Expo, Next.js, Redux Toolkit, TanStack Query, Vite, HTML, CSS, Tailwind \\
+  \textbf{AI \& Agents:} & Claude Code (skills, MCP), OpenCode, Gemini API, Vertex AI, RAG, spec-driven development \\
+  \textbf{Cloud \& DevOps:} & AWS, Azure, Docker, Terraform, GitHub Actions, CI/CD \\
+  \textbf{Testing \& Tools:} & Playwright, Selenium, Vitest, Git, Linux, Jira \\
 \end{tabular*}
-\vspace{2pt}
- 
+
 %-----------LEADERSHIP-----------
 \section{LEADERSHIP}
 \resumeSubHeadingListStart
     \resumeProjectHeading
-      {\href{https://instagram.com/ctrl.coders}{\textbf{\uline{CTRL-Coders Competitive Programming Club}}} $|$ \emph{Co-Leader}}{Oct 2024 -- Apr 2026}
+      {\href{https://instagram.com/ctrl.coders}{\textbf{\uline{CTRL-Coders Competitive Programming Club}}} $|$ \emph{Co-Founder}}{Oct 2024 -- May 2026}
       \resumeItemListStart
-        \resumeItem{Lead weekly DSA workshops for 80+ students and prepared teams for ICPC Mexico Regionals.}
-        \resumeItem{Organized programming contests and mentored students, growing community participation across the university.}
+        \resumeItem{Led weekly DSA workshops for 80+ students, prepared ICPC teams, and ran the club's first open contest.}
       \resumeItemListEnd
 \resumeSubHeadingListEnd
- 
+
 \end{document}

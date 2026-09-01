@@ -45,9 +45,6 @@ const Experience: React.FC<ExperienceProps> = ({ experiences }) => {
             <div key={index} className="relative flex items-start gap-3 sm:gap-6">
               {/* Timeline dot */}
               <div className="flex-shrink-0 relative z-10">
-                {current && (
-                  <span className="absolute -inset-1 border-2 border-primary animate-ping opacity-60 motion-reduce:hidden" />
-                )}
                 <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary border-2 sm:border-4 border-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] sm:shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] flex items-center justify-center text-background relative">
                   <PixelIcon name={getIcon(experience.type) as any} className="w-5 h-5" />
                 </div>
