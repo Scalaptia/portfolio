@@ -3,7 +3,15 @@ import { useGLTF, Preload } from '@react-three/drei'
 import { useRef, Suspense, useState, useEffect, type RefObject } from 'react'
 import * as THREE from 'three'
 
-import { FACES, BLINK_FACE, DIZZY_FACE, OFF_FACE, INTRO_FRAMES, CRT_COLORS } from './pc-model/faces'
+import {
+    FACES,
+    BLINK_FACE,
+    DIZZY_FACE,
+    OFF_FACE,
+    INTRO_FRAMES,
+    CRT_COLORS,
+    wordArt,
+} from './pc-model/faces'
 import { playMeowSound, playPowerDownSound, playBootSound } from './pc-model/sounds'
 import { drawFace, createFaceCanvas, drawFromArt, drawIntroFrame } from './pc-model/drawing'
 import { createScreenMaterial, preparePhotoTexture } from './pc-model/screenMaterial'
@@ -52,6 +60,8 @@ interface Measurements {
     modelWidth: number
     /** Height of the screen alone at scale 1, so a photo is sized by the glass, not the case. */
     screenHeight: number
+    /** Width of the screen alone at scale 1, for lining DOM up with the glass. */
+    screenWidth: number
     /** Middle of the screen in the model's own space, for centring the picture not the case. */
     screenCentre: THREE.Vector3
 }
@@ -84,6 +94,8 @@ function Scene({ hitRef }: { hitRef: RefObject<HTMLDivElement> }) {
     const [mode, setMode] = useState<'awake' | 'dizzy' | 'off' | 'booting'>('awake')
     const [bootFrame, setBootFrame] = useState(0)
     const [viewer, setViewer] = useState<ViewerState>(() => getViewerState())
+    // The section you are reading, flashed on the screen as you pass it.
+    const [label, setLabel] = useState<string | null>(null)
 
     const rageCount = useRef(0)
     const lastClick = useRef(0)
@@ -332,6 +344,7 @@ function Scene({ hitRef }: { hitRef: RefObject<HTMLDivElement> }) {
         scene.updateMatrixWorld(true)
 
         let screenHeight = modelSize.y
+        let screenWidth = modelSize.x
         const screenCentre = new THREE.Vector3()
         if (screen) {
             const screenBox = new THREE.Box3().setFromObject(screen)
@@ -339,6 +352,9 @@ function Scene({ hitRef }: { hitRef: RefObject<HTMLDivElement> }) {
             screenBox.getSize(screenSize)
             screenBox.getCenter(screenCentre)
             screenHeight = screenSize.y
+            // The glass faces along X in this model, so its width is the Z extent. Taking the
+            // larger of the two keeps this right whichever way a future model is built.
+            screenWidth = Math.max(screenSize.x, screenSize.z)
 
             // The screen is a flat quad, so of its three dimensions the two largest are its width
             // and height. Photo mode needs that ratio to letterbox correctly.
@@ -352,6 +368,7 @@ function Scene({ hitRef }: { hitRef: RefObject<HTMLDivElement> }) {
             modelHeight: modelSize.y || 1,
             modelWidth: facedSize.x || 1,
             screenHeight: screenHeight || 1,
+            screenWidth: screenWidth || 1,
             screenCentre,
         }
 
@@ -389,6 +406,12 @@ function Scene({ hitRef }: { hitRef: RefObject<HTMLDivElement> }) {
             return
         }
 
+        if (label) {
+            drawFromArt(ctx, wordArt(label), CRT_COLORS.amber)
+            textureRef.current.needsUpdate = true
+            return
+        }
+
         if (isHeroHovered) {
             drawFace(ctx, FACES[4])
         } else if (isBlinking) {
@@ -402,7 +425,49 @@ function Scene({ hitRef }: { hitRef: RefObject<HTMLDivElement> }) {
     useEffect(() => {
         updateFace()
         invalidate()
-    }, [expression, isHeroHovered, isBlinking, mode, bootFrame])
+    }, [expression, isHeroHovered, isBlinking, mode, bootFrame, label])
+
+    // WHAT PART OF THE PAGE YOU ARE ON
+    // A section counts as current once it crosses the middle band of the window, which is the only
+    // rule that works for sections taller than the viewport.
+    useEffect(() => {
+        let observer: IntersectionObserver | null = null
+        let timer: ReturnType<typeof setTimeout> | undefined
+
+        const watch = () => {
+            observer?.disconnect()
+            const sections = ['experience', 'projects', 'events', 'about']
+                .map((id) => document.getElementById(id))
+                .filter((el): el is HTMLElement => Boolean(el))
+            if (!sections.length) return
+
+            observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (!entry.isIntersecting || spot.current === 'viewer') return
+                        // Each section opens with its own name in angle brackets. Reuse it, so the
+                        // screen says the same word the page does, in whichever language it is in.
+                        const heading = entry.target.querySelector('span')?.textContent ?? ''
+                        const word = heading.replace(/[<>/]/g, '').trim()
+                        if (!word) return
+                        setLabel(word)
+                        clearTimeout(timer)
+                        timer = setTimeout(() => setLabel(null), 1600)
+                    })
+                },
+                { rootMargin: '-45% 0px -45% 0px', threshold: 0 }
+            )
+            sections.forEach((section) => observer?.observe(section))
+        }
+
+        watch()
+        document.addEventListener('astro:page-load', watch)
+        return () => {
+            observer?.disconnect()
+            clearTimeout(timer)
+            document.removeEventListener('astro:page-load', watch)
+        }
+    }, [])
 
     // RAGE-CLICK SHUTDOWN
     const clearRageTimers = () => {
@@ -612,6 +677,19 @@ function Scene({ hitRef }: { hitRef: RefObject<HTMLDivElement> }) {
             material.uniforms.uMix.value = THREE.MathUtils.smoothstep(viewing, 0.15, 0.6)
             material.uniforms.uOpen.value = THREE.MathUtils.smoothstep(viewing, 0.45, 1)
         }
+
+        // --- tell the DOM where the glass ended up, for the caption on the chin ---
+        const pxPerWorld = 1 / perPixel
+        const glassBottom =
+            height / 2 -
+            (model.position.y + (geom.screenCentre.y - geom.screenHeight / 2) * scale) * pxPerWorld
+        const root = document.documentElement
+        root.style.setProperty('--crt-x', `${here.current.x}px`)
+        root.style.setProperty('--crt-glass-bottom', `${glassBottom}px`)
+        root.style.setProperty(
+            '--crt-glass-half',
+            `${(geom.screenWidth / 2) * scale * pxPerWorld}px`
+        )
 
         // --- the hit area follows ---
         const hit = hitRef.current

@@ -1,17 +1,22 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { MediaLightbox } from "./MediaLightbox";
+import CrtControls from "./CrtControls";
 import { closeViewer, navigateViewer, stepViewer } from "@/lib/crtViewer";
 import { useViewerState } from "@/lib/useViewerState";
 
 // Mounted once in the layout. Every gallery on the page opens images through the store; this
 // renders the fallback lightbox for videos, for browsers without WebGL, and for anyone who asked
-// for less motion. The model's own screen handles everything else, and this supplies its controls.
+// for less motion. The model's own screen handles everything else, with the controls beside it.
 export default function ViewerHost() {
   const { open, items, index, mode } = useViewerState();
   const onScreen = open && mode === "crt";
+  const opener = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     if (!onScreen) return;
+
+    // Whatever you clicked to get here is where focus goes back to.
+    opener.current = document.activeElement as HTMLElement | null;
 
     const onKey = (e: KeyboardEvent) => {
       switch (e.key) {
@@ -37,6 +42,7 @@ export default function ViewerHost() {
     return () => {
       document.removeEventListener("keydown", onKey);
       window.removeEventListener("crtViewerFailed", onFailed);
+      opener.current?.focus?.();
     };
   }, [onScreen]);
 
@@ -50,13 +56,7 @@ export default function ViewerHost() {
         onNavigate={navigateViewer}
       />
 
-      {onScreen && (
-        <div
-          className="fixed inset-0 z-[61]"
-          onClick={closeViewer}
-          role="presentation"
-        />
-      )}
+      {onScreen && <CrtControls />}
     </>
   );
 }
