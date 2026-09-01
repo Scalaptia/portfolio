@@ -1,4 +1,4 @@
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useGLTF, Preload } from '@react-three/drei'
 import { useRef, Suspense, useState, useEffect } from 'react'
 import * as THREE from 'three'
@@ -11,11 +11,16 @@ import { drawFace, createFaceCanvas, drawFromArt, drawIntroFrame } from './pc-mo
 const RAGE_LIMIT = 8
 // Clicks stop counting toward that once you leave it alone for a moment.
 const RAGE_WINDOW_MS = 1500
+// How close a lerp has to get to its target before the render loop is allowed to stop.
+const SETTLED = 0.0005
 
 useGLTF.preload('/models/mac_minus.glb')
 
 function Scene() {
     const { scene } = useGLTF('/models/mac_minus.glb', true)
+    // frameloop is 'demand', so anything that changes what the model looks like has to ask for a
+    // frame. Reading gl here also avoids hunting for the canvas with a document-wide query.
+    const { gl, invalidate } = useThree()
     const modelRef = useRef<THREE.Group>(null)
     
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
@@ -39,17 +44,16 @@ function Scene() {
     // MOUSE TRACKING
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
-            const canvas = document.querySelector('canvas')
-            if (canvas) {
-                const rect = canvas.getBoundingClientRect()
-                const x = ((e.clientX - rect.left) / rect.width) * 2 - 1
-                const y = -((e.clientY - rect.top) / rect.height) * 2 + 1
-                setMousePos({ x, y })
-            }
+            const rect = gl.domElement.getBoundingClientRect()
+            if (!rect.width || !rect.height) return
+            const x = ((e.clientX - rect.left) / rect.width) * 2 - 1
+            const y = -((e.clientY - rect.top) / rect.height) * 2 + 1
+            setMousePos({ x, y })
+            invalidate()
         }
         window.addEventListener('mousemove', handleMouseMove)
         return () => window.removeEventListener('mousemove', handleMouseMove)
-    }, [])
+    }, [gl, invalidate])
 
     // EASTER EGGS & INTERACTIONS
     useEffect(() => {
@@ -181,7 +185,10 @@ function Scene() {
         textureRef.current.needsUpdate = true
     }
 
-    useEffect(updateFace, [expression, isHeroHovered, isBlinking, mode, bootFrame])
+    useEffect(() => {
+        updateFace()
+        invalidate()
+    }, [expression, isHeroHovered, isBlinking, mode, bootFrame])
 
     // RAGE-CLICK SHUTDOWN
     const clearRageTimers = () => {
@@ -270,34 +277,45 @@ function Scene() {
 
     // ANIMATION FRAME
     useFrame((state) => {
-        if (!modelRef.current) return
+        const model = modelRef.current
+        if (!model) return
 
         const frontAngle = Math.PI + 1.5
 
         // While it is dizzy it shakes and stops following the cursor. While it is off it slumps.
+        // Both animate on their own, so both keep asking for the next frame.
         if (mode === 'dizzy') {
             const t = state.clock.elapsedTime
-            modelRef.current.rotation.y = frontAngle + Math.sin(t * 30) * 0.08
-            modelRef.current.rotation.x = Math.sin(t * 22) * 0.04
+            model.rotation.y = frontAngle + Math.sin(t * 30) * 0.08
+            model.rotation.x = Math.sin(t * 22) * 0.04
+            invalidate()
             return
         }
         if (mode === 'off' || mode === 'booting') {
-            modelRef.current.rotation.y += (frontAngle - modelRef.current.rotation.y) * 0.08
-            modelRef.current.rotation.x += (0.12 - modelRef.current.rotation.x) * 0.08
+            model.rotation.y += (frontAngle - model.rotation.y) * 0.08
+            model.rotation.x += (0.12 - model.rotation.x) * 0.08
+            invalidate()
             return
         }
 
         const targetY = Math.atan2(mousePos.x, 1) * 0.5 + frontAngle
         // Limit vertical rotation: subtle look up/down
         const targetX = Math.max(-0.15, Math.min(0.25, -mousePos.y * 0.15))
-
-        modelRef.current.rotation.y += (targetY - modelRef.current.rotation.y) * 0.08
-        modelRef.current.rotation.x += (targetX - modelRef.current.rotation.x) * 0.08
-
         const targetScale = 1.1 + (bounce > 0 ? Math.sin(bounce * Math.PI) * 0.15 : 0)
-        const currentScale = modelRef.current.scale.x
-        const newScale = currentScale + (targetScale - currentScale) * 0.15
-        modelRef.current.scale.set(newScale, newScale, newScale)
+
+        model.rotation.y += (targetY - model.rotation.y) * 0.08
+        model.rotation.x += (targetX - model.rotation.x) * 0.08
+
+        const newScale = model.scale.x + (targetScale - model.scale.x) * 0.15
+        model.scale.set(newScale, newScale, newScale)
+
+        // Under frameloop 'demand' nothing renders unless asked, so keep asking while the lerps
+        // are still moving and then let the GPU go quiet.
+        const settled =
+            Math.abs(targetY - model.rotation.y) < SETTLED &&
+            Math.abs(targetX - model.rotation.x) < SETTLED &&
+            Math.abs(targetScale - model.scale.x) < SETTLED
+        if (!settled) invalidate()
     })
 
     return (
@@ -325,6 +343,7 @@ export default function PCModelCanvas() {
             <Canvas
                 camera={{ position: [0, 0, 5], fov: 60 }}
                 dpr={[1, 2]}
+                frameloop="demand"
                 performance={{ min: 0.5 }}
             >
                 <Suspense fallback={null}>
