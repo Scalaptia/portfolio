@@ -1,0 +1,218 @@
+%-------------------------
+% CV - Fernando Haro Calvo
+% Erasmus Mundus: Software Engineering / Artificial Intelligence
+%-------------------------
+
+\documentclass[letterpaper,10pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\input{glyphtounicode}
+\usepackage[utf8]{inputenc}
+\usepackage[normalem]{ulem}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+\titleformat{\section}{
+  \vspace{-8pt}\scshape\raggedright\large\bfseries
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+\pdfgentounicode=1
+
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-1pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \item
+  \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+    \textbf{#1} & \textbf{\small #2} \\
+    \textit{\small#3} & \textit{\small #4} \\
+  \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+  \item
+  \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+    \small#1 & #2 \\
+  \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumePub}[3]{
+  \item\small{
+    #1. \textbf{#2}. \textit{#3}.
+  }
+}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.15in, label={\tiny$\bullet$}, itemsep=0pt]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%-------------------------------------------
+\begin{document}
+
+%----------HEADER----------
+\begin{center}
+    \textbf{\Huge \scshape Fernando Haro Calvo} \\ \vspace{2pt}
+    \href{tel:+526****7575}{\small +52 646-161-7575} $|$
+    \href{mailto:fernando.haro.c@gmail.com}{\uline{fernando.haro.c@gmail.com}} $|$
+    \href{https://www.linkedin.com/in/haro-fernando/}{\uline{linkedin.com/in/haro-fernando}} $|$
+    \href{https://github.com/Scalaptia}{\uline{github.com/Scalaptia}} $|$
+    \href{https://fharo.dev}{\uline{fharo.dev}}
+\end{center}
+\vspace{-8pt}
+
+%----------PERSONAL PROFILE----------
+\begin{center}
+    \small\textit{Software engineer with 1.5 years of industry experience building AI-powered products across Latin America and Europe. Top 1\% nationally on Mexico's software engineering exit exam (CENEVEL EGEL Plus). Research published at MexIHC 2026 on AI-assisted decision-making, with hands-on expertise in RAG architectures, full-stack development, and cloud infrastructure.}
+\end{center}
+\vspace{-4pt}
+
+%-----------EDUCATION-----------
+\section{EDUCATION}
+\resumeSubHeadingListStart
+  \resumeSubheading
+    {Universidad Aut\'onoma de Baja California}{Ensenada, BC, Mexico}
+    {B.S. in Software and Emerging Technologies Engineering $|$ GPA: 9.6/10.0}{Aug 2022 -- Jun 2026}
+  \resumeItemListStart
+    \resumeItem{Relevant coursework: Software Architecture, Artificial Intelligence, Distributed Systems, Cloud Computing, Data Structures \& Algorithms, Human-Computer Interaction.}
+  \resumeItemListEnd
+\resumeSubHeadingListEnd
+
+%-----------HONORS & AWARDS-----------
+\section{HONORS \& AWARDS}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l r }
+  \small \textbf{CENEVAL EGEL Plus ISOFT} -- Top 1\% nationally (software engineering exit exam) & \small Apr 2026 \\
+  \small \textbf{1st Place \& Global Nominee} -- NASA Space Apps Challenge 2025 & \small Oct 2025 \\
+  \small \textbf{1st Place} -- ENITCI 2025 (Engineering \& Development) & \small Nov 2025 \\
+  \small \textbf{1st Place} -- CTRL-Coders open programming contest & \small Apr 2025 \\
+  \small \textbf{Honorable Mention} -- Elegis-Tech 3 Hackathon & \small Mar 2025 \\
+\end{tabular*}
+
+%-----------TECHNICAL EXPERIENCE-----------
+\section{TECHNICAL EXPERIENCE}
+\resumeSubHeadingListStart
+
+    \resumeSubheading
+      {PSL Group}{Remote (Colombia/Mexico/US)}
+      {App Dev Intern $|$ React, Playwright, AWS, TypeScript}{Mar 2026 -- Present}
+      \resumeItemListStart
+        \resumeItem{Built user-facing features for two AI platforms -- SoundBoard (pharma market research) and Dougall (clinical insights) -- using \textbf{React} and \textbf{AWS Amplify} in international Agile teams.}
+        \resumeItem{Architected a continuous testing pipeline with \textbf{GitHub Actions}, \textbf{AWS (S3, CloudFront, WAF)}, and Google Chat, scaling the \textbf{Playwright} regression suite from 25\% to 85\% coverage.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {EPAM Systems}{Remote (Mexico/US/Europe)}
+      {Automated Testing Engineer Intern $|$ Java, Selenium, TestNG, RestAssured}{Oct 2025 -- Mar 2026}
+      \resumeItemListStart
+        \resumeItem{Developed scalable test automation frameworks applying \textbf{SOLID} and \textbf{Page Object Model} patterns in a global enterprise environment, reducing manual regression time by $\sim$40\%.}
+      \resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+%-----------PROJECTS-----------
+\section{PROJECTS}
+\resumeSubHeadingListStart
+
+    \resumeProjectHeading
+      {\textbf{Stilo -- AI Fashion Recommendation} $|$ \emph{React Native, NestJS, PostgreSQL, Azure, Gemini, OpenTofu}}{Jan 2025 -- Present}
+      \resumeItemListStart
+        \resumeItem{Architected a three-phase \textbf{RAG pipeline}: Gemini decomposes prompts into clothing categories, pgvector runs embedding-based similarity search, and a composition engine assembles coordinated outfits factoring in user colorimetry and style. Provisioned on Azure with OpenTofu.}
+        \resumeItem{Designed and ran a within-subjects controlled experiment (n=10, counterbalanced). AI assistance reduced UI interactions by \textbf{83.4\% (p = 0.001)}. Manuscript under review at \textbf{MexIHC 2026}.}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{NASA Explorer -- AI Research Search Engine} $|$ \emph{React, NestJS, MongoDB, GCP, Vertex AI}}{Oct 2025}
+      \resumeItemListStart
+        \resumeItem{Built a \textbf{RAG-powered search engine} over 600+ NASA space biology publications. Architected the pipeline with \textbf{Vertex AI embeddings} and \textbf{MongoDB vector search}, achieving 95\% factual accuracy. Interactive D3.js citation knowledge graph.}
+        \resumeItem{Won \textbf{1st place} locally and selected as \textbf{Global Nominee} at NASA Space Apps Challenge 2025.}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{Awita -- IoT Water Monitoring} $|$ \emph{React, NestJS, AWS, Arduino, TensorFlow}}{Aug 2025 -- Dec 2025}
+      \resumeItemListStart
+        \resumeItem{Designed a full-stack IoT system for regions with unreliable water supply: Arduino sensor array $\rightarrow$ AWS Lambda $\rightarrow$ \textbf{LSTM neural network} (TensorFlow) for depletion prediction. Handles 1,000+ daily readings at $<$200ms latency.}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{The Autism Compass -- Digital Health Platform} $|$ \emph{React Native, Supabase, TypeScript}}{Mar 2025 -- Oct 2025}
+      \resumeItemListStart
+        \resumeItem{Architected a HIPAA-compliant mobile app connecting families to ASD screening tools and specialists. Designed a PostgreSQL schema with \textbf{Row Level Security} and \textbf{Deno Edge Functions} for secure data handling. Validation study in preparation.}
+      \resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+%-----------RESEARCH & PUBLICATIONS-----------
+\section{RESEARCH \& PUBLICATIONS}
+\resumeSubHeadingListStart
+
+    \resumePub
+      {[1]}
+      {Stilo: An Interactive Fashion Recommendation System Designed to Support Cognitive Load and Optimize Wardrobe Choices}
+      {Under review at MexIHC 2026. Co-authored with Espinoza-Rivera, F. et al.}
+
+    \vspace{4pt}
+
+    \resumeProjectHeading
+      {\textbf{COIL UABC--UAM: International Heuristic Evaluation} $|$ \emph{Usability Evaluator}}{Apr 2026 -- May 2026}
+      \resumeItemListStart
+        \resumeItem{Selected for a Collaborative Online International Learning project with \textbf{Universidad Aut\'onoma de Madrid}, Spain. Evaluated a multiplayer game using \textbf{Nielsen's 10 Usability Heuristics}, identifying 13 issues classified by severity. Produced a formal inspection report; the UAM team implemented fixes based on findings.}
+      \resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+%-----------TEACHING-----------
+\section{TEACHING \& MENTORING}
+\resumeSubHeadingListStart
+    \resumeProjectHeading
+      {\textbf{CTRL-Coders Competitive Programming Club} $|$ \emph{Co-Founder \& Instructor}}{Oct 2024 -- Apr 2026}
+      \resumeItemListStart
+        \resumeItem{Designed and led weekly Data Structures \& Algorithms workshops for 80+ undergraduate students. Prepared teams for the International Collegiate Programming Contest (ICPC) Mexico Regionals.}
+      \resumeItemListEnd
+\resumeSubHeadingListEnd
+
+%-----------SKILLS-----------
+\section{SKILLS}
+\small
+\begin{tabular*}{\textwidth}{@{} l @{\hspace{1em}} l}
+  \textbf{Languages:} & TypeScript, Python, Java, C++, SQL \\
+  \textbf{Frontend \& Mobile:} & React, React Native, Next.js, Tailwind, D3.js \\
+  \textbf{Backend \& APIs:} & Node.js, NestJS, FastAPI, Express, PostgreSQL, MongoDB, Redis \\
+  \textbf{Cloud \& Infrastructure:} & AWS (Lambda, S3, CloudFront, Amplify), Azure, GCP, Docker, OpenTofu, CI/CD \\
+  \textbf{AI \& Machine Learning:} & RAG architectures, vector search (pgvector, MongoDB), LLM orchestration (Gemini, Vertex AI), TensorFlow, LSTM \\
+  \textbf{Software Engineering:} & Agile/Scrum, SOLID, design patterns, test automation (Playwright, Selenium), code review \\
+  \textbf{Research Methods:} & Experiment design, heuristic evaluation (Nielsen), statistical analysis (Wilcoxon), NASA-TLX, SUS \\
+  \textbf{Languages:} & Spanish (Native), English (C1 / Professional Working) \\
+\end{tabular*}
+\vspace{2pt}
+
+\end{document}

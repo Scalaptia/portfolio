@@ -1,0 +1,191 @@
+%-------------------------
+% Resume - Fernando Haro Calvo
+%-------------------------
+ 
+\documentclass[letterpaper,10pt]{article}
+ 
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\input{glyphtounicode}
+\usepackage[utf8]{inputenc}
+\usepackage[normalem]{ulem}
+ 
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+ 
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+ 
+\urlstyle{same}
+ 
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+ 
+\titleformat{\section}{
+  \vspace{-8pt}\scshape\raggedright\large\bfseries
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+ 
+\pdfgentounicode=1
+ 
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-1pt}}
+  }
+}
+ 
+\newcommand{\resumeSubheading}[4]{
+  \item
+  \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+    \textbf{#1} & \textbf{\small #2} \\
+    \textit{\small#3} & \textit{\small #4} \\
+  \end{tabular*}\vspace{-5pt}
+}
+ 
+\newcommand{\resumeProjectHeading}[2]{
+  \item
+  \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+    \small#1 & #2 \\
+  \end{tabular*}\vspace{-5pt}
+}
+ 
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+ 
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.15in, label={\tiny$\bullet$}, itemsep=0pt]} 
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+ 
+%-------------------------------------------
+\begin{document}
+ 
+%----------HEADING----------
+\begin{center}
+    \textbf{\Huge \scshape Fernando Haro Calvo} \\ \vspace{3pt}
+    \href{tel:+526****7575}{\small +52 646-161-7575} $|$ 
+    \href{mailto:fernando.haro.c@gmail.com}{\uline{fernando.haro.c@gmail.com}} $|$ 
+    \href{https://www.linkedin.com/in/haro-fernando/}{\uline{linkedin.com/in/haro-fernando}} $|$ 
+    \href{https://github.com/Scalaptia}{\uline{github.com/Scalaptia}} $|$
+    \href{https://fharo.dev}{\uline{fharo.dev}}
+\end{center}
+\vspace{-8pt}
+ 
+%-----------EDUCATION-----------
+\section{EDUCATION}
+\resumeSubHeadingListStart
+  \resumeSubheading
+    {Universidad Autonoma de Baja California}{Ensenada, BC}
+    {B.S. in Software and Emerging Technologies Engineering $|$ GPA: 9.6/10.0}{Aug 2022 -- Jun 2026}
+  \resumeItemListStart
+    \resumeItem{\textbf{CENEVAL EGEL Plus ISOFT} -- Excellence Recognition (top 1\% nationally) on Mexico's software engineering exit exam.}
+  \resumeItemListEnd
+\resumeSubHeadingListEnd
+ 
+%-----------WORK EXPERIENCE-----------
+\section{WORK EXPERIENCE}
+\resumeSubHeadingListStart
+ 
+    \resumeSubheading
+      {PSL Group}{Remote}
+      {App Dev Intern $|$ React, Node.js, AWS, TypeScript}{Mar 2026 -- Present}
+      \resumeItemListStart
+        \resumeItem{Developed and shipped \textbf{React} and \textbf{Node.js} features across multiple AI-driven web applications in an international Agile team.}
+        \resumeItem{Built a continuous delivery pipeline with \textbf{GitHub Actions}, \textbf{AWS (S3, CloudFront, WAF)}, and Google Chat.}
+        \resumeItem{Scaled \textbf{Playwright} regression suites from 25\% to 85\% coverage, reducing manual testing time by $\sim$50\%.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {EPAM Systems}{Remote}
+      {Automated Testing Trainee $|$ Java, Selenium, TestNG, RestAssured, Jenkins}{Oct 2025 -- Mar 2026}
+      \resumeItemListStart
+        \resumeItem{Implemented automated testing frameworks applying \textbf{SOLID} principles and \textbf{Page Object Model} during an intensive enterprise training program.}
+      \resumeItemListEnd
+ 
+    \resumeSubheading
+      {Tech4Good Research Lab}{Ensenada, BC}
+      {Fullstack Developer Intern $|$ React Native, Supabase, TypeScript}{Mar 2025 -- Oct 2025}
+      \resumeItemListStart
+        \resumeItem{Architected and built \textbf{The Autism Compass}, a React Native app connecting families to ASD screening tools and specialists.}
+        \resumeItem{Designed a security-focused schema with Row-Level Security and Edge Functions for sensitive health data handling.}
+      \resumeItemListEnd
+ 
+\resumeSubHeadingListEnd
+ 
+%-----------PROJECTS-----------
+\section{PROJECTS}
+\resumeSubHeadingListStart
+ 
+    \resumeProjectHeading
+      {\href{https://github.com/tessarivas/NASA2025_FRONT}{\textbf{\uline{NASA Explorer}}} $|$ \emph{React, NestJS, MongoDB, GCP, Vertex AI}}{Oct 2025}
+      \resumeItemListStart
+        \resumeItem{Built a RAG pipeline with \textbf{Vertex AI} enabling natural-language queries over 600+ NASA space biology papers.}
+        \resumeItem{Developed scalable backend APIs with \textbf{NestJS} and an interactive \textbf{D3.js} citation knowledge graph.}
+        \resumeItem{Wrote the \textbf{Python} data pipeline that ingested publications from multiple sources using \textbf{Beautiful Soup}.}
+      \resumeItemListEnd
+ 
+    \resumeProjectHeading
+      {\href{https://github.com/EspySoftware/stilo-app}{{\textbf{\uline{Stilo}}}} $|$ \emph{React Native, NestJS, PostgreSQL, Azure, Gemini, OpenTofu}}{Oct 2025 -- Present}
+      \resumeItemListStart
+        \resumeItem{Engineered an AI fashion app: take photos of your wardrobe and get coordinated outfits. RAG pipeline with \textbf{Gemini}, \textbf{pgvector} similarity search, and colorimetry-aware outfit composition.}
+        \resumeItem{Ran a controlled experiment (n=10): AI-assisted creation reduced UI interactions by \textbf{83.4\% (p=0.001)}, lowered cognitive load by 22.3\% (NASA-TLX), scored 86.75/100 SUS.}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\href{https://github.com/Scalaptia/awita-app}{{\textbf{\uline{Awita}}}} $|$ \emph{React, NestJS, AWS, Serverless, Arduino, LSTM}}{Aug 2025 -- Dec 2025}
+      \resumeItemListStart
+        \resumeItem{Designed an IoT water monitor with \textbf{Arduino} sensing, \textbf{AWS Lambda} ingestion handling 1,000+ daily readings at $<$200ms, and an \textbf{LSTM model} predicting when water tanks would run dry.}
+        \resumeItem{Built a \textbf{NestJS} backend with \textbf{Clerk} auth, email alerts, and a \textbf{React} dashboard with real-time and historical charts.}
+      \resumeItemListEnd
+ 
+\resumeSubHeadingListEnd
+ 
+%-----------AWARDS-----------
+\section{HONORS \& AWARDS}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l r }
+  \small \textbf{1st Place} in ENITCI 2025 (Engineering and Development Category) & \small Nov 2025 \\
+  \small \textbf{1st Place Local \& Global Nominee} in NASA Space Apps Challenge 2025 & \small Oct 2025 \\
+  \small \textbf{1st Place} in CTRL-Coders 1st open competitive programming contest & \small Apr 2025 \\
+  \small \textbf{Honorable Mention} in Elegis-Tech 3 Hackathon & \small Mar 2025 \\
+\end{tabular*}
+ 
+%-----------SKILLS-----------
+\section{PROGRAMMING LANGUAGES \& TECHNOLOGIES}
+\small
+\begin{tabular*}{\textwidth}{@{} l @{\hspace{1em}} l}
+  \textbf{Languages:} & TypeScript, JavaScript, Python, Java, C++, SQL \\
+  \textbf{Frontend:} & React, React Native, Next.js, TanStack, Shadcn, Tailwind \\
+  \textbf{Backend \& APIs:} & Node.js, NestJS, FastAPI, Express, Prisma \\
+  \textbf{Databases:} & PostgreSQL, MongoDB, Redis \\
+  \textbf{Cloud \& DevOps:} & AWS, Azure, GCP, Docker, Jenkins, GitHub \\
+  \textbf{Testing \& Tools:} & Playwright, Selenium, Vitest, Git, Linux, Jira, Postman \\
+  \textbf{Spoken Languages:} & Spanish (Native), English (B2 -- Professional Working Proficiency) \\
+\end{tabular*}
+\vspace{2pt}
+ 
+%-----------LEADERSHIP-----------
+\section{LEADERSHIP}
+\resumeSubHeadingListStart
+    \resumeProjectHeading
+      {\href{https://instagram.com/ctrl.coders}{\textbf{\uline{CTRL-Coders Competitive Programming Club}}} $|$ \emph{Co-Leader}}{Oct 2024 -- Apr 2026}
+      \resumeItemListStart
+        \resumeItem{Lead weekly DSA workshops for 80+ students and prepared teams for ICPC Mexico Regionals.}
+        \resumeItem{Organized programming contests and mentored students, growing community participation across the university.}
+      \resumeItemListEnd
+\resumeSubHeadingListEnd
+ 
+\end{document}
