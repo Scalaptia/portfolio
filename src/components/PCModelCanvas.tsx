@@ -6,6 +6,7 @@ import * as THREE from 'three'
 import { FACES, BLINK_FACE, DIZZY_FACE, OFF_FACE, INTRO_FRAMES } from './pc-model/faces'
 import { playMeowSound, playPowerDownSound, playBootSound } from './pc-model/sounds'
 import { drawFace, createFaceCanvas, drawFromArt, drawIntroFrame } from './pc-model/drawing'
+import { createScreenMaterial } from './pc-model/screenMaterial'
 
 // Click it enough times in a row and it has had enough.
 const RAGE_LIMIT = 8
@@ -39,6 +40,8 @@ function Scene() {
     
     const canvasRef = useRef<HTMLCanvasElement | null>(null)
     const textureRef = useRef<THREE.CanvasTexture | null>(null)
+    const screenRef = useRef<THREE.Mesh | null>(null)
+    const materialRef = useRef<THREE.ShaderMaterial | null>(null)
     const blinkTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
     // MOUSE TRACKING
@@ -143,10 +146,22 @@ function Scene() {
                     uvAttr.needsUpdate = true
                 }
 
-                child.material = new THREE.MeshBasicMaterial({
-                    map: texture,
-                    side: THREE.DoubleSide
-                })
+                const material = createScreenMaterial(texture)
+
+                // The screen is a flat quad, so of its three dimensions the two largest are its
+                // width and height. Photo mode needs that ratio to letterbox correctly.
+                child.geometry.computeBoundingBox()
+                const box = child.geometry.boundingBox
+                if (box) {
+                    const size = new THREE.Vector3()
+                    box.getSize(size)
+                    const [long, short] = [size.x, size.y, size.z].sort((a, b) => b - a)
+                    material.uniforms.uScreenAspect.value = long / short
+                }
+
+                child.material = material
+                screenRef.current = child
+                materialRef.current = material
             }
         })
     }, [scene])
