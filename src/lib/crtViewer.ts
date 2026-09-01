@@ -20,6 +20,8 @@ export interface ViewerState {
   scheme: CrtScheme;
   /** Which gallery opened it, so that gallery alone follows along as you navigate. */
   ownerId: string | null;
+  /** "crt" plays the set on the model's screen. "dom" is the plain lightbox. */
+  mode: "crt" | "dom";
 }
 
 export interface OpenOptions {
@@ -33,6 +35,7 @@ const CLOSED: ViewerState = {
   index: 0,
   scheme: "green",
   ownerId: null,
+  mode: "dom",
 };
 
 let state: ViewerState = CLOSED;
@@ -65,12 +68,17 @@ export function subscribe(fn: (state: ViewerState) => void): () => void {
 
 export function openViewer(items: MediaItem[], index: number, options: OpenOptions = {}): void {
   if (!items.length) return;
+  // A video cannot play on the model's screen without a second texture path, and mixing the two
+  // viewers inside one set would be worse than picking one. Any video sends the whole set to the
+  // plain lightbox.
+  const everyItemIsAnImage = items.every((item) => item.type === "image");
   state = {
     open: true,
     items,
     index: wrap(index, items.length),
     scheme: options.scheme ?? "green",
     ownerId: options.ownerId ?? null,
+    mode: isViewerAvailable() && everyItemIsAnImage ? "crt" : "dom",
   };
   emit();
 }

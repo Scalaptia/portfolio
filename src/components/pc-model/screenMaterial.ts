@@ -42,9 +42,9 @@ const FRAGMENT = /* glsl */ `
     void main() {
         vec3 face = texture2D(uFace, vUv).rgb;
 
-        // The mesh UVs are mirrored and the face canvas is painted mirrored to match, so the photo
-        // is the only thing that has to be flipped back.
-        vec2 uv = barrel(vec2(1.0 - vUv.x, vUv.y));
+        // The face canvas is painted mirrored to match the mesh's flipped UVs. A loaded image is
+        // not, and arrives upside down on top of that, so the photo alone is turned the right way up.
+        vec2 uv = barrel(vec2(1.0 - vUv.x, 1.0 - vUv.y));
 
         // Contain-fit, with the leftover filled by the CRT's own background rather than black so
         // the letterbox still reads as part of the machine.
