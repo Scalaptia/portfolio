@@ -1,6 +1,8 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useId, useRef } from "react";
 import PixelIcon from "./PixelIcon";
-import { MediaLightbox, type MediaItem } from "./MediaLightbox";
+import { type MediaItem } from "./MediaLightbox";
+import { openViewer } from "@/lib/crtViewer";
+import { useViewerState } from "@/lib/useViewerState";
 
 interface MediaGalleryProps {
   items: MediaItem[];
@@ -16,10 +18,17 @@ export function MediaGallery({
   className = "",
 }: MediaGalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const ownerId = useId();
+  const viewer = useViewerState();
+
+  // While this gallery is the one on screen in the viewer, the carousel follows along, so closing
+  // it leaves you on the image you were looking at.
+  useEffect(() => {
+    if (viewer.open && viewer.ownerId === ownerId) setActiveIndex(viewer.index);
+  }, [viewer.open, viewer.ownerId, viewer.index, ownerId]);
 
   const minSwipeDistance = 50;
   const hasMultiple = items.length > 1;
@@ -50,9 +59,9 @@ export function MediaGallery({
   const openLightbox = useCallback(
     (index: number) => {
       setActiveIndex(index);
-      setIsLightboxOpen(true);
+      openViewer(items, index, { ownerId });
     },
-    [],
+    [items, ownerId],
   );
 
   // Carousel touch handlers
@@ -79,14 +88,6 @@ export function MediaGallery({
     const activeItem = items[activeIndex];
     return (
       <>
-        <MediaLightbox
-          isOpen={isLightboxOpen}
-          onClose={() => setIsLightboxOpen(false)}
-          items={items}
-          currentIndex={activeIndex}
-          onNavigate={(i) => setActiveIndex(i)}
-        />
-
         <div ref={carouselRef} className={`relative group ${className}`}>
           {/* Carousel viewport */}
           <div
@@ -191,14 +192,6 @@ export function MediaGallery({
   // Grid mode — thumbnails that open lightbox
   return (
     <>
-      <MediaLightbox
-        isOpen={isLightboxOpen}
-        onClose={() => setIsLightboxOpen(false)}
-        items={items}
-        currentIndex={activeIndex}
-        onNavigate={(i) => setActiveIndex(i)}
-      />
-
       <div className={`grid gap-3 ${className}`}>
         {/* Main image */}
         <div

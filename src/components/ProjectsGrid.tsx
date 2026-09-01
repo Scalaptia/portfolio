@@ -26,7 +26,10 @@ export default function ProjectsGrid({
             {index + 1}
           </div>{" "}
           {/* Main project container */}
-          <div className="w-full bg-background/80 backdrop-blur-sm border-2 sm:border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] sm:shadow-[8px_8px_0px_0px_rgba(65,44,71,1)] relative overflow-hidden">
+          <div
+            data-pc-reacts
+            className="w-full bg-background/80 backdrop-blur-sm border-2 sm:border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] sm:shadow-[8px_8px_0px_0px_rgba(65,44,71,1)] relative overflow-hidden"
+          >
             {/* Decorative corner elements */}
             <div className="absolute top-0 left-0 w-6 h-6 border-r-4 border-b-4 border-text/30"></div>
             <div className="absolute bottom-0 right-0 w-6 h-6 border-l-4 border-t-4 border-text/30"></div>

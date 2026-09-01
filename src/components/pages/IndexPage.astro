@@ -4,7 +4,6 @@ import ProjectsGrid from "@/components/ProjectsGrid";
 import OtherProjects from "@/components/OtherProjects.astro";
 import MoreAbout from "@/components/MoreAbout.astro";
 import Highlights from "@/components/Highlights.astro";
-import PCModel from "@/components/PCModel";
 import Experience from "@/components/Experience";
 import PixelIcon from "@/components/PixelIcon";
 import CopyToClipboard from "@/components/CopyButton";
@@ -93,22 +92,17 @@ const t = useTranslations(lang);
       </div>
     </div>
 
-    <!-- PC Model -->
+    <!-- The PC itself lives in the layout so it survives navigation. This holds its place. -->
     <div
-      id="pc-model-container"
-      class="relative w-[200px] h-[200px] mx-auto mt-10 lg:mx-0 lg:w-[240px] lg:h-[240px] lg:flex-shrink-0 lg:-mt-8 transition-all duration-300"
+      id="pc-hero-anchor"
+      class="relative w-[200px] h-[200px] mx-auto mt-10 lg:mx-0 lg:w-[240px] lg:h-[240px] lg:flex-shrink-0 lg:-mt-8"
     >
-      <PCModel client:only="react" />
-
       <div id="click-me-text" class="absolute -bottom-4 left-1/2 -translate-x-1/2 text-center pointer-events-none transition-opacity duration-300">
         <p class="text-text/50 text-xs font-ubuntu-mono">
           {i18n.CLICK_ME || "Click me!"}
         </p>
       </div>
     </div>
-
-    <!-- Spacer maintains layout space when PC model becomes fixed -->
-    <div id="pc-model-spacer" class="hidden lg:w-[240px] lg:h-[240px] lg:flex-shrink-0"></div>
   </div>
 
   <!-- Experience -->
@@ -213,64 +207,8 @@ const t = useTranslations(lang);
     });
   });
 
-  function returnToHero() {
-    const pcContainer = document.querySelector('#pc-model-container') as HTMLElement;
-    if (!pcContainer) return;
-
-    pcContainer.style.removeProperty('position');
-    pcContainer.style.removeProperty('bottom');
-    pcContainer.style.removeProperty('right');
-    pcContainer.style.removeProperty('left');
-    pcContainer.style.removeProperty('top');
-    pcContainer.style.removeProperty('transform');
-    pcContainer.style.removeProperty('width');
-    pcContainer.style.removeProperty('height');
-    pcContainer.style.removeProperty('z-index');
-
-    const spacer = document.querySelector('#pc-model-spacer') as HTMLElement;
-    if (spacer) spacer.classList.add('hidden');
-  }
-
-  window.addEventListener('scroll', () => {
-    if (window.innerWidth < 1024) return;
-
-    const pcContainer = document.querySelector('#pc-model-container') as HTMLElement;
-    const clickMeText = document.querySelector('#click-me-text') as HTMLElement;
-    const spacer = document.querySelector('#pc-model-spacer') as HTMLElement;
-
-    if (pcContainer) {
-      if (window.scrollY > 400) {
-        pcContainer.style.position = 'fixed';
-        pcContainer.style.bottom = '2rem';
-        pcContainer.style.right = '2rem';
-        pcContainer.style.left = 'auto';
-        pcContainer.style.top = 'auto';
-        pcContainer.style.transform = 'none';
-        pcContainer.style.width = '200px';
-        pcContainer.style.height = '200px';
-        pcContainer.style.zIndex = '50';
-
-        if (clickMeText) clickMeText.style.opacity = '0';
-        if (spacer) spacer.classList.remove('hidden');
-      } else {
-        returnToHero();
-        if (clickMeText) clickMeText.style.opacity = '1';
-      }
-    }
-  });
-
-  window.addEventListener('resize', () => {
-    const pcContainer = document.querySelector('#pc-model-container') as HTMLElement;
-    if (!pcContainer) return;
-    if (pcContainer.style.position === 'fixed' && window.innerWidth < 1024) {
-      returnToHero();
-      const clickMeText = document.querySelector('#click-me-text') as HTMLElement;
-      if (clickMeText) clickMeText.style.opacity = '1';
-    }
-  });
-
   document.addEventListener('DOMContentLoaded', () => {
-    const projectCards = document.querySelectorAll('[class*="border-4"]');
+    const projectCards = document.querySelectorAll('[data-pc-reacts]');
     projectCards.forEach(card => {
       card.addEventListener('mouseenter', () => {
         window.dispatchEvent(new CustomEvent('pageInteraction', { detail: { type: 'project', hovered: true } }));
