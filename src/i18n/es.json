@@ -8,6 +8,7 @@
     {
       "title": "Desarrollador Frontend Freelance",
       "company": "Lands End Charters",
+      "link": "https://www.landsendcharters.com/",
       "period": "Ago 2026 - Presente",
       "description": "Trabajo de frontend en la plataforma de reservaciones de una operadora de yates y pesca deportiva en Los Cabos, construida con Next.js y Strapi.",
       "type": "work"
@@ -112,13 +113,25 @@
       "title": "Havi",
       "description": "Copiloto financiero proactivo construido en dos d\u00edas para el datathon de Hey Banco. Constru\u00ed el cliente m\u00f3vil: 8 pantallas, una librer\u00eda de componentes compartida, y una capa de contexto tipada que cae a datos simulados cuando el backend est\u00e1 abajo.",
       "tags": ["React Native", "Expo", "FastAPI", "Gemini"],
-      "image": "/images/havi-1.webp"
+      "image": "/images/havi-1.webp",
+      "gallery": [
+        "/images/havi-app-1.webp",
+        "/images/havi-app-2.webp",
+        "/images/havi-app-3.webp",
+        "/images/havi-app-4.webp"
+      ]
     },
     {
       "title": "Espyntar",
       "description": "Pictionary multijugador en C++. Hasta 8 jugadores dibujan y adivinan sobre TCP con un protocolo binario personalizado.",
       "tags": ["C++", "Raylib", "Winsock"],
       "image": "/images/espyntar-1.webp",
+      "gallery": [
+        "/images/espyntar-1.webp",
+        "/images/espyntar-2.webp",
+        "/images/espyntar-3.webp",
+        "/images/espyntar-4.webp"
+      ],
       "repo": "https://www.github.com/Scalaptia/espyntar"
     },
     {
@@ -126,6 +139,7 @@
       "description": "RPG educativo sobre la Batalla de Puebla, construido sobre un motor de juego propio en C con Raylib. Jugable en escritorio y web v\u00eda Emscripten.",
       "tags": ["C", "Raylib", "Emscripten"],
       "image": "/images/16bdh-1.webp",
+      "trailer": "Ea9rDD_nelE",
       "repo": "https://github.com/Scalaptia/16-Bits-de-Historia"
     },
     {
@@ -151,6 +165,8 @@
   "TEXT_SWIPE_HINT": "\u2190 Desliza \u2192",
   "TEXT_READ_MORE": "Leer m\u00e1s",
   "TEXT_OTHER_PROJECTS": "Otros proyectos",
+  "TEXT_BACK_HOME": "Volver al inicio",
+  "TEXT_PORTRAIT_CAPTION": "Ensenada, Baja California",
   "TEXT_HIGHLIGHTS": "destacados",
   "HIGHLIGHTS": [
     {

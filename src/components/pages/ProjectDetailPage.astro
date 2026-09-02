@@ -24,14 +24,15 @@ if (!detail || !project) {
   !detail || !project ? (
     <div class="flex flex-col items-center justify-center min-h-[50vh] gap-4">
       <h1 class="text-3xl font-black-han-sans text-text">{i18n.TEXT_404}</h1>
-      <a href="/" class="text-primary font-ubuntu-mono hover:underline hover:text-text transition-colors duration-150">&larr; Home</a>
+      <a href={lang === "es" ? "/es/" : "/"} class="press [--press:3px] flex items-center gap-2 px-5 py-2.5 text-text border-2 border-text bg-primary font-black-han-sans font-extrabold text-sm">{i18n.TEXT_BACK_HOME}</a>
     </div>
   ) : (
     <div class="px-4 sm:px-6 lg:px-8 flex flex-col w-full items-center max-w-[600px] lg:max-w-[900px] gap-10 my-8 lg:my-12">
+      <div class="band band-lit band-first w-full flex flex-col gap-10" style="--band-bleed: 1.25rem">
       <div class="w-full">
         <a
           href={lang === "es" ? "/es/#projects" : "/#projects"}
-          class="inline-flex items-center gap-2 text-primary font-ubuntu-mono text-sm hover:underline hover:text-text transition-colors duration-150 mb-8"
+          class="inline-flex items-center gap-2 text-primary font-ubuntu-mono text-sm underline decoration-2 decoration-primary/40 underline-offset-4 hover:decoration-primary hover:text-text transition-colors duration-150 mb-8"
         >
           <PixelIcon name="arrow-left" className="w-4 h-4" />
           {i18n.TAG_PROJECTS}
@@ -59,7 +60,9 @@ if (!detail || !project) {
           mode="grid"
         />
       </div>
+      </div>
 
+      <div class="band band-plain w-full flex flex-col gap-10" style="--band-bleed: 1.25rem">
       <div class="w-full bg-background/80 backdrop-blur-sm border-2 sm:border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] sm:shadow-[8px_8px_0px_0px_rgba(65,44,71,1)] p-6 sm:p-8 relative">
         <div class="absolute top-0 left-0 w-6 h-6 border-r-4 border-b-4 border-text/30"></div>
         <div class="absolute bottom-0 right-0 w-6 h-6 border-l-4 border-t-4 border-text/30"></div>
@@ -126,6 +129,9 @@ if (!detail || !project) {
         </div>
       </div>
 
+      </div>
+
+      <div class="band band-lit band-last w-full flex flex-col gap-10" style="--band-bleed: 1.25rem">
       {
         detail.videoUrl && (
           <div class="w-full">
@@ -142,7 +148,7 @@ if (!detail || !project) {
             </h2>
             <div class="flex flex-wrap gap-2">
               {project.tags.map((tag) => (
-                <span class="text-white bg-text border-2 border-white px-3 py-1 text-sm font-ubuntu-mono font-extrabold shadow-[2px_2px_0px_0px_rgba(253,141,117,0.6)] transition-all duration-150 hover:shadow-[3px_3px_0px_0px_rgba(253,141,117,0.8)] hover:-translate-x-[1px] hover:-translate-y-[1px] cursor-default">
+                <span class="text-white bg-text border-2 border-white px-3 py-1 text-sm font-ubuntu-mono font-extrabold shadow-[2px_2px_0px_0px_rgba(253,141,117,0.6)] cursor-default">
                   {tag}
                 </span>
               ))}
@@ -150,6 +156,7 @@ if (!detail || !project) {
           </div>
         )
       }
+      </div>
     </div>
   )
 }

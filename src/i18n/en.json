@@ -8,6 +8,7 @@
     {
       "title": "Freelance Frontend Developer",
       "company": "Lands End Charters",
+      "link": "https://www.landsendcharters.com/",
       "period": "Aug 2026 - Present",
       "description": "Frontend work on the booking platform of a yacht and sport-fishing charter operator in Los Cabos, built with Next.js and Strapi.",
       "type": "work"
@@ -112,13 +113,25 @@
       "title": "Havi",
       "description": "Proactive banking copilot built in two days for the Hey Banco datathon. I built the mobile client: 8 screens, a shared component library, and a typed context layer that falls back to mock data when the backend is down.",
       "tags": ["React Native", "Expo", "FastAPI", "Gemini"],
-      "image": "/images/havi-1.webp"
+      "image": "/images/havi-1.webp",
+      "gallery": [
+        "/images/havi-app-1.webp",
+        "/images/havi-app-2.webp",
+        "/images/havi-app-3.webp",
+        "/images/havi-app-4.webp"
+      ]
     },
     {
       "title": "Espyntar",
       "description": "Multiplayer Pictionary in C++. Up to 8 players draw and guess over raw TCP with a custom binary protocol.",
       "tags": ["C++", "Raylib", "Winsock"],
       "image": "/images/espyntar-1.webp",
+      "gallery": [
+        "/images/espyntar-1.webp",
+        "/images/espyntar-2.webp",
+        "/images/espyntar-3.webp",
+        "/images/espyntar-4.webp"
+      ],
       "repo": "https://www.github.com/Scalaptia/espyntar"
     },
     {
@@ -126,6 +139,7 @@
       "description": "Educational RPG about the Battle of Puebla, built on a custom game engine in C with Raylib. Playable on desktop and web via Emscripten.",
       "tags": ["C", "Raylib", "Emscripten"],
       "image": "/images/16bdh-1.webp",
+      "trailer": "Ea9rDD_nelE",
       "repo": "https://github.com/Scalaptia/16-Bits-de-Historia"
     },
     {
@@ -153,6 +167,8 @@
   "TEXT_SWIPE_HINT": "\u2190 Swipe \u2192",
   "TEXT_READ_MORE": "Read more",
   "TEXT_OTHER_PROJECTS": "Other projects",
+  "TEXT_BACK_HOME": "Back home",
+  "TEXT_PORTRAIT_CAPTION": "Ensenada, Baja California",
   "TEXT_HIGHLIGHTS": "highlights",
   "HIGHLIGHTS": [
     {

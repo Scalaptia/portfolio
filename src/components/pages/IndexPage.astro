@@ -4,6 +4,7 @@ import ProjectsGrid from "@/components/ProjectsGrid";
 import OtherProjects from "@/components/OtherProjects.astro";
 import MoreAbout from "@/components/MoreAbout.astro";
 import Highlights from "@/components/Highlights.astro";
+import PCModel from "@/components/PCModel";
 import Experience from "@/components/Experience";
 import PixelIcon from "@/components/PixelIcon";
 import CopyToClipboard from "@/components/CopyButton";
@@ -21,13 +22,15 @@ const t = useTranslations(lang);
 <main>
   <!-- Hero section -->
   <div
+    id="hero"
     slot="content"
-    class="relative flex flex-col lg:flex-row lg:items-center lg:justify-between max-w-[600px] lg:max-w-[1000px] mb-16 lg:mb-24 pt-8 lg:pt-16 px-4 sm:px-6 lg:px-8"
+    class="band band-lit band-first relative flex flex-col lg:flex-row lg:items-center lg:justify-between max-w-[600px] lg:max-w-[1000px] mb-16 lg:mb-24 pt-8 lg:pt-16 px-4 sm:px-6 lg:px-8"
   >
     <!-- Left: Name + Description + Links -->
     <div class="flex flex-col w-full lg:flex-1 lg:pr-10 relative z-10">
       <h1
-        class="text-5xl sm:text-6xl font-black-han-sans text-text leading-[1.1em] text-center lg:text-left drop-shadow-sm group cursor-pointer hover:scale-[1.02] transition-transform duration-300 origin-center lg:origin-left"
+        id="hero-title"
+        class="text-5xl sm:text-6xl font-black-han-sans text-text leading-[1.1em] text-center lg:text-left drop-shadow-sm group cursor-pointer hover:scale-[1.02] transition-transform duration-300 origin-center lg:origin-left w-fit mx-auto lg:mx-0"
       >
         <span
           id="hero-name-1"
@@ -92,24 +95,29 @@ const t = useTranslations(lang);
       </div>
     </div>
 
-    <!-- The PC itself lives in the layout so it survives navigation. This holds its place. -->
+    <!-- PC Model -->
     <div
-      id="pc-hero-anchor"
-      class="relative w-[200px] h-[200px] mx-auto mt-10 lg:mx-0 lg:w-[240px] lg:h-[240px] lg:flex-shrink-0 lg:-mt-8"
+      id="pc-model-container"
+      class="relative w-[200px] h-[200px] mx-auto mt-10 lg:mx-0 lg:w-[240px] lg:h-[240px] lg:flex-shrink-0 lg:-mt-8 transition-all duration-300"
     >
+      <PCModel client:only="react" />
+
       <div id="click-me-text" class="absolute -bottom-4 left-1/2 -translate-x-1/2 text-center pointer-events-none transition-opacity duration-300">
         <p class="text-text/50 text-xs font-ubuntu-mono">
           {i18n.CLICK_ME || "Click me!"}
         </p>
       </div>
     </div>
+
+    <!-- Spacer maintains layout space when PC model becomes fixed -->
+    <div id="pc-model-spacer" class="hidden lg:w-[240px] lg:h-[240px] lg:flex-shrink-0"></div>
   </div>
 
   <!-- Experience -->
   <div
     id="experience"
     slot="content"
-    class="px-4 sm:px-6 lg:px-8 flex flex-col w-full items-center lg:flex-row lg:flex-wrap lg:justify-between max-w-[600px] lg:max-w-[1000px] lg:gap-y-8 mt-16 lg:mt-24 relative"
+    class="band band-lit band-joined px-4 sm:px-6 lg:px-8 flex flex-col w-full items-center lg:flex-row lg:flex-wrap lg:justify-between max-w-[600px] lg:max-w-[1000px] lg:gap-y-8 mt-16 lg:mt-24 relative"
   >
     <span
       class="text-primary text-start font-ubuntu-mono text-2xl self-start w-full mb-6 relative z-10"
@@ -126,7 +134,7 @@ const t = useTranslations(lang);
   <div
     id="projects"
     slot="content"
-    class="px-4 sm:px-6 lg:px-8 flex flex-col w-full items-center lg:flex-row lg:flex-wrap lg:justify-between max-w-[600px] lg:max-w-[1000px] lg:gap-y-8 mt-16 lg:mt-24 relative"
+    class="band band-plain px-4 sm:px-6 lg:px-8 flex flex-col w-full items-center lg:flex-row lg:flex-wrap lg:justify-between max-w-[600px] lg:max-w-[1000px] lg:gap-y-8 mt-16 lg:mt-24 relative"
   >
     <span
       class="text-primary text-start font-ubuntu-mono text-2xl self-start w-full mb-6 relative z-10"
@@ -163,7 +171,7 @@ const t = useTranslations(lang);
   <div
     id="events"
     slot="content"
-    class="px-4 sm:px-6 lg:px-8 flex flex-col w-full items-center lg:flex-row lg:flex-wrap lg:justify-between max-w-[600px] lg:max-w-[1000px] mt-16 lg:mt-24 relative"
+    class="band band-lit px-4 sm:px-6 lg:px-8 flex flex-col w-full items-center lg:flex-row lg:flex-wrap lg:justify-between max-w-[600px] lg:max-w-[1000px] mt-16 lg:mt-24 relative"
   >
     <span
       class="text-primary text-start font-ubuntu-mono text-2xl self-start w-full mb-6 relative z-10"
@@ -180,7 +188,7 @@ const t = useTranslations(lang);
   <div
     id="about"
     slot="content"
-    class="px-4 sm:px-6 lg:px-8 flex flex-col w-full items-center lg:flex-row lg:flex-wrap lg:justify-between max-w-[600px] lg:max-w-[1000px] mt-16 lg:mt-24 mb-16 lg:mb-24 relative"
+    class="band band-plain band-last px-4 sm:px-6 lg:px-8 flex flex-col w-full items-center lg:flex-row lg:flex-wrap lg:justify-between max-w-[600px] lg:max-w-[1000px] mt-16 lg:mt-24 mb-16 lg:mb-24 relative"
   >
     <span
       class="text-primary text-start font-ubuntu-mono text-2xl self-start w-full mb-6 relative z-10"
@@ -195,20 +203,85 @@ const t = useTranslations(lang);
 </main>
 
 <script>
-  const heroNames = document.querySelectorAll('.hero-name');
+  // The heading is the target, not the two words inside it, so the space between Fernando and
+  // Haro does not count as having left.
+  const heroTitle = document.getElementById('hero-title');
 
-  heroNames.forEach(name => {
-    name.addEventListener('mouseenter', () => {
-      window.dispatchEvent(new CustomEvent('heroHover', { detail: { hovered: true } }));
-    });
+  heroTitle?.addEventListener('mouseenter', () => {
+    window.dispatchEvent(new CustomEvent('heroHover', { detail: { hovered: true } }));
+  });
 
-    name.addEventListener('mouseleave', () => {
-      window.dispatchEvent(new CustomEvent('heroHover', { detail: { hovered: false } }));
-    });
+  heroTitle?.addEventListener('mouseleave', () => {
+    window.dispatchEvent(new CustomEvent('heroHover', { detail: { hovered: false } }));
+  });
+
+  // The content column is 1000px wide and centred, and the model parks 200px in from the right.
+  // Below this width there is no room for it beside the column, so it stays up in the hero.
+  const FLOAT_MIN_WIDTH = 1440;
+
+  function returnToHero() {
+    const pcContainer = document.querySelector('#pc-model-container') as HTMLElement;
+    if (!pcContainer) return;
+
+    pcContainer.style.removeProperty('position');
+    pcContainer.style.removeProperty('bottom');
+    pcContainer.style.removeProperty('right');
+    pcContainer.style.removeProperty('left');
+    pcContainer.style.removeProperty('top');
+    pcContainer.style.removeProperty('transform');
+    pcContainer.style.removeProperty('width');
+    pcContainer.style.removeProperty('height');
+    pcContainer.style.removeProperty('z-index');
+
+    const spacer = document.querySelector('#pc-model-spacer') as HTMLElement;
+    if (spacer) spacer.classList.add('hidden');
+  }
+
+  window.addEventListener('scroll', () => {
+    if (window.innerWidth < FLOAT_MIN_WIDTH) {
+      returnToHero();
+      const hint = document.querySelector('#click-me-text') as HTMLElement;
+      if (hint) hint.style.opacity = '1';
+      return;
+    }
+
+    const pcContainer = document.querySelector('#pc-model-container') as HTMLElement;
+    const clickMeText = document.querySelector('#click-me-text') as HTMLElement;
+    const spacer = document.querySelector('#pc-model-spacer') as HTMLElement;
+
+    if (pcContainer) {
+      if (window.scrollY > 400) {
+        pcContainer.style.position = 'fixed';
+        pcContainer.style.bottom = '2rem';
+        pcContainer.style.right = '2rem';
+        pcContainer.style.left = 'auto';
+        pcContainer.style.top = 'auto';
+        pcContainer.style.transform = 'none';
+        pcContainer.style.width = '200px';
+        pcContainer.style.height = '200px';
+        pcContainer.style.zIndex = '50';
+
+        if (clickMeText) clickMeText.style.opacity = '0';
+        if (spacer) spacer.classList.remove('hidden');
+      } else {
+        returnToHero();
+        if (clickMeText) clickMeText.style.opacity = '1';
+      }
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    const pcContainer = document.querySelector('#pc-model-container') as HTMLElement;
+    if (!pcContainer) return;
+    if (pcContainer.style.position === 'fixed' && window.innerWidth < FLOAT_MIN_WIDTH) {
+      returnToHero();
+      const clickMeText = document.querySelector('#click-me-text') as HTMLElement;
+      if (clickMeText) clickMeText.style.opacity = '1';
+    }
   });
 
   document.addEventListener('DOMContentLoaded', () => {
-    const projectCards = document.querySelectorAll('[data-pc-reacts]');
+    const projectCards = document.querySelectorAll('[class*="border-4"]');
     projectCards.forEach(card => {
       card.addEventListener('mouseenter', () => {
         window.dispatchEvent(new CustomEvent('pageInteraction', { detail: { type: 'project', hovered: true } }));

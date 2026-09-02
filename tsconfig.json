@@ -12,7 +12,8 @@
       "@/lib/*": ["src/lib/*"],
       "@/pages/*": ["src/pages/*"],
       "@/utils/*": ["src/utils/*"],
-      "@/data/*": ["src/data/*"]
+      "@/data/*": ["src/data/*"],
+      "@/styles/*": ["src/styles/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.astro"]

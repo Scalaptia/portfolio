@@ -25,16 +25,6 @@ export interface FaceData {
     art: string[]
 }
 
-// One word centred on the grid. drawFromArt already renders any run of ordinary characters as
-// text, so a label is just art with letters in it.
-export function wordArt(word: string): string[] {
-    const text = word.slice(0, 12).toUpperCase()
-    const pad = Math.floor((12 - text.length) / 2)
-    const blank = '.'.repeat(12)
-    const row = '.'.repeat(pad) + text + '.'.repeat(12 - pad - text.length)
-    return [blank, blank, blank, blank, blank, row, blank, blank, blank, blank, blank, blank]
-}
-
 export const FACES: FaceData[] = [
     {
         name: 'Normal',

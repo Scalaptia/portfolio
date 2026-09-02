@@ -4,8 +4,8 @@ import Footer from "@/components/Footer.astro";
 import BackgroundDecorations from "@/components/BackgroundDecorations.astro";
 import Toast from "@/components/Toast";
 import ViewerHost from "@/components/ViewerHost";
-import PCStage from "@/components/PCStage.astro";
 import { ClientRouter } from "astro:transitions";
+import "@/styles/crt.css";
 
 const { title, description } = Astro.props;
 const { currentLocale } = Astro;
@@ -217,7 +217,6 @@ const personSchema = {
     <Header />
     <slot name="content" />
     <Footer />
-    <PCStage />
     <Toast client:load />
     <ViewerHost client:load />
   </body>

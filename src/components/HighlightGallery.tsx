@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from "react";
-import { openViewer } from "@/lib/crtViewer";
+import { openViewer, originOf } from "@/lib/crtViewer";
 
 interface Highlight {
   photo: string;
@@ -27,8 +27,8 @@ export function HighlightGallery({ highlights }: HighlightGalleryProps) {
   );
 
   const open = useCallback(
-    (index: number) => {
-      openViewer(items, index);
+    (index: number, from: Element | null) => {
+      openViewer(items, index, { origin: originOf(from) });
     },
     [items],
   );
@@ -38,8 +38,8 @@ export function HighlightGallery({ highlights }: HighlightGalleryProps) {
       {highlights.map((h, i) => (
         <button
           key={i}
-          className="group border-2 sm:border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] sm:shadow-[6px_6px_0px_0px_rgba(65,44,71,1)] overflow-hidden cursor-pointer text-left bg-background"
-          onClick={() => open(i)}
+          className="press [--press:4px] sm:[--press:6px] group border-2 sm:border-4 border-text overflow-hidden cursor-pointer text-left bg-background"
+          onClick={(e) => open(i, e.currentTarget)}
           aria-label={`Open ${h.title} - ${h.event}`}
         >
           <div className="aspect-[4/3] sm:aspect-[3/2] overflow-hidden">

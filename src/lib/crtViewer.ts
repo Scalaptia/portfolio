@@ -1,32 +1,45 @@
 // One viewer, several openers.
 //
-// Three separate Astro islands can open an image: HighlightGallery, and MediaGallery in both its
-// carousel and grid modes. Islands are independent React roots, so they cannot share context, but
-// they do share the browser's module graph. The open image therefore lives here, in module scope,
-// and everyone subscribes.
+// Half a dozen places on the site can open a picture: the highlight grid, MediaGallery in both its
+// carousel and grid modes, the other-projects cards, the portrait in the about section. Astro
+// islands are independent React roots, so they cannot share context, but they do share the
+// browser's module graph. The open image therefore lives here, in module scope, and everyone
+// subscribes.
 //
-// This file stays free of React and of three.js on purpose: an inline Astro script imports it too.
+// This file stays free of React on purpose: inline Astro scripts import it too.
 
 import type * as Faces from "@/components/pc-model/faces";
-import type { MediaItem } from "@/components/MediaLightbox";
 
 // Erased at build time, so naming the palette here costs nothing at runtime.
 export type CrtScheme = keyof typeof Faces.CRT_COLORS;
+
+export interface MediaItem {
+  /** "youtube" puts the embedded player behind the glass. src is the video id. */
+  type: "image" | "video" | "youtube";
+  src: string;
+  alt?: string;
+  caption?: string;
+  description?: string;
+  /** A larger or better-cropped file to show once it is open. */
+  lightboxSrc?: string;
+}
 
 export interface ViewerState {
   open: boolean;
   items: MediaItem[];
   index: number;
+  /** Tints the letterbox surround and the power light. Photos themselves stay untinted. */
   scheme: CrtScheme;
   /** Which gallery opened it, so that gallery alone follows along as you navigate. */
   ownerId: string | null;
-  /** "crt" plays the set on the model's screen. "dom" is the plain lightbox. */
-  mode: "crt" | "dom";
+  /** Centre of the thumbnail you clicked, so the monitor grows out of it. */
+  origin: { x: number; y: number } | null;
 }
 
 export interface OpenOptions {
   scheme?: CrtScheme;
   ownerId?: string;
+  origin?: { x: number; y: number } | null;
 }
 
 const CLOSED: ViewerState = {
@@ -35,7 +48,7 @@ const CLOSED: ViewerState = {
   index: 0,
   scheme: "green",
   ownerId: null,
-  mode: "dom",
+  origin: null,
 };
 
 let state: ViewerState = CLOSED;
@@ -44,7 +57,7 @@ const listeners = new Set<(state: ViewerState) => void>();
 function emit() {
   listeners.forEach((fn) => fn(state));
   // The PC model already listens for heroHover and pageInteraction this way, so the same event
-  // style keeps its code shape when it starts reacting to the viewer.
+  // style lets a plain script react to the viewer without importing React.
   if (typeof window !== "undefined") {
     window.dispatchEvent(new CustomEvent("crtViewer", { detail: state }));
   }
@@ -66,19 +79,22 @@ export function subscribe(fn: (state: ViewerState) => void): () => void {
   };
 }
 
+/** Centre of an element in viewport pixels. Feed it the thumbnail that was clicked. */
+export function originOf(el: Element | null | undefined): { x: number; y: number } | null {
+  if (!el) return null;
+  const rect = el.getBoundingClientRect();
+  return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+}
+
 export function openViewer(items: MediaItem[], index: number, options: OpenOptions = {}): void {
   if (!items.length) return;
-  // A video cannot play on the model's screen without a second texture path, and mixing the two
-  // viewers inside one set would be worse than picking one. Any video sends the whole set to the
-  // plain lightbox.
-  const everyItemIsAnImage = items.every((item) => item.type === "image");
   state = {
     open: true,
     items,
     index: wrap(index, items.length),
     scheme: options.scheme ?? "green",
     ownerId: options.ownerId ?? null,
-    mode: isViewerAvailable() && everyItemIsAnImage ? "crt" : "dom",
+    origin: options.origin ?? null,
   };
   emit();
 }
@@ -98,27 +114,4 @@ export function closeViewer(): void {
   if (!state.open) return;
   state = CLOSED;
   emit();
-}
-
-let webglSupport: boolean | null = null;
-
-function hasWebGL(): boolean {
-  if (webglSupport !== null) return webglSupport;
-  try {
-    const probe = document.createElement("canvas");
-    webglSupport = Boolean(probe.getContext("webgl2") || probe.getContext("webgl"));
-  } catch {
-    webglSupport = false;
-  }
-  return webglSupport;
-}
-
-/**
- * Whether the 3D viewer can carry the image. False sends the caller to the plain DOM lightbox:
- * no WebGL, or a reader who asked for less motion and should not get a camera dolly.
- */
-export function isViewerAvailable(): boolean {
-  if (typeof window === "undefined") return false;
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
-  return hasWebGL();
 }

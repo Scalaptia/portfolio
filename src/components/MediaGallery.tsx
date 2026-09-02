@@ -1,7 +1,6 @@
 import { useState, useCallback, useEffect, useId, useRef } from "react";
 import PixelIcon from "./PixelIcon";
-import { type MediaItem } from "./MediaLightbox";
-import { openViewer } from "@/lib/crtViewer";
+import { openViewer, originOf, type MediaItem } from "@/lib/crtViewer";
 import { useViewerState } from "@/lib/useViewerState";
 
 interface MediaGalleryProps {
@@ -57,9 +56,9 @@ export function MediaGallery({
   }, [items.length]);
 
   const openLightbox = useCallback(
-    (index: number) => {
+    (index: number, from?: Element | null) => {
       setActiveIndex(index);
-      openViewer(items, index, { ownerId });
+      openViewer(items, index, { ownerId, origin: originOf(from) });
     },
     [items, ownerId],
   );
@@ -92,7 +91,7 @@ export function MediaGallery({
           {/* Carousel viewport */}
           <div
             className="relative w-full aspect-video cursor-pointer bg-background/50 overflow-hidden border-2 sm:border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] sm:shadow-[6px_6px_0px_0px_rgba(65,44,71,1)] touch-pan-y select-none"
-            onClick={() => openLightbox(activeIndex)}
+            onClick={(e) => openLightbox(activeIndex, e.currentTarget)}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
@@ -100,15 +99,10 @@ export function MediaGallery({
             {items.map((item, index) => (
               <div
                 key={index}
-                className={`absolute top-0 left-0 w-full h-full transition-all duration-500 ease-in-out ${
-                  index === activeIndex
-                    ? "opacity-100 z-10 scale-100"
-                    : "opacity-0 z-0 scale-105"
+                className={`absolute top-0 left-0 w-full h-full ${
+                  index === activeIndex ? "opacity-100 z-10 crt-slide-in" : "opacity-0 z-0"
                 }`}
-                style={{
-                  backfaceVisibility: "hidden",
-                  filter: index === activeIndex ? "none" : "blur(1px)",
-                }}
+                style={{ backfaceVisibility: "hidden" }}
               >
                 {item.type === "image" ? (
                   <img
@@ -130,6 +124,11 @@ export function MediaGallery({
               </div>
             ))}
 
+            {/* Says out loud that the picture opens. */}
+            <div className="absolute top-2 right-2 z-20 hidden sm:flex items-center gap-1 border-2 border-text bg-white/90 px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none">
+              <PixelIcon name="maximize" className="w-3.5 h-3.5 text-text" />
+            </div>
+
             {/* Swipe hint */}
             {hasMultiple && activeIndex === 0 && (
               <div className="absolute bottom-12 left-1/2 -translate-x-1/2 text-text/70 text-xs font-ubuntu-mono bg-white/90 px-3 py-1 border border-text/30 sm:hidden pointer-events-none animate-pulse">
@@ -146,7 +145,7 @@ export function MediaGallery({
                   e.stopPropagation();
                   handlePrev();
                 }}
-                className="absolute left-2 top-1/2 -translate-y-1/2 p-2 border-2 border-text bg-white text-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] hover:bg-background transition-colors duration-150 opacity-0 sm:group-hover:opacity-100 pointer-events-none sm:pointer-events-auto z-20"
+                className="press [--press:2px] absolute left-2 top-1/2 p-2 border-2 border-text bg-white text-text opacity-0 sm:group-hover:opacity-100 pointer-events-none sm:pointer-events-auto z-20"
                 aria-label="Previous"
               >
                 <PixelIcon name="arrow-left" className="w-4 h-4" />
@@ -156,7 +155,7 @@ export function MediaGallery({
                   e.stopPropagation();
                   handleNext();
                 }}
-                className="absolute right-2 top-1/2 -translate-y-1/2 p-2 border-2 border-text bg-white text-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] hover:bg-background transition-colors duration-150 opacity-0 sm:group-hover:opacity-100 pointer-events-none sm:pointer-events-auto z-20"
+                className="press [--press:2px] absolute right-2 top-1/2 p-2 border-2 border-text bg-white text-text opacity-0 sm:group-hover:opacity-100 pointer-events-none sm:pointer-events-auto z-20"
                 aria-label="Next"
               >
                 <PixelIcon name="arrow-right" className="w-4 h-4" />
@@ -196,7 +195,7 @@ export function MediaGallery({
         {/* Main image */}
         <div
           className="relative aspect-video cursor-pointer overflow-hidden border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)]"
-          onClick={() => openLightbox(0)}
+          onClick={(e) => openLightbox(0, e.currentTarget)}
         >
           {items[0].type === "image" ? (
             <img
@@ -228,7 +227,7 @@ export function MediaGallery({
               <div
                 key={index + 1}
                 className="relative aspect-video cursor-pointer overflow-hidden border-3 border-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)]"
-                onClick={() => openLightbox(index + 1)}
+                onClick={(e) => openLightbox(index + 1, e.currentTarget)}
               >
                 {item.type === "image" ? (
                   <img
@@ -256,8 +255,8 @@ export function MediaGallery({
 
         {items.length > 4 && (
           <button
-            onClick={() => openLightbox(0)}
-            className="mt-2 px-4 py-2 border-3 border-text bg-white text-text font-ubuntu-mono font-bold shadow-[3px_3px_0px_0px_rgba(65,44,71,1)] transition-all duration-200 hover:shadow-[1px_1px_0px_0px_rgba(65,44,71,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:bg-primary/10"
+            onClick={(e) => openLightbox(0, e.currentTarget)}
+            className="press [--press:3px] mt-2 px-4 py-2 border-3 border-text bg-white text-text font-ubuntu-mono font-bold"
           >
             View all ({items.length})
           </button>
