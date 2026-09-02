@@ -17,6 +17,7 @@ import { ChevronLeft } from "pixelarticons/react/ChevronLeft";
 import { ChevronRight } from "pixelarticons/react/ChevronRight";
 import { Send } from "pixelarticons/react/Send";
 import { Expand } from "pixelarticons/react/Expand";
+import { Power } from "pixelarticons/react/Power";
 
 export type IconName =
   | "github"
@@ -40,7 +41,8 @@ export type IconName =
   | "chevron-left"
   | "chevron-right"
   | "send"
-  | "maximize";
+  | "maximize"
+  | "power";
 
 const customIcons: Record<string, string> = {
   github:
@@ -74,6 +76,7 @@ const iconMap: Record<
   "chevron-right": ChevronRight,
   send: Send,
   maximize: Expand,
+  power: Power,
   "chevron-down": ChevronDown,
   github: (() => null) as any,
   linkedin: (() => null) as any,

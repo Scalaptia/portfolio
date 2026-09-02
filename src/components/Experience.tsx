@@ -77,7 +77,7 @@ const Experience: React.FC<ExperienceProps> = ({ experiences }) => {
                       href={experience.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block sm:inline-block text-sm sm:text-lg font-open-sans text-text font-semibold mb-3 hover:underline focus:underline transition-all duration-300 hover:text-primary sm:hover:translate-x-1 text-center sm:text-left"
+                      className="block sm:inline-block text-sm sm:text-lg font-open-sans text-text font-semibold mb-3 underline decoration-2 decoration-primary/50 underline-offset-4 hover:decoration-primary focus:decoration-primary transition-all duration-300 hover:text-primary sm:hover:translate-x-1 text-center sm:text-left"
                     >
                       {experience.company}
                     </a>

@@ -9,9 +9,11 @@
       "@/layouts/*": ["src/layouts/*"],
       "@/components/*": ["src/components/*"],
       "@/i18n/*": ["src/i18n/*"],
+      "@/lib/*": ["src/lib/*"],
       "@/pages/*": ["src/pages/*"],
       "@/utils/*": ["src/utils/*"],
-      "@/data/*": ["src/data/*"]
+      "@/data/*": ["src/data/*"],
+      "@/styles/*": ["src/styles/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.astro"]

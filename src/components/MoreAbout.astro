@@ -4,11 +4,22 @@ import LinkButton from "@/components/LinkButton.astro";
 import { getI18N } from "@/i18n/index";
 import { Image } from "astro:assets";
 import { parseMarkdown } from "@/utils/markdown";
+import PixelIcon from "@/components/PixelIcon";
 
 const { currentLocale } = Astro;
 const i18n = getI18N({ currentLocale });
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+// The one picture on the site that opens on an amber tube instead of a green one.
+const portrait = [
+  {
+    type: "image" as const,
+    src: "/images/fernando-haro.jpg",
+    alt: "Fernando Haro",
+    caption: i18n.TEXT_PORTRAIT_CAPTION,
+  },
+];
 ---
 
 <div
@@ -46,16 +57,60 @@ const t = useTranslations(lang);
       <!-- Decorative frame -->
       <div class="absolute -inset-3 border-4 border-primary/40 -rotate-1"></div>
 
-      <Image
-        class:list={`
-                    border-2 border-text aspect-square relative z-10
-                `}
-        src="/images/fernando-haro.jpg"
-        alt="Fernando Haro"
-        width="300"
-        height="300"
-        loading="lazy"
-      />
+      <button
+        type="button"
+        id="portrait-button"
+        class="group block relative z-10 cursor-pointer"
+        data-portrait={JSON.stringify(portrait)}
+        aria-label="Fernando Haro"
+      >
+        <Image
+          class:list={`border-2 border-text aspect-square block`}
+          src="/images/fernando-haro.jpg"
+          alt="Fernando Haro"
+          width="300"
+          height="300"
+          loading="lazy"
+        />
+        <span class="crt-hover absolute inset-0 border-2 border-text"></span>
+        <span
+          class="absolute bottom-2 right-2 flex items-center gap-1.5 border-2 border-[#FFB000] bg-[#110800] px-2 py-1 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-200 pointer-events-none"
+        >
+          <PixelIcon name="power" className="w-3.5 h-3.5 text-[#FFB000]" />
+          <span class="font-ubuntu-mono text-[10px] text-[#FFB000] tracking-wider"
+            >~/whoami</span
+          >
+        </span>
+      </button>
     </div>
   </div>
 </div>
+
+<script>
+  import { openViewer, originOf, type MediaItem } from "@/lib/crtViewer";
+
+  function wire() {
+    const button = document.getElementById("portrait-button");
+    if (!button || button.dataset.wired) return;
+    button.dataset.wired = "true";
+
+    button.addEventListener("click", () => {
+      let items: MediaItem[] = [];
+      try {
+        items = JSON.parse(button.dataset.portrait || "[]");
+      } catch {
+        return;
+      }
+      if (!items.length) return;
+
+      // The machine in the corner notices when you look him up.
+      window.dispatchEvent(
+        new CustomEvent("pageInteraction", { detail: { type: "portrait" } }),
+      );
+      openViewer(items, 0, { scheme: "amber", origin: originOf(button) });
+    });
+  }
+
+  wire();
+  document.addEventListener("astro:page-load", wire);
+</script>

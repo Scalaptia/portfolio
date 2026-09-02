@@ -1,0 +1,373 @@
+/*
+ * The CRT look, in one place.
+ *
+ * The picture viewer draws a monitor in DOM: beige case, dark bezel, curved glass. These are the
+ * parts Tailwind cannot express, which is the glass itself and every animation that sells it as a
+ * tube warming up. The little screen on the 3D model runs the same scanline pitch and the same
+ * curve, so the two read as one machine.
+ */
+
+/* --- the glass ------------------------------------------------------------------------------ */
+
+.crt-glass {
+  border-radius: 26px / 34px;
+  overflow: hidden;
+  position: relative;
+  isolation: isolate;
+  /* The tube edge, darkening into the bezel, plus the phosphor glow of the current scheme. */
+  box-shadow:
+    inset 0 0 22px 10px rgba(0, 0, 0, 0.72),
+    inset 0 0 3px 1px rgba(255, 255, 255, 0.14),
+    0 0 34px -6px var(--crt-glow, rgba(0, 255, 65, 0.35));
+}
+
+/* Scanlines. 3px pitch holds up on a phone; anything finer turns to moire. */
+.crt-scanlines::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.3) 0 1px,
+    rgba(0, 0, 0, 0) 1px 3px
+  );
+  mix-blend-mode: multiply;
+  opacity: 0.45;
+}
+
+/* Corner falloff and the diagonal sheen off the front of the tube. */
+.crt-curve::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+  background:
+    radial-gradient(120% 100% at 50% 50%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.55) 100%),
+    linear-gradient(148deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0) 42%);
+}
+
+/* --- opening and closing -------------------------------------------------------------------- */
+
+/* The case grows out of the thumbnail you clicked. Both offsets are set from JS in pixels. */
+@keyframes crt-case-in {
+  from {
+    opacity: 0;
+    transform: translate(var(--crt-ox, 0px), var(--crt-oy, 0px)) scale(0.88);
+  }
+  45% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes crt-case-out {
+  from {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(var(--crt-ox, 0px), var(--crt-oy, 0px)) scale(0.78);
+  }
+}
+
+/* A tube coming up: one hot line, then the raster opens vertically. */
+@keyframes crt-power-on {
+  0% {
+    opacity: 0;
+    transform: scaleY(0.02);
+    filter: brightness(1.9) saturate(0.35);
+  }
+  22% {
+    opacity: 1;
+    transform: scaleY(0.06);
+    filter: brightness(1.7) saturate(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleY(1);
+    filter: none;
+  }
+}
+
+@keyframes crt-power-off {
+  0% {
+    transform: scaleY(1);
+    filter: none;
+  }
+  55% {
+    transform: scaleY(0.02);
+    filter: brightness(4) saturate(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleY(0.003) scaleX(0.6);
+    filter: brightness(8) saturate(0);
+  }
+}
+
+@keyframes crt-backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* --- changing picture ----------------------------------------------------------------------- */
+
+/* Channel change. The raster loses vertical hold for a moment, then settles. */
+@keyframes crt-change {
+  0% {
+    transform: translateY(-2.5%) scaleY(1.06);
+  }
+  45% {
+    transform: translateY(0.8%) scaleY(1.04);
+  }
+  100% {
+    transform: translateY(0) scaleY(1);
+  }
+}
+
+/* --- idle life ------------------------------------------------------------------------------ */
+
+/* Mains hum, roughly. Small enough that you notice it only once you look for it. */
+@keyframes crt-flicker {
+  0%, 100% { opacity: 0.985; }
+  22% { opacity: 1; }
+  47% { opacity: 0.968; }
+  71% { opacity: 1; }
+  88% { opacity: 0.978; }
+}
+
+.crt-flicker {
+  animation: crt-flicker 4.2s steps(1, end) infinite;
+}
+
+@keyframes crt-led {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+.crt-led {
+  animation: crt-led 2.4s ease-in-out infinite;
+}
+
+/* --- nobody asked for any of this ----------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .crt-flicker,
+  .crt-led,
+  [class*="animate-crt"],
+  .crt-animated {
+    animation: none !important;
+  }
+
+  .crt-flicker {
+    opacity: 1;
+  }
+}
+
+/* --- the tube's own size -------------------------------------------------------------------- */
+
+/*
+ * The glass takes the shape of the first picture opened and keeps it. Width and height are both
+ * written out rather than left to aspect-ratio, so the shape is one custom property the component
+ * sets once.
+ *
+ * The two maximums are the window minus everything else on screen: the case, the chin, the caption
+ * and the dots. No JS measures any of it.
+ */
+.crt-screen {
+  --crt-aspect: 1.3333;
+  --crt-max-w: min(100vw - 4.75rem, 900px);
+  --crt-max-h: min(100vh - 12rem, 640px);
+  width: min(var(--crt-max-w), var(--crt-max-h) * var(--crt-aspect));
+  height: min(var(--crt-max-h), var(--crt-max-w) / var(--crt-aspect));
+}
+
+@supports (height: 100dvh) {
+  .crt-screen {
+    --crt-max-h: min(100dvh - 12rem, 640px);
+  }
+}
+
+@media (min-width: 640px) {
+  .crt-screen {
+    --crt-max-w: min(100vw - 8rem, 1040px);
+    --crt-max-h: min(100vh - 17rem, 720px);
+  }
+
+  @supports (height: 100dvh) {
+    .crt-screen {
+      --crt-max-h: min(100dvh - 17rem, 720px);
+    }
+  }
+}
+
+
+
+/* --- the little carousel on the page -------------------------------------------------------- */
+
+/* The same channel change the viewer does, smaller and quicker, for a thumbnail strip. */
+@keyframes crt-slide-in {
+  0% {
+    transform: translateY(-1.2%) scaleY(1.03);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+.crt-slide-in {
+  animation: crt-slide-in 260ms cubic-bezier(0.2, 0.8, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crt-slide-in {
+    animation: none !important;
+  }
+}
+
+/* --- a picture you can switch on ------------------------------------------------------------ */
+
+/* Scanlines and a warm amber wash fade up over a still image while the pointer is on it. */
+.crt-hover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 220ms ease;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(17, 8, 0, 0.45) 0 1px,
+      rgba(0, 0, 0, 0) 1px 3px
+    ),
+    radial-gradient(120% 100% at 50% 50%, rgba(255, 176, 0, 0.14) 0%, rgba(17, 8, 0, 0.5) 100%);
+}
+
+.group:hover .crt-hover::after,
+.group:focus-visible .crt-hover::after {
+  opacity: 1;
+}
+
+
+/* --- how a button behaves --------------------------------------------------------------------- */
+
+/*
+ * One interaction for every button and every button-shaped link on the site. The hard shadow is
+ * the affordance: it collapses as the button moves into it, so pressing looks like pressing.
+ * Focus draws a coral ring inside the border, never outside it, where it would sit on top of
+ * whatever is next to it.
+ *
+ * Set --press to the resting shadow offset. Nothing else needs a shadow class.
+ */
+.press {
+  --press: 3px;
+  box-shadow: var(--press) var(--press) 0 0 rgba(65, 44, 71, 1);
+  transition:
+    box-shadow 150ms ease,
+    transform 150ms ease;
+}
+
+.press:hover {
+  transform: translate(2px, 2px);
+  box-shadow: calc(var(--press) - 2px) calc(var(--press) - 2px) 0 0 rgba(65, 44, 71, 1);
+}
+
+.press:active {
+  transform: translate(var(--press), var(--press));
+  box-shadow: 0 0 0 0 rgba(65, 44, 71, 1);
+}
+
+.press:focus-visible {
+  outline: none;
+  box-shadow:
+    inset 0 0 0 3px #fd8d75,
+    var(--press) var(--press) 0 0 rgba(65, 44, 71, 1);
+}
+
+.press:disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .press {
+    transition: none;
+  }
+}
+
+/* --- the page in bands ---------------------------------------------------------------------- */
+
+/*
+ * Two kinds of ground, alternating down the page: lit, which is scanlines, and plain, which is the
+ * same paper a shade deeper and nothing else. Lit is one texture on purpose. A grid on top of the
+ * scanlines was two textures fighting, and the page has enough hard borders of its own.
+ *
+ * A band bleeds out by half the gap to the next one, so two bands meet exactly in the middle of
+ * that gap with no overlap and no fade. Set --band-bleed to half of whatever that gap is.
+ */
+
+.band {
+  position: relative;
+  --band-bleed: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .band {
+    --band-bleed: 3rem;
+  }
+}
+
+.band::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--band-bleed) * -1);
+  bottom: calc(var(--band-bleed) * -1);
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  z-index: -1;
+  pointer-events: none;
+  border-top: 1px solid rgba(65, 44, 71, 0.1);
+}
+
+/* Lit: the machine is on. */
+.band-lit::before {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(65, 44, 71, 0.042) 0 1px,
+    transparent 1px 5px
+  );
+}
+
+/* Plain: the same paper a shade deeper, so it reads as a recessed panel rather than a second
+   colour. Mixing the page background with its own text colour cannot clash with either. */
+.band-plain::before {
+  background-color: rgba(65, 44, 71, 0.055);
+}
+
+/* Carries on from the band above it, so nothing draws a line between the two. */
+.band-joined::before {
+  border-top: 0;
+}
+
+/* Runs up behind the header rather than starting under it. */
+.band-first::before {
+  top: -10rem;
+}
+
+/* Stops at the end of the page rather than running into the footer. */
+.band-last::before {
+  border-bottom: 1px solid rgba(65, 44, 71, 0.1);
+}

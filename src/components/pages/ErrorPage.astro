@@ -1,12 +1,100 @@
 ---
-import { getI18N } from '@/i18n/index'
+import { getI18N } from "@/i18n/index";
+import { getLangFromUrl } from "@/i18n/utils";
+import PixelIcon from "@/components/PixelIcon";
 
-const { currentLocale } = Astro
-const i18n = getI18N({ currentLocale })
+const { currentLocale } = Astro;
+const i18n = getI18N({ currentLocale });
+const lang = getLangFromUrl(Astro.url);
+const home = lang === "es" ? "/es/" : "/";
+
+// What the machine has to say about it, in its own phosphor.
+const READOUT = [
+  "FHARO SYSTEMS CRT-2400",
+  "SEEK ERROR 404",
+  "NO SUCH PAGE",
+  "READY.",
+];
 ---
 
-<div class="flex flex-col gap-4 text-text px-4">
-    <h1 class="text-5xl sm:text-6xl font-black-han-sans text-center">404</h1>
-    <p class="text-base sm:text-lg font-open-sans text-center mb-12">{i18n.TEXT_404}</p>
-    <img src="/404.png" class="mx-auto w-full max-w-md" alt="" />
+<div
+  class="band band-lit band-first band-last px-4 sm:px-6 lg:px-8 flex flex-col w-full items-center max-w-[600px] lg:max-w-[1000px] my-12 lg:my-20"
+>
+  <span
+    class="text-primary text-start font-ubuntu-mono text-2xl self-start w-full mb-6 relative z-10"
+    >&lt;error&gt;</span
+  >
+
+  <div
+    class="w-full bg-background/80 backdrop-blur-sm border-2 sm:border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] sm:shadow-[8px_8px_0px_0px_rgba(65,44,71,1)] p-6 sm:p-10 relative"
+  >
+    <div class="absolute top-0 left-0 w-6 h-6 border-r-4 border-b-4 border-text/30"></div>
+    <div class="absolute bottom-0 right-0 w-6 h-6 border-l-4 border-t-4 border-text/30"></div>
+
+    <div
+      class="relative z-10 flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-12"
+    >
+      <!-- The machine, saying what went wrong on its own screen -->
+      <div class="flex-shrink-0 mx-auto lg:mx-0">
+        <div
+          class="bg-background border-4 border-text shadow-[8px_8px_0px_0px_rgba(253,141,117,0.85)]"
+        >
+          <div class="p-3">
+            <div class="bg-text p-2" style="border-radius: 26px / 32px">
+              <div
+                class="crt-glass crt-scanlines crt-curve w-[240px] h-[180px] sm:w-[280px] sm:h-[210px] p-4"
+                style="background: #001100; --crt-glow: rgba(0, 255, 65, 0.32)"
+              >
+                <div
+                  class="font-ubuntu-mono text-[11px] sm:text-xs leading-relaxed text-[#00FF41]"
+                  style="text-shadow: 0 0 6px #00ff41"
+                >
+                  {READOUT.map((line) => <div>{line}</div>)}
+                  <span
+                    class="inline-block w-2 h-3 align-middle crt-led"
+                    style="background: #00FF41"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 px-3 pb-3">
+            <span
+              class="w-2.5 h-2.5 border border-text/50 crt-led"
+              style="background: #00FF41; box-shadow: 0 0 8px #00ff41"></span>
+            <span
+              class="font-ubuntu-mono text-[11px] text-text/70 uppercase tracking-wider"
+              >404</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- What it means, for people -->
+      <div class="flex flex-col gap-5 text-center lg:text-left">
+        <h1
+          class="text-6xl sm:text-7xl font-black-han-sans text-text leading-none"
+        >
+          404
+        </h1>
+        <p class="text-text font-open-sans text-base sm:text-lg leading-relaxed">
+          {i18n.TEXT_404}
+        </p>
+        <a
+          href={home}
+          class="press [--press:3px] self-center lg:self-start flex items-center justify-center gap-2 px-5 py-2.5 text-text border-2 border-text bg-primary"
+        >
+          <PixelIcon name="arrow-left" className="w-4 h-4" />
+          <span class="font-black-han-sans font-extrabold text-sm"
+            >{i18n.TEXT_BACK_HOME}</span
+          >
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <span
+    class="text-primary font-ubuntu-mono text-2xl text-end w-full self-end mt-4 relative z-10"
+    >&lt;/error&gt;</span
+  >
 </div>
