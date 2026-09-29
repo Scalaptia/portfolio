@@ -7,6 +7,9 @@ interface ExperienceItem {
   link?: string;
   period: string;
   description: string | string[];
+  icon?: string;
+  logo?: string;
+  logoOnDark?: boolean;
   type: string;
 }
 
@@ -18,19 +21,6 @@ interface ExperienceProps {
 }
 
 const Experience: React.FC<ExperienceProps> = ({ experiences }) => {
-  const getIcon = (type: string): string => {
-    switch (type) {
-      case "work":
-        return "briefcase";
-      case "education":
-        return "graduation-cap";
-      case "leadership":
-        return "users";
-      default:
-        return "briefcase";
-    }
-  };
-
   return (
     <div className="w-full max-w-4xl mx-auto">
       <div className="relative">
@@ -45,8 +35,16 @@ const Experience: React.FC<ExperienceProps> = ({ experiences }) => {
             <div key={index} className="relative flex items-start gap-3 sm:gap-6">
               {/* Timeline dot */}
               <div className="flex-shrink-0 relative z-10">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary border-2 sm:border-4 border-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] sm:shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] flex items-center justify-center text-background relative">
-                  <PixelIcon name={getIcon(experience.type) as any} className="w-5 h-5" />
+                <div className={`w-10 h-10 sm:w-12 sm:h-12 border-2 sm:border-4 border-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] sm:shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] flex items-center justify-center relative overflow-hidden ${experience.logo ? experience.logoOnDark ? "bg-text" : "bg-white" : "bg-primary text-background"}`}>
+                  {experience.logo ? (
+                    <img
+                      src={experience.logo}
+                      alt={`${experience.company} logo`}
+                      className={`w-full h-full object-contain ${experience.logoOnDark ? "p-0.5" : ""}`}
+                    />
+                  ) : (
+                    <PixelIcon name={experience.icon ?? "briefcase"} className="w-5 h-5" />
+                  )}
                 </div>
               </div>
 

@@ -3,68 +3,59 @@
   "TAG_PROJECTS": "projects",
   "TAG_EXPERIENCE": "experience",
   "TAG_OTHER_PROJECTS": "other_projects",
-  "TEXT_DESCRIPTION_1": "**Full-stack developer** in Ensenada, Mexico. I build **Shopify storefronts** at Step Labs and **web and mobile apps** with React, Node.js and Python.",
+  "TEXT_DESCRIPTION_1": "**Full-stack developer** from Ensenada, Mexico. I build **web and mobile apps**, from the interface to the systems behind it.",
   "EXPERIENCE": [
     {
       "title": "Shopify Developer",
+      "logo": "/images/experience/step-labs.jpg",
       "company": "Step Labs",
       "link": "https://www.steplabs.xyz/",
       "period": "Sep 2026 - Present",
-      "description": "Developing Shopify storefronts for consumer brands with Liquid, JavaScript, HTML and CSS. Working with developers, designers and product teammates on responsive interfaces and storefront features.",
+      "description": "Building Shopify storefronts with Liquid and JavaScript. I work with designers and developers on responsive pages that make products easier to browse and buy.",
       "type": "work"
     },
     {
       "title": "Freelance Full-Stack Developer",
-      "company": "Lands End Charters",
-      "link": "https://www.landsendcharters.com/",
+      "icon": "terminal",
+      "company": "Independent",
       "period": "Sep 2026 - Present",
-      "description": "Building responsive booking pages for a charter operator with Next.js and TypeScript. Connected fleet filters and page content to Strapi, and extended the CMS with fields for boat details.",
+      "description": "Building a booking website for a service business with Next.js, TypeScript and Strapi. I deliver responsive pages, CMS-managed listings and filters so the client can update content without code.",
       "type": "work"
     },
     {
-      "title": "Intern, Application Developer",
+      "title": "Application Developer Intern",
+      "logo": "/images/experience/psl-group.jpg",
       "company": "P\\S\\L Group",
       "link": "https://www.pslgroup.com/",
       "period": "Mar 2026 - Aug 2026",
-      "description": [
-        "Frontend feature work on DougallGPT and DougallEYE, a multibrand medical AI assistant built with React, TanStack Query, Redux Toolkit and Vite.",
-        "Built internal tooling for the team as well: Claude Code skills, automated build checks, and a Playwright report pipeline on AWS that delivers results into Google Chat."
-      ],
+      "description": "Shipped React features for a medical AI assistant used across several brands. I also built automated build checks and a Playwright reporting pipeline on AWS.",
       "type": "work"
     },
     {
       "title": "Automated Testing Trainee",
+      "logo": "/images/experience/epam-systems.jpg",
       "company": "EPAM Systems",
       "link": "https://www.epam.com/",
       "period": "Oct 2025 - Mar 2026",
-      "description": "University-company trainee program in test automation. Built test suites and reusable utility libraries in Java with Selenium, RestAssured and TestNG, applying SOLID principles and the Page Object Model.",
+      "description": "Built Java UI and API test suites in an enterprise-focused training program. Used Selenium, RestAssured and TestNG with reusable utilities and the Page Object Model.",
       "type": "work"
     },
     {
       "title": "Software Developer & Research Assistant",
+      "logo": "/images/experience/tech4good.png",
+      "logoOnDark": true,
       "company": "Tech4Good Research Lab",
       "link": "https://www.tech4goodresearchlab.com/",
       "period": "Mar 2025 - Oct 2025",
-      "description": [
-        "Developed La Br\u00fajula del Autismo, a React Native rebuild of Blue Piece, a published autism research platform. Built 20+ screens and a questionnaire engine where new screening instruments are added by config, not code.",
-        "Ran it as a user-centered design process, on PostgreSQL and Supabase with row-level security."
-      ],
+      "description": "Designed the app architecture and set up its Supabase backend with PostgreSQL and row-level security. Built 20+ React Native screens and a questionnaire engine that accepts new screening instruments through configuration.",
       "type": "work"
-    },
-    {
-      "title": "Competitive Programming Club Co-Founder",
-      "company": "CTRL-Coders Club",
-      "link": "https://ctrlcoders.com",
-      "period": "Oct 2024 - May 2026",
-      "description": "Co-led the university competitive programming club. Mentored students and led problem-solving workshops, and built and shipped the club's website, including the app that ran its raffle.",
-      "type": "leadership"
     }
   ],
   "PROJECTS": [
     {
       "slug": "stilo",
       "title": "Stilo",
-      "description": "Mobile app that builds outfits from your own clothes using AI. Includes a colorimetry module that finds your most flattering palettes, a RAG pipeline that turns plain-language prompts into coordinated outfits, and an interactive canvas for drag-and-drop editing.",
+      "description": "I led development of an app that builds outfits from your own clothes. I designed its AI recommendation pipeline and drag-and-drop canvas. In a 10-person study, AI-assisted outfit creation took 83.4% fewer UI interactions than the manual flow.",
       "context": "Co-Author & Lead Developer • Paper accepted at MexIHC 2026",
       "contributions": [
         "Designed the recommendation pipeline that interprets prompts, finds matching clothes, and assembles outfits.",
@@ -82,7 +73,7 @@
     {
       "slug": "nasa-explorer",
       "title": "NASA Explorer",
-      "description": "Search engine for NASA's space biology research. Ask questions in plain English and get answers with citations to real NASA publications.",
+      "description": "Ask questions about NASA space-biology research and get answers backed by published sources. I built the NestJS chat and RAG backend, a Python ingestion pipeline, and parts of the interactive React knowledge graph.",
       "context": "Team of 6 • 1st Place \u2014 NASA Space Apps Challenge 2025",
       "contributions": [
         "Built the backend \u2014 chat, history, users, and RAG orchestration with Vertex AI.",
@@ -100,7 +91,7 @@
     {
       "slug": "awita",
       "title": "Awita",
-      "description": "IoT water monitor for regions where the supply is unreliable. An Arduino reads the tank level every minute, the dashboard shows it live, and email alerts fire before you run dry. It has been running on my family's tank for over a year.",
+      "description": "I built this system to help my family avoid running out of water. An Arduino checks the tank every minute, AWS handles the readings, and a React dashboard shows the level and sends alerts. It has run at home for over a year.",
       "context": "Personal Project",
       "contributions": [
         "Designed the full system \u2014 Arduino firmware, a Go Lambda for sensor ingestion, the NestJS API, and the React dashboard.",
@@ -119,7 +110,7 @@
   "OTHER_PROJECTS": [
     {
       "title": "Havi",
-      "description": "Proactive banking copilot built in two days for the Hey Banco datathon. I built the mobile client: 8 screens, a shared component library, and a typed context layer that falls back to mock data when the backend is down.",
+      "description": "At a two-day banking hackathon, I built the 8-screen mobile app for a proactive banking copilot. Its typed data layer combines pipeline alerts with account data and falls back to demo data when the backend is unavailable.",
       "tags": ["React Native", "Expo", "FastAPI", "Gemini"],
       "image": "/images/havi-1.webp",
       "gallery": [
@@ -131,7 +122,7 @@
     },
     {
       "title": "Espyntar",
-      "description": "Multiplayer Pictionary in C++. Up to 8 players draw and guess over raw TCP with a custom binary protocol.",
+      "description": "A C++ drawing game for up to eight players. Custom TCP messages keep the canvas, guesses and scores in sync across clients.",
       "tags": ["C++", "Raylib", "Winsock"],
       "image": "/images/espyntar-1.webp",
       "gallery": [
@@ -144,7 +135,7 @@
     },
     {
       "title": "16-BDH",
-      "description": "Educational RPG about the Battle of Puebla, built on a custom game engine in C with Raylib. Playable on desktop and web via Emscripten.",
+      "description": "A three-level RPG that teaches the Battle of Puebla through play. Built with a custom C and Raylib engine and released for desktop and web.",
       "tags": ["C", "Raylib", "Emscripten"],
       "image": "/images/16bdh-1.webp",
       "trailer": "Ea9rDD_nelE",
@@ -152,7 +143,7 @@
     },
     {
       "title": "Espify",
-      "description": "Listen to music with other people from the terminal. A socket server keeps rooms in sync, streams the audio to every client, and takes commands like join-room, add-song and skip.",
+      "description": "A shared listening room in the terminal. Its Java socket server streams audio, manages the queue and keeps playback in sync for everyone in the room.",
       "tags": ["Java", "Spring Shell", "Sockets", "Maven"],
       "image": "/images/espify-1.webp",
       "repo": "https://github.com/EspySoftware/espify"
@@ -193,9 +184,9 @@
     },
     {
       "photo": "/images/highlights/ctrl-coders-apr-2026.jpg",
-      "title": "Club Session",
-      "event": "CTRL-Coders",
-      "description": "Leading a weekly problem-solving workshop at the university.",
+      "title": "Co-founder",
+      "event": "CTRL-Coders Club",
+      "description": "Co-founded the university programming club, led workshops, mentored students and built its website.",
       "period": "Apr 2026"
     },
     {

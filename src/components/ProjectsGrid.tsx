@@ -4,7 +4,6 @@ import PixelIcon from "./PixelIcon";
 interface ProjectsGridProps {
   projects: Project[];
   translations: {
-    keyContributions: string;
     technologies: string;
     swipeHint?: string;
     readMore: string;
@@ -60,25 +59,6 @@ export default function ProjectsGrid({
                 <p className="text-text text-base sm:text-lg leading-relaxed text-center sm:text-left font-open-sans">
                   {project.description}
                 </p>
-              </div>{" "}
-              {/* Contributions - Simplified styling */}
-              <div className="mb-5">
-                <h3 className="text-primary font-ubuntu-mono text-sm font-bold mb-3 uppercase tracking-wide">
-                  {translations.keyContributions}
-                </h3>
-                <div className="border-l-4 border-primary pl-4 py-2 bg-primary/5">
-                  <ul className="text-text space-y-2">
-                    {project.contributions.map((contribution, i) => (
-                      <li
-                        key={i}
-                        className="text-base list-none relative pl-5 font-open-sans"
-                      >
-                        <span className="absolute left-0 top-2 w-2 h-2 bg-primary border border-text rotate-45"></span>
-                        {contribution}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
               </div>{" "}
               {/* Technologies - Simplified styling */}
               <div>
