@@ -3,14 +3,22 @@
   "TAG_PROJECTS": "projects",
   "TAG_EXPERIENCE": "experience",
   "TAG_OTHER_PROJECTS": "other_projects",
-  "TEXT_DESCRIPTION_1": "**Full-stack developer** from Baja California, Mexico. I build **web apps** and **cloud infrastructure**.",
+  "TEXT_DESCRIPTION_1": "**Full-stack developer** in Ensenada, Mexico. I build **Shopify storefronts** at Step Labs and **web and mobile apps** with React, Node.js and Python.",
   "EXPERIENCE": [
     {
-      "title": "Freelance Frontend Developer",
+      "title": "Shopify Developer",
+      "company": "Step Labs",
+      "link": "https://www.steplabs.xyz/",
+      "period": "Sep 2026 - Present",
+      "description": "Developing Shopify storefronts for consumer brands with Liquid, JavaScript, HTML and CSS. Working with developers, designers and product teammates on responsive interfaces and storefront features.",
+      "type": "work"
+    },
+    {
+      "title": "Freelance Full-Stack Developer",
       "company": "Lands End Charters",
       "link": "https://www.landsendcharters.com/",
-      "period": "Aug 2026 - Present",
-      "description": "Frontend work on the booking platform of a yacht and sport-fishing charter operator in Los Cabos, built with Next.js and Strapi.",
+      "period": "Sep 2026 - Present",
+      "description": "Building responsive booking pages for a charter operator with Next.js and TypeScript. Connected fleet filters and page content to Strapi, and extended the CMS with fields for boat details.",
       "type": "work"
     },
     {

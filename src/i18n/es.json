@@ -3,14 +3,22 @@
   "TAG_PROJECTS": "proyectos",
   "TAG_EXPERIENCE": "experiencia",
   "TAG_OTHER_PROJECTS": "otros_proyectos",
-  "TEXT_DESCRIPTION_1": "**Desarrollador full-stack** de Baja California, M\u00e9xico. Construyo **aplicaciones web** e **infraestructura en la nube**.",
+  "TEXT_DESCRIPTION_1": "**Desarrollador full-stack** en Ensenada, M\u00e9xico. Creo **tiendas Shopify** en Step Labs y **aplicaciones web y m\u00f3viles** con React, Node.js y Python.",
   "EXPERIENCE": [
     {
-      "title": "Desarrollador Frontend Freelance",
+      "title": "Desarrollador Shopify",
+      "company": "Step Labs",
+      "link": "https://www.steplabs.xyz/",
+      "period": "Sep 2026 - Presente",
+      "description": "Desarrollo tiendas Shopify para marcas de productos de consumo con Liquid, JavaScript, HTML y CSS. Colaboro con desarrolladores, dise\u00f1adores y el equipo de producto en interfaces responsivas y funcionalidades para las tiendas.",
+      "type": "work"
+    },
+    {
+      "title": "Desarrollador Full-Stack Freelance",
       "company": "Lands End Charters",
       "link": "https://www.landsendcharters.com/",
-      "period": "Ago 2026 - Presente",
-      "description": "Trabajo de frontend en la plataforma de reservaciones de una operadora de yates y pesca deportiva en Los Cabos, construida con Next.js y Strapi.",
+      "period": "Sep 2026 - Presente",
+      "description": "Desarrollo p\u00e1ginas responsivas de reservaciones para una operadora de embarcaciones con Next.js y TypeScript. Conect\u00e9 los filtros de la flota y el contenido de las p\u00e1ginas con Strapi, y ampli\u00e9 el CMS con campos para los detalles de cada embarcaci\u00f3n.",
       "type": "work"
     },
     {
