@@ -1,0 +1,296 @@
+.project-exhibits {
+  display: grid;
+  gap: 3rem;
+  width: 100%;
+}
+.project-exhibit {
+  --accent: #d8b5e9;
+  display: grid;
+  position: relative;
+  border: 3px solid #412c47;
+  background: #fff9e9;
+  box-shadow: 8px 8px 0 #412c47;
+}
+.project-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 350px;
+  padding: 64px 28px;
+  overflow: hidden;
+  background: #ede0ef;
+  background-image: radial-gradient(#412c4720 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+.project-stage::before {
+  content: "";
+  position: absolute;
+  width: 75%;
+  height: 64%;
+  border: 1px solid #412c4730;
+  background: #ffffff30;
+  transform: rotate(-8deg);
+  pointer-events: none;
+}
+.project-stage-label {
+  position: absolute;
+  inset: 20px 20px auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font:
+    13px "Ubuntu Mono",
+    monospace;
+  color: #412c47;
+}
+.project-status-light {
+  width: 7px;
+  height: 7px;
+  background: currentColor;
+  box-shadow: 3px 3px 0 #412c4725;
+}
+.project-stage-caption {
+  position: absolute;
+  right: 20px;
+  bottom: 16px;
+  font:
+    12px "Ubuntu Mono",
+    monospace;
+  color: #412c47;
+}
+.project-phones {
+  position: relative;
+  width: 100%;
+  height: 380px;
+}
+.project-phone-front {
+  position: absolute;
+  width: 184px;
+  top: 0;
+  left: 50%;
+  transform: translateX(-30%) rotate(5deg);
+  transition: transform 250ms ease;
+}
+.project-phone-screen {
+  aspect-ratio: 497 / 1017 !important;
+  border: 6px solid #271d2b !important;
+  border-radius: 24px;
+  background: #111 !important;
+  box-shadow: 10px 12px 0 #412c4730 !important;
+}
+.project-phone-back {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  width: 170px;
+  aspect-ratio: 497 / 1017;
+  object-fit: cover;
+  border: 6px solid #271d2b;
+  border-radius: 24px;
+  transform: translateX(-100%) rotate(-9deg);
+  box-shadow: 8px 8px 0 #412c4720;
+}
+.project-phone-front button {
+  opacity: 1;
+  pointer-events: auto;
+}
+.project-exhibit--space {
+  --accent: #bdc7ef;
+}
+.project-exhibit--space .project-stage {
+  background-color: #24213b;
+  background-image: radial-gradient(#e5e5ff55 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.project-exhibit--space .project-stage::before {
+  border-color: #c5c3ff30;
+  background: #c5c3ff08;
+}
+.project-exhibit--space .project-stage-label,
+.project-exhibit--space .project-stage-caption {
+  color: #e0d9f2;
+}
+.project-exhibit--water {
+  --accent: #b9ddd8;
+}
+.project-exhibit--water .project-stage {
+  background-color: #dbeee7;
+}
+.project-browser {
+  position: relative;
+  width: 100%;
+  transform: rotate(-3deg);
+  border: 2px solid #412c47;
+  background: #fff9e9;
+  box-shadow: 10px 12px 0 #00000025;
+  transition: transform 250ms ease;
+}
+.project-exhibit--water .project-browser {
+  transform: rotate(3deg);
+}
+.project-browser-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px;
+  border-bottom: 2px solid #412c47;
+  font:
+    11px "Ubuntu Mono",
+    monospace;
+  color: #412c47;
+  background: var(--accent);
+}
+.project-window-dots {
+  display: flex;
+  gap: 4px;
+}
+.project-window-dots i {
+  width: 6px;
+  height: 6px;
+  border: 1px solid #412c47;
+}
+.project-browser-screen {
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.project-copy {
+  position: relative;
+  padding: 30px 24px;
+  min-width: 0;
+  overflow: hidden;
+}
+.project-index {
+  position: absolute;
+  right: 20px;
+  top: 0;
+  font:
+    100px "Archivo Black",
+    sans-serif;
+  color: #412c4709;
+  pointer-events: none;
+}
+.project-context {
+  position: relative;
+  font:
+    12px/1.5 "Ubuntu Mono",
+    monospace;
+  color: #412c47;
+  margin-bottom: 16px;
+  max-width: 90%;
+}
+.project-title {
+  position: relative;
+  font-family: "Archivo Black", sans-serif;
+  font-size: clamp(30px, 4vw, 42px);
+  line-height: 1.1;
+  color: #412c47;
+  margin-bottom: 20px;
+}
+.project-description {
+  font:
+    15px/1.75 "Open Sans",
+    sans-serif;
+  color: #412c47;
+}
+.project-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin-top: 22px;
+  font:
+    12px/1.6 "Ubuntu Mono",
+    monospace;
+  color: #412c47;
+}
+.project-stack li {
+  border-bottom: 2px solid var(--accent);
+}
+.project-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+  margin-top: 28px;
+}
+.project-main-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  border: 2px solid #412c47;
+  background: var(--accent);
+  padding: 12px 16px;
+  font:
+    bold 14px "Ubuntu Mono",
+    monospace;
+  color: #412c47;
+}
+.project-secondary-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font:
+    bold 13px "Ubuntu Mono",
+    monospace;
+  color: #412c47;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.project-exhibit a:focus-visible,
+.project-exhibit [role="button"]:focus-visible,
+.project-exhibit button:focus-visible {
+  outline: 3px solid #fd8d75;
+  outline-offset: 5px;
+}
+@media (min-width: 900px) {
+  .project-exhibit {
+    grid-template-columns: 1.08fr 1fr;
+  }
+  .project-copy {
+    padding: 42px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .project-exhibit--space .project-stage {
+    order: 2;
+  }
+  .project-stage {
+    min-height: 430px;
+    padding-inline: 32px;
+  }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .project-exhibit:hover .project-browser {
+    transform: rotate(0deg) translateY(-5px);
+  }
+  .project-exhibit:hover .project-phone-front {
+    transform: translateX(-30%) rotate(0deg) translateY(-5px);
+  }
+}
+@media (max-width: 400px) {
+  .project-stage {
+    padding-inline: 20px;
+    min-height: 290px;
+  }
+  .project-phones {
+    height: 340px;
+  }
+  .project-phone-front {
+    width: 160px;
+  }
+  .project-phone-back {
+    width: 150px;
+  }
+  .project-copy {
+    padding: 26px 20px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .project-phone-front,
+  .project-browser {
+    transition: none;
+  }
+}

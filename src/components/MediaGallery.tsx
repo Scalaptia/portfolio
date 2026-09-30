@@ -8,6 +8,7 @@ interface MediaGalleryProps {
   mode: "carousel" | "grid";
   swipeHint?: string;
   className?: string;
+  viewportClassName?: string;
 }
 
 export function MediaGallery({
@@ -15,6 +16,7 @@ export function MediaGallery({
   mode,
   swipeHint = "← Swipe →",
   className = "",
+  viewportClassName = "",
 }: MediaGalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [touchStart, setTouchStart] = useState(0);
@@ -90,7 +92,16 @@ export function MediaGallery({
         <div ref={carouselRef} className={`relative group ${className}`}>
           {/* Carousel viewport */}
           <div
-            className="relative w-full aspect-video cursor-pointer bg-background/50 overflow-hidden border-2 sm:border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] sm:shadow-[6px_6px_0px_0px_rgba(65,44,71,1)] touch-pan-y select-none"
+            className={`relative w-full aspect-video cursor-pointer bg-background/50 overflow-hidden border-2 sm:border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] sm:shadow-[6px_6px_0px_0px_rgba(65,44,71,1)] touch-pan-y select-none ${viewportClassName}`}
+            role="button"
+            tabIndex={0}
+            aria-label={activeItem.alt || "Open image"}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                openLightbox(activeIndex, event.currentTarget);
+              }
+            }}
             onClick={(e) => openLightbox(activeIndex, e.currentTarget)}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
@@ -100,7 +111,9 @@ export function MediaGallery({
               <div
                 key={index}
                 className={`absolute top-0 left-0 w-full h-full ${
-                  index === activeIndex ? "opacity-100 z-10 crt-slide-in" : "opacity-0 z-0"
+                  index === activeIndex
+                    ? "opacity-100 z-10 crt-slide-in"
+                    : "opacity-0 z-0"
                 }`}
                 style={{ backfaceVisibility: "hidden" }}
               >
