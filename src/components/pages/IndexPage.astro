@@ -11,6 +11,7 @@ import CopyToClipboard from "@/components/CopyButton";
 import { getLangFromUrl, useTranslations } from "@/i18n/utils";
 import { getI18N } from "@/i18n/index";
 import { parseMarkdown } from "@/utils/markdown";
+import "@/styles/hero-preview.css";
 
 const { currentLocale } = Astro;
 const i18n = getI18N({ currentLocale });
@@ -28,6 +29,10 @@ const t = useTranslations(lang);
   >
     <!-- Left: Name + Description + Links -->
     <div class="flex flex-col w-full lg:flex-1 lg:pr-10 relative z-10">
+      <p class="hero-eyebrow">
+        {lang === "es" ? "Ingeniero de software" : "Software engineer"}
+        <span aria-hidden="true">/</span> Ensenada, MX
+      </p>
       <h1
         id="hero-title"
         class="text-5xl sm:text-6xl font-black-han-sans text-text leading-[1.1em] text-center lg:text-left drop-shadow-sm group cursor-pointer hover:scale-[1.02] transition-transform duration-300 origin-center lg:origin-left w-fit mx-auto lg:mx-0"
@@ -48,6 +53,10 @@ const t = useTranslations(lang);
         class="mt-4 text-lg sm:text-xl font-open-sans text-text leading-[1.5em] text-center lg:text-left"
         set:html={parseMarkdown(i18n.TEXT_DESCRIPTION_1)}
       />
+      <a class="hero-work-link" href="#projects">
+        {lang === "es" ? "Explora mis proyectos" : "Explore my projects"}
+        <PixelIcon name="chevron-down" className="w-4 h-4" />
+      </a>
 
       <!-- Links -->
       <div class="mt-8 w-full max-w-[600px] lg:max-w-none mx-auto lg:mx-0">
@@ -98,11 +107,14 @@ const t = useTranslations(lang);
     <!-- PC Model -->
     <div
       id="pc-model-container"
-      class="relative w-[200px] h-[200px] mx-auto mt-10 lg:mx-0 lg:w-[240px] lg:h-[240px] lg:flex-shrink-0 lg:-mt-8 transition-all duration-300"
+      class="relative w-[240px] h-[240px] mx-auto mt-10 lg:mx-0 lg:w-[300px] lg:h-[300px] lg:flex-shrink-0 lg:-mt-8 transition-all duration-300"
     >
       <PCModel client:only="react" />
 
-      <div id="click-me-text" class="absolute -bottom-4 left-1/2 -translate-x-1/2 text-center pointer-events-none transition-opacity duration-300">
+      <div
+        id="click-me-text"
+        class="absolute -bottom-4 left-1/2 -translate-x-1/2 text-center pointer-events-none transition-opacity duration-300"
+      >
         <p class="text-text/50 text-xs font-ubuntu-mono">
           {i18n.CLICK_ME || "Click me!"}
         </p>
@@ -110,7 +122,11 @@ const t = useTranslations(lang);
     </div>
 
     <!-- Spacer maintains layout space when PC model becomes fixed -->
-    <div id="pc-model-spacer" class="hidden lg:w-[240px] lg:h-[240px] lg:flex-shrink-0"></div>
+    <div
+      id="pc-model-spacer"
+      class="hidden lg:w-[300px] lg:h-[300px] lg:flex-shrink-0"
+    >
+    </div>
   </div>
 
   <!-- Experience -->
@@ -151,14 +167,16 @@ const t = useTranslations(lang);
       client:visible
     />
     <!-- Other Projects -->
-    {i18n.OTHER_PROJECTS && i18n.OTHER_PROJECTS.length > 0 && (
-      <div class="w-full mt-8 lg:mt-10 reveal">
-        <OtherProjects
-          projects={i18n.OTHER_PROJECTS}
-          heading={i18n.TEXT_OTHER_PROJECTS}
-        />
-      </div>
-    )}
+    {
+      i18n.OTHER_PROJECTS && i18n.OTHER_PROJECTS.length > 0 && (
+        <div class="w-full mt-8 lg:mt-10 reveal">
+          <OtherProjects
+            projects={i18n.OTHER_PROJECTS}
+            heading={i18n.TEXT_OTHER_PROJECTS}
+          />
+        </div>
+      )
+    }
 
     <span
       class="text-primary font-ubuntu-mono text-2xl text-end w-full lg:text-end self-end mt-4 relative z-10"
@@ -204,14 +222,18 @@ const t = useTranslations(lang);
 <script>
   // The heading is the target, not the two words inside it, so the space between Fernando and
   // Haro does not count as having left.
-  const heroTitle = document.getElementById('hero-title');
+  const heroTitle = document.getElementById("hero-title");
 
-  heroTitle?.addEventListener('mouseenter', () => {
-    window.dispatchEvent(new CustomEvent('heroHover', { detail: { hovered: true } }));
+  heroTitle?.addEventListener("mouseenter", () => {
+    window.dispatchEvent(
+      new CustomEvent("heroHover", { detail: { hovered: true } }),
+    );
   });
 
-  heroTitle?.addEventListener('mouseleave', () => {
-    window.dispatchEvent(new CustomEvent('heroHover', { detail: { hovered: false } }));
+  heroTitle?.addEventListener("mouseleave", () => {
+    window.dispatchEvent(
+      new CustomEvent("heroHover", { detail: { hovered: false } }),
+    );
   });
 
   // The content column is 1000px wide and centred, and the model parks 200px in from the right.
@@ -219,86 +241,93 @@ const t = useTranslations(lang);
   const FLOAT_MIN_WIDTH = 1440;
 
   function returnToHero() {
-    const pcContainer = document.querySelector('#pc-model-container') as HTMLElement;
+    const pcContainer = document.querySelector(
+      "#pc-model-container",
+    ) as HTMLElement;
     if (!pcContainer) return;
 
-    pcContainer.style.removeProperty('position');
-    pcContainer.style.removeProperty('bottom');
-    pcContainer.style.removeProperty('right');
-    pcContainer.style.removeProperty('left');
-    pcContainer.style.removeProperty('top');
-    pcContainer.style.removeProperty('transform');
-    pcContainer.style.removeProperty('width');
-    pcContainer.style.removeProperty('height');
-    pcContainer.style.removeProperty('z-index');
+    pcContainer.style.removeProperty("position");
+    pcContainer.style.removeProperty("bottom");
+    pcContainer.style.removeProperty("right");
+    pcContainer.style.removeProperty("left");
+    pcContainer.style.removeProperty("top");
+    pcContainer.style.removeProperty("transform");
+    pcContainer.style.removeProperty("width");
+    pcContainer.style.removeProperty("height");
+    pcContainer.style.removeProperty("z-index");
 
-    const spacer = document.querySelector('#pc-model-spacer') as HTMLElement;
-    if (spacer) spacer.classList.add('hidden');
+    const spacer = document.querySelector("#pc-model-spacer") as HTMLElement;
+    if (spacer) spacer.classList.add("hidden");
   }
 
-  window.addEventListener('scroll', () => {
+  window.addEventListener("scroll", () => {
     if (window.innerWidth < FLOAT_MIN_WIDTH) {
       returnToHero();
-      const hint = document.querySelector('#click-me-text') as HTMLElement;
-      if (hint) hint.style.opacity = '1';
+      const hint = document.querySelector("#click-me-text") as HTMLElement;
+      if (hint) hint.style.opacity = "1";
       return;
     }
 
-    const pcContainer = document.querySelector('#pc-model-container') as HTMLElement;
-    const clickMeText = document.querySelector('#click-me-text') as HTMLElement;
-    const spacer = document.querySelector('#pc-model-spacer') as HTMLElement;
+    const pcContainer = document.querySelector(
+      "#pc-model-container",
+    ) as HTMLElement;
+    const clickMeText = document.querySelector("#click-me-text") as HTMLElement;
+    const spacer = document.querySelector("#pc-model-spacer") as HTMLElement;
 
     if (pcContainer) {
       if (window.scrollY > 400) {
-        pcContainer.style.position = 'fixed';
-        pcContainer.style.bottom = '2rem';
-        pcContainer.style.right = '2rem';
-        pcContainer.style.left = 'auto';
-        pcContainer.style.top = 'auto';
-        pcContainer.style.transform = 'none';
-        pcContainer.style.width = '200px';
-        pcContainer.style.height = '200px';
-        pcContainer.style.zIndex = '50';
+        pcContainer.style.position = "fixed";
+        pcContainer.style.bottom = "2rem";
+        pcContainer.style.right = "2rem";
+        pcContainer.style.left = "auto";
+        pcContainer.style.top = "auto";
+        pcContainer.style.transform = "none";
+        pcContainer.style.width = "200px";
+        pcContainer.style.height = "200px";
+        pcContainer.style.zIndex = "50";
 
-        if (clickMeText) clickMeText.style.opacity = '0';
-        if (spacer) spacer.classList.remove('hidden');
+        if (clickMeText) clickMeText.style.opacity = "0";
+        if (spacer) spacer.classList.remove("hidden");
       } else {
         returnToHero();
-        if (clickMeText) clickMeText.style.opacity = '1';
+        if (clickMeText) clickMeText.style.opacity = "1";
       }
     }
   });
 
-  window.addEventListener('resize', () => {
-    const pcContainer = document.querySelector('#pc-model-container') as HTMLElement;
+  window.addEventListener("resize", () => {
+    const pcContainer = document.querySelector(
+      "#pc-model-container",
+    ) as HTMLElement;
     if (!pcContainer) return;
-    if (pcContainer.style.position === 'fixed' && window.innerWidth < FLOAT_MIN_WIDTH) {
+    if (
+      pcContainer.style.position === "fixed" &&
+      window.innerWidth < FLOAT_MIN_WIDTH
+    ) {
       returnToHero();
-      const clickMeText = document.querySelector('#click-me-text') as HTMLElement;
-      if (clickMeText) clickMeText.style.opacity = '1';
+      const clickMeText = document.querySelector(
+        "#click-me-text",
+      ) as HTMLElement;
+      if (clickMeText) clickMeText.style.opacity = "1";
     }
   });
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const projectCards = document.querySelectorAll('[class*="border-4"]');
-    projectCards.forEach(card => {
-      card.addEventListener('mouseenter', () => {
-        window.dispatchEvent(new CustomEvent('pageInteraction', { detail: { type: 'project', hovered: true } }));
-      });
-      card.addEventListener('mouseleave', () => {
-        window.dispatchEvent(new CustomEvent('pageInteraction', { detail: { type: 'project', hovered: false } }));
-      });
-    });
-
-    const socialLinks = document.querySelectorAll('a[href*="github"], a[href*="linkedin"]');
-    socialLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        window.dispatchEvent(new CustomEvent('pageInteraction', { detail: { type: 'social' } }));
+  document.addEventListener("DOMContentLoaded", () => {
+    const socialLinks = document.querySelectorAll(
+      'a[href*="github"], a[href*="linkedin"]',
+    );
+    socialLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        window.dispatchEvent(
+          new CustomEvent("pageInteraction", { detail: { type: "social" } }),
+        );
       });
     });
 
-    window.addEventListener('emailCopied', () => {
-      window.dispatchEvent(new CustomEvent('pageInteraction', { detail: { type: 'email' } }));
+    window.addEventListener("emailCopied", () => {
+      window.dispatchEvent(
+        new CustomEvent("pageInteraction", { detail: { type: "email" } }),
+      );
     });
   });
 </script>

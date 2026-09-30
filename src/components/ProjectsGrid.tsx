@@ -1,14 +1,20 @@
+import type { FocusEvent } from "react";
 import { MediaGallery } from "./MediaGallery";
 import PixelIcon from "./PixelIcon";
+import "@/styles/project-preview.css";
 
 interface ProjectsGridProps {
   projects: Project[];
-  translations: {
-    technologies: string;
-    swipeHint?: string;
-    readMore: string;
-  };
+  translations: { technologies: string; swipeHint?: string; readMore: string };
   locale: string;
+}
+
+function signalProject(project: Project, hovered: boolean) {
+  window.dispatchEvent(
+    new CustomEvent("pageInteraction", {
+      detail: { type: "project", hovered, title: project.title },
+    }),
+  );
 }
 
 export default function ProjectsGrid({
@@ -17,107 +23,141 @@ export default function ProjectsGrid({
   locale,
 }: ProjectsGridProps) {
   return (
-    <div className="grid grid-cols-1 gap-8 lg:gap-10 w-full">
-      {projects.map((project, index) => (
-        <div key={index} className="relative group">
-          {/* Project number indicator */}
-          <div className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 w-8 h-8 sm:w-10 sm:h-10 bg-primary border-2 sm:border-4 border-text flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] sm:shadow-[3px_3px_0px_0px_rgba(65,44,71,1)] font-black-han-sans text-base sm:text-lg text-text z-20">
-            {index + 1}
-          </div>{" "}
-          {/* Main project container */}
-          <div
-            className="w-full bg-background/80 backdrop-blur-sm border-2 sm:border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] sm:shadow-[8px_8px_0px_0px_rgba(65,44,71,1)] relative overflow-hidden"
+    <div className="project-exhibits">
+      {projects.map((project, index) => {
+        const phone = project.slug === "stilo";
+        const theme = phone
+          ? "wardrobe"
+          : project.slug === "nasa-explorer"
+            ? "space"
+            : "water";
+        const number = String(index + 1).padStart(2, "0");
+        const images = project.image.map((src, imageIndex) => ({
+          type: "image" as const,
+          src: phone ? src.replace(".webp", "-cropped.webp") : src,
+          alt: `${project.title} ${locale === "es" ? "pantalla" : "screen"} ${imageIndex + 1}`,
+        }));
+        return (
+          <article
+            key={project.slug ?? project.title}
+            className={`project-exhibit project-exhibit--${theme}`}
+            aria-labelledby={`project-${index}`}
+            onMouseEnter={() => signalProject(project, true)}
+            onMouseLeave={() => signalProject(project, false)}
+            onFocus={() => signalProject(project, true)}
+            onBlur={(event: FocusEvent<HTMLElement>) => {
+              if (!event.currentTarget.contains(event.relatedTarget))
+                signalProject(project, false);
+            }}
           >
-            {/* Decorative corner elements */}
-            <div className="absolute top-0 left-0 w-6 h-6 border-r-4 border-b-4 border-text/30"></div>
-            <div className="absolute bottom-0 right-0 w-6 h-6 border-l-4 border-t-4 border-text/30"></div>
-
-            {/* Project Image Section - Top */}
-            <div className="relative px-4 sm:px-6 pt-4 sm:pt-6">
-              <MediaGallery
-                items={project.image.map((src) => ({ type: "image" as const, src, lightboxSrc: src.includes('/stilo-') ? src.replace('.webp', '-cropped.webp') : undefined }))}
-                mode="carousel"
-                swipeHint={translations.swipeHint}
-              />
-            </div>
-
-            {/* Project Info Section - Bottom */}
-            <div className="p-4 sm:p-6 relative z-10">
-              {/* Title, with the context badge beside it wherever there is room for it */}
-              <div className="mb-5 flex flex-col items-center gap-2 sm:flex-row sm:flex-wrap sm:items-baseline sm:justify-between sm:gap-4">
-                <h2 className="text-2xl sm:text-3xl font-black-han-sans text-text text-center sm:text-left leading-tight">
-                  {project.title}
-                </h2>
-                {project.context && (
-                  <span className="inline-block text-text/70 font-ubuntu-mono text-xs font-semibold px-3 py-1 border-2 border-text/30 bg-primary/10 text-center sm:text-left">
-                    {project.context}
-                  </span>
-                )}
+            <div className="project-stage">
+              <div className="project-stage-label" aria-hidden="true">
+                <span>
+                  {number} / {project.title.toLowerCase().replaceAll(" ", "_")}
+                </span>
+                <span className="project-status-light" />
               </div>
-              {/* Project Description */}
-              <div className="mb-5">
-                <p className="text-text text-base sm:text-lg leading-relaxed text-center sm:text-left font-open-sans">
-                  {project.description}
-                </p>
-              </div>{" "}
-              {/* Technologies - Simplified styling */}
-              <div>
-                <h3 className="text-primary font-ubuntu-mono text-sm font-bold mb-3 uppercase tracking-wide">
-                  {translations.technologies}
-                </h3>
-                <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
-                  {project.tags.map((tag: String, tagIndex: number) => (
-                    <span
-                      key={tagIndex}
-                      className="text-white bg-text border-2 border-white px-3 py-1 text-sm font-ubuntu-mono font-extrabold shadow-[2px_2px_0px_0px_rgba(253,141,117,0.6)]"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+              {phone ? (
+                <div className="project-phones">
+                  {images[1] && (
+                    <img
+                      className="project-phone-back"
+                      src={images[1].src}
+                      alt=""
+                      aria-hidden="true"
+                      loading="lazy"
+                    />
+                  )}
+                  <div className="project-phone-front">
+                    <MediaGallery
+                      items={images}
+                      mode="carousel"
+                      swipeHint={translations.swipeHint}
+                      viewportClassName="project-phone-screen"
+                    />
+                  </div>
                 </div>
-              </div>
-
-              {/* Where to go next, once the project has sold itself */}
-              {(project.slug || project.live || project.repo) && (
-                <div className="mt-6 pt-5 border-t-2 border-text/15 flex flex-wrap gap-2 justify-center sm:justify-start items-center">
-                  {project.live && (
-                    <a
-                      href={project.live}
-                      target="_blank"
-                      className="press [--press:3px] flex items-center justify-center gap-2 px-5 py-2.5 text-text border-2 border-text bg-white"
-                    >
-                      <span className="font-black-han-sans font-extrabold text-sm">Demo</span>
-                      <PixelIcon name="external-link" className="w-4 h-4" />
-                    </a>
-                  )}
-                  {project.repo && (
-                    <a
-                      href={project.repo}
-                      target="_blank"
-                      className="press [--press:3px] flex items-center justify-center gap-2 px-5 py-2.5 text-text border-2 border-text bg-white"
-                    >
-                      <span className="font-black-han-sans font-extrabold text-sm">Code</span>
-                      <PixelIcon name="link" className="w-4 h-4" />
-                    </a>
-                  )}
-                  {/* The one that carries on into the project sits at the far end, on its own. */}
-                  {project.slug && (
-                    <a
-                      href={locale === "es" ? "/es/projects/" + project.slug : "/projects/" + project.slug}
-                      className="press [--press:3px] sm:ml-auto flex items-center justify-center gap-2 px-5 py-2.5 text-text border-2 border-text bg-primary"
-                    >
-                      <span className="font-black-han-sans font-extrabold text-sm leading-tight">
-                        {translations.readMore}
-                      </span>
-                      <PixelIcon name="arrow-right" className="w-4 h-4" />
-                    </a>
-                  )}
+              ) : (
+                <div className="project-browser">
+                  <div className="project-browser-bar" aria-hidden="true">
+                    <span className="project-window-dots">
+                      <i />
+                      <i />
+                      <i />
+                    </span>
+                    <span>
+                      {project.title.toLowerCase().replaceAll(" ", "_")}.app
+                    </span>
+                    <PixelIcon name="maximize" className="w-3 h-3" />
+                  </div>
+                  <MediaGallery
+                    items={images}
+                    mode="carousel"
+                    swipeHint={translations.swipeHint}
+                    viewportClassName="project-browser-screen"
+                  />
                 </div>
               )}
+              <span className="project-stage-caption" aria-hidden="true">
+                {phone ? "mobile" : "web"} / {number}
+              </span>
             </div>
-          </div>
-        </div>
-      ))}
+            <div className="project-copy">
+              <span className="project-index" aria-hidden="true">
+                {number}
+              </span>
+              {project.context && (
+                <p className="project-context">{project.context}</p>
+              )}
+              <h2 id={`project-${index}`} className="project-title">
+                {project.title}
+              </h2>
+              <p className="project-description">{project.description}</p>
+              <ul
+                className="project-stack"
+                aria-label={translations.technologies}
+              >
+                {project.tags.map((tag) => (
+                  <li key={tag}>{tag}</li>
+                ))}
+              </ul>
+              <div className="project-actions">
+                {project.slug && (
+                  <a
+                    className="project-main-link press [--press:3px]"
+                    href={`${locale === "es" ? "/es" : ""}/projects/${project.slug}`}
+                  >
+                    {translations.readMore}
+                    <PixelIcon name="arrow-right" className="w-4 h-4" />
+                  </a>
+                )}
+                {project.live && (
+                  <a
+                    className="project-secondary-link"
+                    href={project.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Demo
+                    <PixelIcon name="external-link" className="w-4 h-4" />
+                  </a>
+                )}
+                {project.repo && (
+                  <a
+                    className="project-secondary-link"
+                    href={project.repo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Code
+                    <PixelIcon name="link" className="w-4 h-4" />
+                  </a>
+                )}
+              </div>
+            </div>
+          </article>
+        );
+      })}
     </div>
   );
 }
