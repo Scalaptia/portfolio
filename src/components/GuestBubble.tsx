@@ -40,7 +40,7 @@ export default function GuestBubble() {
       className={`absolute left-1/2 -translate-x-1/2 z-20 w-[min(240px,80vw)] pointer-events-none ${
         above ? "bottom-full mb-3" : "top-full mt-2"
       }`}
-      style={{ animation: "guest-bubble-in 260ms cubic-bezier(0.2, 0.9, 0.3, 1.3) both" }}
+      style={{ animation: "guest-bubble-in 180ms ease-out both" }}
     >
       <div className="relative bg-white border-2 border-text shadow-[3px_3px_0px_0px_rgba(65,44,71,1)] px-3 py-2 font-ubuntu-mono text-xs text-text text-center leading-snug">
         {/* The tail, pointing at the PC */}
