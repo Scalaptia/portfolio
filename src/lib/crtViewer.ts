@@ -57,12 +57,16 @@ export interface ViewerState {
   ownerId: string | null;
   /** Centre of the thumbnail you clicked, so the monitor grows out of it. */
   origin: { x: number; y: number } | null;
+  /** A fixed tube shape for the whole set, instead of the shape of whichever picture opened. */
+  aspect: number | null;
 }
 
 export interface OpenOptions {
   scheme?: CrtScheme;
   ownerId?: string;
   origin?: { x: number; y: number } | null;
+  /** Width over height. For sets of mixed photos that read better on one steady shape. */
+  aspect?: number;
 }
 
 const CLOSED: ViewerState = {
@@ -72,6 +76,7 @@ const CLOSED: ViewerState = {
   scheme: "green",
   ownerId: null,
   origin: null,
+  aspect: null,
 };
 
 let state: ViewerState = CLOSED;
@@ -118,6 +123,7 @@ export function openViewer(items: MediaItem[], index: number, options: OpenOptio
     scheme: options.scheme ?? "green",
     ownerId: options.ownerId ?? null,
     origin: options.origin ?? null,
+    aspect: options.aspect ?? null,
   };
   emit();
 }

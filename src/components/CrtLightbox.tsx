@@ -58,7 +58,7 @@ async function chime(kind: "on" | "off") {
 }
 
 export default function CrtLightbox() {
-  const { items, index, scheme, origin } = useViewerState();
+  const { items, index, scheme, origin, aspect: fixed } = useViewerState();
   const item = items[index];
   const many = items.length > 1;
   const colors = SCHEMES[scheme] ?? SCHEMES.green;
@@ -67,8 +67,8 @@ export default function CrtLightbox() {
   const [entered, setEntered] = useState(false);
   // The tube takes the shape of the picture on it, so nothing is letterboxed into dead phosphor.
   // Pictures measured at build time give that shape before they load, so the monitor opens at it
-  // instead of opening wide and snapping to it.
-  const known = useMemo(() => aspectOf(items[index]), []);
+  // instead of opening wide and snapping to it. A set can also ask for one shape for everything.
+  const known = useMemo(() => fixed ?? aspectOf(items[index]), []);
   const [aspect, setAspect] = useState(() => tubeFor(known ?? TUBE_WIDE));
   const [zoom, setZoom] = useState<Zoom>(RESET);
   const [smooth, setSmooth] = useState(true);
