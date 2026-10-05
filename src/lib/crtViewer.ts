@@ -9,6 +9,7 @@
 // This file stays free of React on purpose: inline Astro scripts import it too.
 
 import type * as Faces from "@/components/pc-model/faces";
+import sizes from "virtual:image-sizes";
 
 // Erased at build time, so naming the palette here costs nothing at runtime.
 export type CrtScheme = keyof typeof Faces.CRT_COLORS;
@@ -22,6 +23,28 @@ export interface MediaItem {
   description?: string;
   /** A larger or better-cropped file to show once it is open. */
   lightboxSrc?: string;
+  /** Pixel size, for pictures that are not in public/ and so were not measured at build time. */
+  width?: number;
+  height?: number;
+}
+
+/**
+ * Width over height of what the viewer will show for this item, known before it loads. Pictures
+ * in public/ are measured at build time. Undefined when nobody knows yet.
+ */
+export function aspectOf(item: MediaItem | undefined): number | undefined {
+  if (!item) return undefined;
+  if (item.width && item.height) return item.width / item.height;
+  if (item.type !== "image") return undefined;
+  const src = item.lightboxSrc || item.src;
+  let key = src.split(/[?#]/)[0];
+  try {
+    key = decodeURI(new URL(key, "http://x").pathname);
+  } catch {
+    // Leave it as written.
+  }
+  const size = sizes[key];
+  return size ? size[0] / size[1] : undefined;
 }
 
 export interface ViewerState {
