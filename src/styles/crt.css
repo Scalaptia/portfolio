@@ -371,3 +371,19 @@
 .band-last::before {
   border-bottom: 1px solid rgba(65, 44, 71, 0.1);
 }
+
+/* --- harogatOS opening and closing ------------------------------------------------------------ */
+
+@keyframes os-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@keyframes os-out {
+  to {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}

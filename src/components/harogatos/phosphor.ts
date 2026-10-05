@@ -1,4 +1,4 @@
-// The tube's colours, and the CSS that makes text look like it is lit rather than printed.
+// The tube's colours.
 
 export const PHOSPHOR = {
   green: { bg: "#001100", fg: "#00FF41", dim: "rgba(0, 255, 65, 0.16)", glow: "rgba(0, 255, 65, 0.55)" },
@@ -17,7 +17,6 @@ export const phosphorVars = (p: Phosphor) =>
     "--crt-glow": p.glow,
     background: p.bg,
     color: p.fg,
-    textShadow: `0 0 0.45em ${p.glow}`,
   }) as React.CSSProperties;
 
 // Selected rows and title bars are drawn in reverse video, like every menu on every old terminal.
