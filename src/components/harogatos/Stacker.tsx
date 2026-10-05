@@ -181,7 +181,7 @@ function Initials({ onSave, onSkip, rejected }: { onSave: (initials: string) => 
     return () => window.removeEventListener("keydown", onKey);
   }, [slot, spin, save, onSkip]);
 
-  const arrow = "w-[7cqh] h-[5cqh] flex items-center justify-center hover:bg-[var(--dim)]";
+  const arrow = "w-[7cqh] h-[5cqh] flex items-center justify-center hover:bg-(--dim)";
 
   return (
     <div className="flex flex-col items-center gap-[2cqh]">
@@ -195,7 +195,7 @@ function Initials({ onSave, onSkip, rejected }: { onSave: (initials: string) => 
             <button
               onClick={() => setSlot(i)}
               className={`w-[7cqh] text-center text-[2em] leading-[1.1] border-b-[0.6cqh] ${
-                i === slot ? "border-[var(--fg)] crt-led" : "border-transparent"
+                i === slot ? "border-(--fg) crt-led" : "border-transparent"
               }`}
               aria-label={`Letter ${i + 1}: ${letter}`}
             >
@@ -212,7 +212,7 @@ function Initials({ onSave, onSkip, rejected }: { onSave: (initials: string) => 
         <button onClick={save} className={`px-[2cqh] ${INVERSE}`}>
           SAVE
         </button>
-        <button onClick={onSkip} className="px-[2cqh] border-[0.4cqh] border-[var(--fg)]">
+        <button onClick={onSkip} className="px-[2cqh] border-[0.4cqh] border-(--fg)">
           SKIP
         </button>
       </div>
@@ -529,7 +529,7 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
       {phase === "title" && (
         <>
           <div className="text-[2.2em] leading-none">STACKER</div>
-          <div className="text-[0.8em] opacity-80 leading-[1.5] max-w-[40ch]">
+          <div className="text-[0.8em] opacity-80 leading-normal max-w-[40ch]">
             Stop each row on top of the last. Whatever hangs over the edge falls off.
           </div>
           <div className="crt-led">PRESS SPACE OR TAP</div>
@@ -558,11 +558,11 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
   );
 
   const playfield = (
-    <div className="relative border-x-[0.5cqh] border-[var(--dim)]">
+    <div className="relative border-x-[0.5cqh] border-(--dim)">
       <canvas ref={canvasRef} className="block" />
       {flash && (
         <div className="absolute inset-x-0 top-[38%] text-center text-[1.15em] whitespace-nowrap pointer-events-none">
-          <span className="px-[1cqh] bg-[var(--bg)]">{flash}</span>
+          <span className="px-[1cqh] bg-(--bg)">{flash}</span>
         </div>
       )}
     </div>
@@ -576,7 +576,7 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
   if (tall) {
     return (
       <div className="absolute inset-0 flex flex-col cursor-pointer" onPointerDown={onPointerDown}>
-        <div className="flex justify-between gap-[2cqw] px-[4cqw] py-[1.5cqh] border-b-[0.4cqh] border-[var(--dim)] tabular-nums">
+        <div className="flex justify-between gap-[2cqw] px-[4cqw] py-[1.5cqh] border-b-[0.4cqh] border-(--dim) tabular-nums">
           <span>
             <span className="text-[0.7em] opacity-70">SCORE </span>
             {pad(score, 4)}
@@ -626,7 +626,7 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
               <div className="text-[0.7em] opacity-70">BEST</div>
               <div className="tabular-nums">{bestText}</div>
             </div>
-            <div className="mt-auto text-[0.7em] opacity-70 leading-[1.5]">
+            <div className="mt-auto text-[0.7em] opacity-70 leading-normal">
               {phase === "over" ? (won ? "TOP OF THE STACK" : "THAT ONE MISSED") : "SPACE OR TAP TO STOP"}
             </div>
           </div>

@@ -30,7 +30,7 @@ const t = useTranslations(lang);
     <div class="flex flex-col w-full lg:flex-1 lg:pr-10 relative z-10">
       <h1
         id="hero-title"
-        class="text-5xl sm:text-6xl font-black-han-sans text-text leading-[1.1em] text-center lg:text-left drop-shadow-sm group cursor-pointer hover:scale-[1.02] transition-transform duration-300 origin-center lg:origin-left w-fit mx-auto lg:mx-0"
+        class="text-5xl sm:text-6xl sm:leading-none font-black-han-sans text-text leading-[1.1em] text-center lg:text-left drop-shadow-xs group cursor-pointer hover:scale-[1.02] transition-transform duration-300 origin-center lg:origin-left w-fit mx-auto lg:mx-0"
       >
         <span
           id="hero-name-1"
@@ -45,7 +45,7 @@ const t = useTranslations(lang);
       </h1>
 
       <p
-        class="mt-4 text-lg sm:text-xl font-open-sans text-text leading-[1.5em] text-center lg:text-left"
+        class="mt-4 text-lg sm:text-xl sm:leading-7 font-open-sans text-text leading-[1.5em] text-center lg:text-left"
         set:html={parseMarkdown(i18n.TEXT_DESCRIPTION_1)}
       />
 
@@ -73,11 +73,11 @@ const t = useTranslations(lang);
           class="mt-4 flex bg-white text-text px-3 sm:px-6 py-3 sm:py-4 gap-2 sm:gap-4 justify-between items-center border-2 sm:border-4 border-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] sm:shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] min-w-0 w-full hover:shadow-[3px_3px_0px_0px_rgba(65,44,71,1)] sm:hover:shadow-[6px_6px_0px_0px_rgba(65,44,71,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200"
         >
           <span
-            class="font-open-sans font-semibold pt-[1px] text-xs sm:text-sm lg:text-base truncate flex-1 min-w-0"
+            class="font-open-sans font-semibold pt-px text-xs sm:text-sm lg:text-base truncate flex-1 min-w-0"
             >fernando.haro.c@gmail.com</span
           >
 
-          <div class="flex gap-2 sm:gap-4 flex-shrink-0">
+          <div class="flex gap-2 sm:gap-4 shrink-0">
             <a
               href="mailto:fernando.haro.c@gmail.com"
               class="flex transition-all duration-150 hover:scale-110 hover:text-primary"
@@ -98,7 +98,7 @@ const t = useTranslations(lang);
     <!-- PC Model -->
     <div
       id="pc-model-container"
-      class="relative w-[200px] h-[200px] mx-auto mt-10 lg:mx-0 lg:w-[240px] lg:h-[240px] lg:flex-shrink-0 lg:-mt-8 transition-all duration-300"
+      class="relative w-[200px] h-[200px] mx-auto mt-10 lg:mx-0 lg:w-[240px] lg:h-[240px] lg:shrink-0 lg:-mt-8 transition-all duration-300"
     >
       <PCModel client:only="react" />
 
@@ -128,7 +128,7 @@ const t = useTranslations(lang);
     </div>
 
     <!-- Spacer maintains layout space when PC model becomes fixed -->
-    <div id="pc-model-spacer" class="hidden lg:w-[240px] lg:h-[240px] lg:flex-shrink-0"></div>
+    <div id="pc-model-spacer" class="hidden lg:w-[240px] lg:h-[240px] lg:shrink-0"></div>
   </div>
 
   <!-- Experience -->

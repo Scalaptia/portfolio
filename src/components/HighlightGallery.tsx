@@ -44,7 +44,7 @@ export function HighlightGallery({ highlights }: HighlightGalleryProps) {
           onClick={(e) => open(i, e.currentTarget)}
           aria-label={`Open ${h.title} - ${h.event}`}
         >
-          <div className="aspect-[4/3] sm:aspect-[3/2] overflow-hidden">
+          <div className="aspect-4/3 sm:aspect-3/2 overflow-hidden">
             <img
               src={h.photo}
               alt={h.event}
@@ -55,7 +55,7 @@ export function HighlightGallery({ highlights }: HighlightGalleryProps) {
           </div>
           <div className="p-3 sm:p-4">
             <span className="text-text/50 font-ubuntu-mono text-xs">{h.period}</span>
-            <h3 className="text-text font-black-han-sans text-sm sm:text-base leading-tight mt-0.5">{h.title}</h3>
+            <h3 className="text-text font-black-han-sans text-sm sm:text-base sm:leading-6 leading-tight mt-0.5">{h.title}</h3>
             <span className="text-primary font-ubuntu-mono text-xs font-semibold">{h.event}</span>
           </div>
         </button>

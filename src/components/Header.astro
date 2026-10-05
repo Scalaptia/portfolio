@@ -21,7 +21,7 @@ const esPath = translatePath(Astro.url.pathname, "es");
         <!-- Simple Mobile Menu Button -->
         <button
           id="mobile-menu-button"
-          class="lg:hidden p-1 sm:p-2 text-text hover:text-primary transition-colors duration-200 flex items-center justify-center flex-shrink-0"
+          class="lg:hidden p-1 sm:p-2 text-text hover:text-primary transition-colors duration-200 flex items-center justify-center shrink-0"
           aria-label="Toggle menu"
         >
           <svg
@@ -40,7 +40,7 @@ const esPath = translatePath(Astro.url.pathname, "es");
 
         <a
           href={base}
-          class="text-lg sm:text-xl lg:text-2xl font-black-han-sans text-text hover:text-primary transition-colors duration-200 truncate leading-none flex items-center pt-0.5"
+          class="text-lg sm:text-xl sm:leading-7 lg:text-2xl lg:leading-8 font-black-han-sans text-text hover:text-primary transition-colors duration-200 truncate leading-none flex items-center pt-0.5"
         >
           Fernando Haro
         </a>
@@ -142,25 +142,25 @@ const esPath = translatePath(Astro.url.pathname, "es");
       <div class="flex flex-col space-y-3 pt-4">
         <a
           href={`${base}#experience`}
-          class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-base py-2 px-2 rounded hover:bg-primary/5"
+          class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-base py-2 px-2 rounded-sm hover:bg-primary/5"
         >
           {i18n.TAG_EXPERIENCE}
         </a>
         <a
           href={`${base}#projects`}
-          class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-base py-2 px-2 rounded hover:bg-primary/5"
+          class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-base py-2 px-2 rounded-sm hover:bg-primary/5"
         >
           {i18n.TAG_PROJECTS}
         </a>
         <a
           href={`${base}#events`}
-          class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-base py-2 px-2 rounded hover:bg-primary/5"
+          class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-base py-2 px-2 rounded-sm hover:bg-primary/5"
         >
           {i18n.TEXT_HIGHLIGHTS}
         </a>
         <a
           href={`${base}#about`}
-          class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-base py-2 px-2 rounded hover:bg-primary/5"
+          class="text-text hover:text-primary transition-colors duration-200 font-ubuntu-mono font-semibold text-base py-2 px-2 rounded-sm hover:bg-primary/5"
         >
           {i18n.TAG_ABOUT_ME}
         </a>

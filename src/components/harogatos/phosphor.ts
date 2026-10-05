@@ -20,7 +20,7 @@ export const phosphorVars = (p: Phosphor) =>
   }) as React.CSSProperties;
 
 // Selected rows and title bars are drawn in reverse video, like every menu on every old terminal.
-export const INVERSE = "bg-[var(--fg)] text-[var(--bg)] [text-shadow:none]";
+export const INVERSE = "bg-(--fg) text-(--bg) text-shadow-none";
 
 export const calmMotion = () =>
   typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;

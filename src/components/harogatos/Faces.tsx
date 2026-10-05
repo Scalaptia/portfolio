@@ -200,7 +200,7 @@ function Canvas({
         tabIndex={0}
         role="img"
         aria-label="Drawing grid. Arrow keys move the cursor, space paints a cell, enter signs it."
-        className="border-[0.4cqh] border-[var(--fg)] cursor-crosshair outline-none focus-visible:outline-[0.4cqh] focus-visible:outline-offset-[0.4cqh] focus-visible:outline-[var(--fg)]"
+        className="border-[0.4cqh] border-(--fg) cursor-crosshair outline-hidden focus-visible:outline-[0.4cqh] focus-visible:outline-offset-[0.4cqh] focus-visible:outline-(--fg)"
         onPointerDown={(e) => {
           e.currentTarget.setPointerCapture(e.pointerId);
           const at = cellAt(e);
@@ -340,12 +340,12 @@ export default function Faces({ onExit, tall = false }: { onExit: () => void; ta
     return () => window.removeEventListener("keydown", onKey);
   }, [view, cursor, stroke, lit, onExit, gallery, picked, perPage]);
 
-  const button = "px-[1.6cqh] py-[0.4cqh] border-[0.4cqh] border-[var(--fg)] hover:bg-[var(--dim)] disabled:opacity-40";
+  const button = "px-[1.6cqh] py-[0.4cqh] border-[0.4cqh] border-(--fg) hover:bg-(--dim) disabled:opacity-40";
   const tab = (id: View, label: string) => (
     <button
       onClick={() => setView(id === "draw" && view === "sign" ? "sign" : id)}
       className={`px-[1.5cqh] ${
-        (id === "draw" ? view !== "gallery" : view === id) ? "bg-[var(--bg)] text-[var(--fg)]" : ""
+        (id === "draw" ? view !== "gallery" : view === id) ? "bg-(--bg) text-(--fg)" : ""
       }`}
     >
       {label}
@@ -397,7 +397,7 @@ export default function Faces({ onExit, tall = false }: { onExit: () => void; ta
                   onClick={() => setDraft((d) => ({ ...d, scheme: s }))}
                   aria-label={`${s} phosphor`}
                   className={`w-[4.5cqh] h-[4.5cqh] border-[0.4cqh] ${
-                    scheme === s ? "border-[var(--fg)] outline outline-[0.3cqh] outline-offset-[0.3cqh] outline-[var(--fg)]" : "border-transparent"
+                    scheme === s ? "border-(--fg) outline-solid outline-[0.3cqh] outline-offset-[0.3cqh] outline-(--fg)" : "border-transparent"
                   }`}
                   style={{ background: CRT_COLORS[s].fg }}
                 />
@@ -422,7 +422,7 @@ export default function Faces({ onExit, tall = false }: { onExit: () => void; ta
       {view === "sign" && (
         <div className={`flex-1 min-h-0 flex ${tall ? "flex-col items-center" : "items-center"} gap-[4cqh] px-[5cqh] py-[3cqh]`}>
           <div className="flex flex-col items-center gap-[1.5cqh] shrink-0">
-            <div className="border-[0.5cqh] border-[var(--fg)] p-[1cqh]">
+            <div className="border-[0.5cqh] border-(--fg) p-[1cqh]">
               <FaceIcon art={art} color={preview.color} accent={preview.accent} className={tall ? "w-[22cqh] h-[22cqh]" : "w-[34cqh] h-[34cqh]"} />
             </div>
           </div>
@@ -441,7 +441,7 @@ export default function Faces({ onExit, tall = false }: { onExit: () => void; ta
                 value={author}
                 maxLength={AUTHOR_MAX}
                 onChange={(e) => setDraft((d) => ({ ...d, author: e.target.value }))}
-                className="bg-transparent border-b-[0.4cqh] border-[var(--fg)] outline-none caret-[var(--fg)] py-[0.3cqh] placeholder:text-[var(--dim)]"
+                className="bg-transparent border-b-[0.4cqh] border-(--fg) outline-hidden caret-(--fg) py-[0.3cqh] placeholder:text-(--dim)"
                 placeholder="who drew this"
               />
             </label>
@@ -454,11 +454,11 @@ export default function Faces({ onExit, tall = false }: { onExit: () => void; ta
                 value={message}
                 maxLength={MESSAGE_MAX}
                 onChange={(e) => setDraft((d) => ({ ...d, message: e.target.value }))}
-                className="bg-transparent border-b-[0.4cqh] border-[var(--fg)] outline-none caret-[var(--fg)] py-[0.3cqh] placeholder:text-[var(--dim)]"
+                className="bg-transparent border-b-[0.4cqh] border-(--fg) outline-hidden caret-(--fg) py-[0.3cqh] placeholder:text-(--dim)"
                 placeholder="optional"
               />
             </label>
-            <p className="text-[0.7em] opacity-70 leading-[1.5]">
+            <p className="text-[0.7em] opacity-70 leading-normal">
               Your face goes on your PC right away. Everyone else sees it once Fernando approves it.
             </p>
             {error && <p className="text-[0.75em]">{error}</p>}
@@ -476,11 +476,11 @@ export default function Faces({ onExit, tall = false }: { onExit: () => void; ta
 
       {view === "sent" && (
         <div className="flex-1 flex flex-col items-center justify-center gap-[2.5cqh] text-center px-[5cqh]">
-          <div className="border-[0.5cqh] border-[var(--fg)] p-[1cqh]">
+          <div className="border-[0.5cqh] border-(--fg) p-[1cqh]">
             <FaceIcon art={art} color={preview.color} accent={preview.accent} className="w-[26cqh] h-[26cqh]" />
           </div>
           <div className="text-[1.4em]">SENT!</div>
-          <p className="text-[0.8em] opacity-80 max-w-[44ch] leading-[1.5]">
+          <p className="text-[0.8em] opacity-80 max-w-[44ch] leading-normal">
             It's on your PC for the rest of this visit. Everyone else sees it once Fernando approves it.
           </p>
           <div className="flex gap-[2cqh]">
@@ -525,7 +525,7 @@ export default function Faces({ onExit, tall = false }: { onExit: () => void; ta
                       key={face.id}
                       onClick={() => setPicked(index)}
                       onMouseEnter={() => setPicked(index)}
-                      className={`flex flex-col items-center gap-[0.6cqh] p-[0.8cqh] ${index === picked ? "outline outline-[0.4cqh] outline-[var(--fg)]" : ""}`}
+                      className={`flex flex-col items-center gap-[0.6cqh] p-[0.8cqh] ${index === picked ? "outline-solid outline-[0.4cqh] outline-(--fg)" : ""}`}
                     >
                       <FaceIcon art={face.art} color={data.color} accent={data.accent} className="w-full aspect-square max-w-[16cqh]" />
                       <span className="text-[0.65em] truncate max-w-full">{face.author}</span>
@@ -533,7 +533,7 @@ export default function Faces({ onExit, tall = false }: { onExit: () => void; ta
                   );
                 })}
               </div>
-              <div className="border-t-[0.4cqh] border-[var(--dim)] pt-[1.2cqh] flex items-center gap-[2cqh] text-[0.8em] min-h-[7cqh]">
+              <div className="border-t-[0.4cqh] border-(--dim) pt-[1.2cqh] flex items-center gap-[2cqh] text-[0.8em] min-h-[7cqh]">
                 <div className="flex-1 min-w-0 leading-[1.4]">
                   {gallery[picked] && (
                     <>
