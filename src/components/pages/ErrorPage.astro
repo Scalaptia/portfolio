@@ -46,13 +46,13 @@ const READOUT = [
                 style="background: #001100; --crt-glow: rgba(0, 255, 65, 0.32)"
               >
                 <div
-                  class="font-ubuntu-mono text-[11px] sm:text-xs sm:leading-4 leading-relaxed text-[#00FF41]"
-                  style="text-shadow: 0 0 6px #00ff41"
+                  class="font-ubuntu-mono text-[11px] sm:text-xs sm:leading-4 leading-relaxed text-[#FFB000]"
+                  style="text-shadow: 0 0 6px rgba(255,176,0,0.55)"
                 >
                   {READOUT.map((line) => <div>{line}</div>)}
                   <span
                     class="inline-block w-2 h-3 align-middle crt-led"
-                    style="background: #00FF41"></span>
+                    style="background: #FFB000"></span>
                 </div>
               </div>
             </div>
@@ -60,8 +60,8 @@ const READOUT = [
 
           <div class="flex items-center gap-2 px-3 pb-3">
             <span
-              class="w-2.5 h-2.5 border border-text/50 crt-led"
-              style="background: #00FF41; box-shadow: 0 0 8px #00ff41"></span>
+              class="w-2.5 h-2.5 border border-text/50"
+              style="background: #FD8D75"></span>
             <span
               class="font-ubuntu-mono text-[11px] text-text/70 uppercase tracking-wider"
               >404</span

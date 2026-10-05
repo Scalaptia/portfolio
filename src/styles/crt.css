@@ -403,6 +403,24 @@
   }
 }
 
+/* Out of the PC: from its screen's spot on the page, small, to the middle at full size. */
+@keyframes os-grow {
+  from {
+    opacity: 0;
+    transform: translate(var(--os-ox, 0px), var(--os-oy, 0px)) scale(0.18);
+  }
+  35% {
+    opacity: 1;
+  }
+}
+
+@keyframes os-shrink {
+  to {
+    opacity: 0;
+    transform: translate(var(--os-ox, 0px), var(--os-oy, 0px)) scale(0.18);
+  }
+}
+
 @keyframes os-out {
   to {
     opacity: 0;

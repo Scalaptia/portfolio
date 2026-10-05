@@ -2,7 +2,7 @@ import { lazy, Suspense, useEffect, useState } from 'react'
 import GuestBubble from './GuestBubble'
 
 // three.js is most of the site's JavaScript (the canvas chunk is about 820 KB). Nothing above the fold needs
-// them, so the canvas is a separate chunk that only starts downloading once the browser is idle.
+// it, so the canvas is a separate chunk that only starts downloading once the browser is idle.
 // Everything three-related lives in PCModelCanvas so this module stays free of those imports.
 const PCModelCanvas = lazy(() => import('./PCModelCanvas'))
 

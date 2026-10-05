@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import PixelIcon from "./PixelIcon";
+import CaseEars from "./CaseEars";
 import { aspectOf, closeViewer, navigateViewer, stepViewer } from "@/lib/crtViewer";
 import { useViewerState } from "@/lib/useViewerState";
 
@@ -369,8 +370,7 @@ export default function CrtLightbox() {
       <div
         className="absolute inset-0"
         style={{
-          background:
-            "radial-gradient(circle at 50% 44%, rgba(26, 17, 32, 0.985) 0%, rgba(6, 4, 9, 0.998) 66%)",
+          background: "rgba(65, 44, 71, 0.9)",
           animation: calm ? undefined : `crt-backdrop-in ${OPEN_MS}ms ease both`,
           opacity: closing ? 0 : 1,
           transition: calm ? undefined : `opacity ${CLOSE_MS}ms ease`,
@@ -387,8 +387,9 @@ export default function CrtLightbox() {
         <div
           style={caseStyle}
           onClick={(e) => e.stopPropagation()}
-          className="bg-background border-4 border-text shadow-[8px_8px_0px_0px_rgba(253,141,117,0.85)]"
+          className="relative bg-background border-4 border-text shadow-[8px_8px_0px_0px_rgba(253,141,117,0.85)]"
         >
+          <CaseEars />
           {/* Case front, holding the bezel */}
           <div className="p-2 sm:p-4">
             <div className="bg-text p-1 sm:p-2.5" style={{ borderRadius: "32px / 40px" }}>
@@ -483,6 +484,11 @@ export default function CrtLightbox() {
                 </button>
               </>
             )}
+
+            <span className={`flex items-center gap-1.5 font-ubuntu-mono font-bold text-xs text-text/70 ${many ? "pl-1" : "pl-1 sm:pl-2"}`}>
+              <span className="w-2 h-2 bg-primary" aria-hidden="true" />
+              HARO-PC
+            </span>
 
             <div className="flex-1" />
 

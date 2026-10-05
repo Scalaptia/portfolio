@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import PixelIcon, { type IconName } from "@/components/PixelIcon";
+import CaseEars from "@/components/CaseEars";
 import { closeOS, launch, type AppId } from "@/lib/harogatos";
 import { useOSState } from "@/lib/useOSState";
 import Stacker, { Hiscores } from "./Stacker";
@@ -11,7 +12,8 @@ import { PHOSPHOR, phosphorVars, calmMotion } from "./phosphor";
 // screen and the buttons on the case switch between them.
 
 const OPEN_MS = 180;
-const CLOSE_MS = 140;
+const GROW_MS = 280;
+const CLOSE_MS = 200;
 
 const BUTTON =
   "press [--press:3px] flex items-center justify-center gap-1.5 sm:gap-2 border-2 border-text bg-white text-text font-ubuntu-mono font-bold text-xs sm:text-sm min-h-11 sm:min-h-10";
@@ -90,6 +92,23 @@ export default function HarogatOS() {
   const fade = (open: boolean) =>
     calm ? undefined : `${open ? "os-in" : "os-out"} ${open ? OPEN_MS : CLOSE_MS}ms ease-out both`;
 
+  // The window is the PC's screen made big, so it grows out of the PC and shrinks back into it.
+  // Pages without the PC on screen get the plain fade.
+  const [from] = useState(() => {
+    const pc = document.getElementById("pc-model-container")?.getBoundingClientRect();
+    if (!pc || pc.bottom < 0 || pc.top > innerHeight || pc.width === 0) return null;
+    return {
+      "--os-ox": `${pc.left + pc.width / 2 - innerWidth / 2}px`,
+      "--os-oy": `${pc.top + pc.height * 0.4 - innerHeight / 2}px`,
+    } as React.CSSProperties;
+  });
+  const caseMotion = (open: boolean) =>
+    calm
+      ? undefined
+      : from
+        ? `${open ? "os-grow" : "os-shrink"} ${open ? GROW_MS : CLOSE_MS}ms ${open ? "cubic-bezier(0.2, 0.7, 0.2, 1)" : "ease-in"} both`
+        : fade(open);
+
   return createPortal(
     <div
       ref={rootRef}
@@ -97,7 +116,7 @@ export default function HarogatOS() {
       aria-modal="true"
       aria-label="harogatOS"
       onKeyDown={onKeyDown}
-      className="fixed inset-0 z-70 flex items-center justify-center px-2 py-3 sm:px-6 sm:py-8 [@media(max-height:520px)]:py-1.5"
+      className="fixed inset-0 z-70 flex items-center justify-center px-2 pt-10 pb-3 sm:px-6 sm:pt-14 sm:pb-8 [@media(max-height:520px)]:pt-9 [@media(max-height:520px)]:pb-1.5"
       onClick={requestClose}
     >
       <div className="absolute inset-0 bg-text/85" style={{ animation: fade(!closing) }} />
@@ -107,8 +126,9 @@ export default function HarogatOS() {
         className={`relative z-10 bg-background border-4 border-text shadow-[8px_8px_0px_0px_rgba(253,141,117,0.85)] ${
           tall ? "w-full h-full flex flex-col" : ""
         }`}
-        style={{ animation: fade(!closing) }}
+        style={{ ...from, animation: caseMotion(!closing) }}
       >
+        <CaseEars />
         {/* An upright phone gets the whole screen: the case fills the dialog and the glass takes
             whatever the button bar leaves. Anything else keeps the monitor's 4:3 shape. */}
         <div className={`p-2 sm:p-4 [@media(max-height:520px)]:p-2 flex justify-center ${tall ? "flex-1 min-h-0" : ""}`}>
@@ -138,7 +158,10 @@ export default function HarogatOS() {
         </div>
 
         <div className="flex items-center gap-1 sm:gap-2 px-2 pb-2 sm:px-4 sm:pb-4 [@media(max-height:520px)]:px-2 [@media(max-height:520px)]:pb-2">
-          <span className="hidden sm:inline font-black-han-sans text-text text-base pl-1">harogatOS</span>
+          <span className="hidden sm:flex items-center gap-1.5 font-black-han-sans text-text text-base pl-1">
+            <span className="w-2 h-2 bg-primary" aria-hidden="true" />
+            harogatOS
+          </span>
           <div className="flex-1" />
           <div ref={tabsRef} className="flex gap-1 sm:gap-2">
             {TABS.map((tab) => (
