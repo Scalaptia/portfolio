@@ -7,6 +7,7 @@ import { playBootSound, playPowerDownSound, playNotes } from "@/components/pc-mo
 import { FACES } from "@/components/pc-model/faces";
 import FaceIcon from "./FaceIcon";
 import Stacker, { Hiscores } from "./Stacker";
+import Faces from "./Faces";
 import { PHOSPHOR, phosphorVars, INVERSE, calmMotion } from "./phosphor";
 
 // The monitor is the picture viewer's: same case, same bezel, same glass. Inside it, a small
@@ -40,6 +41,7 @@ interface MenuItem {
 const MENU: MenuItem[] = [
   { id: "stacker", label: "STACKER.EXE", hint: "stack blocks to the top", face: 6 },
   { id: "hiscores", label: "HISCORES.TXT", hint: "the best stackers", face: 7 },
+  { id: "faces", label: "FACES.EXE", hint: "draw a face for the PC", face: 4 },
   { id: "shutdown", label: "SHUTDOWN", hint: "back to the site", face: 5 },
 ];
 
@@ -293,6 +295,8 @@ export default function HarogatOS() {
                   <Stacker onExit={home} tall={tall} />
                 ) : app === "hiscores" ? (
                   <Hiscores onExit={home} />
+                ) : app === "faces" ? (
+                  <Faces onExit={home} tall={tall} />
                 ) : (
                   <Desktop onShutdown={requestClose} tall={tall} />
                 )}

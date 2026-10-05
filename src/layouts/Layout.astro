@@ -8,7 +8,7 @@ import HarogatOSHost from "@/components/harogatos/HarogatOSHost";
 import { ClientRouter } from "astro:transitions";
 import "@/styles/crt.css";
 
-const { title, description } = Astro.props;
+const { title, description, noindex = false } = Astro.props;
 const { currentLocale } = Astro;
 
 const SITE = "https://fharo.dev";
@@ -68,6 +68,7 @@ const personSchema = {
     <!-- HTML Meta Tags -->
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonical} />
     <link rel="alternate" hreflang="en" href={enHref} />
     <link rel="alternate" hreflang="es" href={esHref} />

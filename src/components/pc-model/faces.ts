@@ -327,3 +327,14 @@ export const INTRO_FRAMES: IntroFrame[] = [
         ]
     },
 ]
+
+// A face a visitor drew, in the same format, dressed in the scheme they picked. Pink gets a paler
+// accent so the blush still shows against it, same as Love.
+export function guestFace(art: string[], scheme: Exclude<keyof typeof CRT_COLORS, 'off'>): FaceData {
+    return {
+        name: 'Guest',
+        color: CRT_COLORS[scheme],
+        accent: scheme === 'pink' ? '#FFC2D6' : BLUSH,
+        art,
+    }
+}

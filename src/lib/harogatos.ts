@@ -4,7 +4,7 @@
 // the prompt in the footer. Like the picture viewer, the open state lives here in module scope so
 // a plain script, the host island and the window itself all see the same thing. See crtViewer.ts.
 
-export type AppId = "desktop" | "stacker" | "hiscores";
+export type AppId = "desktop" | "stacker" | "hiscores" | "faces";
 
 export interface OSState {
   open: boolean;
