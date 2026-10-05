@@ -327,3 +327,39 @@ export const INTRO_FRAMES: IntroFrame[] = [
         ]
     },
 ]
+
+// A floppy going in. The disk sits on the screen while a two-block light runs under it, then it
+// says OK. The label is the accent colour.
+const FLOPPY_ART = [
+    '................',
+    '...#########....',
+    '...#.#####.##...',
+    '...#.#..##..#...',
+    '...#.#####..#...',
+    '...#........#...',
+    '...#.@@@@@@.#...',
+    '...#.@@@@@@.#...',
+    '...#.@@@@@@.#...',
+    '...#.@@@@@@.#...',
+    '...##########...',
+    '................',
+]
+
+const readingLight = (step: number) =>
+    '...' + Array.from({ length: 10 }, (_, i) => (i >> 1 === step % 5 ? '#' : '.')).join('') + '...'
+
+export const FLOPPY_READING: FaceData[] = Array.from({ length: 5 }, (_, step) => ({
+    name: 'Reading',
+    color: CRT_COLORS.amber,
+    accent: BLUSH,
+    art: [...FLOPPY_ART, '................', readingLight(step), '................', '................'],
+}))
+
+export const FLOPPY_OK: FaceData = {
+    name: 'Read',
+    color: CRT_COLORS.green,
+    accent: '#B8FFCB',
+    art: [...FLOPPY_ART, '................', '.......OK.......', '................', '................'],
+}
+
+export const FLOPPY_STEP_MS = 110

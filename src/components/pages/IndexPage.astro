@@ -1,6 +1,7 @@
 ---
 import LinkButton from "@/components/LinkButton.astro";
 import ProjectsGrid from "@/components/ProjectsGrid";
+import FloppyDrawer from "@/components/FloppyDrawer";
 import OtherProjects from "@/components/OtherProjects.astro";
 import MoreAbout from "@/components/MoreAbout.astro";
 import Highlights from "@/components/Highlights.astro";
@@ -140,6 +141,13 @@ const t = useTranslations(lang);
       class="text-primary text-start font-ubuntu-mono text-2xl self-start w-full mb-6 relative z-10"
       >&lt;{i18n.TAG_PROJECTS}&gt;</span
     >
+    <FloppyDrawer
+      projects={i18n.PROJECTS.map((p) => ({ title: p.title, slug: p.slug }))}
+      locale={lang}
+      hint={i18n.TEXT_FLOPPY_HINT}
+      loadLabel={i18n.TEXT_FLOPPY_LOAD}
+      client:visible
+    />
     <ProjectsGrid
       projects={i18n.PROJECTS}
       translations={{
@@ -233,10 +241,50 @@ const t = useTranslations(lang);
     pcContainer.style.removeProperty('z-index');
 
     const spacer = document.querySelector('#pc-model-spacer') as HTMLElement;
-    if (spacer) spacer.classList.add('hidden');
+    if (spacer) {
+      spacer.classList.add('hidden');
+      ['width', 'height', 'margin-top', 'flex-shrink'].forEach((p) => spacer.style.removeProperty(p));
+    }
   }
 
-  window.addEventListener('scroll', () => {
+  // A floppy being dragged needs the PC on screen to drop into, whatever the width or the scroll.
+  // FloppyDrawer asks for it with a pcDock event, and lets go the same way.
+  let forcedDock = false;
+
+  window.addEventListener('pcDock', ((e: CustomEvent) => {
+    forcedDock = !!e.detail?.docked;
+    placePC();
+  }) as EventListener);
+
+  function placePC() {
+    if (forcedDock) {
+      const pcContainer = document.querySelector('#pc-model-container') as HTMLElement;
+      if (!pcContainer) return;
+      const spacer = document.querySelector('#pc-model-spacer') as HTMLElement;
+      // Hold the PC's place in the hero, or everything below jumps up under your finger mid-drag.
+      if (spacer && pcContainer.style.position !== 'fixed') {
+        const style = getComputedStyle(pcContainer);
+        spacer.style.width = `${pcContainer.offsetWidth}px`;
+        spacer.style.height = `${pcContainer.offsetHeight}px`;
+        spacer.style.marginTop = style.marginTop;
+        spacer.style.flexShrink = '0';
+      }
+      const size = window.innerWidth < 640 ? '150px' : '200px';
+      pcContainer.style.position = 'fixed';
+      pcContainer.style.bottom = window.innerWidth < 640 ? '1rem' : '2rem';
+      pcContainer.style.right = window.innerWidth < 640 ? '1rem' : '2rem';
+      pcContainer.style.left = 'auto';
+      pcContainer.style.top = 'auto';
+      pcContainer.style.transform = 'none';
+      pcContainer.style.width = size;
+      pcContainer.style.height = size;
+      pcContainer.style.zIndex = '50';
+      const hint = document.querySelector('#click-me-text') as HTMLElement;
+      if (hint) hint.style.opacity = '0';
+      if (spacer) spacer.classList.remove('hidden');
+      return;
+    }
+
     if (window.innerWidth < FLOAT_MIN_WIDTH) {
       returnToHero();
       const hint = document.querySelector('#click-me-text') as HTMLElement;
@@ -267,12 +315,14 @@ const t = useTranslations(lang);
         if (clickMeText) clickMeText.style.opacity = '1';
       }
     }
-  });
+  }
+
+  window.addEventListener('scroll', placePC);
 
   window.addEventListener('resize', () => {
     const pcContainer = document.querySelector('#pc-model-container') as HTMLElement;
     if (!pcContainer) return;
-    if (pcContainer.style.position === 'fixed' && window.innerWidth < FLOAT_MIN_WIDTH) {
+    if (pcContainer.style.position === 'fixed' && window.innerWidth < FLOAT_MIN_WIDTH && !forcedDock) {
       returnToHero();
       const clickMeText = document.querySelector('#click-me-text') as HTMLElement;
       if (clickMeText) clickMeText.style.opacity = '1';

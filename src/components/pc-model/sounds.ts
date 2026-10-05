@@ -268,3 +268,73 @@ export function playBootSound(): void {
         // Silently fail if audio not available
     }
 }
+
+// A 3.5" drive taking a disk: the clunk of it seating, the motor spinning up, and the head
+// ticking across the tracks. Noise for the mechanics, a low sawtooth for the motor.
+export function playDriveSound(duration = 1.2): void {
+    try {
+        const ctx = getAudioContext()
+        if (!ctx) return
+        const now = ctx.currentTime
+
+        const noise = ctx.createBuffer(1, Math.ceil(ctx.sampleRate * 0.05), ctx.sampleRate)
+        const data = noise.getChannelData(0)
+        for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / data.length)
+
+        const click = (at: number, gain: number, freq: number) => {
+            const src = ctx.createBufferSource()
+            const filter = ctx.createBiquadFilter()
+            const amp = ctx.createGain()
+            src.buffer = noise
+            filter.type = 'bandpass'
+            filter.frequency.value = freq
+            amp.gain.value = gain
+            src.connect(filter)
+            filter.connect(amp)
+            amp.connect(ctx.destination)
+            src.start(now + at)
+            src.onended = () => {
+                src.disconnect()
+                filter.disconnect()
+                amp.disconnect()
+            }
+        }
+
+        // Seating clunk.
+        click(0, 0.5, 900)
+        click(0.04, 0.3, 400)
+
+        // Motor.
+        const motor = ctx.createOscillator()
+        const motorGain = ctx.createGain()
+        const motorFilter = ctx.createBiquadFilter()
+        motor.type = 'sawtooth'
+        motor.frequency.setValueAtTime(40, now + 0.1)
+        motor.frequency.linearRampToValueAtTime(95, now + 0.45)
+        motorFilter.type = 'lowpass'
+        motorFilter.frequency.value = 500
+        motorGain.gain.setValueAtTime(0.001, now + 0.1)
+        motorGain.gain.linearRampToValueAtTime(0.05, now + 0.3)
+        motorGain.gain.setValueAtTime(0.05, now + duration - 0.15)
+        motorGain.gain.exponentialRampToValueAtTime(0.001, now + duration)
+        motor.connect(motorFilter)
+        motorFilter.connect(motorGain)
+        motorGain.connect(ctx.destination)
+        motor.start(now + 0.1)
+        motor.stop(now + duration + 0.05)
+        motor.onended = () => {
+            motor.disconnect()
+            motorFilter.disconnect()
+            motorGain.disconnect()
+        }
+
+        // Head seeks: ticks at uneven gaps, the way a real drive reads.
+        let at = 0.35
+        while (at < duration - 0.1) {
+            click(at, 0.22, 2600 + Math.random() * 1200)
+            at += 0.045 + Math.random() * 0.09
+        }
+    } catch {
+        // Silently fail if audio not available
+    }
+}

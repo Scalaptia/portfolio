@@ -4,8 +4,8 @@ import { useGLTF, Preload } from '@react-three/drei'
 import { useRef, Suspense, useState, useEffect } from 'react'
 import * as THREE from 'three'
 
-import { FACES, BLINK_FACE, DIZZY_FACE, OFF_FACE, INTRO_FRAMES } from './pc-model/faces'
-import { playMeowSound, playPowerDownSound, playBootSound } from './pc-model/sounds'
+import { FACES, BLINK_FACE, DIZZY_FACE, OFF_FACE, INTRO_FRAMES, FLOPPY_READING, FLOPPY_OK, FLOPPY_STEP_MS } from './pc-model/faces'
+import { playMeowSound, playPowerDownSound, playBootSound, playDriveSound } from './pc-model/sounds'
 import { drawFace, createFaceCanvas, drawFromArt, drawIntroFrame } from './pc-model/drawing'
 import type { Gaze } from './pc-model/drawing'
 
@@ -32,8 +32,11 @@ function Scene() {
     const [isHeroHovered, setIsHeroHovered] = useState(false)
     // 'awake' is the normal state. 'dizzy' is the warning, 'off' is the shutdown, 'booting'
     // replays the intro frames that were already in the repo but never used anywhere.
-    const [mode, setMode] = useState<'awake' | 'dizzy' | 'off' | 'booting'>('awake')
+    // 'incoming', 'reading' and 'read' are a floppy on its way in, in the drive, and done.
+    // See FloppyDrawer.
+    const [mode, setMode] = useState<'awake' | 'dizzy' | 'off' | 'booting' | 'incoming' | 'reading' | 'read'>('awake')
     const [bootFrame, setBootFrame] = useState(0)
+    const [readStep, setReadStep] = useState(0)
 
     const rageCount = useRef(0)
     const lastClick = useRef(0)
@@ -93,12 +96,31 @@ function Scene() {
             }
         }
 
+        // A disk dropped on the PC. The drawer runs the timing and tells the PC what to show.
+        const handleFloppy = (e: CustomEvent) => {
+            const { phase } = e.detail
+            if (phase === 'incoming') {
+                // Turn square to the page so the slot is where the disk is flying to.
+                setMode('incoming')
+            } else if (phase === 'reading') {
+                setMode('reading')
+                playDriveSound()
+            } else if (phase === 'done') {
+                setMode('read')
+            } else {
+                setMode('awake')
+                setExpression(0)
+            }
+        }
+
         window.addEventListener('heroHover' as any, handleHeroHover)
         window.addEventListener('pageInteraction' as any, handlePageInteraction)
+        window.addEventListener('pcFloppy' as any, handleFloppy)
         
         return () => {
             window.removeEventListener('heroHover' as any, handleHeroHover)
             window.removeEventListener('pageInteraction' as any, handlePageInteraction)
+            window.removeEventListener('pcFloppy' as any, handleFloppy)
         }
     }, [])
 
@@ -180,6 +202,18 @@ function Scene() {
             return
         }
 
+        if (mode === 'incoming') {
+            drawFace(ctx, FACES[6])
+            textureRef.current.needsUpdate = true
+            return
+        }
+
+        if (mode === 'reading' || mode === 'read') {
+            drawFace(ctx, mode === 'read' ? FLOPPY_OK : FLOPPY_READING[readStep % FLOPPY_READING.length])
+            textureRef.current.needsUpdate = true
+            return
+        }
+
         if (mode === 'dizzy') {
             drawFace(ctx, DIZZY_FACE)
             textureRef.current.needsUpdate = true
@@ -196,7 +230,14 @@ function Scene() {
         textureRef.current.needsUpdate = true
     }
 
-    useEffect(updateFace, [expression, isHeroHovered, isBlinking, mode, bootFrame, gaze.x, gaze.y])
+    useEffect(updateFace, [expression, isHeroHovered, isBlinking, mode, bootFrame, readStep, gaze.x, gaze.y])
+
+    // The light under the disk runs while it reads.
+    useEffect(() => {
+        if (mode !== 'reading') return
+        const t = setInterval(() => setReadStep((n) => n + 1), FLOPPY_STEP_MS)
+        return () => clearInterval(t)
+    }, [mode])
 
     // RAGE-CLICK SHUTDOWN
     const clearRageTimers = () => {
@@ -298,6 +339,14 @@ function Scene() {
             const t = state.clock.elapsedTime
             modelRef.current.rotation.y = frontAngle + Math.sin(t * 30) * 0.08
             modelRef.current.rotation.x = Math.sin(t * 22) * 0.04
+            return
+        }
+        // Reading a disk it faces you square on and hums, the drive shaking it a hair.
+        if (mode === 'incoming' || mode === 'reading' || mode === 'read') {
+            const t = state.clock.elapsedTime
+            const hum = mode === 'reading' ? Math.sin(t * 70) * 0.006 : 0
+            modelRef.current.rotation.y += (frontAngle + hum - modelRef.current.rotation.y) * 0.2
+            modelRef.current.rotation.x += (0 - modelRef.current.rotation.x) * 0.2
             return
         }
         if (mode === 'off' || mode === 'booting') {

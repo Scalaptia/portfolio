@@ -163,6 +163,8 @@
   "CLICK_ME": "\u00a1Haz click!",
   "TEXT_SWIPE_HINT": "\u2190 Desliza \u2192",
   "TEXT_READ_MORE": "Leer m\u00e1s",
+  "TEXT_FLOPPY_HINT": "Arrastra un disco a la PC, o haz clic en uno.",
+  "TEXT_FLOPPY_LOAD": "Cargar",
   "TEXT_OTHER_PROJECTS": "Otros proyectos",
   "TEXT_BACK_HOME": "Volver al inicio",
   "TEXT_PORTRAIT_CAPTION": "Ensenada, Baja California",

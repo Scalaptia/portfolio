@@ -165,6 +165,8 @@
   "CLICK_ME": "Click me!",
   "TEXT_SWIPE_HINT": "\u2190 Swipe \u2192",
   "TEXT_READ_MORE": "Read more",
+  "TEXT_FLOPPY_HINT": "Drag a disk into the PC, or click one.",
+  "TEXT_FLOPPY_LOAD": "Load",
   "TEXT_OTHER_PROJECTS": "Other projects",
   "TEXT_BACK_HOME": "Back home",
   "TEXT_PORTRAIT_CAPTION": "Ensenada, Baja California",
