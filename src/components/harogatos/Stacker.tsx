@@ -280,6 +280,7 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
     setWon(false);
     setRank(undefined);
     setRejected(false);
+    setOffline(false);
     // Ask for a run id now, so the server's clock starts when the game does.
     run.current = startRun();
     go("playing");
@@ -548,6 +549,12 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
       {phase === "board" && (
         <>
           <div>{rank ? `YOU PLACED #${rank}` : `${pad(score, 4)} POINTS`}</div>
+          {/* A score that could not be signed says why, instead of skipping the step silently. */}
+          {offline && score > 0 && (
+            <div className="text-[0.75em] opacity-80">
+              {/(^|\.)fharo\.dev$/.test(location.hostname) ? "NO SIGNAL. THIS ONE WASN'T SAVED." : "SCORES ONLY SAVE ON FHARO.DEV"}
+            </div>
+          )}
           <Board rows={board} highlight={rank && rank <= 10 ? rank : undefined} offline={offline && !board} />
           <div className="text-[0.75em] opacity-70 crt-led">
             {tall ? "TAP TO PLAY AGAIN" : "SPACE TO PLAY AGAIN"}
