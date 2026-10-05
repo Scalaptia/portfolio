@@ -1,8 +1,9 @@
 import { Canvas, useFrame } from '@react-three/fiber'
 import type { ThreeEvent } from '@react-three/fiber'
-import { useGLTF, Preload } from '@react-three/drei'
-import { useRef, Suspense, useState, useEffect } from 'react'
+import { useRef, Suspense, useState, useEffect, useMemo } from 'react'
 import * as THREE from 'three'
+
+import { buildHaroPC } from './pc-model/haroPC'
 
 import { FACES, BLINK_FACE, DIZZY_FACE, OFF_FACE, INTRO_FRAMES, guestFace } from './pc-model/faces'
 import { subscribeShown, getShown, dismissShown, type Shown } from '@/lib/guestFaceShow'
@@ -20,10 +21,11 @@ const GAZE_THRESHOLD = 0.55
 
 const gazeAxis = (v: number) => (v > GAZE_THRESHOLD ? 1 : v < -GAZE_THRESHOLD ? -1 : 0)
 
-useGLTF.preload('/models/mac_minus.glb')
+// The machine faces +Z, straight at the camera.
+const FRONT = 0
 
 function Scene() {
-    const { scene } = useGLTF('/models/mac_minus.glb', true)
+    const pc = useMemo(buildHaroPC, [])
     const modelRef = useRef<THREE.Group>(null)
     
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
@@ -131,38 +133,10 @@ function Scene() {
         texture.flipY = false
         textureRef.current = texture
 
-        // Setup screen mesh
-        scene.traverse((child) => {
-            if (child instanceof THREE.Mesh && child.name === 'Screen_Material_0') {
-                const uvAttr = child.geometry.attributes.uv
-                if (uvAttr) {
-                    let minU = Infinity, maxU = -Infinity
-                    let minV = Infinity, maxV = -Infinity
-                    
-                    for (let i = 0; i < uvAttr.count; i++) {
-                        minU = Math.min(minU, uvAttr.getX(i))
-                        maxU = Math.max(maxU, uvAttr.getX(i))
-                        minV = Math.min(minV, uvAttr.getY(i))
-                        maxV = Math.max(maxV, uvAttr.getY(i))
-                    }
-                    
-                    for (let i = 0; i < uvAttr.count; i++) {
-                        uvAttr.setXY(
-                            i,
-                            (uvAttr.getX(i) - minU) / (maxU - minU),
-                            (uvAttr.getY(i) - minV) / (maxV - minV)
-                        )
-                    }
-                    uvAttr.needsUpdate = true
-                }
-
-                child.material = new THREE.MeshBasicMaterial({
-                    map: texture,
-                    side: THREE.DoubleSide
-                })
-            }
-        })
-    }, [scene])
+        // The glass shows the face canvas, unlit and untouched by tone mapping, so the phosphor
+        // colours come out as drawn.
+        pc.screen.material = new THREE.MeshBasicMaterial({ map: texture, toneMapped: false })
+    }, [pc])
 
     // Rows run downward, so a cursor above the canvas is a negative row offset.
     const gaze: Gaze = { x: gazeAxis(mousePos.x), y: -gazeAxis(mousePos.y) }
@@ -309,7 +283,9 @@ function Scene() {
     useFrame((state) => {
         if (!modelRef.current) return
 
-        const frontAngle = Math.PI + 1.5
+        const frontAngle = FRONT
+        // The power light goes dark with the machine.
+        pc.led.color.set(mode === 'off' ? '#5a4a3a' : '#FD8D75')
 
         // While it is dizzy it shakes and stops following the cursor. While it is off it slumps.
         if (mode === 'dizzy') {
@@ -331,7 +307,7 @@ function Scene() {
         modelRef.current.rotation.y += (targetY - modelRef.current.rotation.y) * 0.08
         modelRef.current.rotation.x += (targetX - modelRef.current.rotation.x) * 0.08
 
-        const targetScale = 1.1 + (bounce > 0 ? Math.sin(bounce * Math.PI) * 0.15 : 0)
+        const targetScale = 1.22 + (bounce > 0 ? Math.sin(bounce * Math.PI) * 0.15 : 0)
         const currentScale = modelRef.current.scale.x
         const newScale = currentScale + (targetScale - currentScale) * 0.15
         modelRef.current.scale.set(newScale, newScale, newScale)
@@ -339,14 +315,17 @@ function Scene() {
 
     return (
         <>
-            <ambientLight intensity={0.5} />
-            <directionalLight position={[0, 5, 5]} intensity={0.8} />
+            {/* Light from the upper left, like the hard shadows on the page fall down and right.
+                Lambert divides by pi, so a lit face gets ambient + direct = pi and shows its paint
+                colour exactly. A face turned away drops to the 90/255 step, about three quarters. */}
+            <ambientLight intensity={1.93} />
+            <directionalLight position={[-3, 5, 5]} intensity={1.21} />
             <primitive
                 ref={modelRef}
-                object={scene}
+                object={pc.group}
                 position={[0, 0, 0]}
-                scale={1.1}
-                rotation={[0, Math.PI + 1.5, 0]}
+                scale={1.22}
+                rotation={[0, FRONT, 0]}
                 onClick={handleClick}
                 onPointerOver={() => document.body.style.cursor = 'pointer'}
                 onPointerOut={() => document.body.style.cursor = 'default'}
@@ -359,14 +338,16 @@ function Scene() {
 export default function PCModelCanvas() {
     return (
         <div className="w-full h-full">
+            {/* flat: no filmic tone mapping. The machine is painted in the site's own colours
+                and they should come out as those colours, not a greyed film look. */}
             <Canvas
+                flat
                 camera={{ position: [0, 0, 5], fov: 60 }}
                 dpr={[1, 2]}
                 performance={{ min: 0.5 }}
             >
                 <Suspense fallback={null}>
                     <Scene />
-                    <Preload all />
                 </Suspense>
             </Canvas>
         </div>
