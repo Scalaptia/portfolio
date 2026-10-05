@@ -23,6 +23,9 @@ parts, so they read as one object.
 | Name | "HARO-PC" plate on the chin | "HARO-PC" on the viewer chin, "harogatOS" on the OS chin |
 | Paws, tail | Four paws, a power cord that curls up | None. The HTML case has no underside to show them. |
 
+The favicon (`public/favicon.svg`, `favicon.ico`, `apple-touch-icon.png`) is the same machine drawn on
+a 32x32 pixel grid: ears, ink outline, the default face, the coral light, paws.
+
 The machine is a cat because the site's handle is harogato and the PC already meows. The ears are
 what makes the link between the 3D PC and the windows visible at a glance, so a window without them
 is a bug.

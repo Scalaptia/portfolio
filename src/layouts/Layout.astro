@@ -106,7 +106,10 @@ const personSchema = {
       src="https://umami.fharo.dev/script.js"
       data-website-id="73abe834-05b6-4a54-b407-5597a7b70e66"></script>
 
-    <link rel="icon" href="/logo.ico" type="image/x-icon" />
+    <!-- HARO-PC in pixels. The SVG is drawn on the same 32x32 grid as the .ico, so it stays crisp. -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <!-- Archivo Black still comes from Google, because the file we shipped as
          archivo-black-v23-latin.woff2 was actually the latin-ext subset. Its cmap has no ASCII
