@@ -1,0 +1,144 @@
+/*
+ * Page changes are a quick blink of the tube rather than a full power cycle.
+ *
+ * Astro's ClientRouter runs every navigation through the browser's view transitions, so the old
+ * page and the new one arrive here as two snapshots of the root. The old one dims a little flat
+ * and fades. The new one fades in from a slightly brighter, slightly squashed frame, and #crt-veil,
+ * which the layout script switches on after the swap, lays faint scanlines over it for a moment.
+ *
+ * Switching language is a channel change instead. The router tags that navigation "channel" on
+ * <html>, and the gap between the two pages shows a short burst of snow.
+ *
+ * Every animation here has to end. The view transition only finishes, and gives the page its
+ * clicks back, once every animation on its pseudo-elements has stopped.
+ */
+
+:root {
+  --crt-out: 160ms;
+  --crt-in: 260ms;
+  --crt-gap: 90ms;
+}
+
+::view-transition-group(root) {
+  animation-duration: calc(var(--crt-gap) + var(--crt-in));
+}
+
+/* --- page change ---------------------------------------------------------------------------- */
+
+::view-transition-old(root) {
+  transform-origin: 50% 50%;
+  animation: crt-page-out var(--crt-out) ease-in both;
+}
+
+::view-transition-new(root) {
+  transform-origin: 50% 50%;
+  animation: crt-page-in var(--crt-in) ease-out var(--crt-gap) both;
+}
+
+@keyframes crt-page-out {
+  to {
+    transform: scaleY(0.985);
+    filter: brightness(1.25) saturate(0.7);
+    opacity: 0;
+  }
+}
+
+@keyframes crt-page-in {
+  from {
+    transform: scaleY(0.99);
+    filter: brightness(1.2) saturate(0.8);
+    opacity: 0;
+  }
+}
+
+/* --- channel change ------------------------------------------------------------------------- */
+
+html[data-astro-transition="channel"]::view-transition {
+  /* Snow, washed into the page colour so it reads as static and not as a black flash. */
+  background:
+    linear-gradient(rgba(253, 247, 231, 0.55), rgba(253, 247, 231, 0.55)),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='3.2 0 0 0 -1.15 3.2 0 0 0 -1.15 3.2 0 0 0 -1.1 0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    #412c47;
+  background-size: auto, 180px 180px, auto;
+  /* Four jumps of 70ms, then it stops. An infinite loop here holds the transition open forever. */
+  animation: crt-snow 280ms steps(1, end) 1 both;
+}
+
+html[data-astro-transition="channel"]::view-transition-group(root) {
+  animation-duration: 340ms;
+}
+
+html[data-astro-transition="channel"]::view-transition-old(root) {
+  animation: crt-plain-out 120ms ease-in both;
+}
+
+html[data-astro-transition="channel"]::view-transition-new(root) {
+  animation: crt-plain-in 180ms ease-out 160ms both;
+}
+
+@keyframes crt-snow {
+  0% { background-position: 0 0, 0 0, 0 0; }
+  25% { background-position: 0 0, -63px 41px, 0 0; }
+  50% { background-position: 0 0, 37px -88px, 0 0; }
+  75% { background-position: 0 0, -112px -19px, 0 0; }
+}
+
+/* --- scanlines over the new page while it settles ------------------------------------------- */
+
+#crt-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  pointer-events: none;
+  opacity: 0;
+  background: repeating-linear-gradient(to bottom, rgba(65, 44, 71, 0.12) 0 1px, transparent 1px 4px);
+}
+
+#crt-veil.is-warming {
+  animation: crt-veil var(--crt-in) ease-out var(--crt-gap) both;
+}
+
+html[data-astro-transition="channel"] #crt-veil.is-warming {
+  animation: none;
+}
+
+@keyframes crt-veil {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* --- reduced motion: a plain cross-fade ----------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-astro-transition="channel"]::view-transition {
+    background: none;
+    animation: none;
+  }
+
+  ::view-transition-group(root),
+  html[data-astro-transition="channel"]::view-transition-group(root) {
+    animation-duration: 150ms;
+  }
+
+  ::view-transition-old(root),
+  html[data-astro-transition="channel"]::view-transition-old(root) {
+    animation: crt-plain-out 150ms ease both !important;
+  }
+
+  ::view-transition-new(root),
+  html[data-astro-transition="channel"]::view-transition-new(root) {
+    animation: crt-plain-in 150ms ease both !important;
+  }
+
+  #crt-veil.is-warming {
+    animation: none !important;
+  }
+}
+
+@keyframes crt-plain-out {
+  to { opacity: 0; }
+}
+
+@keyframes crt-plain-in {
+  from { opacity: 0; }
+}
