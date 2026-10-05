@@ -4,6 +4,7 @@ import Footer from "@/components/Footer.astro";
 import BackgroundDecorations from "@/components/BackgroundDecorations.astro";
 import Toast from "@/components/Toast";
 import ViewerHost from "@/components/ViewerHost";
+import HarogatOSHost from "@/components/harogatos/HarogatOSHost";
 import { ClientRouter } from "astro:transitions";
 import "@/styles/crt.css";
 
@@ -219,5 +220,6 @@ const personSchema = {
     <Footer />
     <Toast client:load />
     <ViewerHost client:load />
+    <HarogatOSHost client:idle />
   </body>
 </html>
