@@ -4,6 +4,7 @@ import PixelIcon, { type IconName } from "@/components/PixelIcon";
 import { closeOS, launch, type AppId } from "@/lib/harogatos";
 import { useOSState } from "@/lib/useOSState";
 import Stacker, { Hiscores } from "./Stacker";
+import Faces from "./Faces";
 import { PHOSPHOR, phosphorVars, calmMotion } from "./phosphor";
 
 // The monitor is the picture viewer's: same case, same bezel, same glass. The apps run on the
@@ -24,6 +25,7 @@ interface Tab {
 const TABS: Tab[] = [
   { id: "stacker", label: "Stacker", icon: "gamepad" },
   { id: "hiscores", label: "Scores", icon: "trophy" },
+  { id: "faces", label: "Faces", icon: "brush" },
 ];
 
 // A phone held upright gets a tube taller than it is wide, so the games are not postage stamps.
@@ -119,7 +121,13 @@ export default function HarogatOS() {
                   tall ? "text-[max(12px,4.8cqw)]" : "text-[max(12px,4.4cqh)]"
                 }`}
               >
-                {app === "hiscores" ? <Hiscores onExit={toStacker} /> : <Stacker onExit={requestClose} tall={tall} />}
+                {app === "hiscores" ? (
+                  <Hiscores onExit={toStacker} />
+                ) : app === "faces" ? (
+                  <Faces onExit={requestClose} tall={tall} />
+                ) : (
+                  <Stacker onExit={requestClose} tall={tall} />
+                )}
               </div>
             </div>
           </div>

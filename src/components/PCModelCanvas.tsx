@@ -4,7 +4,8 @@ import { useGLTF, Preload } from '@react-three/drei'
 import { useRef, Suspense, useState, useEffect } from 'react'
 import * as THREE from 'three'
 
-import { FACES, BLINK_FACE, DIZZY_FACE, OFF_FACE, INTRO_FRAMES } from './pc-model/faces'
+import { FACES, BLINK_FACE, DIZZY_FACE, OFF_FACE, INTRO_FRAMES, guestFace } from './pc-model/faces'
+import { subscribeShown, getShown, dismissShown, type Shown } from '@/lib/guestFaceShow'
 import { playMeowSound, playPowerDownSound, playBootSound } from './pc-model/sounds'
 import { drawFace, createFaceCanvas, drawFromArt, drawIntroFrame } from './pc-model/drawing'
 import type { Gaze } from './pc-model/drawing'
@@ -34,6 +35,10 @@ function Scene() {
     // replays the intro frames that were already in the repo but never used anywhere.
     const [mode, setMode] = useState<'awake' | 'dizzy' | 'off' | 'booting'>('awake')
     const [bootFrame, setBootFrame] = useState(0)
+    // A visitor's face, when the rotation in guestFaceShow.ts has put one up.
+    const [guest, setGuest] = useState<Shown | null>(getShown)
+
+    useEffect(() => subscribeShown(setGuest), [])
 
     const rageCount = useRef(0)
     const lastClick = useRef(0)
@@ -186,8 +191,13 @@ function Scene() {
             return
         }
 
-        if (isHeroHovered) {
+        // Your own face stays on through hovers and clicks for the whole session.
+        if (guest?.pinned) {
+            drawFace(ctx, guestFace(guest.face.art, guest.face.scheme), gaze)
+        } else if (isHeroHovered) {
             drawFace(ctx, FACES[4], gaze)
+        } else if (guest) {
+            drawFace(ctx, guestFace(guest.face.art, guest.face.scheme), gaze)
         } else if (isBlinking) {
             drawFromArt(ctx, BLINK_FACE.art, BLINK_FACE.color, undefined, gaze)
         } else {
@@ -196,7 +206,7 @@ function Scene() {
         textureRef.current.needsUpdate = true
     }
 
-    useEffect(updateFace, [expression, isHeroHovered, isBlinking, mode, bootFrame, gaze.x, gaze.y])
+    useEffect(updateFace, [expression, isHeroHovered, isBlinking, mode, bootFrame, gaze.x, gaze.y, guest])
 
     // RAGE-CLICK SHUTDOWN
     const clearRageTimers = () => {
@@ -271,6 +281,15 @@ function Scene() {
 
         // While it is off or rebooting, poking it does nothing. That is the joke.
         if (mode !== 'awake') return
+
+        // Wearing someone else's face, a click just hands it back its own. Yours it keeps, and the
+        // click only puts the bubble away before counting toward the rage shutdown as usual.
+        if (guest?.pinned) dismissShown()
+        else if (guest) {
+            dismissShown()
+            triggerBounce()
+            return
+        }
 
         const now = Date.now()
         rageCount.current = now - lastClick.current < RAGE_WINDOW_MS ? rageCount.current + 1 : 1

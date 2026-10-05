@@ -1,5 +1,6 @@
 // The site is static files. This Worker sits in front of them for /api/* only (see
-// run_worker_first in wrangler.jsonc) and keeps the harogatOS high scores in D1.
+// run_worker_first in wrangler.jsonc). It keeps the harogatOS high scores and the faces visitors
+// draw for the PC, both in D1.
 //
 // A score is never taken on trust. The game sends the column it stopped each row at, and the
 // Worker replays them through the same rules the game ran (src/lib/stacker.ts), so the score it
@@ -7,10 +8,15 @@
 // own clock, that the game took at least as long as those moves physically could.
 
 import { replay, cleanInitials } from "../src/lib/stacker";
+import { cleanArt, cleanScheme, cleanText, AUTHOR_MAX, MESSAGE_MAX } from "../src/lib/guestFaces";
 
 export interface Env {
   ASSETS: Fetcher;
   DB: D1Database;
+  /** Secret. Without it the moderation endpoints stay shut and every face stays pending. */
+  ADMIN_TOKEN?: string;
+  /** Secret, optional. A Discord webhook that hears about each new face. */
+  DISCORD_WEBHOOK_URL?: string;
 }
 
 const GAME = "stacker";
@@ -22,6 +28,10 @@ const RUNS_PER_10_MIN = 80;
 const SCORES_PER_HOUR = 40;
 // The replayed minimum assumes perfect reactions. Allow some slack for clocks and latency.
 const TIME_SLACK = 0.8;
+
+const FACES_PER_HOUR = 5;
+const GALLERY_SIZE = 120;
+const SITE = "https://fharo.dev";
 
 const json = (body: unknown, status = 200, cache = "no-store") =>
   new Response(JSON.stringify(body), {
@@ -123,7 +133,160 @@ async function submitScore(request: Request, env: Env) {
   return json({ rank: above?.n ?? 1, score: result.score, top: await topScores(env) }, 201);
 }
 
-async function api(request: Request, env: Env, path: string): Promise<Response> {
+// --- faces ------------------------------------------------------------------------------------
+
+interface FaceRow {
+  id: number;
+  art: string;
+  scheme: string;
+  author: string;
+  message: string;
+  status?: string;
+  created_at: number;
+}
+
+const toFace = (row: FaceRow) => ({
+  id: row.id,
+  art: cleanArt(row.art) ?? [],
+  scheme: row.scheme,
+  author: row.author,
+  message: row.message,
+  at: row.created_at,
+  ...(row.status ? { status: row.status } : {}),
+});
+
+async function approvedFaces(env: Env) {
+  const { results } = await env.DB.prepare(
+    `SELECT id, art, scheme, author, message, created_at FROM faces
+     WHERE status = 'approved' ORDER BY created_at DESC LIMIT ?`,
+  )
+    .bind(GALLERY_SIZE)
+    .all<FaceRow>();
+  return results.map(toFace);
+}
+
+// Discord renders a code block in a fixed-width font, so the face goes over as text.
+function asText(art: string[]): string {
+  return art.map((row) => row.replace(/\./g, "  ").replace(/#/g, "██").replace(/@/g, "▒▒")).join("\n");
+}
+
+async function notify(env: Env, id: number, art: string[], author: string, message: string) {
+  if (!env.DISCORD_WEBHOOK_URL) return;
+  const content = [
+    `**New face #${id}** by **${author}**${message ? `: "${message}"` : ""}`,
+    "```",
+    asText(art),
+    "```",
+    `Review it at ${SITE}/harogatos/admin`,
+  ].join("\n");
+  try {
+    await fetch(env.DISCORD_WEBHOOK_URL, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ content: content.slice(0, 1990), allowed_mentions: { parse: [] } }),
+    });
+  } catch (error) {
+    console.error("discord notify failed", error);
+  }
+}
+
+async function submitFace(request: Request, env: Env, ctx: ExecutionContext) {
+  let body: { art?: unknown; scheme?: unknown; author?: unknown; message?: unknown };
+  try {
+    body = await request.json();
+  } catch {
+    return fail("bad-json");
+  }
+
+  const art = cleanArt(body.art);
+  if (!art) return fail("art");
+  const scheme = cleanScheme(body.scheme);
+  if (!scheme) return fail("scheme");
+  const author = cleanText(body.author, AUTHOR_MAX, true);
+  if (author === null) return fail("author");
+  const message = cleanText(body.message, MESSAGE_MAX, false);
+  if (message === null) return fail("message");
+
+  const who = await visitor(request);
+  const now = Date.now();
+  const recent = await env.DB.prepare(
+    "SELECT COUNT(*) AS n FROM faces WHERE ip_hash = ? AND created_at > ?",
+  )
+    .bind(who, now - 60 * 60 * 1000)
+    .first<{ n: number }>();
+  if ((recent?.n ?? 0) >= FACES_PER_HOUR) return fail("slow-down", 429);
+
+  const row = await env.DB.prepare(
+    `INSERT INTO faces (art, scheme, author, message, ip_hash, created_at)
+     VALUES (?, ?, ?, ?, ?, ?) RETURNING id`,
+  )
+    .bind(art.join(""), scheme, author, message, who, now)
+    .first<{ id: number }>();
+  const id = row?.id ?? 0;
+
+  ctx.waitUntil(notify(env, id, art, author, message));
+  return json({ id, status: "pending" }, 201);
+}
+
+// Constant-time, so the token cannot be guessed a character at a time from response times.
+async function authorized(request: Request, env: Env): Promise<boolean> {
+  if (!env.ADMIN_TOKEN) return false;
+  const given = (request.headers.get("authorization") ?? "").replace(/^Bearer\s+/i, "");
+  const [a, b] = await Promise.all(
+    [given, env.ADMIN_TOKEN].map((v) => crypto.subtle.digest("SHA-256", new TextEncoder().encode(v))),
+  );
+  const x = new Uint8Array(a);
+  const y = new Uint8Array(b);
+  let diff = 0;
+  for (let i = 0; i < x.length; i++) diff |= x[i] ^ y[i];
+  return diff === 0 && given.length > 0;
+}
+
+async function admin(request: Request, env: Env, path: string) {
+  if (!env.ADMIN_TOKEN) return fail("admin-disabled", 503);
+  if (!(await authorized(request, env))) return fail("unauthorized", 401);
+
+  if (path === "/api/admin/faces" && request.method === "GET") {
+    const status = new URL(request.url).searchParams.get("status") ?? "pending";
+    if (!["pending", "approved", "rejected"].includes(status)) return fail("status");
+    const { results } = await env.DB.prepare(
+      `SELECT id, art, scheme, author, message, status, created_at FROM faces
+       WHERE status = ? ORDER BY created_at DESC LIMIT 200`,
+    )
+      .bind(status)
+      .all<FaceRow>();
+    return json({ faces: results.map(toFace) });
+  }
+
+  const match = path.match(/^\/api\/admin\/faces\/(\d+)$/);
+  if (match && request.method === "POST") {
+    let body: { status?: unknown };
+    try {
+      body = await request.json();
+    } catch {
+      return fail("bad-json");
+    }
+    const status = body.status;
+    if (status !== "approved" && status !== "rejected" && status !== "pending") return fail("status");
+    const updated = await env.DB.prepare("UPDATE faces SET status = ?, reviewed_at = ? WHERE id = ? RETURNING id")
+      .bind(status, Date.now(), Number(match[1]))
+      .first<{ id: number }>();
+    if (!updated) return fail("not-found", 404);
+    return json({ id: updated.id, status });
+  }
+
+  return fail("not-found", 404);
+}
+
+// --- routing ----------------------------------------------------------------------------------
+
+async function api(request: Request, env: Env, path: string, ctx: ExecutionContext): Promise<Response> {
+  if (path === "/api/faces" && request.method === "GET") {
+    return json({ faces: await approvedFaces(env) }, 200, "public, max-age=60");
+  }
+  if (path === "/api/faces" && request.method === "POST") return submitFace(request, env, ctx);
+  if (path.startsWith("/api/admin/")) return admin(request, env, path);
+
   if (path === "/api/stacker/scores" && request.method === "GET") {
     return json({ top: await topScores(env) }, 200, "public, max-age=10");
   }
@@ -133,12 +296,12 @@ async function api(request: Request, env: Env, path: string): Promise<Response> 
 }
 
 export default {
-  async fetch(request, env): Promise<Response> {
+  async fetch(request, env, ctx): Promise<Response> {
     const url = new URL(request.url);
     if (!url.pathname.startsWith("/api/")) return env.ASSETS.fetch(request);
 
     try {
-      return await api(request, env, url.pathname);
+      return await api(request, env, url.pathname, ctx);
     } catch (error) {
       console.error("api error", url.pathname, error);
       return fail("server", 500);
