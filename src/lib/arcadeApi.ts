@@ -62,6 +62,7 @@ export async function sendFace(face: {
   scheme: SchemeName;
   author: string;
   message: string;
+  turnstile: string;
 }): Promise<SendResult> {
   try {
     const response = await fetch("/api/faces", {

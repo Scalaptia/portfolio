@@ -12,7 +12,8 @@ import {
   type SchemeName,
 } from "@/lib/guestFaces";
 import { fetchFaces, sendFace } from "@/lib/arcadeApi";
-import { rememberMyFace } from "@/lib/guestFaceShow";
+import { rememberMyFace, wearFace } from "@/lib/guestFaceShow";
+import { mountTurnstile } from "@/lib/turnstile";
 import { CRT_COLORS, guestFace } from "@/components/pc-model/faces";
 import { playNotes } from "@/components/pc-model/sounds";
 import FaceIcon from "./FaceIcon";
@@ -39,7 +40,17 @@ const ERRORS: Record<string, string> = {
   author: "SIGN WITH A NAME, UP TO 20 CHARACTERS.",
   message: "KEEP THE NOTE UNDER 80 CHARACTERS.",
   art: "DRAW A LITTLE MORE FIRST.",
+  bot: "COULDN'T CHECK THIS IS A PERSON. TRY AGAIN.",
+  "queue-full": "THE QUEUE IS FULL RIGHT NOW. TRY AGAIN LATER.",
 };
+
+// "Oct 5, 2026" or "5 oct 2026", in the page's language.
+const day = (at: number) =>
+  new Date(at).toLocaleDateString(document.documentElement.lang || undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 
 const blip = (freq = 880) => playNotes([[freq, 0, 0.03]], 0.04);
 
@@ -240,6 +251,19 @@ export default function Faces({ onExit, tall = false }: { onExit: () => void; ta
   const { art, scheme, author, message } = draft;
   const lit = litCount(art);
 
+  // The bot check only exists while the signing form is up.
+  const checkRef = useRef<HTMLDivElement>(null);
+  const check = useRef<ReturnType<typeof mountTurnstile> | null>(null);
+  useEffect(() => {
+    if (view !== "sign" || !checkRef.current) return;
+    const mounted = mountTurnstile(checkRef.current);
+    check.current = mounted;
+    return () => {
+      mounted.remove();
+      check.current = null;
+    };
+  }, [view]);
+
   useEffect(() => {
     try {
       localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
@@ -281,7 +305,8 @@ export default function Faces({ onExit, tall = false }: { onExit: () => void; ta
 
     setSending(true);
     setError(null);
-    const result = await sendFace({ art, scheme, author: name, message: note });
+    const turnstile = (await check.current?.token()) ?? "";
+    const result = await sendFace({ art, scheme, author: name, message: note, turnstile });
     setSending(false);
 
     if (!result.ok) {
@@ -447,7 +472,7 @@ export default function Faces({ onExit, tall = false }: { onExit: () => void; ta
             </label>
             <label className="flex flex-col gap-[0.5cqh]">
               <span className="text-[0.75em] opacity-80 flex justify-between">
-                <span>A NOTE FOR FERNANDO</span>
+                <span>A NOTE</span>
                 <span className="tabular-nums">{[...message].length}/{MESSAGE_MAX}</span>
               </span>
               <input
@@ -459,8 +484,9 @@ export default function Faces({ onExit, tall = false }: { onExit: () => void; ta
               />
             </label>
             <p className="text-[0.7em] opacity-70 leading-normal">
-              Your face goes on your PC right away. Everyone else sees it once Fernando approves it.
+              Your face goes on your PC right away. Everyone else sees it once it's approved.
             </p>
+            <div ref={checkRef} />
             {error && <p className="text-[0.75em]">{error}</p>}
             <div className="flex gap-[2cqh]">
               <button type="button" onClick={() => setView("draw")} className={button}>
@@ -481,7 +507,7 @@ export default function Faces({ onExit, tall = false }: { onExit: () => void; ta
           </div>
           <div className="text-[1.4em]">SENT!</div>
           <p className="text-[0.8em] opacity-80 max-w-[44ch] leading-normal">
-            It's on your PC for the rest of this visit. Everyone else sees it once Fernando approves it.
+            It's on your PC until you click the PC. Everyone else sees it once it's approved.
           </p>
           <div className="flex gap-[2cqh]">
             <button
@@ -533,15 +559,29 @@ export default function Faces({ onExit, tall = false }: { onExit: () => void; ta
                   );
                 })}
               </div>
-              <div className="border-t-[0.4cqh] border-(--dim) pt-[1.2cqh] flex items-center gap-[2cqh] text-[0.8em] min-h-[7cqh]">
-                <div className="flex-1 min-w-0 leading-[1.4]">
+              <div className="border-t-[0.4cqh] border-(--dim) pt-[1.2cqh] flex flex-wrap items-center gap-x-[2cqh] gap-y-[1cqh] text-[0.8em] min-h-[7cqh]">
+                <div className="flex-1 min-w-[20ch] leading-[1.4]">
                   {gallery[picked] && (
                     <>
-                      <span className="opacity-70">{gallery[picked].author}: </span>
-                      {gallery[picked].message ? `"${gallery[picked].message}"` : "(no note)"}
+                      <div className="opacity-70">
+                        {gallery[picked].author} · {day(gallery[picked].at)}
+                      </div>
+                      <div>{gallery[picked].message ? `"${gallery[picked].message}"` : "(no note)"}</div>
                     </>
                   )}
                 </div>
+                {gallery[picked] && (
+                  <button
+                    className={`px-[1.6cqh] py-[0.4cqh] shrink-0 ${INVERSE}`}
+                    onClick={() => {
+                      wearFace(gallery[picked]);
+                      blip(1320);
+                      onExit();
+                    }}
+                  >
+                    SHOW ON PC
+                  </button>
+                )}
                 {pages > 1 && (
                   <div className="flex gap-[1cqh] items-center shrink-0 tabular-nums">
                     <button className={button} disabled={page === 0} onClick={() => setPage((p) => p - 1)} aria-label="Previous page">
