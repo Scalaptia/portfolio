@@ -236,31 +236,6 @@
   }
 }
 
-/* --- a picture you can switch on ------------------------------------------------------------ */
-
-/* Scanlines and a warm amber wash fade up over a still image while the pointer is on it. */
-.crt-hover::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 220ms ease;
-  background:
-    repeating-linear-gradient(
-      to bottom,
-      rgba(17, 8, 0, 0.45) 0 1px,
-      rgba(0, 0, 0, 0) 1px 3px
-    ),
-    radial-gradient(120% 100% at 50% 50%, rgba(255, 176, 0, 0.14) 0%, rgba(17, 8, 0, 0.5) 100%);
-}
-
-.group:hover .crt-hover::after,
-.group:focus-visible .crt-hover::after {
-  opacity: 1;
-}
-
-
 /* --- how a button behaves --------------------------------------------------------------------- */
 
 /*
