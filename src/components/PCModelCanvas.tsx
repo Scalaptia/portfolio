@@ -1,16 +1,24 @@
 import { Canvas, useFrame } from '@react-three/fiber'
+import type { ThreeEvent } from '@react-three/fiber'
 import { useGLTF, Preload } from '@react-three/drei'
 import { useRef, Suspense, useState, useEffect } from 'react'
 import * as THREE from 'three'
 
-import { FACES, BLINK_FACE, DIZZY_FACE, OFF_FACE, INTRO_FRAMES } from './pc-model/faces'
+import { FACES, BLINK_FACE, DIZZY_FACE, OFF_FACE, INTRO_FRAMES, guestFace } from './pc-model/faces'
+import { subscribeShown, getShown, dismissShown, type Shown } from '@/lib/guestFaceShow'
 import { playMeowSound, playPowerDownSound, playBootSound } from './pc-model/sounds'
 import { drawFace, createFaceCanvas, drawFromArt, drawIntroFrame } from './pc-model/drawing'
+import type { Gaze } from './pc-model/drawing'
 
 // Click it enough times in a row and it has had enough.
 const RAGE_LIMIT = 8
 // Clicks stop counting toward that once you leave it alone for a moment.
 const RAGE_WINDOW_MS = 1500
+// How far the cursor has to be from the middle of the canvas, as a fraction of its half-width,
+// before the face looks that way.
+const GAZE_THRESHOLD = 0.55
+
+const gazeAxis = (v: number) => (v > GAZE_THRESHOLD ? 1 : v < -GAZE_THRESHOLD ? -1 : 0)
 
 useGLTF.preload('/models/mac_minus.glb')
 
@@ -27,6 +35,10 @@ function Scene() {
     // replays the intro frames that were already in the repo but never used anywhere.
     const [mode, setMode] = useState<'awake' | 'dizzy' | 'off' | 'booting'>('awake')
     const [bootFrame, setBootFrame] = useState(0)
+    // A visitor's face, when the rotation in guestFaceShow.ts has put one up.
+    const [guest, setGuest] = useState<Shown | null>(getShown)
+
+    useEffect(() => subscribeShown(setGuest), [])
 
     const rageCount = useRef(0)
     const lastClick = useRef(0)
@@ -109,7 +121,12 @@ function Scene() {
         drawFace(ctx, FACES[0])
         
         const texture = new THREE.CanvasTexture(canvasRef.current)
-        texture.minFilter = THREE.NearestFilter
+        // The screen is drawn smaller than the texture, so it is minified. Nearest there sampled
+        // the scanlines unevenly and drew a moire swirl across the glass. Mipmaps average them
+        // into an even dimming instead. Magnified, it stays nearest and keeps hard pixel edges.
+        texture.minFilter = THREE.LinearMipmapLinearFilter
+        texture.generateMipmaps = true
+        texture.anisotropy = 4
         texture.magFilter = THREE.NearestFilter
         texture.flipY = false
         textureRef.current = texture
@@ -147,6 +164,9 @@ function Scene() {
         })
     }, [scene])
 
+    // Rows run downward, so a cursor above the canvas is a negative row offset.
+    const gaze: Gaze = { x: gazeAxis(mousePos.x), y: -gazeAxis(mousePos.y) }
+
     // FACE UPDATES
     const updateFace = () => {
         if (!canvasRef.current || !textureRef.current) return
@@ -171,17 +191,22 @@ function Scene() {
             return
         }
 
-        if (isHeroHovered) {
-            drawFace(ctx, FACES[4])
+        // Your own face stays on through hovers and clicks for the whole session.
+        if (guest?.pinned) {
+            drawFace(ctx, guestFace(guest.face.art, guest.face.scheme), gaze)
+        } else if (isHeroHovered) {
+            drawFace(ctx, FACES[4], gaze)
+        } else if (guest) {
+            drawFace(ctx, guestFace(guest.face.art, guest.face.scheme), gaze)
         } else if (isBlinking) {
-            drawFromArt(ctx, BLINK_FACE.art, BLINK_FACE.color)
+            drawFromArt(ctx, BLINK_FACE.art, BLINK_FACE.color, undefined, gaze)
         } else {
-            drawFace(ctx, FACES[expression % FACES.length])
+            drawFace(ctx, FACES[expression % FACES.length], gaze)
         }
         textureRef.current.needsUpdate = true
     }
 
-    useEffect(updateFace, [expression, isHeroHovered, isBlinking, mode, bootFrame])
+    useEffect(updateFace, [expression, isHeroHovered, isBlinking, mode, bootFrame, gaze.x, gaze.y, guest])
 
     // RAGE-CLICK SHUTDOWN
     const clearRageTimers = () => {
@@ -249,9 +274,22 @@ function Scene() {
         setTimeout(() => setBounce(0), 300)
     }
 
-    const handleClick = () => {
+    const handleClick = (e: ThreeEvent<MouseEvent>) => {
+        // Pointer events reach every mesh under the cursor, screen and case alike. Without this
+        // one click counted twice, and the rage shutdown came after four clicks instead of eight.
+        e.stopPropagation()
+
         // While it is off or rebooting, poking it does nothing. That is the joke.
         if (mode !== 'awake') return
+
+        // Wearing someone else's face, a click just hands it back its own. Yours it keeps, and the
+        // click only puts the bubble away before counting toward the rage shutdown as usual.
+        if (guest?.pinned) dismissShown()
+        else if (guest) {
+            dismissShown()
+            triggerBounce()
+            return
+        }
 
         const now = Date.now()
         rageCount.current = now - lastClick.current < RAGE_WINDOW_MS ? rageCount.current + 1 : 1

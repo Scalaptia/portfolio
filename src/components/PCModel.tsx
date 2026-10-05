@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
+import GuestBubble from './GuestBubble'
 
 // three.js and drei are 888 KB of the site's 1,141 KB of JavaScript. Nothing above the fold needs
 // them, so the canvas is a separate chunk that only starts downloading once the browser is idle.
@@ -25,6 +26,7 @@ export default function PCModel() {
     return (
         <Suspense fallback={<div className="w-full h-full" aria-hidden="true" />}>
             <PCModelCanvas />
+            <GuestBubble />
         </Suspense>
     )
 }

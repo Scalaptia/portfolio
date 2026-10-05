@@ -268,3 +268,34 @@ export function playBootSound(): void {
         // Silently fail if audio not available
     }
 }
+
+// A short run of square-wave notes, for the games on harogatOS. Each note is [frequency, start,
+// length] in hertz and seconds; a frequency of 0 is a rest.
+export function playNotes(notes: [number, number, number][], volume = 0.08, type: OscillatorType = 'square'): void {
+    try {
+        const ctx = getAudioContext()
+        if (!ctx) return
+
+        const now = ctx.currentTime
+        notes.forEach(([freq, offset, length]) => {
+            if (!freq) return
+            const osc = ctx.createOscillator()
+            const gain = ctx.createGain()
+            osc.type = type
+            osc.frequency.setValueAtTime(freq, now + offset)
+            osc.connect(gain)
+            gain.connect(ctx.destination)
+            gain.gain.setValueAtTime(0.001, now + offset)
+            gain.gain.linearRampToValueAtTime(volume, now + offset + 0.005)
+            gain.gain.exponentialRampToValueAtTime(0.001, now + offset + length)
+            osc.start(now + offset)
+            osc.stop(now + offset + length + 0.02)
+            osc.onended = () => {
+                osc.disconnect()
+                gain.disconnect()
+            }
+        })
+    } catch {
+        // Silently fail if audio not available
+    }
+}

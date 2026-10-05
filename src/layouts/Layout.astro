@@ -4,11 +4,12 @@ import Footer from "@/components/Footer.astro";
 import BackgroundDecorations from "@/components/BackgroundDecorations.astro";
 import Toast from "@/components/Toast";
 import ViewerHost from "@/components/ViewerHost";
+import HarogatOSHost from "@/components/harogatos/HarogatOSHost";
 import { ClientRouter } from "astro:transitions";
 import "@/styles/crt.css";
 import "@/styles/crt-transition.css";
 
-const { title, description } = Astro.props;
+const { title, description, noindex = false } = Astro.props;
 const { currentLocale } = Astro;
 
 const SITE = "https://fharo.dev";
@@ -68,6 +69,7 @@ const personSchema = {
     <!-- HTML Meta Tags -->
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonical} />
     <link rel="alternate" hreflang="en" href={enHref} />
     <link rel="alternate" hreflang="es" href={esHref} />
@@ -178,6 +180,7 @@ const personSchema = {
     <Footer />
     <Toast client:load />
     <ViewerHost client:load />
+    <HarogatOSHost client:idle />
     <div id="crt-veil" aria-hidden="true"></div>
   </body>
 </html>
