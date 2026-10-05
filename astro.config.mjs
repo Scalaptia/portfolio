@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config'
 import tailwind from '@astrojs/tailwind'
 import react from '@astrojs/react'
+import imageSizes from './plugins/imageSizes.mjs'
 
 // https://astro.build/config
 export default defineConfig({
@@ -16,6 +17,7 @@ export default defineConfig({
         },
     },
     vite: {
+        plugins: [imageSizes()],
         server: {
             allowedHosts: true,
             // The arcade API is the Worker in worker/. Run `npm run dev:api` next to `npm run dev`

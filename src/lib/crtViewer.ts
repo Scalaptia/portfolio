@@ -9,6 +9,7 @@
 // This file stays free of React on purpose: inline Astro scripts import it too.
 
 import type * as Faces from "@/components/pc-model/faces";
+import sizes from "virtual:image-sizes";
 
 // Erased at build time, so naming the palette here costs nothing at runtime.
 export type CrtScheme = keyof typeof Faces.CRT_COLORS;
@@ -22,6 +23,28 @@ export interface MediaItem {
   description?: string;
   /** A larger or better-cropped file to show once it is open. */
   lightboxSrc?: string;
+  /** Pixel size, for pictures that are not in public/ and so were not measured at build time. */
+  width?: number;
+  height?: number;
+}
+
+/**
+ * Width over height of what the viewer will show for this item, known before it loads. Pictures
+ * in public/ are measured at build time. Undefined when nobody knows yet.
+ */
+export function aspectOf(item: MediaItem | undefined): number | undefined {
+  if (!item) return undefined;
+  if (item.width && item.height) return item.width / item.height;
+  if (item.type !== "image") return undefined;
+  const src = item.lightboxSrc || item.src;
+  let key = src.split(/[?#]/)[0];
+  try {
+    key = decodeURI(new URL(key, "http://x").pathname);
+  } catch {
+    // Leave it as written.
+  }
+  const size = sizes[key];
+  return size ? size[0] / size[1] : undefined;
 }
 
 export interface ViewerState {
@@ -34,12 +57,16 @@ export interface ViewerState {
   ownerId: string | null;
   /** Centre of the thumbnail you clicked, so the monitor grows out of it. */
   origin: { x: number; y: number } | null;
+  /** A fixed tube shape for the whole set, instead of the shape of whichever picture opened. */
+  aspect: number | null;
 }
 
 export interface OpenOptions {
   scheme?: CrtScheme;
   ownerId?: string;
   origin?: { x: number; y: number } | null;
+  /** Width over height. For sets of mixed photos that read better on one steady shape. */
+  aspect?: number;
 }
 
 const CLOSED: ViewerState = {
@@ -49,6 +76,7 @@ const CLOSED: ViewerState = {
   scheme: "green",
   ownerId: null,
   origin: null,
+  aspect: null,
 };
 
 let state: ViewerState = CLOSED;
@@ -95,6 +123,7 @@ export function openViewer(items: MediaItem[], index: number, options: OpenOptio
     scheme: options.scheme ?? "green",
     ownerId: options.ownerId ?? null,
     origin: options.origin ?? null,
+    aspect: options.aspect ?? null,
   };
   emit();
 }

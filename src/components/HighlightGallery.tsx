@@ -26,9 +26,11 @@ export function HighlightGallery({ highlights }: HighlightGalleryProps) {
     [highlights],
   );
 
+  // Event photos come in every shape from 0.82 to 1.78. One 4:3 tube for all of them reads as one
+  // set, where following each photo would resize the monitor between highlights.
   const open = useCallback(
     (index: number, from: Element | null) => {
-      openViewer(items, index, { origin: originOf(from) });
+      openViewer(items, index, { origin: originOf(from), aspect: 4 / 3 });
     },
     [items],
   );

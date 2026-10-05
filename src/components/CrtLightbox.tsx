@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import PixelIcon from "./PixelIcon";
-import { closeViewer, navigateViewer, stepViewer } from "@/lib/crtViewer";
+import { aspectOf, closeViewer, navigateViewer, stepViewer } from "@/lib/crtViewer";
 import { useViewerState } from "@/lib/useViewerState";
 
 // The picture opens on a monitor rather than on a black rectangle. Case, bezel, curved glass and a
@@ -58,7 +58,7 @@ async function chime(kind: "on" | "off") {
 }
 
 export default function CrtLightbox() {
-  const { items, index, scheme, origin } = useViewerState();
+  const { items, index, scheme, origin, aspect: fixed } = useViewerState();
   const item = items[index];
   const many = items.length > 1;
   const colors = SCHEMES[scheme] ?? SCHEMES.green;
@@ -66,14 +66,17 @@ export default function CrtLightbox() {
   const [closing, setClosing] = useState(false);
   const [entered, setEntered] = useState(false);
   // The tube takes the shape of the picture on it, so nothing is letterboxed into dead phosphor.
-  const [aspect, setAspect] = useState(TUBE_WIDE);
+  // Pictures measured at build time give that shape before they load, so the monitor opens at it
+  // instead of opening wide and snapping to it. A set can also ask for one shape for everything.
+  const known = useMemo(() => fixed ?? aspectOf(items[index]), []);
+  const [aspect, setAspect] = useState(() => tubeFor(known ?? TUBE_WIDE));
   const [zoom, setZoom] = useState<Zoom>(RESET);
   const [smooth, setSmooth] = useState(true);
 
   // The glass is shaped once, by whatever opens first, and then it is a physical object for as
   // long as it is on screen. A monitor that changed shape under you every time you pressed next
   // was the wrong idea however accurate it was.
-  const shaped = useRef(false);
+  const shaped = useRef(known !== undefined);
 
   const rootRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
