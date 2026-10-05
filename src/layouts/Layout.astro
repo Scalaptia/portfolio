@@ -6,6 +6,7 @@ import Toast from "@/components/Toast";
 import ViewerHost from "@/components/ViewerHost";
 import { ClientRouter } from "astro:transitions";
 import "@/styles/crt.css";
+import "@/styles/crt-transition.css";
 
 const { title, description } = Astro.props;
 const { currentLocale } = Astro;
@@ -152,52 +153,10 @@ const personSchema = {
         opacity: 0;
       }
 
-      /* View Transitions */
-      ::view-transition-group(root) {
-        animation-duration: 400ms;
-        animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
-      }
-
-      ::view-transition-old(root) {
-        animation: fade-out-smooth 400ms cubic-bezier(0.25, 0.1, 0.25, 1) both;
-      }
-
-      ::view-transition-new(root) {
-        animation: fade-in-smooth 400ms cubic-bezier(0.25, 0.1, 0.25, 1) both;
-      }
-
-      @keyframes fade-out-smooth {
-        from {
-          opacity: 1;
-          transform: scale(1);
-        }
-        to {
-          opacity: 0;
-          transform: scale(0.98);
-        }
-      }
-
-      @keyframes fade-in-smooth {
-        from {
-          opacity: 0;
-          transform: scale(0.98);
-        }
-        to {
-          opacity: 1;
-          transform: scale(1);
-        }
-      }
-
       @media (prefers-reduced-motion: reduce) {
         .animate-fade-in-up {
           animation: none;
           opacity: 1;
-        }
-
-        ::view-transition-group(*),
-        ::view-transition-old(*),
-        ::view-transition-new(*) {
-          animation-duration: 1ms !important;
         }
 
         *,
@@ -219,5 +178,29 @@ const personSchema = {
     <Footer />
     <Toast client:load />
     <ViewerHost client:load />
+    <div id="crt-veil" aria-hidden="true"></div>
   </body>
 </html>
+
+<script>
+  // Every navigation is the tube going off and on. Switching language is the exception: the page
+  // is the same, only the station changed, so it gets the channel-change look instead. The router
+  // writes the direction onto <html> before the old page is captured, which is what the CSS keys
+  // off. See crt-transition.css.
+  const withoutLang = (url: URL) => url.pathname.replace(/^\/es(?=\/|$)/, "") || "/";
+
+  document.addEventListener("astro:before-preparation", (event) => {
+    if (withoutLang(event.from) === withoutLang(event.to) && event.from.pathname !== event.to.pathname) {
+      event.direction = "channel";
+    }
+  });
+
+  // The new page is captured live, so starting the veil after the swap puts scanlines over it
+  // while it warms up.
+  document.addEventListener("astro:after-swap", () => {
+    const veil = document.getElementById("crt-veil");
+    if (!veil) return;
+    veil.classList.add("is-warming");
+    veil.addEventListener("animationend", () => veil.classList.remove("is-warming"), { once: true });
+  });
+</script>
