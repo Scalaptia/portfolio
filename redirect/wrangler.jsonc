@@ -1,0 +1,9 @@
+// The www redirect. Its own tiny Worker, deployed by hand, separate from the site:
+//   npx wrangler deploy -c redirect/wrangler.jsonc
+{
+    "name": "fharo-www-redirect",
+    "main": "index.ts",
+    "compatibility_date": "2026-08-01",
+    "workers_dev": false,
+    "routes": [{ "pattern": "www.fharo.dev/*", "zone_name": "fharo.dev" }]
+}
