@@ -102,10 +102,20 @@ const t = useTranslations(lang);
     >
       <PCModel client:only="react" />
 
-      <div id="click-me-text" class="absolute -bottom-4 left-1/2 -translate-x-1/2 text-center pointer-events-none transition-opacity duration-300">
-        <p class="text-text/50 text-xs font-ubuntu-mono">
+      <div id="click-me-text" class="absolute -bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 transition-opacity duration-300">
+        <p class="text-text/70 text-xs font-ubuntu-mono pointer-events-none whitespace-nowrap">
           {i18n.CLICK_ME || "Click me!"}
         </p>
+        <div class="flex gap-2">
+          <button
+            type="button"
+            data-harogatos="stacker"
+            class="press [--press:2px] flex items-center gap-1.5 px-2.5 py-1 border-2 border-text bg-white text-text font-ubuntu-mono font-bold text-xs whitespace-nowrap"
+          >
+            <PixelIcon name="gamepad" className="w-3.5 h-3.5" />
+            {i18n.PLAY_STACKER}
+          </button>
+        </div>
       </div>
     </div>
 
@@ -240,7 +250,7 @@ const t = useTranslations(lang);
     if (window.innerWidth < FLOAT_MIN_WIDTH) {
       returnToHero();
       const hint = document.querySelector('#click-me-text') as HTMLElement;
-      if (hint) hint.style.opacity = '1';
+      if (hint) { hint.style.opacity = '1'; hint.style.visibility = ''; }
       return;
     }
 
@@ -260,11 +270,11 @@ const t = useTranslations(lang);
         pcContainer.style.height = '200px';
         pcContainer.style.zIndex = '50';
 
-        if (clickMeText) clickMeText.style.opacity = '0';
+        if (clickMeText) { clickMeText.style.opacity = '0'; clickMeText.style.visibility = 'hidden'; }
         if (spacer) spacer.classList.remove('hidden');
       } else {
         returnToHero();
-        if (clickMeText) clickMeText.style.opacity = '1';
+        if (clickMeText) { clickMeText.style.opacity = '1'; clickMeText.style.visibility = ''; }
       }
     }
   });
@@ -275,7 +285,7 @@ const t = useTranslations(lang);
     if (pcContainer.style.position === 'fixed' && window.innerWidth < FLOAT_MIN_WIDTH) {
       returnToHero();
       const clickMeText = document.querySelector('#click-me-text') as HTMLElement;
-      if (clickMeText) clickMeText.style.opacity = '1';
+      if (clickMeText) { clickMeText.style.opacity = '1'; clickMeText.style.visibility = ''; }
     }
   });
 

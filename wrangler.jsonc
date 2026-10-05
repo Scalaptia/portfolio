@@ -1,9 +1,24 @@
 {
     "name": "portfolio",
+    "main": "worker/index.ts",
     "compatibility_date": "2026-08-01",
     "assets": {
         "directory": "./dist",
+        "binding": "ASSETS",
         "html_handling": "auto-trailing-slash",
-        "not_found_handling": "404-page"
+        "not_found_handling": "404-page",
+        // Everything else is served straight from the static build without waking the Worker.
+        "run_worker_first": ["/api/*"]
+    },
+    "d1_databases": [
+        {
+            "binding": "DB",
+            "database_name": "portfolio",
+            "database_id": "0035b4f6-c3a7-4c1b-8f53-bf62db2b9380",
+            "migrations_dir": "migrations"
+        }
+    ],
+    "observability": {
+        "enabled": true
     }
 }

@@ -19,6 +19,10 @@ import { Send } from "pixelarticons/react/Send";
 import { Expand } from "pixelarticons/react/Expand";
 import { Power } from "pixelarticons/react/Power";
 import { Terminal } from "pixelarticons/react/Terminal";
+import { Home } from "pixelarticons/react/Home";
+import { Gamepad } from "pixelarticons/react/Gamepad";
+import { Trophy } from "pixelarticons/react/Trophy";
+import { ChevronUp } from "pixelarticons/react/ChevronUp";
 
 export type IconName =
   | "github"
@@ -44,7 +48,11 @@ export type IconName =
   | "send"
   | "maximize"
   | "power"
-  | "terminal";
+  | "terminal"
+  | "home"
+  | "gamepad"
+  | "trophy"
+  | "chevron-up";
 
 const customIcons: Record<string, string> = {
   github:
@@ -80,6 +88,10 @@ const iconMap: Record<
   maximize: Expand,
   power: Power,
   terminal: Terminal,
+  home: Home,
+  gamepad: Gamepad,
+  trophy: Trophy,
+  "chevron-up": ChevronUp,
   "chevron-down": ChevronDown,
   github: (() => null) as any,
   linkedin: (() => null) as any,

@@ -18,6 +18,11 @@ export default defineConfig({
     vite: {
         server: {
             allowedHosts: true,
+            // The arcade API is the Worker in worker/. Run `npm run dev:api` next to `npm run dev`
+            // and astro dev hands /api over to it. Without it, the games run without a scoreboard.
+            proxy: {
+                '/api': 'http://localhost:8787',
+            },
         },
         ssr: {
             noExternal: ['pixelarticons'],

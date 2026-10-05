@@ -5,6 +5,7 @@ import {
   useTranslatedPath,
 } from "@/i18n/utils";
 import { languages } from "@/i18n/ui";
+import { getI18N } from "@/i18n/index";
 
 export interface FooterProps {
   hideLanguagePicker?: boolean;
@@ -14,10 +15,18 @@ const { hideLanguagePicker } = Astro.props;
 const currentPath = Astro.url;
 const lang = getLangFromUrl(currentPath);
 const translatePath = useTranslatedPath(lang);
+const i18n = getI18N({ currentLocale: Astro.currentLocale });
 ---
 
 <footer class="flex flex-col items-center gap-2 mt-auto">
   <div class="text-lg text-center text-primary font-ubuntu-mono">
     <a href="/">&copy; {new Date().getFullYear()} Fernando Haro Calvo</a>
   </div>
+  <button
+    type="button"
+    data-harogatos="stacker"
+    class="mb-4 font-ubuntu-mono text-sm text-text underline underline-offset-4 decoration-text/30 hover:text-primary hover:decoration-primary transition-colors duration-150"
+  >
+    {i18n.PLAY_STACKER}
+  </button>
 </footer>
