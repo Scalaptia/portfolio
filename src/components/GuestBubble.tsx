@@ -21,13 +21,15 @@ export default function GuestBubble() {
     });
   }, []);
 
+  const visible = !!shown?.bubble;
+
   // The "click me" hint sits where the bubble goes.
   useEffect(() => {
     const hint = document.getElementById("click-me-text");
-    if (hint) hint.style.visibility = shown ? "hidden" : "";
-  }, [shown]);
+    if (hint) hint.style.visibility = visible ? "hidden" : "";
+  }, [visible]);
 
-  if (!shown) return null;
+  if (!shown || !visible) return null;
 
   const t = document.documentElement.lang === "es" ? TEXT.es : TEXT.en;
   const { author, message } = shown.face;

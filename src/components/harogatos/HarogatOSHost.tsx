@@ -10,9 +10,6 @@ const KONAMI = [
   "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight",
   "b", "a",
 ];
-// Typing either of these anywhere that is not a text field boots the machine.
-const WORDS = ["play", "harogatos"];
-
 const typing = (target: EventTarget | null) => {
   const el = target as HTMLElement | null;
   return !!el && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName));
@@ -24,29 +21,26 @@ export default function HarogatOSHost() {
 
   useEffect(() => {
     let keys: string[] = [];
-    let letters = "";
 
     const onKey = (e: KeyboardEvent) => {
       if (e.metaKey || e.ctrlKey || e.altKey || typing(e.target)) return;
 
       const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
       keys = [...keys, key].slice(-KONAMI.length);
-      letters = (letters + (key.length === 1 ? key : " ")).slice(-12);
 
-      const konami = keys.length === KONAMI.length && keys.every((k, i) => k === KONAMI[i]);
-      if (konami || WORDS.some((word) => letters.endsWith(word))) {
+      if (keys.length === KONAMI.length && keys.every((k, i) => k === KONAMI[i])) {
         keys = [];
-        letters = "";
-        openOS(konami ? "stacker" : "desktop");
+        openOS("stacker");
       }
     };
 
-    // Anything with data-harogatos opens it, at the app it names. The footer prompt is one.
+    // Anything with data-harogatos opens it, at the app it names. The play button under the PC and
+    // the footer link are two.
     const onClick = (e: MouseEvent) => {
       const opener = (e.target as HTMLElement | null)?.closest<HTMLElement>("[data-harogatos]");
       if (!opener) return;
       e.preventDefault();
-      openOS((opener.dataset.harogatos || "desktop") as AppId);
+      openOS((opener.dataset.harogatos || "stacker") as AppId);
     };
 
     window.addEventListener("keydown", onKey);

@@ -18,7 +18,7 @@ import { playNotes } from "@/components/pc-model/sounds";
 import FaceIcon from "./FaceIcon";
 import { INVERSE } from "./phosphor";
 
-// FACES.EXE. Draw a face for the PC, sign it, send it. It goes into a queue, Fernando approves it
+// Draw a face for the PC, sign it, send it. It goes into a queue, Fernando approves it
 // or not, and approved faces take turns on the PC for everyone. Yours shows up for you at once.
 
 type View = "draw" | "sign" | "sent" | "gallery";
@@ -197,7 +197,10 @@ function Canvas({
       <canvas
         ref={canvas}
         style={{ width: size, height: size, touchAction: "none" }}
-        className="border-[0.4cqh] border-[var(--fg)] shadow-[0_0_1.5cqh_var(--glow)] cursor-crosshair"
+        tabIndex={0}
+        role="img"
+        aria-label="Drawing grid. Arrow keys move the cursor, space paints a cell, enter signs it."
+        className="border-[0.4cqh] border-[var(--fg)] cursor-crosshair outline-none focus-visible:outline-[0.4cqh] focus-visible:outline-offset-[0.4cqh] focus-visible:outline-[var(--fg)]"
         onPointerDown={(e) => {
           e.currentTarget.setPointerCapture(e.pointerId);
           const at = cellAt(e);
@@ -353,12 +356,9 @@ export default function Faces({ onExit, tall = false }: { onExit: () => void; ta
 
   return (
     <div className="absolute inset-0 flex flex-col">
-      <div className={`flex justify-between items-center px-[3cqh] py-[0.5cqh] ${INVERSE}`}>
-        <span>FACES.EXE</span>
-        <span className="flex gap-[0.5cqh]">
-          {tab("draw", "DRAW")}
-          {tab("gallery", "GALLERY")}
-        </span>
+      <div className={`flex justify-center gap-[0.5cqh] px-[3cqh] py-[0.5cqh] ${INVERSE}`}>
+        {tab("draw", "DRAW")}
+        {tab("gallery", "GALLERY")}
       </div>
 
       {view === "draw" && (
@@ -399,7 +399,7 @@ export default function Faces({ onExit, tall = false }: { onExit: () => void; ta
                   className={`w-[4.5cqh] h-[4.5cqh] border-[0.4cqh] ${
                     scheme === s ? "border-[var(--fg)] outline outline-[0.3cqh] outline-offset-[0.3cqh] outline-[var(--fg)]" : "border-transparent"
                   }`}
-                  style={{ background: CRT_COLORS[s].fg, boxShadow: `0 0 1cqh ${CRT_COLORS[s].glow}` }}
+                  style={{ background: CRT_COLORS[s].fg }}
                 />
               ))}
             </div>
@@ -422,7 +422,7 @@ export default function Faces({ onExit, tall = false }: { onExit: () => void; ta
       {view === "sign" && (
         <div className={`flex-1 min-h-0 flex ${tall ? "flex-col items-center" : "items-center"} gap-[4cqh] px-[5cqh] py-[3cqh]`}>
           <div className="flex flex-col items-center gap-[1.5cqh] shrink-0">
-            <div className="border-[0.5cqh] border-[var(--fg)] p-[1cqh] shadow-[0_0_1.5cqh_var(--glow)]">
+            <div className="border-[0.5cqh] border-[var(--fg)] p-[1cqh]">
               <FaceIcon art={art} color={preview.color} accent={preview.accent} className={tall ? "w-[22cqh] h-[22cqh]" : "w-[34cqh] h-[34cqh]"} />
             </div>
           </div>
@@ -476,13 +476,12 @@ export default function Faces({ onExit, tall = false }: { onExit: () => void; ta
 
       {view === "sent" && (
         <div className="flex-1 flex flex-col items-center justify-center gap-[2.5cqh] text-center px-[5cqh]">
-          <div className="border-[0.5cqh] border-[var(--fg)] p-[1cqh] shadow-[0_0_1.5cqh_var(--glow)]">
+          <div className="border-[0.5cqh] border-[var(--fg)] p-[1cqh]">
             <FaceIcon art={art} color={preview.color} accent={preview.accent} className="w-[26cqh] h-[26cqh]" />
           </div>
           <div className="text-[1.4em]">SENT!</div>
           <p className="text-[0.8em] opacity-80 max-w-[44ch] leading-[1.5]">
-            It's on your PC now. Close harogatOS and wait a few seconds. Everyone else gets it once Fernando
-            says yes.
+            It's on your PC for the rest of this visit. Everyone else sees it once Fernando approves it.
           </p>
           <div className="flex gap-[2cqh]">
             <button
@@ -495,7 +494,7 @@ export default function Faces({ onExit, tall = false }: { onExit: () => void; ta
               DRAW ANOTHER
             </button>
             <button onClick={onExit} className={`px-[1.6cqh] ${INVERSE}`}>
-              DESKTOP
+              SEE IT ON THE PC
             </button>
           </div>
         </div>

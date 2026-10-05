@@ -124,15 +124,9 @@ export function Hiscores({ onExit }: { onExit: () => void }) {
   }, [onExit]);
 
   return (
-    <div className="absolute inset-0 flex flex-col">
-      <div className={`px-[3cqh] py-[0.8cqh] ${INVERSE}`}>HISCORES.TXT</div>
-      <div className="flex-1 flex flex-col items-center justify-center gap-[3cqh]">
-        <div className="text-[1.2em]">BEST STACKERS</div>
-        {rows === undefined ? <div className="crt-led">LOADING...</div> : <Board rows={rows} />}
-      </div>
-      <div className="px-[3cqh] py-[1.2cqh] text-[0.75em] opacity-70 border-t-[0.4cqh] border-[var(--dim)]">
-        ESC BACK
-      </div>
+    <div className="absolute inset-0 flex flex-col items-center justify-center gap-[3cqh]">
+      <div className="text-[1.2em]">BEST STACKERS</div>
+      {rows === undefined ? <div>LOADING...</div> : <Board rows={rows} />}
     </div>
   );
 }
@@ -556,7 +550,7 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
           <div>{rank ? `YOU PLACED #${rank}` : `${pad(score, 4)} POINTS`}</div>
           <Board rows={board} highlight={rank && rank <= 10 ? rank : undefined} offline={offline && !board} />
           <div className="text-[0.75em] opacity-70 crt-led">
-            {tall ? "TAP TO PLAY AGAIN" : "SPACE AGAIN · ESC DESKTOP"}
+            {tall ? "TAP TO PLAY AGAIN" : "SPACE TO PLAY AGAIN"}
           </div>
         </>
       )}

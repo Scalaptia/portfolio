@@ -23,6 +23,7 @@ import { Home } from "pixelarticons/react/Home";
 import { Gamepad } from "pixelarticons/react/Gamepad";
 import { Trophy } from "pixelarticons/react/Trophy";
 import { ChevronUp } from "pixelarticons/react/ChevronUp";
+import { Brush } from "pixelarticons/react/Brush";
 
 export type IconName =
   | "github"
@@ -52,7 +53,8 @@ export type IconName =
   | "home"
   | "gamepad"
   | "trophy"
-  | "chevron-up";
+  | "chevron-up"
+  | "brush";
 
 const customIcons: Record<string, string> = {
   github:
@@ -92,6 +94,7 @@ const iconMap: Record<
   gamepad: Gamepad,
   trophy: Trophy,
   "chevron-up": ChevronUp,
+  brush: Brush,
   "chevron-down": ChevronDown,
   github: (() => null) as any,
   linkedin: (() => null) as any,

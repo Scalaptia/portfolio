@@ -390,3 +390,19 @@
     animation: none !important;
   }
 }
+
+/* --- harogatOS opening and closing ------------------------------------------------------------ */
+
+@keyframes os-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@keyframes os-out {
+  to {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
