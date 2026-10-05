@@ -183,8 +183,8 @@ const personSchema = {
 </html>
 
 <script>
-  // Every navigation is the tube going off and on. Switching language is the exception: the page
-  // is the same, only the station changed, so it gets the channel-change look instead. The router
+  // Every navigation is a short blink of the tube. Switching language is the exception: the page
+  // is the same, only the station changed, so it gets a burst of static instead. The router
   // writes the direction onto <html> before the old page is captured, which is what the CSS keys
   // off. See crt-transition.css.
   const withoutLang = (url: URL) => url.pathname.replace(/^\/es(?=\/|$)/, "") || "/";
@@ -196,10 +196,12 @@ const personSchema = {
   });
 
   // The new page is captured live, so starting the veil after the swap puts scanlines over it
-  // while it warms up.
+  // while it fades in. Removing the class first restarts the animation on back-to-back clicks.
   document.addEventListener("astro:after-swap", () => {
     const veil = document.getElementById("crt-veil");
-    if (!veil) return;
+    if (!veil || document.documentElement.dataset.astroTransition === "channel") return;
+    veil.classList.remove("is-warming");
+    void veil.offsetWidth;
     veil.classList.add("is-warming");
     veil.addEventListener("animationend", () => veil.classList.remove("is-warming"), { once: true });
   });
