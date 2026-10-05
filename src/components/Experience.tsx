@@ -34,7 +34,7 @@ const Experience: React.FC<ExperienceProps> = ({ experiences }) => {
             return (
             <div key={index} className="relative flex items-start gap-3 sm:gap-6">
               {/* Timeline dot. The logo links to the company, same as its name in the card. */}
-              <div className="flex-shrink-0 relative z-10">
+              <div className="shrink-0 relative z-10">
                 {(() => {
                   const tile = `w-10 h-10 sm:w-12 sm:h-12 border-2 sm:border-4 border-text flex items-center justify-center relative overflow-hidden ${experience.logo ? experience.logoOnDark ? "bg-text" : "bg-white" : "bg-primary text-background"}`;
                   const face = experience.logo ? (
@@ -65,7 +65,7 @@ const Experience: React.FC<ExperienceProps> = ({ experiences }) => {
               </div>
 
               {/* Content */}
-              <div className="flex-1 bg-background/80 backdrop-blur-sm border-2 sm:border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] sm:shadow-[8px_8px_0px_0px_rgba(65,44,71,1)] p-4 sm:p-6 relative">
+              <div className="flex-1 bg-background/80 backdrop-blur-xs border-2 sm:border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] sm:shadow-[8px_8px_0px_0px_rgba(65,44,71,1)] p-4 sm:p-6 relative">
                 {/* Decorative corner elements */}
                 <div className="absolute top-0 left-0 w-6 h-6 border-r-4 border-b-4 border-text/30"></div>
                 <div className="absolute bottom-0 right-0 w-6 h-6 border-l-4 border-t-4 border-text/30"></div>
@@ -108,7 +108,7 @@ const Experience: React.FC<ExperienceProps> = ({ experiences }) => {
                     ).map((line, i) => (
                       <p
                         key={i}
-                        className="text-text font-open-sans text-sm sm:text-base leading-relaxed text-center sm:text-left"
+                        className="text-text font-open-sans text-sm sm:text-base sm:leading-6 leading-relaxed text-center sm:text-left"
                       >
                         {line}
                       </p>

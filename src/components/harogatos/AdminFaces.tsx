@@ -140,7 +140,7 @@ export default function AdminFaces() {
                 <p className="font-bold">
                   #{face.id} {face.author}
                 </p>
-                <p className="text-sm break-words">{face.message || <span className="text-text/50">(no note)</span>}</p>
+                <p className="text-sm wrap-break-word">{face.message || <span className="text-text/50">(no note)</span>}</p>
                 <p className="text-xs text-text/50 mt-1">{new Date(face.at).toLocaleString()}</p>
               </div>
               <div className="flex gap-2 mt-auto">

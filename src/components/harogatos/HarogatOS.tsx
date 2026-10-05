@@ -97,7 +97,7 @@ export default function HarogatOS() {
       aria-modal="true"
       aria-label="harogatOS"
       onKeyDown={onKeyDown}
-      className="fixed inset-0 z-[70] flex items-center justify-center px-2 py-3 sm:px-6 sm:py-8"
+      className="fixed inset-0 z-70 flex items-center justify-center px-2 py-3 sm:px-6 sm:py-8"
       onClick={requestClose}
     >
       <div className="absolute inset-0 bg-text/85" style={{ animation: fade(!closing) }} />
@@ -110,7 +110,7 @@ export default function HarogatOS() {
         <div className="p-2 sm:p-4">
           <div className="bg-text p-1 sm:p-2.5" style={{ borderRadius: "32px / 40px" }}>
             <div
-              className="crt-screen crt-glass crt-scanlines crt-curve select-none [container-type:size]"
+              className="crt-screen crt-glass crt-scanlines crt-curve select-none @container-size"
               style={{
                 ...phosphorVars(PHOSPHOR.amber),
                 "--crt-aspect": tall ? "0.78" : "1.3333",
@@ -142,7 +142,7 @@ export default function HarogatOS() {
                 key={tab.id}
                 onClick={() => launch(tab.id)}
                 aria-current={app === tab.id ? "page" : undefined}
-                className={`${BUTTON} px-3 ${app === tab.id ? "!bg-primary !text-white" : ""}`}
+                className={`${BUTTON} px-3 ${app === tab.id ? "bg-primary! text-white!" : ""}`}
               >
                 <PixelIcon name={tab.icon} className="w-4 h-4" />
                 {tab.label}

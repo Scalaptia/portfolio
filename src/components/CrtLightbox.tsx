@@ -520,7 +520,7 @@ export default function CrtLightbox() {
               <span className="text-white/40 font-ubuntu-mono text-xs">{item.caption}</span>
             )}
             {item.description && (
-              <p className="text-white/75 font-open-sans text-sm sm:text-base mt-0.5 leading-relaxed">
+              <p className="text-white/75 font-open-sans text-sm sm:text-base sm:leading-6 mt-0.5 leading-relaxed">
                 {item.description}
               </p>
             )}

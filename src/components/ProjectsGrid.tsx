@@ -26,7 +26,7 @@ export default function ProjectsGrid({
           </div>{" "}
           {/* Main project container */}
           <div
-            className="w-full bg-background/80 backdrop-blur-sm border-2 sm:border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] sm:shadow-[8px_8px_0px_0px_rgba(65,44,71,1)] relative overflow-hidden"
+            className="w-full bg-background/80 backdrop-blur-xs border-2 sm:border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] sm:shadow-[8px_8px_0px_0px_rgba(65,44,71,1)] relative overflow-hidden"
           >
             {/* Decorative corner elements */}
             <div className="absolute top-0 left-0 w-6 h-6 border-r-4 border-b-4 border-text/30"></div>
@@ -45,7 +45,7 @@ export default function ProjectsGrid({
             <div className="p-4 sm:p-6 relative z-10">
               {/* Title, with the context badge beside it wherever there is room for it */}
               <div className="mb-5 flex flex-col items-center gap-2 sm:flex-row sm:flex-wrap sm:items-baseline sm:justify-between sm:gap-4">
-                <h2 className="text-2xl sm:text-3xl font-black-han-sans text-text text-center sm:text-left leading-tight">
+                <h2 className="text-2xl sm:text-3xl sm:leading-9 font-black-han-sans text-text text-center sm:text-left leading-tight">
                   {project.title}
                 </h2>
                 {project.context && (
@@ -56,7 +56,7 @@ export default function ProjectsGrid({
               </div>
               {/* Project Description */}
               <div className="mb-5">
-                <p className="text-text text-base sm:text-lg leading-relaxed text-center sm:text-left font-open-sans">
+                <p className="text-text text-base sm:text-lg sm:leading-7 leading-relaxed text-center sm:text-left font-open-sans">
                   {project.description}
                 </p>
               </div>{" "}

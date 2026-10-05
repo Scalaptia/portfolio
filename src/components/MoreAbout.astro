@@ -13,7 +13,7 @@ const t = useTranslations(lang);
 ---
 
 <div
-  class="grid lg:grid-cols-[1fr_300px] gap-6 sm:gap-10 w-full bg-background/80 backdrop-blur-sm border-2 sm:border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] sm:shadow-[8px_8px_0px_0px_rgba(65,44,71,1)] p-4 sm:p-6 lg:p-8 relative"
+  class="grid lg:grid-cols-[1fr_300px] gap-6 sm:gap-10 w-full bg-background/80 backdrop-blur-xs border-2 sm:border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] sm:shadow-[8px_8px_0px_0px_rgba(65,44,71,1)] p-4 sm:p-6 lg:p-8 relative"
 >
   <!-- Decorative corner elements -->
   <div
@@ -29,11 +29,11 @@ const t = useTranslations(lang);
   <div class="flex flex-col justify-center relative z-10">
     <div class="flex flex-col gap-6">
       <p
-        class="text-text text-base sm:text-lg leading-relaxed text-center lg:text-left"
+        class="text-text text-base sm:text-lg sm:leading-7 leading-relaxed text-center lg:text-left"
         set:html={parseMarkdown(i18n.TEXT_MORE_ABOUT_1)}
       />
       <p
-        class="text-text text-base sm:text-lg leading-relaxed text-center lg:text-left"
+        class="text-text text-base sm:text-lg sm:leading-7 leading-relaxed text-center lg:text-left"
         set:html={parseMarkdown(i18n.TEXT_MORE_ABOUT_2)}
       />
     </div>

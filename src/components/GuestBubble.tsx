@@ -46,10 +46,10 @@ export default function GuestBubble() {
         {/* The tail, pointing at the PC */}
         <span
           className={`absolute left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-text rotate-45 ${
-            above ? "-bottom-[7px] border-r-2 border-b-2" : "-top-[7px] border-l-2 border-t-2"
+            above ? "bottom-[-7px] border-r-2 border-b-2" : "top-[-7px] border-l-2 border-t-2"
           }`}
         />
-        {message && <p className="text-sm break-words">"{message}"</p>}
+        {message && <p className="text-sm wrap-break-word">"{message}"</p>}
         <p className={message ? "mt-1 text-primary font-bold" : "text-primary font-bold"}>
           {t.by} {author}
         </p>

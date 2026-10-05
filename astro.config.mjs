@@ -1,11 +1,14 @@
 import { defineConfig } from 'astro/config'
-import tailwind from '@astrojs/tailwind'
+import tailwindcss from '@tailwindcss/vite'
 import react from '@astrojs/react'
 import imageSizes from './plugins/imageSizes.mjs'
 
 // https://astro.build/config
 export default defineConfig({
-    integrations: [tailwind(), react()],
+    integrations: [react()],
+    // Astro 7 strips whitespace the JSX way by default, which glued "Fernando" and "Haro" together
+    // in the hero. This keeps the HTML-aware compression every page was written against.
+    compressHTML: true,
     i18n: {
         locales: ['en', 'es'],
         defaultLocale: 'en',
@@ -17,7 +20,7 @@ export default defineConfig({
         },
     },
     vite: {
-        plugins: [imageSizes()],
+        plugins: [tailwindcss(), imageSizes()],
         server: {
             allowedHosts: true,
             // The arcade API is the Worker in worker/. Run `npm run dev:api` next to `npm run dev`

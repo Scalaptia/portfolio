@@ -43,7 +43,7 @@ const setFor = (project: OtherProject) => {
 
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
     {projects.map((project) => (
-      <div class="bg-background/80 backdrop-blur-sm border-2 sm:border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] relative overflow-hidden">
+      <div class="bg-background/80 backdrop-blur-xs border-2 sm:border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] relative overflow-hidden">
         {project.image && (
           <button
             type="button"
@@ -79,7 +79,7 @@ const setFor = (project: OtherProject) => {
               <a
                 href={project.repo}
                 target="_blank"
-                class="flex-shrink-0 text-text/60 hover:text-primary hover:scale-110 transition-all duration-150"
+                class="shrink-0 text-text/60 hover:text-primary hover:scale-110 transition-all duration-150"
               >
                 <PixelIcon name="link" className="w-4 h-4" />
               </a>
