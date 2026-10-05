@@ -17,6 +17,11 @@ export interface Env {
   ADMIN_TOKEN?: string;
   /** Secret, optional. A Discord webhook that hears about each new face. */
   DISCORD_WEBHOOK_URL?: string;
+  /** Secret. Turnstile's half of the bot check on new faces. Unset in local dev, which skips it. */
+  TURNSTILE_SECRET?: string;
+  /** Burst limits, counted at the edge before anything touches D1. See wrangler.jsonc. */
+  WRITE_LIMITER?: RateLimit;
+  ADMIN_LIMITER?: RateLimit;
 }
 
 const GAME = "stacker";
@@ -30,8 +35,18 @@ const SCORES_PER_HOUR = 40;
 const TIME_SLACK = 0.8;
 
 const FACES_PER_HOUR = 5;
+const FACES_PER_DAY = 12;
+// Every face waits for a person to look at it. Past this many waiting, new ones are turned away
+// until the queue is worked through, so a flood fills nothing but this number.
+const PENDING_MAX = 60;
+// Past this many new faces in ten minutes, Discord stops getting one message each.
+const NOTIFY_BURST = 6;
+// A face is about 400 bytes of JSON. Anything far bigger is not one.
+const BODY_MAX = 8 * 1024;
 const GALLERY_SIZE = 120;
 const SITE = "https://fharo.dev";
+// Pages that may write to the API. Others still read it, they just cannot post.
+const ORIGINS = [SITE, "http://localhost:4321", "http://127.0.0.1:4321"];
 
 const json = (body: unknown, status = 200, cache = "no-store") =>
   new Response(JSON.stringify(body), {
@@ -170,8 +185,14 @@ function asText(art: string[]): string {
   return art.map((row) => row.replace(/\./g, "  ").replace(/#/g, "██").replace(/@/g, "▒▒")).join("\n");
 }
 
-async function notify(env: Env, id: number, art: string[], author: string, message: string) {
+async function notify(env: Env, id: number, art: string[], author: string, message: string, burst: number) {
   if (!env.DISCORD_WEBHOOK_URL) return;
+  // In a flood, one heads-up instead of a message per face.
+  if (burst > NOTIFY_BURST) return;
+  if (burst === NOTIFY_BURST) {
+    await post(env.DISCORD_WEBHOOK_URL, `**${burst} new faces in ten minutes.** Going quiet until it calms down. Queue: ${SITE}/harogatos/admin`);
+    return;
+  }
   const content = [
     `**New face #${id}** by **${author}**${message ? `: "${message}"` : ""}`,
     "```",
@@ -179,8 +200,12 @@ async function notify(env: Env, id: number, art: string[], author: string, messa
     "```",
     `Review it at ${SITE}/harogatos/admin`,
   ].join("\n");
+  await post(env.DISCORD_WEBHOOK_URL, content);
+}
+
+async function post(webhook: string, content: string) {
   try {
-    await fetch(env.DISCORD_WEBHOOK_URL, {
+    await fetch(webhook, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ content: content.slice(0, 1990), allowed_mentions: { parse: [] } }),
@@ -190,8 +215,28 @@ async function notify(env: Env, id: number, art: string[], author: string, messa
   }
 }
 
+// Turnstile runs invisibly in the editor and hands over a one-use token. Cloudflare says whether
+// a person or a script earned it.
+async function human(token: unknown, request: Request, env: Env): Promise<boolean> {
+  if (!env.TURNSTILE_SECRET) return true;
+  if (typeof token !== "string" || !token || token.length > 2048) return false;
+  const form = new FormData();
+  form.append("secret", env.TURNSTILE_SECRET);
+  form.append("response", token);
+  const ip = request.headers.get("cf-connecting-ip");
+  if (ip) form.append("remoteip", ip);
+  try {
+    const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", { method: "POST", body: form });
+    const outcome = (await res.json()) as { success?: boolean; hostname?: string };
+    return !!outcome.success && (outcome.hostname === "fharo.dev" || outcome.hostname === "www.fharo.dev");
+  } catch (error) {
+    console.error("turnstile verify failed", error);
+    return false;
+  }
+}
+
 async function submitFace(request: Request, env: Env, ctx: ExecutionContext) {
-  let body: { art?: unknown; scheme?: unknown; author?: unknown; message?: unknown };
+  let body: { art?: unknown; scheme?: unknown; author?: unknown; message?: unknown; turnstile?: unknown };
   try {
     body = await request.json();
   } catch {
@@ -207,14 +252,19 @@ async function submitFace(request: Request, env: Env, ctx: ExecutionContext) {
   const message = cleanText(body.message, MESSAGE_MAX, false);
   if (message === null) return fail("message");
 
+  if (!(await human(body.turnstile, request, env))) return fail("bot", 403);
+
   const who = await visitor(request);
   const now = Date.now();
-  const recent = await env.DB.prepare(
-    "SELECT COUNT(*) AS n FROM faces WHERE ip_hash = ? AND created_at > ?",
-  )
-    .bind(who, now - 60 * 60 * 1000)
-    .first<{ n: number }>();
-  if ((recent?.n ?? 0) >= FACES_PER_HOUR) return fail("slow-down", 429);
+  const [hour, day, pending, burst] = await env.DB.batch<{ n: number }>([
+    env.DB.prepare("SELECT COUNT(*) AS n FROM faces WHERE ip_hash = ? AND created_at > ?").bind(who, now - 60 * 60 * 1000),
+    env.DB.prepare("SELECT COUNT(*) AS n FROM faces WHERE ip_hash = ? AND created_at > ?").bind(who, now - 24 * 60 * 60 * 1000),
+    env.DB.prepare("SELECT COUNT(*) AS n FROM faces WHERE status = 'pending'"),
+    env.DB.prepare("SELECT COUNT(*) AS n FROM faces WHERE created_at > ?").bind(now - 10 * 60 * 1000),
+  ]);
+  const count = (r: D1Result<{ n: number }>) => r.results[0]?.n ?? 0;
+  if (count(hour) >= FACES_PER_HOUR || count(day) >= FACES_PER_DAY) return fail("slow-down", 429);
+  if (count(pending) >= PENDING_MAX) return fail("queue-full", 503);
 
   const row = await env.DB.prepare(
     `INSERT INTO faces (art, scheme, author, message, ip_hash, created_at)
@@ -224,7 +274,7 @@ async function submitFace(request: Request, env: Env, ctx: ExecutionContext) {
     .first<{ id: number }>();
   const id = row?.id ?? 0;
 
-  ctx.waitUntil(notify(env, id, art, author, message));
+  ctx.waitUntil(notify(env, id, art, author, message, count(burst) + 1));
   return json({ id, status: "pending" }, 201);
 }
 
@@ -280,7 +330,27 @@ async function admin(request: Request, env: Env, path: string) {
 
 // --- routing ----------------------------------------------------------------------------------
 
+// Cheap checks every write goes through before any real work: the page it came from, its size,
+// and a burst limit per visitor at the edge. The per-hour and per-day limits in D1 come after.
+async function guard(request: Request, env: Env, path: string): Promise<Response | null> {
+  const admin = path.startsWith("/api/admin/");
+  const limiter = admin ? env.ADMIN_LIMITER : env.WRITE_LIMITER;
+  if (limiter && !(await limiter.limit({ key: await visitor(request) })).success) return fail("slow-down", 429);
+  if (request.method !== "POST") return null;
+
+  const origin = request.headers.get("origin");
+  if (!origin || !ORIGINS.includes(origin)) return fail("origin", 403);
+  const length = Number(request.headers.get("content-length") ?? "0");
+  if (length > BODY_MAX) return fail("too-big", 413);
+  return null;
+}
+
 async function api(request: Request, env: Env, path: string, ctx: ExecutionContext): Promise<Response> {
+  if (request.method === "POST" || path.startsWith("/api/admin/")) {
+    const refused = await guard(request, env, path);
+    if (refused) return refused;
+  }
+
   if (path === "/api/faces" && request.method === "GET") {
     return json({ faces: await approvedFaces(env) }, 200, "public, max-age=60");
   }

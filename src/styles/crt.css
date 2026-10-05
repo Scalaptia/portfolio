@@ -214,6 +214,36 @@
 
 
 
+/* harogatOS has no caption or dots under the case, only its button bar, so it can take more of
+   the screen than the picture viewer. On an upright phone the case is laid out to fill the dialog
+   and the glass takes the rest, so it is sized by flex, not by these. */
+.os-screen.os-fill {
+  width: auto;
+  height: auto;
+  flex: 1;
+}
+
+@media (min-width: 640px) {
+  .os-screen {
+    --crt-max-w: min(100vw - 8rem, 1040px);
+    --crt-max-h: min(100vh - 12rem, 720px);
+  }
+
+  @supports (height: 100dvh) {
+    .os-screen {
+      --crt-max-h: min(100dvh - 12rem, 720px);
+    }
+  }
+}
+
+/* A phone on its side has height to spare for nothing. The dialog and case drop most of their
+   padding there, and the glass gets everything but the button bar. */
+@media (min-width: 640px) and (max-height: 520px) {
+  .os-screen {
+    --crt-max-h: calc(100dvh - 6.5rem);
+  }
+}
+
 /* --- the little carousel on the page -------------------------------------------------------- */
 
 /* The same channel change the viewer does, smaller and quicker, for a thumbnail strip. */
@@ -349,14 +379,12 @@
 
 /* --- the PC saying whose face it has on ------------------------------------------------------- */
 
+/* Only the rise. The centring comes from Tailwind's -translate-x-1/2, which is the separate
+   `translate` property since Tailwind 4, so repeating -50% here would shift it twice. */
 @keyframes guest-bubble-in {
   from {
     opacity: 0;
-    transform: translate(-50%, 4px);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, 0);
+    transform: translateY(4px);
   }
 }
 

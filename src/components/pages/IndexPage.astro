@@ -103,10 +103,10 @@ const t = useTranslations(lang);
       <PCModel client:only="react" />
 
       <div id="click-me-text" class="absolute -bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 transition-opacity duration-300">
-        <p class="text-text/70 text-xs font-ubuntu-mono pointer-events-none whitespace-nowrap">
+        <p id="click-me-caption" class="text-text/70 text-xs font-ubuntu-mono pointer-events-none whitespace-nowrap">
           {i18n.CLICK_ME || "Click me!"}
         </p>
-        <div class="flex gap-2">
+        <div id="pc-actions" class="flex gap-2">
           <button
             type="button"
             data-harogatos="stacker"

@@ -191,7 +191,7 @@ function Scene() {
             return
         }
 
-        // Your own face stays on through hovers and clicks for the whole session.
+        // A pinned face stays on through hovers until the PC is clicked.
         if (guest?.pinned) {
             drawFace(ctx, guestFace(guest.face.art, guest.face.scheme), gaze)
         } else if (isHeroHovered) {
@@ -282,10 +282,9 @@ function Scene() {
         // While it is off or rebooting, poking it does nothing. That is the joke.
         if (mode !== 'awake') return
 
-        // Wearing someone else's face, a click just hands it back its own. Yours it keeps, and the
-        // click only puts the bubble away before counting toward the rage shutdown as usual.
-        if (guest?.pinned) dismissShown()
-        else if (guest) {
+        // Wearing someone else's face, pinned or not, a click hands it back its own and the
+        // rotation starts over.
+        if (guest) {
             dismissShown()
             triggerBounce()
             return
