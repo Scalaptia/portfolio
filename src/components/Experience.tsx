@@ -33,19 +33,35 @@ const Experience: React.FC<ExperienceProps> = ({ experiences }) => {
 
             return (
             <div key={index} className="relative flex items-start gap-3 sm:gap-6">
-              {/* Timeline dot */}
+              {/* Timeline dot. The logo links to the company, same as its name in the card. */}
               <div className="flex-shrink-0 relative z-10">
-                <div className={`w-10 h-10 sm:w-12 sm:h-12 border-2 sm:border-4 border-text shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] sm:shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] flex items-center justify-center relative overflow-hidden ${experience.logo ? experience.logoOnDark ? "bg-text" : "bg-white" : "bg-primary text-background"}`}>
-                  {experience.logo ? (
+                {(() => {
+                  const tile = `w-10 h-10 sm:w-12 sm:h-12 border-2 sm:border-4 border-text flex items-center justify-center relative overflow-hidden ${experience.logo ? experience.logoOnDark ? "bg-text" : "bg-white" : "bg-primary text-background"}`;
+                  const face = experience.logo ? (
                     <img
                       src={experience.logo}
-                      alt={`${experience.company} logo`}
+                      alt={experience.link ? "" : `${experience.company} logo`}
                       className={`w-full h-full object-contain ${experience.logoOnDark ? "p-0.5" : ""}`}
                     />
                   ) : (
                     <PixelIcon name={experience.icon ?? "briefcase"} className="w-5 h-5" />
-                  )}
-                </div>
+                  );
+                  return experience.link ? (
+                    <a
+                      href={experience.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={experience.company}
+                      className={`press [--press:2px] sm:[--press:4px] ${tile}`}
+                    >
+                      {face}
+                    </a>
+                  ) : (
+                    <div className={`${tile} shadow-[2px_2px_0px_0px_rgba(65,44,71,1)] sm:shadow-[4px_4px_0px_0px_rgba(65,44,71,1)]`}>
+                      {face}
+                    </div>
+                  );
+                })()}
               </div>
 
               {/* Content */}

@@ -1,7 +1,7 @@
 // One viewer, several openers.
 //
 // Half a dozen places on the site can open a picture: the highlight grid, MediaGallery in both its
-// carousel and grid modes, the other-projects cards, the portrait in the about section. Astro
+// carousel and grid modes and the other-projects cards. Astro
 // islands are independent React roots, so they cannot share context, but they do share the
 // browser's module graph. The open image therefore lives here, in module scope, and everyone
 // subscribes.
