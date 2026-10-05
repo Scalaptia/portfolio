@@ -6,7 +6,6 @@
 
 import { readdir } from "node:fs/promises";
 import path from "node:path";
-import sharp from "sharp";
 
 const ID = "virtual:image-sizes";
 const RESOLVED = "\0" + ID;
@@ -25,6 +24,14 @@ async function files(dir) {
 
 async function measure(root) {
   const sizes = {};
+  // sharp comes in through Astro's optional dependencies. Without it the map is empty and the
+  // viewer measures each picture on load, as it did before.
+  let sharp;
+  try {
+    sharp = (await import("sharp")).default;
+  } catch {
+    return sizes;
+  }
   for (const file of await files(root)) {
     try {
       const { width, height, orientation } = await sharp(file).metadata();
