@@ -2,21 +2,31 @@
 import Layout from "@/layouts/Layout.astro";
 
 // Every sound on the site, one button each, for tuning them. Not linked from anywhere.
-// The recipes are in sfx/sounds.txt; `npm run sfx` rebuilds the files these play.
+// Recordings are listed in sfx/RECORDINGS.md. The rFXGen recipes are in sfx/sounds.txt, and
+// `npm run sfx` rebuilds those files.
+
+// Candidates for the CRT, not used anywhere yet. Delete the losers from public/sfx/alt.
+const alternatives: [string, string][] = [
+  ["crt-on-b", "On: another computer monitor"],
+  ["crt-on-c", "On: a TV relay click and static"],
+  ["crt-off-b", "Off: another computer monitor"],
+  ["crt-off-c", "Off: a TV click and static"],
+];
 const groups: [string, [string, string][]][] = [
-  ["HARO-PC", [
+  ["HARO-PC (recordings)", [
     ["pc-click", "Clicking the PC"],
     ["pc-guest", "A visitor's face comes up"],
-    ["pc-confirm", "Email copied, SHOW ON PC"],
-    ["pc-off", "Rage shutdown"],
-    ["pc-boot", "Coming back on"],
-    ["pc-seek", "The drive, while it boots"],
+    ["pc-confirm", "Copying the email"],
+    ["pc-insert", "SHOW ON PC"],
+    ["pc-button", "Rage shutdown, before the screen goes off"],
+    ["pc-beep", "Coming back on: the self-test beep"],
+    ["pc-seek", "...then the floppy seeking"],
   ]],
-  ["Screens", [
-    ["crt-on", "Picture viewer or harogatOS opens"],
-    ["crt-off", "...and closes"],
+  ["Screen (recordings)", [
+    ["crt-on", "Picture viewer or harogatOS opens, the PC coming back on"],
+    ["crt-off", "...and closes, the PC shutting down"],
   ]],
-  ["Stacker", [
+  ["Stacker (rFXGen)", [
     ["stk-start", "New game"],
     ["stk-place", "A row lands (bottom note, rises per row)"],
     ["stk-perfect", "Perfect landing (also rises)"],
@@ -25,7 +35,7 @@ const groups: [string, [string, string][]][] = [
     ["stk-win", "Reaching the top"],
     ["ui-key", "Changing a letter of your initials"],
   ]],
-  ["Faces", [
+  ["Faces (rFXGen)", [
     ["ui-pen", "Painting a cell"],
     ["ui-erase", "Erasing a cell"],
     ["face-sent", "Face sent"],
@@ -54,6 +64,21 @@ const groups: [string, [string, string][]][] = [
           </div>
         </section>
       ))}
+      <section>
+        <h2 class="font-black-han-sans text-text text-xl mb-3">CRT alternatives</h2>
+        <div class="grid gap-3 sm:grid-cols-2">
+          {alternatives.map(([name, what]) => (
+            <button
+              type="button"
+              data-alt={name}
+              class="press [--press:3px] flex items-center gap-3 border-2 border-text bg-white px-3 py-2 text-left"
+            >
+              <span class="font-ubuntu-mono font-bold text-text">{name}</span>
+              <span class="font-open-sans text-sm text-text/70">{what}</span>
+            </button>
+          ))}
+        </div>
+      </section>
     </div>
   </main>
 </Layout>
@@ -64,5 +89,7 @@ const groups: [string, [string, string][]][] = [
   document.addEventListener("click", (e) => {
     const button = (e.target as HTMLElement | null)?.closest<HTMLElement>("[data-sfx]");
     if (button) play(button.dataset.sfx as Sfx);
+    const alt = (e.target as HTMLElement | null)?.closest<HTMLElement>("[data-alt]");
+    if (alt) void new Audio(`/sfx/alt/${alt.dataset.alt}.wav`).play();
   });
 </script>

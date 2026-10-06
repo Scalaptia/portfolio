@@ -575,7 +575,7 @@ export default function Faces({ onExit, tall = false }: { onExit: () => void; ta
                     className={`px-[1.6cqh] py-[0.4cqh] shrink-0 ${INVERSE}`}
                     onClick={() => {
                       wearFace(gallery[picked]);
-                      play("pc-confirm");
+                      play("pc-insert");
                       onExit();
                     }}
                   >

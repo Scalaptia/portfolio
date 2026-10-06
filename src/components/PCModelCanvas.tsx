@@ -198,15 +198,19 @@ function Scene() {
 
         scheduleRage(() => {
             setMode('off')
-            play('pc-off')
+            // The power button, then the tube going dark.
+            play('pc-button')
+            play('crt-off', { delay: 0.12 })
         }, 900)
 
         scheduleRage(() => {
             setMode('booting')
             setBootFrame(0)
-            // The self-test beep, then the drive seeking while the boot frames run.
-            play('pc-boot')
-            play('pc-seek', { delay: 0.35 })
+            // The tube warming up, the self-test beep, then the floppy seeking while the boot
+            // frames run.
+            play('crt-on')
+            play('pc-beep', { delay: 0.55 })
+            play('pc-seek', { delay: 0.9 })
 
             let elapsed = 0
             INTRO_FRAMES.forEach((frame, i) => {

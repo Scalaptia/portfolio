@@ -1,5 +1,6 @@
-// The site's sound effects. All of them are made with rFXGen from sfx/sounds.txt and live in
-// public/sfx as small WAVs. This plays them: one shared AudioContext, each file fetched and decoded
+// The site's sound effects, small WAVs in public/sfx. HARO-PC and its screen are real hardware
+// recordings (sfx/RECORDINGS.md). The games on its screen are retro sounds made with rFXGen
+// (sfx/sounds.txt). This plays them: one shared AudioContext, each file fetched and decoded
 // once, the first time it is wanted.
 //
 // Nothing plays until the visitor has done something, which is also when browsers let audio start.
@@ -8,8 +9,9 @@ export type Sfx =
   | "pc-click"
   | "pc-guest"
   | "pc-confirm"
-  | "pc-off"
-  | "pc-boot"
+  | "pc-insert"
+  | "pc-button"
+  | "pc-beep"
   | "pc-seek"
   | "crt-on"
   | "crt-off"

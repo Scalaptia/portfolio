@@ -80,19 +80,23 @@ sentence case.
 
 ## Sound
 
-Every sound is a retro sound effect made with rFXGen, raylib's sfxr-style generator. No samples,
-no meows, no synth code running in the page. The recipes are lines in `sfx/sounds.txt`, and
-`npm run sfx` turns them into the WAVs in `public/sfx`. Each one also gets a `.rfx` in `sfx/rfx`
-that opens in [rFXGen](https://raylibtech.itch.io/rfxgen), so a sound can be tuned by ear there
-and its numbers copied back.
+The machine's body makes real hardware sounds. Whatever runs on its screen makes retro sounds.
 
-- The house sound is a square wave: short, dry, a little punch. Sine only for the softest one.
-- The PC sounds like a PC: a speaker bip when poked, the BIOS self-test beep and a drive seeking
-  when it boots, the tone falling away when it shuts down.
-- Screens switching on and off (the picture viewer, harogatOS) get a thunk and a falling tone.
-- Games may be louder and more musical. Stacker climbs a semitone per row by playing one sound
-  faster, not by having sixteen of them.
+- HARO-PC and its screen are recordings of real hardware, all CC0 from Freesound and listed in
+  `sfx/RECORDINGS.md`. That covers a mouse click when you poke it, a key for copying the email,
+  and a floppy reading when a visitor's face loads or being inserted for SHOW ON PC. Shutting down
+  is the power button and a CRT going dark. Coming back is the tube warming up, the PC speaker's
+  self-test beep and the floppy seeking.
+- The picture viewer and harogatOS are its screen, so they open and close with the same CRT
+  recordings.
+- Stacker and the face editor are retro sounds made with rFXGen, raylib's sfxr-style generator.
+  The recipes are lines in `sfx/sounds.txt`, and `npm run sfx` turns them into WAVs. Each also
+  gets a `.rfx` in `sfx/rfx` that opens in [rFXGen](https://raylibtech.itch.io/rfxgen) for tuning
+  by ear. The house sound there is a square wave: short, dry, a little punch.
+- Stacker climbs a semitone per row by playing one sound faster, not by having sixteen of them.
+- No meows. No synth code in the page.
 - A hover is not a press. Nothing plays until the visitor has clicked, tapped or typed.
+- Every sound is on the board at `/harogatos/sounds`.
 
 ## Voice
 

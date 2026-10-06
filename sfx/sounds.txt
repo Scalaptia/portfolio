@@ -1,4 +1,6 @@
-# Every sound on the site. One line each: name, peak volume (0 to 1), then rFXGen settings.
+# The retro sounds: everything that runs on HARO-PC's screen, Stacker and the face editor. One line
+# each: name, peak volume (0 to 1), then rFXGen settings. The PC itself and its screen switching on
+# and off are real recordings instead, listed in sfx/RECORDINGS.md.
 # `npm run sfx` turns this into public/sfx/*.wav and sfx/rfx/*.rfx.
 #
 # Settings are rFXGen's sliders, all 0 to 1 unless noted:
@@ -10,28 +12,6 @@
 # freq to Hz is about 3528 × (freq² + 0.001): 0.27 ≈ 260 Hz, 0.4 ≈ 570 Hz, 0.53 ≈ 1 kHz.
 #
 # The house sound is a square wave, short, with a little punch. Nothing longer than it needs to be.
-
-# --- HARO-PC ------------------------------------------------------------------------------------
-
-# Poking the PC: one dry PC-speaker bip, 1 kHz, about 50 ms.
-pc-click    0.32  wave=square freq=0.53 sustain=0.05 punch=0.2 decay=0.14 hpf=0.05
-# A visitor's face comes up: two notes, the second a fourth higher.
-pc-guest    0.32  wave=square duty=0.5 freq=0.45 change=0.53 changespeed=0.55 sustain=0.28 punch=0.3 decay=0.25
-# Copying the email address: a quick bright confirm.
-pc-confirm  0.30  wave=square duty=0.5 freq=0.6 change=0.53 changespeed=0.6 sustain=0.14 punch=0.45 decay=0.3
-# Rage shutdown: the tone falls three octaves and darkens, like the power going.
-pc-off      0.36  wave=square duty=0.4 freq=0.42 minfreq=0.12 slide=-0.2 dslide=-0.2 sustain=0.35 decay=0.45 lpf=0.5 lpfsweep=-0.2
-# Coming back: the single short BIOS beep a PC gives when its self-test passes.
-pc-boot     0.28  wave=square freq=0.53 sustain=0.3 decay=0.05 lpf=0.85
-# ...then the drive seeking: a 16 Hz square through a high-pass is a run of dry ticks.
-pc-seek     0.24  wave=square freq=0.06 vibdepth=0.3 vibspeed=0.4 sustain=0.4 decay=0.15 hpf=0.35
-
-# --- the screen ---------------------------------------------------------------------------------
-
-# A window opening, picture viewer or harogatOS: the low thunk of a CRT switching on.
-crt-on      0.45  wave=noise freq=0.25 sustain=0.06 punch=0.6 decay=0.3 lpf=0.35
-# Closing: a short falling tone.
-crt-off     0.30  wave=square freq=0.5 minfreq=0.1 slide=-0.35 dslide=-0.35 sustain=0.1 decay=0.25 lpf=0.6
 
 # --- Stacker ------------------------------------------------------------------------------------
 
