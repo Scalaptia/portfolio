@@ -4,11 +4,27 @@ import { guestFace } from "@/components/pc-model/faces";
 import FaceIcon from "./FaceIcon";
 
 // The moderation queue. Every face a visitor sends lands here as pending and stays off everyone
-// else's screen until it is approved. The token is the Worker's ADMIN_TOKEN secret, kept in this
-// browser's localStorage so it is typed once.
+// else's screen until it is approved. The scores tab lists every Stacker score, ten to a page, so
+// anything the initials blocklist missed can be deleted. The token is the Worker's ADMIN_TOKEN
+// secret, kept in this browser's localStorage so it is typed once.
 
 type Status = "pending" | "approved" | "rejected";
+type Tab = Status | "scores";
 type AdminFace = GuestFace & { status: Status };
+interface AdminScore {
+  id: number;
+  initials: string;
+  score: number;
+  rows: number;
+  at: number;
+}
+interface ScoresPage {
+  top: AdminScore[];
+  page: number;
+  pages: number;
+  total: number;
+  perPage: number;
+}
 
 const TOKEN_KEY = "harogatos:admin-token";
 const BUTTON = "press [--press:3px] px-3 py-1.5 border-2 border-text font-ubuntu-mono font-bold text-sm";
@@ -21,7 +37,9 @@ const ERRORS: Record<number, string> = {
 export default function AdminFaces() {
   const [token, setToken] = useState(() => localStorage.getItem(TOKEN_KEY) ?? "");
   const [draftToken, setDraftToken] = useState("");
-  const [status, setStatus] = useState<Status>("pending");
+  const [status, setStatus] = useState<Tab>("pending");
+  const [scores, setScores] = useState<ScoresPage | null>(null);
+  const [scorePage, setScorePage] = useState(0);
   const [faces, setFaces] = useState<AdminFace[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState<number | null>(null);
@@ -47,14 +65,32 @@ export default function AdminFaces() {
   const load = useCallback(async () => {
     if (!token) return;
     setFaces(null);
+    setScores(null);
     setError(null);
     try {
-      const body = await request(`/api/admin/faces?status=${status}`);
-      setFaces(body.faces);
+      if (status === "scores") {
+        setScores(await request(`/api/admin/scores?page=${scorePage}`));
+      } else {
+        const body = await request(`/api/admin/faces?status=${status}`);
+        setFaces(body.faces);
+      }
     } catch (e) {
       setError((e as Error).message);
     }
-  }, [token, status, request]);
+  }, [token, status, scorePage, request]);
+
+  const removeScore = async (row: AdminScore) => {
+    if (!confirm(`Delete ${row.initials} ${row.score} from the board? This cannot be undone.`)) return;
+    setBusy(row.id);
+    try {
+      await request(`/api/admin/scores/${row.id}`, { method: "DELETE" });
+      await load();
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setBusy(null);
+    }
+  };
 
   useEffect(() => {
     void load();
@@ -99,7 +135,7 @@ export default function AdminFaces() {
   return (
     <div className="w-full flex flex-col gap-6">
       <div className="flex flex-wrap gap-2 items-center">
-        {(["pending", "approved", "rejected"] as Status[]).map((s) => (
+        {(["pending", "approved", "rejected", "scores"] as Tab[]).map((s) => (
           <button
             key={s}
             onClick={() => setStatus(s)}
@@ -124,8 +160,14 @@ export default function AdminFaces() {
       </div>
 
       {error && <p className="font-open-sans text-text">{error}</p>}
-      {faces === null && !error && <p className="font-ubuntu-mono text-text/60">Loading...</p>}
-      {faces?.length === 0 && <p className="font-ubuntu-mono text-text/60">Nothing {status}.</p>}
+      {status === "scores" ? (
+        <Scores data={scores} error={error} busy={busy} onDelete={removeScore} onPage={setScorePage} />
+      ) : (
+        <>
+          {faces === null && !error && <p className="font-ubuntu-mono text-text/60">Loading...</p>}
+          {faces?.length === 0 && <p className="font-ubuntu-mono text-text/60">Nothing {status}.</p>}
+        </>
+      )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {faces?.map((face) => {
@@ -164,6 +206,79 @@ export default function AdminFaces() {
           );
         })}
       </div>
+    </div>
+  );
+}
+
+function Scores({
+  data,
+  error,
+  busy,
+  onDelete,
+  onPage,
+}: {
+  data: ScoresPage | null;
+  error: string | null;
+  busy: number | null;
+  onDelete: (row: AdminScore) => void;
+  onPage: (page: number) => void;
+}) {
+  if (!data) return error ? null : <p className="font-ubuntu-mono text-text/60">Loading...</p>;
+  if (!data.total) return <p className="font-ubuntu-mono text-text/60">No scores yet.</p>;
+
+  const first = data.page * data.perPage + 1;
+  return (
+    <div className="flex flex-col gap-4">
+      <p className="font-ubuntu-mono text-sm text-text/60">
+        {data.total} score{data.total === 1 ? "" : "s"} on the board
+      </p>
+      <div className="bg-white border-4 border-text shadow-[6px_6px_0px_0px_rgba(65,44,71,1)] overflow-x-auto">
+        <table className="w-full font-ubuntu-mono text-text tabular-nums">
+          <thead>
+            <tr className="text-left text-sm text-text/60 border-b-2 border-text">
+              <th className="px-3 py-2 text-right">#</th>
+              <th className="px-3 py-2">Who</th>
+              <th className="px-3 py-2 text-right">Score</th>
+              <th className="px-3 py-2 text-right">Rows</th>
+              <th className="px-3 py-2">When</th>
+              <th className="px-3 py-2" />
+            </tr>
+          </thead>
+          <tbody>
+            {data.top.map((row, i) => (
+              <tr key={row.id} className="border-b border-text/15 last:border-b-0">
+                <td className="px-3 py-2 text-right">{first + i}</td>
+                <td className="px-3 py-2 font-bold">{row.initials}</td>
+                <td className="px-3 py-2 text-right">{row.score}</td>
+                <td className="px-3 py-2 text-right">{row.rows}</td>
+                <td className="px-3 py-2 text-sm text-text/60 whitespace-nowrap">{new Date(row.at).toLocaleString()}</td>
+                <td className="px-3 py-2 text-right">
+                  <button disabled={busy === row.id} onClick={() => onDelete(row)} className={`${BUTTON} bg-white`}>
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {data.pages > 1 && (
+        <div className="flex items-center gap-3 font-ubuntu-mono text-text">
+          <button disabled={data.page === 0} onClick={() => onPage(data.page - 1)} className={`${BUTTON} bg-white disabled:opacity-40`}>
+            Previous
+          </button>
+          <span className="tabular-nums">
+            {data.page + 1} / {data.pages}
+          </span>
+          <button
+            disabled={data.page >= data.pages - 1}
+            onClick={() => onPage(data.page + 1)}
+            className={`${BUTTON} bg-white disabled:opacity-40`}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 }

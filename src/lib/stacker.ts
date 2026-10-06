@@ -162,9 +162,15 @@ export function replay(moves: unknown): Replay {
 
 // Three letters go on the board for anyone to read, so a few combinations do not.
 const BLOCKED = new Set([
-    'ASS', 'FAG', 'FUK', 'FUC', 'FCK', 'CUM', 'DIK', 'DIC', 'COC', 'KKK', 'NIG', 'NGR', 'SEX',
-    'TIT', 'VAG', 'JIZ', 'GAY', 'CNT', 'KYS', 'HOE', 'WTF', 'STD', 'PUS', 'POO', 'PEE', 'NAZ',
-    'PUT', 'PTA', 'VRG', 'MRD', 'CAG', 'CUL', 'PEN',
+    // Slurs and hate, with their usual three-letter spellings.
+    'FAG', 'FGT', 'NIG', 'NGR', 'NGA', 'KKK', 'KYK', 'NAZ', 'JTO', 'MRC',
+    // One half of a slur that takes two rows on the board. Blocking the half that is not a word
+    // on its own makes the pair impossible: NIG + GER, FAG + GOT, RET + ARD.
+    'RET',
+    // Explicit sexual words and harsh profanity, English and Spanish.
+    'CNT', 'CUM', 'JIZ', 'DIK', 'COC', 'VAG', 'VRG', 'PTA', 'FUK', 'FUC', 'FCK',
+    // "Kill yourself."
+    'KYS',
 ])
 
 export function cleanInitials(value: unknown): string | null {
