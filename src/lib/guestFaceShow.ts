@@ -1,11 +1,16 @@
 // Which visitor's face the PC is wearing right now, if any.
 //
-// Now and then, while nobody is clicking it, the PC swaps its own face for one a visitor drew and
-// a speech bubble says who drew it. A face can also be pinned: the one you just drew, or one you
-// picked in the gallery with SHOW ON PC. A pinned face stays on, through page changes and reloads
-// for the rest of the session, until you click the PC. Then the rotation picks up again. This
-// module owns all of that. The 3D scene draws whatever is current and the wrapper around it draws
-// the bubble; both just subscribe.
+// Clicking the PC steps it to its next face. Every third click is a face a visitor drew, with a
+// speech bubble saying who drew it, taken in turn from the approved ones. The other clicks are the
+// PC's own expressions. Nothing changes on a timer: the face on the PC is whatever the last click
+// left there.
+//
+// A face can also be pinned: the one you just drew, or one you picked in the gallery with SHOW ON
+// PC. A pinned face goes up straight away and stays, through page changes and reloads for the rest
+// of the session. The next click carries on from there.
+//
+// This module owns the visitor faces. The 3D scene draws whatever is current and the wrapper
+// around it draws the bubble; both just subscribe.
 
 import { fetchFaces } from "./arcadeApi";
 import type { GuestFace } from "./guestFaces";
@@ -16,24 +21,26 @@ export interface Shown {
   pending: boolean;
   /** Stays on until the PC is clicked. */
   pinned?: boolean;
-  /** Whether the speech bubble is up. A pinned face stays on after its bubble goes. */
+  /** Whether the speech bubble is up. The face stays on after its bubble goes. */
   bubble?: boolean;
 }
 
 const MY_FACE_KEY = "harogatos:myface";
-// Session storage, so a pin ends with the tab and the next visit is back to rotating.
+// Session storage, so a pin ends with the tab and the next visit starts on the PC's own face.
 const PIN_KEY = "harogatos:pin";
-const FIRST_DELAY_MS = 9_000;
-const BETWEEN_MS = 20_000;
-const SHOW_MS = 7_000;
+// How long the bubble stays up. The face itself stays until the next click.
+const BUBBLE_MS = 7_000;
+// Every this many clicks, a visitor's face instead of one of the PC's own.
+const EVERY = 3;
 
 let current: Shown | null = null;
 let pin: Shown | null = null;
 const listeners = new Set<(shown: Shown | null) => void>();
-let pool: Shown[] = [];
-let next = 0;
+let deck: Shown[] = [];
+let nextGuest = 0;
+let clicks = 0;
 let timer: ReturnType<typeof setTimeout> | undefined;
-let hideTimer: ReturnType<typeof setTimeout> | undefined;
+let bubbleTimer: ReturnType<typeof setTimeout> | undefined;
 let started = false;
 
 function set(shown: Shown | null) {
@@ -80,23 +87,40 @@ function loadPin(): Shown | null {
   return null;
 }
 
+function show(shown: Shown) {
+  set({ ...shown, bubble: true });
+  clearTimeout(bubbleTimer);
+  bubbleTimer = setTimeout(() => {
+    if (current?.face.id === shown.face.id) set({ ...current, bubble: false });
+  }, BUBBLE_MS);
+}
+
+// A pin goes up once harogatOS has closed, so the PC is in view when it changes.
+function showPinWhenVisible() {
+  clearTimeout(timer);
+  if (!pin) return;
+  if (document.hidden || document.querySelector('[aria-label="harogatOS"]')) {
+    timer = setTimeout(showPinWhenVisible, 500);
+    return;
+  }
+  show(pin);
+}
+
 function pinFace(shown: Shown) {
   pin = { ...shown, pinned: true };
   savePin(pin);
-  clearTimeout(hideTimer);
-  // harogatOS is still open over the PC when this runs. tick() waits for it to close.
-  schedule(600);
+  showPinWhenVisible();
 }
 
-/** You just drew this. It goes on your PC, and into your rotation for later. */
+/** You just drew this. It goes on your PC now, and into the deck for later clicks. */
 export function rememberMyFace(face: GuestFace): void {
   try {
     localStorage.setItem(MY_FACE_KEY, JSON.stringify(face));
   } catch {
     // Not remembered across visits. It still shows this time.
   }
-  pool = [{ face, pending: true }, ...pool.filter((s) => s.face.id !== face.id)];
-  next = 0;
+  deck = [{ face, pending: true }, ...deck.filter((s) => s.face.id !== face.id)];
+  nextGuest = 1;
   pinFace({ face, pending: true });
 }
 
@@ -105,54 +129,34 @@ export function wearFace(face: GuestFace): void {
   pinFace({ face, pending: false });
 }
 
-function schedule(delay: number) {
-  clearTimeout(timer);
-  timer = setTimeout(tick, delay);
-}
-
-function tick() {
-  // A pinned face is on for good. Show it, and stop rotating.
-  if (pin && current?.face.id === pin.face.id && current.bubble === false) return;
-  if (!pin && !pool.length) return;
-  // Nobody is looking. Try again later.
-  if (document.hidden) return schedule(pin ? 1500 : BETWEEN_MS);
-  // harogatOS is open over the page, so the PC cannot be seen. Check again shortly.
-  if (document.querySelector('[aria-label="harogatOS"]')) return schedule(1500);
-  if (pin) return show(pin);
-  show(pool[next % pool.length]);
-  next++;
-}
-
-function show(shown: Shown): void {
-  set({ ...shown, bubble: true });
-  clearTimeout(timer);
-  clearTimeout(hideTimer);
-  hideTimer = setTimeout(() => {
-    if (shown.pinned) return set({ ...shown, bubble: false });
-    set(null);
-    schedule(BETWEEN_MS);
-  }, SHOW_MS);
-}
-
-/** Clicking the PC hands it back its own face, pinned or not, and the rotation starts over. */
-export function dismissShown(): void {
-  if (!current && !pin) return;
-  clearTimeout(hideTimer);
+/**
+ * The PC was clicked. Unpins whatever was pinned, then puts up the next visitor face if it is
+ * that click's turn. Returns true when a visitor face went up, false when the PC should show its
+ * own next expression.
+ */
+export function advance(): boolean {
   if (pin) {
     pin = null;
     savePin(null);
   }
-  set(null);
-  schedule(BETWEEN_MS);
+  clicks++;
+  if (deck.length && clicks % EVERY === 0) {
+    show(deck[nextGuest % deck.length]);
+    nextGuest++;
+    return true;
+  }
+  clearTimeout(bubbleTimer);
+  if (current) set(null);
+  return false;
 }
 
 export async function startRotation(): Promise<void> {
   if (started) return;
   started = true;
 
-  // Pinned earlier in this session. Back on straight away, before the gallery has even loaded.
+  // Pinned earlier in this session. Back on straight away, before the faces have even loaded.
   pin = loadPin();
-  if (pin) schedule(0);
+  if (pin) showPinWhenVisible();
 
   const mine = myFace();
   const approved = (await fetchFaces()) ?? [];
@@ -165,9 +169,8 @@ export async function startRotation(): Promise<void> {
     .sort((a, b) => a.sort - b.sort)
     .map(({ face, pending }) => ({ face, pending }));
 
-  // Yours goes first, and says it is waiting until it has been approved.
-  pool = mine
+  // Yours comes up first, and says it is waiting until it has been approved.
+  deck = mine
     ? [{ face: mine, pending: !approvedMine }, ...shuffled.filter((s) => s.face.id !== mine.id)]
     : shuffled;
-  if (!pin && pool.length) schedule(FIRST_DELAY_MS);
 }

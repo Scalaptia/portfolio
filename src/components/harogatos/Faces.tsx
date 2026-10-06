@@ -20,7 +20,8 @@ import FaceIcon from "./FaceIcon";
 import { INVERSE } from "./phosphor";
 
 // Draw a face for the PC, sign it, send it. It goes into a queue, Fernando approves it
-// or not, and approved faces take turns on the PC for everyone. Yours shows up for you at once.
+// or not, and approved faces come up on the PC for everyone as it is clicked. Yours shows up for you
+// at once.
 
 type View = "draw" | "sign" | "sent" | "gallery";
 type Tool = "#" | "@" | ".";
