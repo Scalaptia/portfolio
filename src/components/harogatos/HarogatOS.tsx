@@ -7,6 +7,7 @@ import { closeOS, launch, type AppId } from "@/lib/harogatos";
 import { useOSState } from "@/lib/useOSState";
 import Stacker, { Hiscores } from "./Stacker";
 import Faces from "./Faces";
+import { strings } from "./strings";
 import { PHOSPHOR, phosphorVars, calmMotion } from "./phosphor";
 
 // The monitor is the picture viewer's: same case, same bezel, same glass. The apps run on the
@@ -96,6 +97,7 @@ export default function HarogatOS() {
   };
 
   const tall = useTall();
+  const t = strings();
   const fade = (open: boolean) =>
     calm ? undefined : `${open ? "os-in" : "os-out"} ${open ? OPEN_MS : CLOSE_MS}ms ease-out both`;
 
@@ -182,12 +184,12 @@ export default function HarogatOS() {
                 className={`${BUTTON} px-2 sm:px-3 ${app === tab.id ? "bg-primary! text-white!" : ""}`}
               >
                 <PixelIcon name={tab.icon} className="hidden sm:block w-4 h-4" />
-                {tab.label}
+                {t.tabs[tab.id]}
               </button>
             ))}
           </div>
           {/* Off, like the picture viewer's power button. Icon only, so five buttons fit a phone. */}
-          <button onClick={requestClose} className={`${BUTTON} w-11 sm:w-10 shrink-0`} aria-label="Shut down" title="Shut down">
+          <button onClick={requestClose} className={`${BUTTON} w-11 sm:w-10 shrink-0`} aria-label={t.shutDown} title={t.shutDown}>
             <PixelIcon name="power" className="w-4 h-4" />
           </button>
         </div>
