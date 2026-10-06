@@ -30,6 +30,11 @@ The machine is a cat because the site's handle is harogato and the PC already me
 what makes the link between the 3D PC and the windows visible at a glance, so a window without them
 is a bug.
 
+harogatOS boots to a list of what runs on it, like an arcade cabinet's game select: one line per
+app, a cursor, arrows or a tap to pick. The case has two buttons, back to that list and off, so
+adding an app adds a line on the screen, not a button on the case. Links to one app (`/play`,
+`/draw`, `#picross`) skip the list.
+
 When harogatOS opens on a page where the PC is on screen, it grows out of the PC and shrinks back
 into it. The picture viewer grows out of the thumbnail you clicked. Either way the window comes from
 something on the page.
@@ -92,8 +97,8 @@ The machine's body makes real hardware sounds. Whatever runs on its screen makes
   switch and the self-test beep.
 - The picture viewer and harogatOS are its screen, so they open and close with the same CRT
   switch clicks. Their buttons are the case's buttons and click like a TV remote: next, previous,
-  zoom, the harogatOS tabs. So do the gallery arrows and dots, because they change a picture the
-  same way.
+  zoom, the harogatOS menu button. So does picking from the harogatOS menu, and so do the gallery
+  arrows and dots, because they change what is on the screen the same way.
 - The page itself stays quiet: nav links, the language switch, project links. The one exception is
   copying the email, which confirms with a key press, because nothing else on screen changes.
 - Stacker and the face editor are retro sounds made with rFXGen, raylib's sfxr-style generator.

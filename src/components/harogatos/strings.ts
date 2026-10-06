@@ -4,8 +4,18 @@
 
 const en = {
   // The case
-  tabs: { stacker: "Stacker", hiscores: "Scores", faces: "Draw", gallery: "Gallery", picross: "Picross" },
+  menuButton: "Menu",
   shutDown: "Shut down",
+
+  // The menu
+  menuPick: "PICK ONE",
+  menu: {
+    stacker: { name: "STACKER", about: "stack the blocks as high as you can" },
+    picross: { name: "PICROSS", about: "work out a face from its clues" },
+    faces: { name: "DRAW A FACE", about: "draw one for the PC to wear" },
+    gallery: { name: "GALLERY", about: "faces other visitors drew" },
+    hiscores: { name: "HIGH SCORES", about: "the best stackers" },
+  },
   previousPage: "Previous page",
   nextPage: "Next page",
 
@@ -100,8 +110,17 @@ const en = {
 export type Strings = typeof en;
 
 const es: Strings = {
-  tabs: { stacker: "Stacker", hiscores: "Récords", faces: "Dibujar", gallery: "Galería", picross: "Picross" },
+  menuButton: "Menú",
   shutDown: "Apagar",
+
+  menuPick: "ESCOGE UNO",
+  menu: {
+    stacker: { name: "STACKER", about: "apila los bloques lo más alto que puedas" },
+    picross: { name: "PICROSS", about: "descubre una cara con sus pistas" },
+    faces: { name: "DIBUJA UNA CARA", about: "una para que la PC la use" },
+    gallery: { name: "GALERÍA", about: "caras que dibujaron otros visitantes" },
+    hiscores: { name: "RÉCORDS", about: "los mejores en Stacker" },
+  },
   previousPage: "Página anterior",
   nextPage: "Página siguiente",
 

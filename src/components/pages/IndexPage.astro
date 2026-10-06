@@ -109,19 +109,11 @@ const t = useTranslations(lang);
         <div id="pc-actions" class="flex gap-2">
           <button
             type="button"
-            data-harogatos="stacker"
+            data-harogatos
             class="press [--press:2px] flex items-center gap-1.5 px-2.5 py-1 border-2 border-text bg-white text-text font-ubuntu-mono font-bold text-xs whitespace-nowrap"
           >
-            <PixelIcon name="gamepad" className="w-3.5 h-3.5" />
-            {i18n.PLAY_STACKER}
-          </button>
-          <button
-            type="button"
-            data-harogatos="faces"
-            class="press [--press:2px] flex items-center gap-1.5 px-2.5 py-1 border-2 border-text bg-white text-text font-ubuntu-mono font-bold text-xs whitespace-nowrap"
-          >
-            <PixelIcon name="brush" className="w-3.5 h-3.5" />
-            {i18n.DRAW_A_FACE}
+            <PixelIcon name="power" className="w-3.5 h-3.5" />
+            {i18n.BOOT_HAROGATOS}
           </button>
         </div>
       </div>

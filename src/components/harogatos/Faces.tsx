@@ -227,14 +227,18 @@ function Canvas({
 
 // --- the app ---------------------------------------------------------------------------------
 
-// Drawing and the gallery are two apps on the case's buttons, sharing this component so a
+// Drawing and the gallery are two entries on the menu, sharing this component so a
 // half-drawn face survives a look at the gallery.
 export default function Faces({
   onExit,
+  onClose,
   tall = false,
   mode = "draw",
 }: {
+  /** Back to the menu. */
   onExit: () => void;
+  /** Switch the PC off, so the face on it shows. */
+  onClose: () => void;
   tall?: boolean;
   mode?: "draw" | "gallery";
 }) {
@@ -515,7 +519,7 @@ export default function Faces({
             >
               {tr.drawAnother}
             </button>
-            <button onClick={onExit} className={`px-[1.6cqh] ${INVERSE}`}>
+            <button onClick={onClose} className={`px-[1.6cqh] ${INVERSE}`}>
               {tr.seeItOnPc}
             </button>
           </div>
@@ -572,7 +576,7 @@ export default function Faces({
                     onClick={() => {
                       wearFace(gallery[picked]);
                       play("pc-insert");
-                      onExit();
+                      onClose();
                     }}
                   >
                     {tr.showOnPc}

@@ -254,7 +254,7 @@ function Board({
 
 // --- the app ---------------------------------------------------------------------------------
 
-export default function Picross({ onExit, tall = false }: { onExit: () => void; tall?: boolean }) {
+export default function Picross({ onExit, onClose, tall = false }: { onExit: () => void; onClose: () => void; tall?: boolean }) {
   const t = strings();
   const [view, setView] = useState<"pick" | "play" | "solved">("pick");
   const [visitors, setVisitors] = useState<Entry[] | null | undefined>(undefined);
@@ -446,7 +446,7 @@ export default function Picross({ onExit, tall = false }: { onExit: () => void; 
               onClick={() => {
                 wearFace(entry.guest!);
                 play("pc-insert");
-                onExit();
+                onClose();
               }}
               className={button}
             >

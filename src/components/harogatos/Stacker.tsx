@@ -116,7 +116,7 @@ function Board({
 }
 
 // Every score anyone saved, ten to a page. Left and right turn the page.
-export function Hiscores({ onExit }: { onExit: () => void }) {
+export function Hiscores({ onExit, onPlay }: { onExit: () => void; onPlay: () => void }) {
   const [page, setPage] = useState(0);
   const [data, setData] = useState<ScorePage | null | undefined>(undefined);
 
@@ -137,14 +137,17 @@ export function Hiscores({ onExit }: { onExit: () => void }) {
       if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
         e.preventDefault();
         turn(e.key === "ArrowRight" ? 1 : -1);
-      } else if (e.key === "Escape" || e.key === "Enter" || e.key === " ") {
+      } else if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        onPlay();
+      } else if (e.key === "Escape") {
         e.preventDefault();
         onExit();
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [onExit, turn]);
+  }, [onExit, onPlay, turn]);
 
   const arrow = "px-[1.4cqh] border-[0.4cqh] border-(--fg) hover:bg-(--dim) disabled:opacity-30";
   const t = strings();
