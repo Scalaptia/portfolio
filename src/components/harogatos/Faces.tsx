@@ -234,8 +234,26 @@ function Canvas({
 
 // --- the app ---------------------------------------------------------------------------------
 
-export default function Faces({ onExit, tall = false }: { onExit: () => void; tall?: boolean }) {
-  const [view, setView] = useState<View>("draw");
+// Drawing and the gallery are two apps on the case's buttons, sharing this component so a
+// half-drawn face survives a look at the gallery.
+export default function Faces({
+  onExit,
+  tall = false,
+  mode = "draw",
+}: {
+  onExit: () => void;
+  tall?: boolean;
+  mode?: "draw" | "gallery";
+}) {
+  const [view, setView] = useState<View>(mode === "gallery" ? "gallery" : "draw");
+  // Where drawing was left (drawing, signing or sent), to come back to from the gallery.
+  const drawView = useRef<View>("draw");
+  useEffect(() => {
+    if (view !== "gallery") drawView.current = view;
+  }, [view]);
+  useEffect(() => {
+    setView(mode === "gallery" ? "gallery" : drawView.current);
+  }, [mode]);
   const [draft, setDraft] = useState<Draft>(loadDraft);
   const [tool, setTool] = useState<Tool>("#");
   const [mirror, setMirror] = useState(true);
@@ -366,26 +384,10 @@ export default function Faces({ onExit, tall = false }: { onExit: () => void; ta
   }, [view, cursor, stroke, lit, onExit, gallery, picked, perPage]);
 
   const button = "px-[1.6cqh] py-[0.4cqh] border-[0.4cqh] border-(--fg) hover:bg-(--dim) disabled:opacity-40";
-  const tab = (id: View, label: string) => (
-    <button
-      onClick={() => setView(id === "draw" && view === "sign" ? "sign" : id)}
-      className={`px-[1.5cqh] ${
-        (id === "draw" ? view !== "gallery" : view === id) ? "bg-(--bg) text-(--fg)" : ""
-      }`}
-    >
-      {label}
-    </button>
-  );
-
   const preview = guestFace(art, scheme);
 
   return (
     <div className="absolute inset-0 flex flex-col">
-      <div className={`flex justify-center gap-[0.5cqh] px-[3cqh] py-[0.5cqh] ${INVERSE}`}>
-        {tab("draw", "DRAW")}
-        {tab("gallery", "GALLERY")}
-      </div>
-
       {view === "draw" && (
         <div className={`flex-1 min-h-0 flex ${tall ? "flex-col" : ""} gap-[3cqh] p-[3cqh]`}>
           <div className="flex-1 min-h-0 min-w-0">

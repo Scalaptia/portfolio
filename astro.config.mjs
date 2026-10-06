@@ -9,6 +9,11 @@ export default defineConfig({
     // Astro 7 strips whitespace the JSX way by default, which glued "Fernando" and "Haro" together
     // in the hero. This keeps the HTML-aware compression every page was written against.
     compressHTML: true,
+    // Short links into harogatOS, for sending to people. The hash opens the app (HarogatOSHost).
+    redirects: {
+        '/draw': '/#draw',
+        '/play': '/#play',
+    },
     i18n: {
         locales: ['en', 'es'],
         defaultLocale: 'en',

@@ -28,7 +28,8 @@ interface Tab {
 const TABS: Tab[] = [
   { id: "stacker", label: "Stacker", icon: "gamepad" },
   { id: "hiscores", label: "Scores", icon: "trophy" },
-  { id: "faces", label: "Faces", icon: "brush" },
+  { id: "faces", label: "Draw", icon: "brush" },
+  { id: "gallery", label: "Gallery", icon: "album" },
 ];
 
 // A phone held upright gets a tube taller than it is wide, so the games are not postage stamps.
@@ -153,8 +154,8 @@ export default function HarogatOS() {
               >
                 {app === "hiscores" ? (
                   <Hiscores onExit={toStacker} />
-                ) : app === "faces" ? (
-                  <Faces onExit={requestClose} tall={tall} />
+                ) : app === "faces" || app === "gallery" ? (
+                  <Faces onExit={requestClose} tall={tall} mode={app === "gallery" ? "gallery" : "draw"} />
                 ) : (
                   <Stacker onExit={requestClose} tall={tall} />
                 )}
@@ -180,14 +181,14 @@ export default function HarogatOS() {
                 aria-current={app === tab.id ? "page" : undefined}
                 className={`${BUTTON} px-2 sm:px-3 ${app === tab.id ? "bg-primary! text-white!" : ""}`}
               >
-                <PixelIcon name={tab.icon} className="w-4 h-4" />
+                <PixelIcon name={tab.icon} className="hidden sm:block w-4 h-4" />
                 {tab.label}
               </button>
             ))}
           </div>
-          <button onClick={requestClose} className={`${BUTTON} px-2.5 sm:px-3`} aria-label="Close">
-            <PixelIcon name="x" className="w-4 h-4" />
-            <span className="hidden sm:inline">Close</span>
+          {/* Off, like the picture viewer's power button. Icon only, so five buttons fit a phone. */}
+          <button onClick={requestClose} className={`${BUTTON} w-11 sm:w-10 shrink-0`} aria-label="Shut down" title="Shut down">
+            <PixelIcon name="power" className="w-4 h-4" />
           </button>
         </div>
       </div>
