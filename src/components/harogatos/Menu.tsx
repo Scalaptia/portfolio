@@ -61,10 +61,7 @@ export default function Menu({
 
   return (
     <div className={`absolute inset-0 flex flex-col justify-center ${tall ? "px-[5cqw] gap-[3cqh]" : "px-[9cqh] gap-[4cqh]"}`}>
-      <div className="flex items-baseline justify-between gap-[2cqh]">
-        <div className="text-[1.5em] leading-none">HAROGATOS</div>
-        <div className="text-[0.7em] opacity-70">{t.menuPick}</div>
-      </div>
+      <div className="text-[1.5em] leading-none">HAROGATOS</div>
       <ul className="flex flex-col gap-[1cqh]" role="menu" aria-label="harogatOS">
         {ITEMS.map((item, i) => {
           const on = i === picked;

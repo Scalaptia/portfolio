@@ -475,6 +475,7 @@ export default function Picross({ onExit, onClose, tall = false }: { onExit: () 
         <div className="text-[1.2em]">PICROSS</div>
         <div className="text-[0.75em] opacity-70 tabular-nums">{t.solvedCount(solvedCount, entries.length)}</div>
       </div>
+      <div className="text-[0.7em] opacity-80 leading-normal max-w-[70ch]">{t.picrossHow}</div>
       <div className={`flex-1 min-h-0 grid ${tall ? "grid-cols-3" : "grid-cols-5"} gap-[2cqh] content-start`}>
         {shown.map((e) => {
           const best = data.solved[e.id];

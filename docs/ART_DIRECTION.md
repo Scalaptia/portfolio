@@ -20,7 +20,7 @@ parts, so they read as one object.
 | Bezel | Ink frame around the glass | `bg-text`, `border-radius: 32px / 40px` |
 | Glass | The face canvas, 16x16 cells | `.crt-screen`, flat, with scanlines |
 | Power light | Coral square, left of the chin | `w-2 h-2 bg-primary`, on the harogatOS chin only |
-| Name | "HARO-PC" plate on the chin | "harogatOS" on the OS chin. The viewer chin has only its buttons, so the picture gets the room. |
+| Name | None | None. The machine is recognisable without a label, and the screen says what is running. |
 | Paws, tail | Four paws, a power cord that curls up | None. The HTML case has no underside to show them. |
 
 The favicon (`public/favicon.svg`, `favicon.ico`, `apple-touch-icon.png`) is the same machine drawn on

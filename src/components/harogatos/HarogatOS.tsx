@@ -168,10 +168,8 @@ export default function HarogatOS() {
         </div>
 
         <div className="flex items-center gap-1 sm:gap-2 px-2 pb-2 sm:px-4 sm:pb-4 [@media(max-height:520px)]:px-2 [@media(max-height:520px)]:pb-2">
-          <span className="flex items-center gap-1.5 font-black-han-sans text-text text-base pl-1">
-            <span className="w-2 h-2 bg-primary" aria-hidden="true" />
-            harogatOS
-          </span>
+          {/* The power light. The screen already says what this is, so the chin carries no name. */}
+          <span className="w-2 h-2 ml-1 bg-primary" aria-hidden="true" />
           <div className="flex-1" />
           <div ref={caseRef} className="flex gap-1 sm:gap-2">
             {/* Back to the menu. Lit while the menu is up, the way a tab shows where you are. */}
