@@ -1,4 +1,4 @@
-# The retro sounds: everything that runs on HARO-PC's screen, Stacker and the face editor. One line
+# The retro sounds: everything that runs on HARO-PC's screen, harogatOS's menu and its apps. One line
 # each: name, peak volume (0 to 1), then rFXGen settings. The PC itself and its screen switching on
 # and off are real recordings instead, listed in sfx/RECORDINGS.md.
 # `npm run sfx` turns this into public/sfx/*.wav and sfx/rfx/*.rfx.
@@ -30,8 +30,11 @@ stk-win     0.32  wave=square duty=0.5 freq=0.4 change=0.745 changespeed=0.7 rep
 
 # --- small controls -----------------------------------------------------------------------------
 
-# Changing a letter of your initials.
+# Changing a letter of your initials, and moving the cursor in the harogatOS menu.
 ui-key      0.22  wave=square freq=0.7 sustain=0.02 decay=0.07 hpf=0.2
+# Starting something from a list on the screen: an app from the menu, a puzzle from Picross. Two
+# quick notes, a fourth apart.
+ui-select   0.26  wave=square duty=0.5 freq=0.5 change=0.53 changespeed=0.72 sustain=0.15 punch=0.3 decay=0.2
 # A cell painted in the face editor.
 ui-pen      0.18  wave=square duty=0.75 freq=0.62 sustain=0.02 decay=0.09
 # A cell erased: the same, lower.

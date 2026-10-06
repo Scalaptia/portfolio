@@ -33,8 +33,9 @@ export default function Menu({
   const t = strings();
   const [picked, setPicked] = useState(() => Math.max(0, ITEMS.findIndex((item) => item.id === from)));
 
+  // On the screen, so a digital sound. Only the case's own buttons click.
   const start = (i: number) => {
-    play("case-button");
+    play("ui-select");
     onLaunch(ITEMS[i].id);
   };
 

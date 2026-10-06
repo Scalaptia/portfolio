@@ -22,6 +22,7 @@ export type Sfx =
   | "stk-over"
   | "stk-win"
   | "ui-key"
+  | "ui-select"
   | "ui-pen"
   | "ui-erase"
   | "face-sent";

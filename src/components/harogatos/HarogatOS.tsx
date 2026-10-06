@@ -65,7 +65,7 @@ export default function HarogatOS() {
     // The screen switching on, same as the picture viewer. The games' sounds load now, so the
     // first block placed is not silent while its file arrives.
     play("crt-on");
-    preload("stk-start", "stk-place", "stk-perfect", "stk-chop", "stk-over", "stk-win", "ui-key", "ui-pen", "ui-erase", "face-sent", "crt-off");
+    preload("stk-start", "stk-place", "stk-perfect", "stk-chop", "stk-over", "stk-win", "ui-key", "ui-select", "ui-pen", "ui-erase", "face-sent", "crt-off");
     const before = document.activeElement as HTMLElement | null;
     document.body.style.overflow = "hidden";
     caseRef.current?.querySelector<HTMLElement>("button")?.focus({ preventScroll: true });
@@ -172,14 +172,13 @@ export default function HarogatOS() {
           <span className="w-2 h-2 ml-1 bg-primary" aria-hidden="true" />
           <div className="flex-1" />
           <div ref={caseRef} className="flex gap-1 sm:gap-2">
-            {/* Back to the menu. Lit while the menu is up, the way a tab shows where you are. */}
+            {/* Back to the menu. A plain case button, like the picture viewer's. */}
             <button
               onClick={() => {
-                if (app !== "menu") play("case-button");
+                play("case-button");
                 toMenu();
               }}
-              aria-current={app === "menu" ? "page" : undefined}
-              className={`${BUTTON} px-3 ${app === "menu" ? "bg-primary! text-white!" : ""}`}
+              className={`${BUTTON} px-3`}
             >
               <PixelIcon name="home" className="w-4 h-4" />
               {t.menuButton}

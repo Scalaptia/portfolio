@@ -313,7 +313,7 @@ export default function Picross({ onExit, onClose, tall = false }: { onExit: () 
     setCursor(null);
     setTool("fill");
     setView("play");
-    play("case-button");
+    play("ui-select");
   };
 
   // Leaving a puzzle half done keeps it where it was, clock included.

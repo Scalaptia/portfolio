@@ -18,7 +18,7 @@ DC-offset removed, faded at both ends, resampled to 32 kHz 16-bit and normalised
 | `pc-beep.wav` | A PC speaker beep. The self-test when it comes back on. | [CZghost, "PC speaker error beep"](https://freesound.org/people/CZghost/sounds/264823/) | 0.09–0.33 | 0.22 |
 | `crt-on.wav` | A CRT monitor's power switch going on, the click only. | [kyles, "monitor computer CRT on, off"](https://freesound.org/people/kyles/sounds/454090/) | 0.700–0.800 | 0.50 |
 | `crt-off.wav` | The same switch going off. | [kyles, "monitor computer CRT on, off"](https://freesound.org/people/kyles/sounds/454090/) | 6.700–6.790 | 0.50 |
-| `case-button.wav` | A TV remote button. The case's buttons: next, previous, zoom, the harogatOS menu button and picking from its menu, gallery arrows and dots. | [planetcomedy, "remote.wav"](https://freesound.org/people/planetcomedy/sounds/334137/) | 2.06–2.24 | 0.42 |
+| `case-button.wav` | A TV remote button. The case's buttons: next, previous, zoom, the harogatOS menu button, gallery arrows and dots. | [planetcomedy, "remote.wav"](https://freesound.org/people/planetcomedy/sounds/334137/) | 2.06–2.24 | 0.42 |
 
 ## Alternatives on the sound board
 
