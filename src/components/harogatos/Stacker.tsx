@@ -696,7 +696,8 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
               <div className="tabular-nums">{bestText}</div>
             </div>
             <div className="mt-auto text-[0.7em] opacity-70 leading-normal">
-              {phase === "over" ? t.missed : t.spaceOrTapToStop}
+              {/* After a miss the playfield already says GAME OVER, so this line goes quiet. */}
+              {phase !== "over" && t.spaceOrTapToStop}
             </div>
           </div>
         ) : (

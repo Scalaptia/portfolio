@@ -62,7 +62,8 @@ export default function Menu({
 
   return (
     <div className={`absolute inset-0 flex flex-col justify-center ${tall ? "px-[5cqw] gap-[3cqh]" : "px-[9cqh] gap-[4cqh]"}`}>
-      <div className="text-[1.5em] leading-none">HAROGATOS</div>
+      {/* The OS's own name keeps its spelling, even on a screen that talks in capitals. */}
+      <div className="text-[1.5em] leading-none text-center">harogatOS</div>
       <ul className="flex flex-col gap-[1cqh]" role="menu" aria-label="harogatOS">
         {ITEMS.map((item, i) => {
           const on = i === picked;
