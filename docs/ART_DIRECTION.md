@@ -100,7 +100,8 @@ The machine's body makes real hardware sounds. Whatever runs on its screen makes
   The recipes are lines in `sfx/sounds.txt`, and `npm run sfx` turns them into WAVs. Each also
   gets a `.rfx` in `sfx/rfx` that opens in [rFXGen](https://raylibtech.itch.io/rfxgen) for tuning
   by ear. The house sound there is a square wave: short, dry, a little punch.
-- Stacker climbs a semitone per row by playing one sound faster, not by having sixteen of them.
+- Stacker climbs a semitone per row by playing one sound faster, not by having a sound per row.
+  Every twelfth row it drops back an octave, so a long run never gets shrill.
 - No meows. No synth code in the page.
 - A hover is not a press. Nothing plays until the visitor has clicked, tapped or typed.
 - Every sound is on the board at `/harogatos/sounds`.

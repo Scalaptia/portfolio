@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   COLS,
-  ROWS,
+  VISIBLE_ROWS,
+  SQUEEZE,
   newGame,
   stopAt,
   positionAt,
@@ -26,8 +27,10 @@ interface Falling {
 }
 
 const AMBER = PHOSPHOR.amber;
-// Rows of the stack light up one by one when you reach the top.
-const WIN_WAVE_MS = 70;
+// The stack scrolls down once the moving row gets this close to the top of the screen.
+const HEADROOM = 6;
+// Every tenth row gets a jingle and its number on screen.
+const MILESTONE = 10;
 // A beat between one row landing and the next one moving, so a double tap cannot drop two.
 const ROW_PAUSE_MS = 170;
 const INITIALS_KEY = "harogatos:initials";
@@ -35,14 +38,15 @@ const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 const pad = (n: number, width: number) => String(n).padStart(width, "0");
 
-// Every row a semitone up, so a good run climbs a scale. The sounds are recorded at the bottom note.
+// Every row a semitone up, so a good run climbs a scale, and back to the bottom note every octave
+// so a long run does not end up squeaking. The sounds are recorded at the bottom note.
 const sfx = {
   start: () => play("stk-start"),
-  place: (row: number) => play("stk-place", { rate: semitones(row) }),
-  perfect: (row: number) => play("stk-perfect", { rate: semitones(row) }),
+  place: (row: number) => play("stk-place", { rate: semitones(row % 12) }),
+  perfect: (row: number) => play("stk-perfect", { rate: semitones(row % 12) }),
   chop: () => play("stk-chop"),
   over: () => play("stk-over"),
-  win: () => play("stk-win"),
+  milestone: () => play("stk-win", { volume: 0.7 }),
   key: () => play("ui-key"),
 };
 
@@ -269,7 +273,6 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
   const [score, setScore] = useState(0);
   const [row, setRow] = useState(0);
   const [flash, setFlash] = useState<string | null>(null);
-  const [won, setWon] = useState(false);
   const [board, setBoard] = useState<ScoreRow[] | null>(null);
   // Rank of the board's first row. After a save it is the page the new score landed on.
   const [boardFirst, setBoardFirst] = useState(1);
@@ -290,6 +293,8 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
     endedAt: 0,
     perfectRow: -1,
     perfectAt: 0,
+    // How far the stack has scrolled down, in rows. It glides toward where it should be.
+    camera: 0,
   });
   const run = useRef<Promise<string | null> | null>(null);
   const flashTimer = useRef<ReturnType<typeof setTimeout>>();
@@ -320,9 +325,9 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
     g.rowStart = performance.now() + 450;
     g.endedAt = 0;
     g.perfectRow = -1;
+    g.camera = 0;
     setScore(0);
     setRow(0);
-    setWon(false);
     setRank(undefined);
     setRejected(false);
     setOffline(false);
@@ -362,16 +367,10 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
       g.endedAt = now;
       setScore(result.state.score);
       setRow(result.state.stack.length);
-      setWon(result.state.won);
       go("over");
-      if (result.state.won) {
-        sfx.win();
-        say(t.youMadeIt, 2400);
-      } else {
-        sfx.over();
-        say(t.gameOver, 1600);
-      }
-      setTimeout(finish, result.state.won ? 2400 : 1600);
+      sfx.over();
+      say(t.gameOver, 1600);
+      setTimeout(finish, 1600);
       return;
     }
 
@@ -384,9 +383,14 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
       sfx.place(current);
       say(`+${result.gained}`, 500);
     }
+    const rows = current + 1;
+    if (rows % MILESTONE === 0) {
+      sfx.milestone();
+      say(`${t.row} ${rows}`, 900);
+    }
     // Losing width to the squeeze, not to a miss, deserves a heads up.
-    if (widthCap(current + 1) < widthCap(current) && result.state.width === widthCap(current + 1)) {
-      say(t.blocksLeft(result.state.width), 800);
+    if (widthCap(rows) < widthCap(current) && result.state.width === widthCap(rows)) {
+      say(t.blocksLeft(result.state.width), 900);
     }
     g.rowStart = now + ROW_PAUSE_MS;
     setScore(result.state.score);
@@ -456,12 +460,12 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
       const style = getComputedStyle(field);
       const height = field.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
       const width = field.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
-      cell = Math.max(4, Math.floor(Math.min(height / ROWS, (width || Infinity) / COLS)));
+      cell = Math.max(4, Math.floor(Math.min(height / VISIBLE_ROWS, (width || Infinity) / COLS)));
       const dpr = Math.min(2, window.devicePixelRatio || 1);
       canvas.style.width = `${cell * COLS}px`;
-      canvas.style.height = `${cell * ROWS}px`;
+      canvas.style.height = `${cell * VISIBLE_ROWS}px`;
       canvas.width = cell * COLS * dpr;
-      canvas.height = cell * ROWS * dpr;
+      canvas.height = cell * VISIBLE_ROWS * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
     fit();
@@ -496,40 +500,50 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
     };
 
     let raf = 0;
+    let last = performance.now();
     const draw = () => {
       const now = performance.now();
       const g = game.current;
       const p = phaseRef.current;
       const width = COLS * cell;
-      const height = ROWS * cell;
+      const height = VISIBLE_ROWS * cell;
+
+      // Scroll so the moving row never gets closer than HEADROOM rows to the top, easing there
+      // over about a fifth of a second.
+      const goal = p === "title" ? 0 : Math.max(0, g.state.stack.length - (VISIBLE_ROWS - HEADROOM));
+      g.camera += (goal - g.camera) * (1 - Math.exp(-(now - last) / 70));
+      if (Math.abs(goal - g.camera) < 0.01) g.camera = goal;
+      last = now;
+      const cam = g.camera;
+      // Screen y of the top of a row of the stack, counted from the bottom.
+      const yOf = (row: number) => VISIBLE_ROWS - 1 - row + cam;
 
       ctx.clearRect(0, 0, width, height);
 
       // The empty playfield: a dot in every cell, and marks where the row gets narrower.
       ctx.fillStyle = AMBER.dim;
-      for (let r = 0; r < ROWS; r++) {
-        for (let c = 0; c < COLS; c++) {
-          ctx.fillRect(c * cell + cell / 2 - 1, r * cell + cell / 2 - 1, 2, 2);
-        }
+      for (let r = Math.floor(cam); r <= cam + VISIBLE_ROWS; r++) {
+        const y = yOf(r) * cell + cell / 2 - 1;
+        for (let c = 0; c < COLS; c++) ctx.fillRect(c * cell + cell / 2 - 1, y, 2, 2);
       }
-      dashed(ROWS - 6, t.max(2));
-      dashed(ROWS - 11, t.max(1));
+      SQUEEZE.forEach((row, i) => {
+        const y = yOf(row - 1);
+        if (y > 0.5 && y < VISIBLE_ROWS) dashed(y, t.max(2 - i));
+      });
 
       // A demo stack on the title screen, so it is obvious what the game is.
       const stack = p === "title" ? [{ x: 3, width: 3 }, { x: 3, width: 3 }, { x: 4, width: 2 }] : g.state.stack;
 
       const sinceEnd = g.endedAt ? now - g.endedAt : 0;
       stack.forEach((placed, r) => {
+        const y = yOf(r);
+        if (y > VISIBLE_ROWS) return;
         let alpha = 1;
         let color: string = AMBER.fg;
         if (p === "title") alpha = 0.5;
-        if (g.endedAt && !g.state.won && sinceEnd < 1500) alpha = Math.floor(sinceEnd / 150) % 2 ? 0.25 : 1;
-        if (g.endedAt && g.state.won) {
-          const lit = Math.floor(sinceEnd / WIN_WAVE_MS) % (ROWS + 4);
-          color = Math.abs(lit - r) < 2 ? "#FFF3C4" : AMBER.fg;
-        }
+        if (g.endedAt && sinceEnd < 1500) alpha = Math.floor(sinceEnd / 150) % 2 ? 0.25 : 1;
         if (r === g.perfectRow && now - g.perfectAt < 260) color = "#FFF3C4";
-        for (let c = placed.x; c < placed.x + placed.width; c++) block(c, ROWS - 1 - r, color, alpha);
+        for (let c = placed.x; c < placed.x + placed.width; c++) block(c, y, color, alpha);
       });
 
       // The row that is moving.
@@ -541,14 +555,14 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
             ? startOf(current, w).x
             : positionAt(current, w, Math.floor((now - g.rowStart) / tickMs(current)));
         const alpha = now < g.rowStart ? 0.45 : 1;
-        for (let c = x; c < x + w; c++) block(c, ROWS - 1 - current, "#FFD166", alpha);
+        for (let c = x; c < x + w; c++) block(c, yOf(current), "#FFD166", alpha);
       }
 
       // Whatever missed, dropping off the bottom.
       g.falling = g.falling.filter((f) => {
         const t = (now - f.born) / 1000;
-        const y = ROWS - 1 - f.row + 22 * t * t;
-        if (y > ROWS + 1) return false;
+        const y = yOf(f.row) + 22 * t * t;
+        if (y > VISIBLE_ROWS + 1) return false;
         block(f.col, y, AMBER.fg, Math.max(0, 1 - t * 1.4));
         return true;
       });
@@ -672,16 +686,14 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
             </div>
             <div>
               <div className="text-[0.7em] opacity-70">{t.row}</div>
-              <div className="tabular-nums">
-                {pad(row, 2)}/{ROWS}
-              </div>
+              <div className="tabular-nums">{pad(row, 2)}</div>
             </div>
             <div>
               <div className="text-[0.7em] opacity-70">{t.best}</div>
               <div className="tabular-nums">{bestText}</div>
             </div>
             <div className="mt-auto text-[0.7em] opacity-70 leading-normal">
-              {phase === "over" ? (won ? t.topOfStack : t.missed) : t.spaceOrTapToStop}
+              {phase === "over" ? t.missed : t.spaceOrTapToStop}
             </div>
           </div>
         ) : (

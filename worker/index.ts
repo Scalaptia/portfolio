@@ -25,9 +25,10 @@ export interface Env {
   ADMIN_LIMITER?: RateLimit;
 }
 
-// The board in use. "stacker" holds the scores from before speed counted; they stay in the table but
-// are not shown. A new rule that changes what a score means gets a new id, and a fresh board.
-const GAME = "stacker2";
+// The board in use. Older boards stay in the table but are not shown: "stacker" from before speed
+// counted, "stacker2" from when the stack ended at row 16. A new rule that changes what a score
+// means gets a new id, and a fresh board.
+const GAME = "stacker3";
 const BOARD_SIZE = 10;
 // A run that sits unspent longer than this is not a game anyone is still playing.
 const RUN_TTL_MS = 30 * 60 * 1000;
