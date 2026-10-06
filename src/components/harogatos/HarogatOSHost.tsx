@@ -10,9 +10,9 @@ const KONAMI = [
   "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight",
   "b", "a",
 ];
-// Links straight into an app: fharo.dev/#draw, #gallery, #play, #scores. /draw and /play redirect here too
+// Links straight into an app: fharo.dev/#draw, #gallery, #picross, #play, #scores. /draw and /play redirect here too
 // (astro.config.mjs), so a link to the face editor can be sent to someone.
-const LINKS: Record<string, AppId> = { draw: "faces", gallery: "gallery", play: "stacker", scores: "hiscores" };
+const LINKS: Record<string, AppId> = { draw: "faces", gallery: "gallery", picross: "picross", play: "stacker", scores: "hiscores" };
 const HASHES = Object.fromEntries(Object.entries(LINKS).map(([hash, app]) => [app, hash])) as Record<AppId, string>;
 
 const linkedApp = () => LINKS[location.hash.slice(1).toLowerCase()];
