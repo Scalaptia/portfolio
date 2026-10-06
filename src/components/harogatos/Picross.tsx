@@ -15,7 +15,7 @@ import {
   decodeMarks,
   hintsFor,
   givenAt,
-  LEVELS,
+  levelOf,
   type Givens,
   type Level,
   type Mark,
@@ -34,6 +34,8 @@ interface Entry {
   id: string;
   puzzle: Puzzle;
   art: string[];
+  /** Worked out from the puzzle. Each face is one puzzle at one level. */
+  level: Level;
   color: ColorScheme;
   accent?: string;
   /** Set for the PC's own faces. */
@@ -42,11 +44,10 @@ interface Entry {
   guest?: GuestFace;
 }
 
-// Keyed by puzzle and level ("pc-0:hard"), so each difficulty has its own best time and progress.
+// Keyed by puzzle ("pc-0", "face-12").
 interface Saved {
   solved: Record<string, number>;
   progress: Record<string, { marks: string; ms: number }>;
-  level?: Level;
 }
 
 const STORE = "harogatos:picross";
@@ -55,7 +56,7 @@ const PAGE = { wide: 10, tall: 9 };
 function load(): Saved {
   try {
     const raw = JSON.parse(localStorage.getItem(STORE) ?? "null");
-    if (raw && typeof raw === "object") return { solved: raw.solved ?? {}, progress: raw.progress ?? {}, level: raw.level };
+    if (raw && typeof raw === "object") return { solved: raw.solved ?? {}, progress: raw.progress ?? {} };
   } catch {
     // Start over.
   }
@@ -75,11 +76,14 @@ const clock = (ms: number) => {
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
 };
 
+const ORDER: Record<Level, number> = { easy: 0, medium: 1, hard: 2 };
+
+// The PC's own faces come first, easiest first, so a new player starts on a small one.
 function ownEntries(): Entry[] {
   return FACES.flatMap((face, i) => {
     const puzzle = puzzleFromArt(face.art);
-    return puzzle ? [{ id: `pc-${i}`, puzzle, art: face.art, color: face.color, accent: face.accent, faceIndex: i }] : [];
-  });
+    return puzzle ? [{ id: `pc-${i}`, puzzle, art: face.art, level: levelOf(puzzle), color: face.color, accent: face.accent, faceIndex: i }] : [];
+  }).sort((a, b) => ORDER[a.level] - ORDER[b.level]);
 }
 
 function guestEntries(faces: GuestFace[]): Entry[] {
@@ -87,7 +91,7 @@ function guestEntries(faces: GuestFace[]): Entry[] {
     const puzzle = puzzleFromArt(face.art);
     if (!puzzle) return [];
     const data = guestFace(face.art, face.scheme);
-    return [{ id: `face-${face.id}`, puzzle, art: face.art, color: data.color, accent: data.accent, guest: face }];
+    return [{ id: `face-${face.id}`, puzzle, art: face.art, level: levelOf(puzzle), color: data.color, accent: data.accent, guest: face }];
   });
 }
 
@@ -255,7 +259,6 @@ export default function Picross({ onExit, tall = false }: { onExit: () => void; 
   const [view, setView] = useState<"pick" | "play" | "solved">("pick");
   const [visitors, setVisitors] = useState<Entry[] | null | undefined>(undefined);
   const [data, setData] = useState<Saved>(load);
-  const [level, setLevel] = useState<Level>(() => data.level ?? "medium");
   const [givens, setGivens] = useState<Givens>(new Map());
   const [page, setPage] = useState(0);
   const [entry, setEntry] = useState<Entry | null>(null);
@@ -290,9 +293,7 @@ export default function Picross({ onExit, tall = false }: { onExit: () => void; 
     save(next);
   }, []);
 
-  const slot = (e: Entry) => `${e.id}:${level}`;
-
-  // A fresh grid with the level's revealed cells already in it.
+  // A fresh grid with the revealed cells already in it.
   const startingMarks = (e: Entry, g: Givens) =>
     emptyMarks(e.puzzle).map((row, y) => row.map((_, x): Mark => {
       const given = givenAt(g, x, y);
@@ -300,9 +301,9 @@ export default function Picross({ onExit, tall = false }: { onExit: () => void; 
     }));
 
   const open = (e: Entry) => {
-    const stored = data.progress[slot(e)];
-    // Same face and level, same hints, on every device. Checked solvable by logic in hintsFor().
-    const g = hintsFor(e.puzzle, level, slot(e));
+    const stored = data.progress[e.id];
+    // Same face, same hints, on every device. Checked solvable by logic in hintsFor().
+    const g = hintsFor(e.puzzle, e.id, e.level);
     setGivens(g);
     setEntry(e);
     setMarks((stored && decodeMarks(e.puzzle, stored.marks)) || startingMarks(e, g));
@@ -319,7 +320,7 @@ export default function Picross({ onExit, tall = false }: { onExit: () => void; 
   const leave = useCallback(() => {
     if (entry && view === "play") {
       const ms = carried.current + Date.now() - startedAt.current;
-      persist({ ...data, progress: { ...data.progress, [slot(entry)]: { marks: encodeMarks(marks), ms } } });
+      persist({ ...data, progress: { ...data.progress, [entry.id]: { marks: encodeMarks(marks), ms } } });
     }
     setView("pick");
   }, [entry, view, marks, data, persist]);
@@ -334,10 +335,10 @@ export default function Picross({ onExit, tall = false }: { onExit: () => void; 
       setMarks(next);
       if (isSolved(entry.puzzle, filledOf(next))) {
         const ms = carried.current + Date.now() - startedAt.current;
-        const best = data.solved[slot(entry)];
+        const best = data.solved[entry.id];
         const progress = { ...data.progress };
-        delete progress[slot(entry)];
-        persist({ ...data, solved: { ...data.solved, [slot(entry)]: best ? Math.min(best, ms) : ms }, progress });
+        delete progress[entry.id];
+        persist({ ...data, solved: { ...data.solved, [entry.id]: best ? Math.min(best, ms) : ms }, progress });
         setLastTime(ms);
         // Let the last cell show before the reveal.
         setTimeout(() => {
@@ -398,7 +399,7 @@ export default function Picross({ onExit, tall = false }: { onExit: () => void; 
         <div className={`flex ${tall ? "flex-row flex-wrap justify-center items-center" : "flex-col w-[28%]"} gap-[1.5cqh] text-[0.8em]`}>
           <div className="tabular-nums text-[1.3em]">{clock(elapsed)}</div>
           <div className="opacity-70">
-            {entry.puzzle.cols}×{entry.puzzle.rows}
+            {entry.puzzle.cols}×{entry.puzzle.rows} · {t.levels[entry.level]}
           </div>
           {(["fill", "cross"] as const).map((m) => (
             <button key={m} onClick={() => setTool(m)} className={`${button} text-left ${tool === m ? INVERSE : ""}`} aria-pressed={tool === m}>
@@ -467,34 +468,17 @@ export default function Picross({ onExit, tall = false }: { onExit: () => void; 
 
   // The picker: solved ones show their face, the rest a question mark and their size.
   const shown = entries.slice(page * perPage, (page + 1) * perPage);
-  const solvedCount = entries.filter((e) => data.solved[slot(e)] !== undefined).length;
+  const solvedCount = entries.filter((e) => data.solved[e.id] !== undefined).length;
   return (
     <div className="absolute inset-0 flex flex-col p-[3cqh] gap-[2cqh]">
       <div className="flex items-baseline justify-between gap-[2cqh]">
         <div className="text-[1.2em]">PICROSS</div>
         <div className="text-[0.75em] opacity-70 tabular-nums">{t.solvedCount(solvedCount, entries.length)}</div>
       </div>
-      {/* Difficulty. Every level of every puzzle is checked solvable by logic, no guessing. */}
-      <div className="flex gap-[1cqh] text-[0.8em]" role="group" aria-label={t.difficulty}>
-        {LEVELS.map((lv) => (
-          <button
-            key={lv}
-            aria-pressed={level === lv}
-            onClick={() => {
-              setLevel(lv);
-              persist({ ...data, level: lv });
-              play("case-button");
-            }}
-            className={`${button} ${level === lv ? INVERSE : ""}`}
-          >
-            {t.levels[lv]}
-          </button>
-        ))}
-      </div>
       <div className={`flex-1 min-h-0 grid ${tall ? "grid-cols-3" : "grid-cols-5"} gap-[2cqh] content-start`}>
         {shown.map((e) => {
-          const best = data.solved[slot(e)];
-          const started = data.progress[slot(e)] !== undefined;
+          const best = data.solved[e.id];
+          const started = data.progress[e.id] !== undefined;
           return (
             <button
               key={e.id}
@@ -512,7 +496,7 @@ export default function Picross({ onExit, tall = false }: { onExit: () => void; 
                 {best !== undefined ? title(e) : `${e.puzzle.cols}×${e.puzzle.rows}`}
               </span>
               <span className="text-[0.55em] opacity-70 tabular-nums">
-                {best !== undefined ? clock(best) : e.guest ? t.visitor : "HARO-PC"}
+                {best !== undefined ? clock(best) : t.levels[e.level]}
               </span>
             </button>
           );

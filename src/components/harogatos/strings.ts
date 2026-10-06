@@ -94,10 +94,8 @@ const en = {
   pcFace: (name: string) => `HARO-PC's ${name} face`,
   nextPuzzle: "NEXT",
   solvedCount: (done: number, total: number) => `${done}/${total} SOLVED`,
-  visitor: "VISITOR",
   noVisitorPuzzles: "visitor faces load on fharo.dev",
   faceNames: ["Normal", "Happy", "Surprised", "Wink", "Love", "Sleepy", "Excited", "Cool"],
-  difficulty: "Difficulty",
   levels: { easy: "EASY", medium: "MEDIUM", hard: "HARD" },
 };
 
@@ -191,10 +189,8 @@ const es: Strings = {
   pcFace: (name) => `la cara ${name} de HARO-PC`,
   nextPuzzle: "SIGUIENTE",
   solvedCount: (done, total) => `${done}/${total} RESUELTOS`,
-  visitor: "VISITANTE",
   noVisitorPuzzles: "las caras de visitantes cargan en fharo.dev",
   faceNames: ["normal", "feliz", "sorprendida", "guiño", "enamorada", "dormida", "emocionada", "cool"],
-  difficulty: "Dificultad",
   levels: { easy: "FÁCIL", medium: "MEDIO", hard: "DIFÍCIL" },
 };
 

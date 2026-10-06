@@ -88,6 +88,9 @@ export function decodeMarks(p: Puzzle, value: unknown): Mark[][] | null {
 // A drawing's clues often leave cells that logic cannot settle: two eyes give the same clues a
 // cell to the left or right. So every puzzle starts with some cells revealed, picked so that a
 // person can solve the rest line by line without ever guessing. lineSolve() is that person.
+//
+// Each puzzle has one level, worked out from the puzzle itself, so solving it once does not give
+// away an easier or harder copy of the same face.
 
 export type Level = "easy" | "medium" | "hard";
 export const LEVELS: Level[] = ["easy", "medium", "hard"];
@@ -160,6 +163,23 @@ export function lineSolve(p: Puzzle, givens: Givens = new Map()): (boolean | nul
 
 const unknownCount = (g: (boolean | null)[][]) => g.reduce((n, row) => n + row.filter((v) => v === null).length, 0);
 
+// Below this a puzzle is easy, from the second one up it is hard.
+const LEVEL_AT = { medium: 140, hard: 230 };
+
+/**
+ * How hard a puzzle is. Every cell counts once, and every cell the clues alone cannot settle
+ * counts again, so a big grid is harder and so is one full of guesses that need hints. HARO-PC's
+ * faces come out from 64 (Normal, 8x7) to 244 (Excited, 14x13).
+ */
+export function difficulty(p: Puzzle): number {
+  return p.rows * p.cols + unknownCount(lineSolve(p));
+}
+
+export function levelOf(p: Puzzle): Level {
+  const d = difficulty(p);
+  return d >= LEVEL_AT.hard ? "hard" : d >= LEVEL_AT.medium ? "medium" : "easy";
+}
+
 /** Solvable by logic alone from these givens, ending on the drawing itself. */
 export function logicSolvable(p: Puzzle, givens: Givens): boolean {
   const g = lineSolve(p, givens);
@@ -181,12 +201,12 @@ function seeded(text: string) {
 const EXTRA: Record<Level, number> = { hard: 0, medium: 0.12, easy: 0.25 };
 
 /**
- * The cells a puzzle starts with at a level. Hard is a near-minimal set: cells are added one at a
+ * The cells a puzzle starts with at its level. Hard is a near-minimal set: cells are added one at a
  * time, each the one that lets logic settle the most of the grid, until the whole thing solves,
  * and then any that turn out not to be needed are taken away again. Medium and Easy reveal more on
- * top of Hard's, so they stay solvable and only get gentler.
+ * top of that, so they stay solvable and only get gentler.
  */
-export function hintsFor(p: Puzzle, level: Level, seed: string): Givens {
+export function hintsFor(p: Puzzle, seed: string, level: Level = levelOf(p)): Givens {
   const random = seeded(seed);
   const truth = (x: number, y: number) => p.solution[y][x];
   const givens: Givens = new Map();
