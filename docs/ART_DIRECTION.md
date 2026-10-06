@@ -80,8 +80,28 @@ sentence case.
 
 ## Sound
 
-Sound is the PC's voice: meows, boot and power chimes, Stacker's notes. Nothing plays until the
-visitor has done something, and the interface itself makes no sound.
+The machine's body makes real hardware sounds. Whatever runs on its screen makes retro sounds.
+
+- HARO-PC and its screen are recordings of real hardware, all CC0 from Freesound and listed in
+  `sfx/RECORDINGS.md`. They stay short and dry: clicks and beeps, no hum and no buzzing tails,
+  which make a CRT sound like a horror film. A mouse click when you poke the PC, a key for
+  copying the email, a PC-speaker bip-bip when a visitor's face comes up, a floppy going in for
+  SHOW ON PC. Shutting down is the power button and the monitor's switch. Coming back is the
+  switch and the self-test beep.
+- The picture viewer and harogatOS are its screen, so they open and close with the same CRT
+  switch clicks. Their buttons are the case's buttons and click like a TV remote: next, previous,
+  zoom, the harogatOS tabs. So do the gallery arrows and dots, because they change a picture the
+  same way.
+- The page itself stays quiet: nav links, the language switch, project links. The one exception is
+  copying the email, which confirms with a key press, because nothing else on screen changes.
+- Stacker and the face editor are retro sounds made with rFXGen, raylib's sfxr-style generator.
+  The recipes are lines in `sfx/sounds.txt`, and `npm run sfx` turns them into WAVs. Each also
+  gets a `.rfx` in `sfx/rfx` that opens in [rFXGen](https://raylibtech.itch.io/rfxgen) for tuning
+  by ear. The house sound there is a square wave: short, dry, a little punch.
+- Stacker climbs a semitone per row by playing one sound faster, not by having sixteen of them.
+- No meows. No synth code in the page.
+- A hover is not a press. Nothing plays until the visitor has clicked, tapped or typed.
+- Every sound is on the board at `/harogatos/sounds`.
 
 ## Voice
 

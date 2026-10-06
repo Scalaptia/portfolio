@@ -1,0 +1,93 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+// Every sound on the site, one button each, for tuning them. Not linked from anywhere.
+// Recordings are listed in sfx/RECORDINGS.md. The rFXGen recipes are in sfx/sounds.txt, and
+// `npm run sfx` rebuilds those files.
+
+// Candidates, not used anywhere yet. Delete the losers from public/sfx/alt.
+const alternatives: [string, string][] = [
+  ["crt-on-b", "Screen on: a brighter power-button click"],
+  ["button-b", "Case button: a plain push button"],
+];
+const groups: [string, [string, string][]][] = [
+  ["HARO-PC (recordings)", [
+    ["pc-click", "Clicking the PC"],
+    ["pc-guest", "A visitor's face comes up (played twice, the second a fifth up)"],
+    ["pc-confirm", "Copying the email, anywhere"],
+    ["pc-insert", "SHOW ON PC"],
+    ["pc-button", "Rage shutdown, before the screen goes off"],
+    ["pc-beep", "Coming back on: the self-test beep"],
+  ]],
+  ["Screen (recordings)", [
+    ["crt-on", "Picture viewer or harogatOS opens, the PC coming back on"],
+    ["crt-off", "...and closes, the PC shutting down"],
+    ["case-button", "A button on the case: next, previous, zoom, harogatOS tabs, gallery arrows"],
+  ]],
+  ["Stacker (rFXGen)", [
+    ["stk-start", "New game"],
+    ["stk-place", "A row lands (bottom note, rises per row)"],
+    ["stk-perfect", "Perfect landing (also rises)"],
+    ["stk-chop", "Blocks fall off"],
+    ["stk-over", "Game over"],
+    ["stk-win", "Reaching the top"],
+    ["ui-key", "Changing a letter of your initials"],
+  ]],
+  ["Faces (rFXGen)", [
+    ["ui-pen", "Painting a cell"],
+    ["ui-erase", "Erasing a cell"],
+    ["face-sent", "Face sent"],
+  ]],
+];
+---
+
+<Layout title="Sounds" noindex>
+  <main slot="content" class="w-full max-w-[1000px] px-4 sm:px-6 lg:px-8 my-12">
+    <span class="text-primary font-ubuntu-mono text-2xl block mb-6">&lt;sounds&gt;</span>
+    <div class="flex flex-col gap-8">
+      {groups.map(([title, sounds]) => (
+        <section>
+          <h2 class="font-black-han-sans text-text text-xl mb-3">{title}</h2>
+          <div class="grid gap-3 sm:grid-cols-2">
+            {sounds.map(([name, what]) => (
+              <button
+                type="button"
+                data-sfx={name}
+                class="press [--press:3px] flex items-center gap-3 border-2 border-text bg-white px-3 py-2 text-left"
+              >
+                <span class="font-ubuntu-mono font-bold text-text">{name}</span>
+                <span class="font-open-sans text-sm text-text/70">{what}</span>
+              </button>
+            ))}
+          </div>
+        </section>
+      ))}
+      <section>
+        <h2 class="font-black-han-sans text-text text-xl mb-3">Alternatives</h2>
+        <div class="grid gap-3 sm:grid-cols-2">
+          {alternatives.map(([name, what]) => (
+            <button
+              type="button"
+              data-alt={name}
+              class="press [--press:3px] flex items-center gap-3 border-2 border-text bg-white px-3 py-2 text-left"
+            >
+              <span class="font-ubuntu-mono font-bold text-text">{name}</span>
+              <span class="font-open-sans text-sm text-text/70">{what}</span>
+            </button>
+          ))}
+        </div>
+      </section>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  import { play, type Sfx } from "@/lib/sfx";
+
+  document.addEventListener("click", (e) => {
+    const button = (e.target as HTMLElement | null)?.closest<HTMLElement>("[data-sfx]");
+    if (button) play(button.dataset.sfx as Sfx);
+    const alt = (e.target as HTMLElement | null)?.closest<HTMLElement>("[data-alt]");
+    if (alt) void new Audio(`/sfx/alt/${alt.dataset.alt}.wav`).play();
+  });
+</script>
