@@ -18,7 +18,7 @@ parts, so they read as one object.
 | Case | Cream rounded box, ink outline | `bg-background`, `border-4 border-text`, no offset shadow |
 | Ears | Two cream triangles with coral insides, leaning out | `CaseEars.tsx`, sitting on the top border |
 | Bezel | Ink frame around the glass | `bg-text`, `border-radius: 32px / 40px` |
-| Glass | The face canvas, 16x16 cells | `.crt-screen` with scanlines and curve |
+| Glass | The face canvas, 16x16 cells | `.crt-screen`, flat, with scanlines |
 | Power light | Coral square, left of the chin | `w-2 h-2 bg-primary`, on the harogatOS chin only |
 | Name | "HARO-PC" plate on the chin | "harogatOS" on the OS chin. The viewer chin has only its buttons, so the picture gets the room. |
 | Paws, tail | Four paws, a power cord that curls up | None. The HTML case has no underside to show them. |
@@ -66,6 +66,8 @@ sentence case.
   only take room from the picture.
 - Square corners on the page. The only rounded things are the CRT glass and its bezel, because
   glass is curved.
+- The glass is flat: the screen colour, scanlines, nothing else. No vignette darkening the corners,
+  no sheen, no glow around it.
 - In 3D, the same idea: flat cel shading in three steps and an ink outline on every solid part.
   Light comes from the upper left, the same direction the page's hard shadows fall from.
 

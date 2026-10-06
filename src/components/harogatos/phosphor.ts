@@ -14,7 +14,6 @@ export const phosphorVars = (p: Phosphor) =>
     "--bg": p.bg,
     "--dim": p.dim,
     "--glow": p.glow,
-    "--crt-glow": p.glow,
     background: p.bg,
     color: p.fg,
   }) as React.CSSProperties;
