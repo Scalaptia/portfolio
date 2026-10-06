@@ -16,6 +16,7 @@ interface AdminScore {
   initials: string;
   score: number;
   rows: number;
+  bounces: number;
   at: number;
 }
 interface ScoresPage {
@@ -240,6 +241,7 @@ function Scores({
               <th className="px-3 py-2">Who</th>
               <th className="px-3 py-2 text-right">Score</th>
               <th className="px-3 py-2 text-right">Rows</th>
+              <th className="px-3 py-2 text-right">Bounces</th>
               <th className="px-3 py-2">When</th>
               <th className="px-3 py-2" />
             </tr>
@@ -251,6 +253,7 @@ function Scores({
                 <td className="px-3 py-2 font-bold">{row.initials}</td>
                 <td className="px-3 py-2 text-right">{row.score}</td>
                 <td className="px-3 py-2 text-right">{row.rows}</td>
+                <td className="px-3 py-2 text-right">{row.bounces}</td>
                 <td className="px-3 py-2 text-sm text-text/60 whitespace-nowrap">{new Date(row.at).toLocaleString()}</td>
                 <td className="px-3 py-2 text-right">
                   <button disabled={busy === row.id} onClick={() => onDelete(row)} className={`${BUTTON} bg-white`}>

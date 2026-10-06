@@ -45,10 +45,10 @@ export async function startRun(): Promise<string | null> {
   return body?.id ?? null;
 }
 
-export function submitScore(runId: string, initials: string, moves: number[]) {
+export function submitScore(runId: string, initials: string, ticks: number[]) {
   return call<Submitted>("/api/stacker/scores", {
     method: "POST",
-    body: JSON.stringify({ runId, initials, moves }),
+    body: JSON.stringify({ runId, initials, ticks }),
   });
 }
 

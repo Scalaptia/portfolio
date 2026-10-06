@@ -2,10 +2,11 @@
 // run_worker_first in wrangler.jsonc). It keeps the harogatOS high scores and the faces visitors
 // draw for the PC, both in D1.
 //
-// A score is never taken on trust. The game sends the column it stopped each row at, and the
-// Worker replays them through the same rules the game ran (src/lib/stacker.ts), so the score it
-// stores is one it worked out. It also hands out a run id when a game starts and checks, with its
-// own clock, that the game took at least as long as those moves physically could.
+// A score is never taken on trust. The game sends the tick it stopped each row at, and the Worker
+// replays them through the same rules the game ran (src/lib/stacker.ts), which work out where each
+// row landed and how many times it turned around, so the score it stores is one it worked out. It
+// also hands out a run id when a game starts and checks, with its own clock, that the game took at
+// least as long as the rows were moving.
 
 import { replay, cleanInitials } from "../src/lib/stacker";
 import { cleanArt, cleanScheme, cleanText, AUTHOR_MAX, MESSAGE_MAX } from "../src/lib/guestFaces";
@@ -24,7 +25,9 @@ export interface Env {
   ADMIN_LIMITER?: RateLimit;
 }
 
-const GAME = "stacker";
+// The board in use. "stacker" holds the scores from before speed counted; they stay in the table but
+// are not shown. A new rule that changes what a score means gets a new id, and a fresh board.
+const GAME = "stacker2";
 const BOARD_SIZE = 10;
 // A run that sits unspent longer than this is not a game anyone is still playing.
 const RUN_TTL_MS = 30 * 60 * 1000;
@@ -70,8 +73,8 @@ async function visitor(request: Request): Promise<string> {
 async function scoresPage(env: Env, page: number, withIds = false) {
   const [rows, count] = await env.DB.batch<{ id?: number; initials: string; score: number; rows: number; at: number; n?: number }>([
     env.DB.prepare(
-      `SELECT ${withIds ? "id, " : ""}initials, score, rows, created_at AS at FROM scores
-       WHERE game = ? ORDER BY score DESC, created_at ASC LIMIT ? OFFSET ?`,
+      `SELECT ${withIds ? "id, " : ""}initials, score, rows, bounces, created_at AS at FROM scores
+       WHERE game = ? ORDER BY score DESC, bounces ASC, created_at ASC LIMIT ? OFFSET ?`,
     ).bind(GAME, BOARD_SIZE, page * BOARD_SIZE),
     env.DB.prepare("SELECT COUNT(*) AS n FROM scores WHERE game = ?").bind(GAME),
   ]);
@@ -105,7 +108,7 @@ async function startRun(request: Request, env: Env) {
 }
 
 async function submitScore(request: Request, env: Env) {
-  let body: { runId?: unknown; initials?: unknown; moves?: unknown };
+  let body: { runId?: unknown; initials?: unknown; ticks?: unknown };
   try {
     body = await request.json();
   } catch {
@@ -116,8 +119,8 @@ async function submitScore(request: Request, env: Env) {
   if (!initials) return fail("initials");
   if (typeof body.runId !== "string" || body.runId.length > 64) return fail("run");
 
-  const result = replay(body.moves);
-  if (!result.ok) return fail(`moves:${result.reason}`);
+  const result = replay(body.ticks);
+  if (!result.ok) return fail(`ticks:${result.reason}`);
   if (result.score <= 0) return fail("no-score");
 
   const who = await visitor(request);
@@ -144,14 +147,17 @@ async function submitScore(request: Request, env: Env) {
   if (now - spent.started_at < result.minMs * TIME_SLACK) return fail("too-fast", 422);
 
   await env.DB.prepare(
-    "INSERT INTO scores (game, initials, score, rows, ip_hash, created_at) VALUES (?, ?, ?, ?, ?, ?)",
+    "INSERT INTO scores (game, initials, score, rows, bounces, ip_hash, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
   )
-    .bind(GAME, initials, result.score, result.rows, who, now)
+    .bind(GAME, initials, result.score, result.rows, result.bounces, who, now)
     .run();
 
-  // Ties go to whoever got there first, so a new score ranks below every equal one.
-  const above = await env.DB.prepare("SELECT COUNT(*) AS n FROM scores WHERE game = ? AND score >= ?")
-    .bind(GAME, result.score)
+  // The board's order: score, then fewer bounces, then whoever got there first. So the new score
+  // ranks below every equal one with as few bounces, which now includes itself.
+  const above = await env.DB.prepare(
+    "SELECT COUNT(*) AS n FROM scores WHERE game = ? AND (score > ? OR (score = ? AND bounces <= ?))",
+  )
+    .bind(GAME, result.score, result.score, result.bounces)
     .first<{ n: number }>();
 
   // Hand back the page the new score landed on, so the player sees their own row.

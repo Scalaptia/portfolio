@@ -4,9 +4,10 @@
 // falls off. The row you are left with is the width of the next one. Get to the top.
 //
 // This file is shared by the game in the browser and the Worker that keeps the high scores. A run
-// is submitted as the column each row was stopped at, and the Worker replays those columns through
-// the same placeRow() the game used, so the score it stores is one it worked out itself. Keep this
-// module free of DOM and of Worker types for that reason.
+// is submitted as the tick each row was stopped at, counted from when that row started moving. The
+// Worker replays those ticks through the same stopAt() the game used, which works out where the
+// row was and how many times it had turned around, so the score it stores is one it worked out
+// itself. Keep this module free of DOM and of Worker types for that reason.
 
 export const COLS = 9
 export const ROWS = 16
@@ -17,8 +18,16 @@ export const START_WIDTH = 3
 export const ROW_POINTS = 100
 export const PERFECT_POINTS = 50
 export const TOP_BONUS = 1000
+// Stopping a row decisively pays too: full speed points on its first pass, less for every time it
+// turns around at a wall first. Rows speed up as you climb, so a perfect, first-pass run gets
+// genuinely hard near the top, and waiting for the row to come back is no longer free.
+export const SPEED_POINTS = 50
+export const BOUNCE_COST = 15
 
-export const MAX_SCORE = ROWS * ROW_POINTS + (ROWS - 1) * PERFECT_POINTS + TOP_BONUS
+export const MAX_SCORE = ROWS * (ROW_POINTS + SPEED_POINTS) + (ROWS - 1) * PERFECT_POINTS + TOP_BONUS
+
+/** Speed points for a row that turned around this many times before it was stopped. */
+export const speedPoints = (bounces: number) => Math.max(0, SPEED_POINTS - BOUNCE_COST * bounces)
 
 /** The widest a row is allowed to be, however well you have done. Classic Stacker squeezes too. */
 export function widthCap(row: number): number {
@@ -49,6 +58,17 @@ export function positionAt(row: number, width: number, ticks: number): number {
     return t <= span ? t : period - t
 }
 
+/**
+ * How many times a row has turned around after this many ticks. It enters against one wall, so the
+ * first turn is when it reaches the other one and starts back. A row as wide as the field never
+ * moves, so it never turns.
+ */
+export function bouncesAt(row: number, width: number, ticks: number): number {
+    const span = COLS - width
+    if (span <= 0 || ticks <= span) return 0
+    return Math.floor((ticks - 1) / span)
+}
+
 export interface Placed {
     x: number
     width: number
@@ -61,12 +81,14 @@ export interface StackState {
     width: number
     score: number
     perfects: number
+    /** Every turn every row made before it was stopped. Fewer breaks a tie on the board. */
+    bounces: number
     over: boolean
     won: boolean
 }
 
 export function newGame(): StackState {
-    return { stack: [], width: START_WIDTH, score: 0, perfects: 0, over: false, won: false }
+    return { stack: [], width: START_WIDTH, score: 0, perfects: 0, bounces: 0, over: false, won: false }
 }
 
 export interface PlaceResult {
@@ -76,11 +98,13 @@ export interface PlaceResult {
     /** Columns that fell off, so the game can drop them. */
     lost: number[]
     perfect: boolean
+    /** Points this row added, speed included. */
+    gained: number
 }
 
 /** Stop the sliding row at column x. Returns the next state; the one passed in is not changed. */
-export function placeRow(state: StackState, x: number): PlaceResult {
-    if (state.over) return { state, kept: null, lost: [], perfect: false }
+export function placeRow(state: StackState, x: number, bounces = 0): PlaceResult {
+    if (state.over) return { state, kept: null, lost: [], perfect: false, gained: 0 }
 
     const row = state.stack.length
     const width = state.width
@@ -95,15 +119,15 @@ export function placeRow(state: StackState, x: number): PlaceResult {
     for (let c = x; c < x + width; c++) if (c < left || c >= right) lost.push(c)
 
     if (keptWidth === 0) {
-        return { state: { ...state, over: true }, kept: null, lost, perfect: false }
+        return { state: { ...state, over: true, bounces: state.bounces + bounces }, kept: null, lost, perfect: false, gained: 0 }
     }
 
     const kept = { x: left, width: keptWidth }
     const perfect = !!below && keptWidth === width
     const stack = [...state.stack, kept]
     const won = stack.length === ROWS
-    const score =
-        state.score + ROW_POINTS + (perfect ? PERFECT_POINTS : 0) + (won ? TOP_BONUS : 0)
+    const gained = ROW_POINTS + (perfect ? PERFECT_POINTS : 0) + speedPoints(bounces) + (won ? TOP_BONUS : 0)
+    const score = state.score + gained
 
     return {
         state: {
@@ -111,13 +135,23 @@ export function placeRow(state: StackState, x: number): PlaceResult {
             width: won ? keptWidth : Math.min(keptWidth, widthCap(stack.length)),
             score,
             perfects: state.perfects + (perfect ? 1 : 0),
+            bounces: state.bounces + bounces,
             over: won,
             won,
         },
         kept,
         lost,
         perfect,
+        gained,
     }
+}
+
+/** Stop the sliding row this many ticks after it started moving. What the game and the Worker both call. */
+export function stopAt(state: StackState, ticks: number): PlaceResult & { x: number; bounces: number } {
+    const row = state.stack.length
+    const x = positionAt(row, state.width, ticks)
+    const bounces = bouncesAt(row, state.width, ticks)
+    return { ...placeRow(state, x, bounces), x, bounces }
 }
 
 export interface Replay {
@@ -126,38 +160,35 @@ export interface Replay {
     score: number
     rows: number
     won: boolean
-    /** The least time a person could have taken to stop every row where it was stopped. */
+    bounces: number
+    /** How long the rows were moving in total. A real run cannot have taken less. */
     minMs: number
 }
 
-/**
- * Replay a whole run from the column each row was stopped at. Rejects anything the game could not
- * have produced: a column the sliding row never reaches, moves after the game ended, or a run that
- * stops early without having ended.
- */
-export function replay(moves: unknown): Replay {
-    const fail = (reason: string): Replay => ({ ok: false, reason, score: 0, rows: 0, won: false, minMs: 0 })
+// A row left sliding this long is not a game anyone is still playing.
+const MAX_TICKS = 5000
 
-    if (!Array.isArray(moves) || moves.length === 0 || moves.length > ROWS) return fail('moves')
+/**
+ * Replay a whole run from the tick each row was stopped at. Rejects anything the game could not
+ * have produced: a tick that is not a whole number, ticks after the game ended, or a run that stops
+ * early without having ended.
+ */
+export function replay(ticks: unknown): Replay {
+    const fail = (reason: string): Replay => ({ ok: false, reason, score: 0, rows: 0, won: false, bounces: 0, minMs: 0 })
+
+    if (!Array.isArray(ticks) || ticks.length === 0 || ticks.length > ROWS) return fail('ticks')
 
     let state = newGame()
     let minMs = 0
-    for (let i = 0; i < moves.length; i++) {
-        const x = moves[i]
+    for (const tick of ticks) {
         if (state.over) return fail('after-end')
-        if (!Number.isInteger(x) || x < 0 || x > COLS - state.width) return fail('column')
-
-        // Ticks until the row first reaches x from where it enters.
-        const row = state.stack.length
-        const start = startOf(row, state.width)
-        const ticks = start.dir === 1 ? x - start.x : start.x - x
-        minMs += ticks * tickMs(row)
-
-        state = placeRow(state, x).state
+        if (!Number.isInteger(tick) || tick < 0 || tick > MAX_TICKS) return fail('tick')
+        minMs += tick * tickMs(state.stack.length)
+        state = stopAt(state, tick).state
     }
 
     if (!state.over) return fail('unfinished')
-    return { ok: true, score: state.score, rows: state.stack.length, won: state.won, minMs }
+    return { ok: true, score: state.score, rows: state.stack.length, won: state.won, bounces: state.bounces, minMs }
 }
 
 // Three letters go on the board for anyone to read, so a few combinations do not.
