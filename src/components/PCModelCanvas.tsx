@@ -11,10 +11,10 @@ import { play } from '@/lib/sfx'
 import { drawFace, createFaceCanvas, drawFromArt, drawIntroFrame } from './pc-model/drawing'
 import type { Gaze } from './pc-model/drawing'
 
-// Click it enough times in a row and it has had enough.
-const RAGE_LIMIT = 8
-// Clicks stop counting toward that once you leave it alone for a moment.
-const RAGE_WINDOW_MS = 1500
+// Spam it and it has had enough: this many clicks inside the window. That is about four a second,
+// which only mashing reaches. Clicking through its faces at a normal pace never gets there.
+const RAGE_LIMIT = 10
+const RAGE_WINDOW_MS = 2500
 // How far the cursor has to be from the middle of the canvas, as a fraction of its half-width,
 // before the face looks that way.
 const GAZE_THRESHOLD = 0.55
@@ -42,8 +42,8 @@ function Scene() {
 
     useEffect(() => subscribeShown(setGuest), [])
 
-    const rageCount = useRef(0)
-    const lastClick = useRef(0)
+    // When the recent clicks happened, for the shutdown's sliding window.
+    const rageClicks = useRef<number[]>([])
     const rageTimers = useRef<ReturnType<typeof setTimeout>[]>([])
     
     const canvasRef = useRef<HTMLCanvasElement | null>(null)
@@ -192,7 +192,7 @@ function Scene() {
 
     const triggerShutdown = () => {
         clearRageTimers()
-        rageCount.current = 0
+        rageClicks.current = []
         setMode('dizzy')
 
         scheduleRage(() => {
@@ -250,17 +250,16 @@ function Scene() {
 
     const handleClick = (e: ThreeEvent<MouseEvent>) => {
         // Pointer events reach every mesh under the cursor, screen and case alike. Without this
-        // one click counted twice, and the rage shutdown came after four clicks instead of eight.
+        // one click counted twice, and the rage shutdown came at half the clicks it should.
         e.stopPropagation()
 
         // While it is off or rebooting, poking it does nothing. That is the joke.
         if (mode !== 'awake') return
 
         const now = Date.now()
-        rageCount.current = now - lastClick.current < RAGE_WINDOW_MS ? rageCount.current + 1 : 1
-        lastClick.current = now
+        rageClicks.current = [...rageClicks.current.filter((t) => now - t < RAGE_WINDOW_MS), now]
 
-        if (rageCount.current >= RAGE_LIMIT) {
+        if (rageClicks.current.length >= RAGE_LIMIT) {
             triggerShutdown()
             return
         }
