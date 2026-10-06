@@ -195,10 +195,12 @@ export function buildHaroPC(): HaroPC {
 
     group.add(tail())
 
-    // Centre the whole thing on its middle, paws and ears included, so it turns in place.
+    // Centre it vertically, paws and ears included, so it turns in place. Not sideways: the case,
+    // ears and paws are already symmetric about x = 0, and the tail sticking out to one side
+    // used to drag the box's centre over and push the whole PC off-centre.
     const box = new THREE.Box3().setFromObject(group)
-    const centre = box.getCenter(new THREE.Vector3())
-    group.children.forEach((child) => child.position.sub(new THREE.Vector3(centre.x, centre.y, 0)))
+    const centreY = box.getCenter(new THREE.Vector3()).y
+    group.children.forEach((child) => (child.position.y -= centreY))
 
     return { group, screen, led: ledMaterial }
 }
