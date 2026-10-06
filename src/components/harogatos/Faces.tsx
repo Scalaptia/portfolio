@@ -15,7 +15,7 @@ import { fetchFaces, sendFace } from "@/lib/arcadeApi";
 import { rememberMyFace, wearFace } from "@/lib/guestFaceShow";
 import { mountTurnstile } from "@/lib/turnstile";
 import { CRT_COLORS, guestFace } from "@/components/pc-model/faces";
-import { playNotes } from "@/components/pc-model/sounds";
+import { play } from "@/lib/sfx";
 import FaceIcon from "./FaceIcon";
 import { INVERSE } from "./phosphor";
 
@@ -53,7 +53,6 @@ const day = (at: number) =>
     day: "numeric",
   });
 
-const blip = (freq = 880) => playNotes([[freq, 0, 0.03]], 0.04);
 
 interface Draft {
   art: string[];
@@ -285,7 +284,7 @@ export default function Faces({ onExit, tall = false }: { onExit: () => void; ta
       if (start) {
         const [x, y] = cells[0];
         strokeValue.current = tool !== "." && artRef.current[y][x] === tool ? "." : tool;
-        blip(strokeValue.current === "." ? 440 : 880);
+        play(strokeValue.current === "." ? "ui-erase" : "ui-pen");
       }
       const value = strokeValue.current;
       setDraft((d) => {
@@ -315,7 +314,7 @@ export default function Faces({ onExit, tall = false }: { onExit: () => void; ta
       return;
     }
     rememberMyFace({ id: result.id, art, scheme, author: name, message: note, at: Date.now() });
-    playNotes([[523, 0, 0.08], [784, 0.08, 0.08], [1047, 0.16, 0.2]], 0.07);
+    play("face-sent");
     setView("sent");
   }, [art, scheme, author, message]);
 
@@ -576,7 +575,7 @@ export default function Faces({ onExit, tall = false }: { onExit: () => void; ta
                     className={`px-[1.6cqh] py-[0.4cqh] shrink-0 ${INVERSE}`}
                     onClick={() => {
                       wearFace(gallery[picked]);
-                      blip(1320);
+                      play("pc-confirm");
                       onExit();
                     }}
                   >

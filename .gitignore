@@ -24,3 +24,6 @@ pnpm-debug.log*
 # wrangler local state
 .wrangler/
 .dev.vars
+
+# npm run sfx compiles this, runs it and deletes it
+sfx/.build

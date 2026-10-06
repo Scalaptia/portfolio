@@ -7,7 +7,7 @@ import { buildHaroPC } from './pc-model/haroPC'
 
 import { FACES, BLINK_FACE, DIZZY_FACE, OFF_FACE, INTRO_FRAMES, guestFace } from './pc-model/faces'
 import { subscribeShown, getShown, advance, type Shown } from '@/lib/guestFaceShow'
-import { playMeowSound, playPowerDownSound, playBootSound } from './pc-model/sounds'
+import { play } from '@/lib/sfx'
 import { drawFace, createFaceCanvas, drawFromArt, drawIntroFrame } from './pc-model/drawing'
 import type { Gaze } from './pc-model/drawing'
 
@@ -69,10 +69,8 @@ function Scene() {
     useEffect(() => {
         const handleHeroHover = (e: CustomEvent) => {
             setIsHeroHovered(e.detail.hovered)
-            if (e.detail.hovered) {
-                triggerBounce()
-                playMeowSound(4)
-            }
+            // A hover is not a press, so it bounces but stays quiet.
+            if (e.detail.hovered) triggerBounce()
         }
 
         const handlePageInteraction = (e: CustomEvent) => {
@@ -89,12 +87,11 @@ function Scene() {
                 case 'social':
                     triggerBounce()
                     setExpression(1)
-                    playMeowSound(1)
                     setTimeout(() => setExpression(0), 2000)
                     break
                 case 'email':
                     setExpression(3)
-                    playMeowSound(3)
+                    play('pc-confirm')
                     setTimeout(() => setExpression(0), 1500)
                     break
             }
@@ -201,13 +198,15 @@ function Scene() {
 
         scheduleRage(() => {
             setMode('off')
-            playPowerDownSound()
+            play('pc-off')
         }, 900)
 
         scheduleRage(() => {
             setMode('booting')
             setBootFrame(0)
-            playBootSound()
+            // The self-test beep, then the drive seeking while the boot frames run.
+            play('pc-boot')
+            play('pc-seek', { delay: 0.35 })
 
             let elapsed = 0
             INTRO_FRAMES.forEach((frame, i) => {
@@ -269,12 +268,13 @@ function Scene() {
         // Every third click is a visitor's face (see guestFaceShow.ts). The rest step through the
         // PC's own expressions.
         if (advance()) {
-            playMeowSound(expression)
+            play('pc-guest')
             return
         }
         const next = (expression + 1) % FACES.length
         setExpression(next)
-        playMeowSound(next)
+        // The same bip each time, a hair higher or lower, so fast clicks do not sound like a machine gun.
+        play('pc-click', { rate: 0.94 + Math.random() * 0.12 })
     }
 
     // ANIMATION FRAME

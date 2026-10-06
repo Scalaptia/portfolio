@@ -80,8 +80,19 @@ sentence case.
 
 ## Sound
 
-Sound is the PC's voice: meows, boot and power chimes, Stacker's notes. Nothing plays until the
-visitor has done something, and the interface itself makes no sound.
+Every sound is a retro sound effect made with rFXGen, raylib's sfxr-style generator. No samples,
+no meows, no synth code running in the page. The recipes are lines in `sfx/sounds.txt`, and
+`npm run sfx` turns them into the WAVs in `public/sfx`. Each one also gets a `.rfx` in `sfx/rfx`
+that opens in [rFXGen](https://raylibtech.itch.io/rfxgen), so a sound can be tuned by ear there
+and its numbers copied back.
+
+- The house sound is a square wave: short, dry, a little punch. Sine only for the softest one.
+- The PC sounds like a PC: a speaker bip when poked, the BIOS self-test beep and a drive seeking
+  when it boots, the tone falling away when it shuts down.
+- Screens switching on and off (the picture viewer, harogatOS) get a thunk and a falling tone.
+- Games may be louder and more musical. Stacker climbs a semitone per row by playing one sound
+  faster, not by having sixteen of them.
+- A hover is not a press. Nothing plays until the visitor has clicked, tapped or typed.
 
 ## Voice
 

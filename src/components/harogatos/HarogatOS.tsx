@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import PixelIcon, { type IconName } from "@/components/PixelIcon";
 import CaseEars from "@/components/CaseEars";
+import { play, preload } from "@/lib/sfx";
 import { closeOS, launch, type AppId } from "@/lib/harogatos";
 import { useOSState } from "@/lib/useOSState";
 import Stacker, { Hiscores } from "./Stacker";
@@ -54,6 +55,7 @@ export default function HarogatOS() {
   const requestClose = useCallback(() => {
     if (closing) return;
     setClosing(true);
+    play("crt-off");
     if (calm) return closeOS();
     setTimeout(closeOS, CLOSE_MS);
   }, [closing, calm]);
@@ -61,6 +63,10 @@ export default function HarogatOS() {
   const toStacker = useCallback(() => launch("stacker"), []);
 
   useEffect(() => {
+    // The screen switching on, same as the picture viewer. The games' sounds load now, so the
+    // first block placed is not silent while its file arrives.
+    play("crt-on");
+    preload("stk-start", "stk-place", "stk-perfect", "stk-chop", "stk-over", "stk-win", "ui-key", "ui-pen", "ui-erase", "face-sent", "crt-off");
     const before = document.activeElement as HTMLElement | null;
     document.body.style.overflow = "hidden";
     tabsRef.current?.querySelector<HTMLElement>("[aria-current]")?.focus({ preventScroll: true });

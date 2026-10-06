@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import PixelIcon from "./PixelIcon";
 import CaseEars from "./CaseEars";
+import { play } from "@/lib/sfx";
 import { aspectOf, closeViewer, navigateViewer, stepViewer } from "@/lib/crtViewer";
 import { useViewerState } from "@/lib/useViewerState";
 
@@ -48,15 +49,7 @@ interface Zoom {
 
 const RESET: Zoom = { scale: 1, x: 0, y: 0 };
 
-async function chime(kind: "on" | "off") {
-  try {
-    const sounds = await import("./pc-model/sounds");
-    if (kind === "on") sounds.playBootSound();
-    else sounds.playPowerDownSound();
-  } catch {
-    // No audio, no problem.
-  }
-}
+const chime = (kind: "on" | "off") => play(kind === "on" ? "crt-on" : "crt-off");
 
 export default function CrtLightbox() {
   const { items, index, scheme, origin, aspect: fixed } = useViewerState();

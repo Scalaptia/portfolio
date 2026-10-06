@@ -1,0 +1,68 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+// Every sound on the site, one button each, for tuning them. Not linked from anywhere.
+// The recipes are in sfx/sounds.txt; `npm run sfx` rebuilds the files these play.
+const groups: [string, [string, string][]][] = [
+  ["HARO-PC", [
+    ["pc-click", "Clicking the PC"],
+    ["pc-guest", "A visitor's face comes up"],
+    ["pc-confirm", "Email copied, SHOW ON PC"],
+    ["pc-off", "Rage shutdown"],
+    ["pc-boot", "Coming back on"],
+    ["pc-seek", "The drive, while it boots"],
+  ]],
+  ["Screens", [
+    ["crt-on", "Picture viewer or harogatOS opens"],
+    ["crt-off", "...and closes"],
+  ]],
+  ["Stacker", [
+    ["stk-start", "New game"],
+    ["stk-place", "A row lands (bottom note, rises per row)"],
+    ["stk-perfect", "Perfect landing (also rises)"],
+    ["stk-chop", "Blocks fall off"],
+    ["stk-over", "Game over"],
+    ["stk-win", "Reaching the top"],
+    ["ui-key", "Changing a letter of your initials"],
+  ]],
+  ["Faces", [
+    ["ui-pen", "Painting a cell"],
+    ["ui-erase", "Erasing a cell"],
+    ["face-sent", "Face sent"],
+  ]],
+];
+---
+
+<Layout title="Sounds" noindex>
+  <main slot="content" class="w-full max-w-[1000px] px-4 sm:px-6 lg:px-8 my-12">
+    <span class="text-primary font-ubuntu-mono text-2xl block mb-6">&lt;sounds&gt;</span>
+    <div class="flex flex-col gap-8">
+      {groups.map(([title, sounds]) => (
+        <section>
+          <h2 class="font-black-han-sans text-text text-xl mb-3">{title}</h2>
+          <div class="grid gap-3 sm:grid-cols-2">
+            {sounds.map(([name, what]) => (
+              <button
+                type="button"
+                data-sfx={name}
+                class="press [--press:3px] flex items-center gap-3 border-2 border-text bg-white px-3 py-2 text-left"
+              >
+                <span class="font-ubuntu-mono font-bold text-text">{name}</span>
+                <span class="font-open-sans text-sm text-text/70">{what}</span>
+              </button>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  </main>
+</Layout>
+
+<script>
+  import { play, type Sfx } from "@/lib/sfx";
+
+  document.addEventListener("click", (e) => {
+    const button = (e.target as HTMLElement | null)?.closest<HTMLElement>("[data-sfx]");
+    if (button) play(button.dataset.sfx as Sfx);
+  });
+</script>
