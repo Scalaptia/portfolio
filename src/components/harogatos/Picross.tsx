@@ -13,6 +13,11 @@ import {
   filledOf,
   encodeMarks,
   decodeMarks,
+  hintsFor,
+  givenAt,
+  LEVELS,
+  type Givens,
+  type Level,
   type Mark,
   type Puzzle,
 } from "@/lib/picross";
@@ -37,9 +42,11 @@ interface Entry {
   guest?: GuestFace;
 }
 
+// Keyed by puzzle and level ("pc-0:hard"), so each difficulty has its own best time and progress.
 interface Saved {
   solved: Record<string, number>;
   progress: Record<string, { marks: string; ms: number }>;
+  level?: Level;
 }
 
 const STORE = "harogatos:picross";
@@ -48,7 +55,7 @@ const PAGE = { wide: 10, tall: 9 };
 function load(): Saved {
   try {
     const raw = JSON.parse(localStorage.getItem(STORE) ?? "null");
-    if (raw && typeof raw === "object") return { solved: raw.solved ?? {}, progress: raw.progress ?? {} };
+    if (raw && typeof raw === "object") return { solved: raw.solved ?? {}, progress: raw.progress ?? {}, level: raw.level };
   } catch {
     // Start over.
   }
@@ -89,12 +96,15 @@ function guestEntries(faces: GuestFace[]): Entry[] {
 function Board({
   entry,
   marks,
+  givens,
   tool,
   cursor,
   onPaint,
 }: {
   entry: Entry;
   marks: Mark[][];
+  /** Cells the puzzle starts with. They are part of the grid but cannot be changed. */
+  givens: Givens;
   tool: "fill" | "cross";
   cursor: [number, number] | null;
   onPaint: (cells: [number, number][], value: Mark) => void;
@@ -131,7 +141,7 @@ function Board({
   // ones that had the same mark as the first.
   const apply = (at: [number, number]) => {
     const stroke = paint.current;
-    if (!stroke) return;
+    if (!stroke || givenAt(givens, at[0], at[1]) !== undefined) return;
     const current = marks[at[1]][at[0]];
     if (current === stroke.value) return;
     if (stroke.value === "" ? current !== stroke.from : current !== "") return;
@@ -150,7 +160,7 @@ function Board({
         style={size}
         onPointerDown={(e) => {
           const at = cellAt(e);
-          if (!at) return;
+          if (!at || givenAt(givens, at[0], at[1]) !== undefined) return;
           e.currentTarget.setPointerCapture(e.pointerId);
           const from = marks[at[1]][at[0]];
           const value: Mark = from === tool ? "" : tool;
@@ -201,6 +211,7 @@ function Board({
         {marks.map((row, y) =>
           row.map((mark, x) => {
             const here = cursor && cursor[0] === x && cursor[1] === y;
+            const given = givenAt(givens, x, y) !== undefined;
             return (
               <div
                 key={`${x}-${y}`}
@@ -221,9 +232,10 @@ function Board({
                   outlineOffset: -2,
                 }}
               >
-                {mark === "fill" && <div className="absolute inset-[12%] bg-(--fg)" />}
+                {/* A cell the puzzle started with: the same mark, dimmer, so it reads as given. */}
+                {mark === "fill" && <div className={`absolute inset-[12%] bg-(--fg) ${given ? "opacity-55" : ""}`} />}
                 {mark === "cross" && (
-                  <span className="opacity-60 leading-none" style={{ fontSize: cell * 0.7 }}>
+                  <span className={`leading-none ${given ? "opacity-30" : "opacity-60"}`} style={{ fontSize: cell * 0.7 }}>
                     ×
                   </span>
                 )}
@@ -243,6 +255,8 @@ export default function Picross({ onExit, tall = false }: { onExit: () => void; 
   const [view, setView] = useState<"pick" | "play" | "solved">("pick");
   const [visitors, setVisitors] = useState<Entry[] | null | undefined>(undefined);
   const [data, setData] = useState<Saved>(load);
+  const [level, setLevel] = useState<Level>(() => data.level ?? "medium");
+  const [givens, setGivens] = useState<Givens>(new Map());
   const [page, setPage] = useState(0);
   const [entry, setEntry] = useState<Entry | null>(null);
   const [marks, setMarks] = useState<Mark[][]>([]);
@@ -276,10 +290,22 @@ export default function Picross({ onExit, tall = false }: { onExit: () => void; 
     save(next);
   }, []);
 
+  const slot = (e: Entry) => `${e.id}:${level}`;
+
+  // A fresh grid with the level's revealed cells already in it.
+  const startingMarks = (e: Entry, g: Givens) =>
+    emptyMarks(e.puzzle).map((row, y) => row.map((_, x): Mark => {
+      const given = givenAt(g, x, y);
+      return given === undefined ? "" : given ? "fill" : "cross";
+    }));
+
   const open = (e: Entry) => {
-    const stored = data.progress[e.id];
+    const stored = data.progress[slot(e)];
+    // Same face and level, same hints, on every device. Checked solvable by logic in hintsFor().
+    const g = hintsFor(e.puzzle, level, slot(e));
+    setGivens(g);
     setEntry(e);
-    setMarks((stored && decodeMarks(e.puzzle, stored.marks)) || emptyMarks(e.puzzle));
+    setMarks((stored && decodeMarks(e.puzzle, stored.marks)) || startingMarks(e, g));
     carried.current = stored?.ms ?? 0;
     startedAt.current = Date.now();
     setElapsed(carried.current);
@@ -293,7 +319,7 @@ export default function Picross({ onExit, tall = false }: { onExit: () => void; 
   const leave = useCallback(() => {
     if (entry && view === "play") {
       const ms = carried.current + Date.now() - startedAt.current;
-      persist({ ...data, progress: { ...data.progress, [entry.id]: { marks: encodeMarks(marks), ms } } });
+      persist({ ...data, progress: { ...data.progress, [slot(entry)]: { marks: encodeMarks(marks), ms } } });
     }
     setView("pick");
   }, [entry, view, marks, data, persist]);
@@ -308,10 +334,10 @@ export default function Picross({ onExit, tall = false }: { onExit: () => void; 
       setMarks(next);
       if (isSolved(entry.puzzle, filledOf(next))) {
         const ms = carried.current + Date.now() - startedAt.current;
-        const best = data.solved[entry.id];
+        const best = data.solved[slot(entry)];
         const progress = { ...data.progress };
-        delete progress[entry.id];
-        persist({ solved: { ...data.solved, [entry.id]: best ? Math.min(best, ms) : ms }, progress });
+        delete progress[slot(entry)];
+        persist({ ...data, solved: { ...data.solved, [slot(entry)]: best ? Math.min(best, ms) : ms }, progress });
         setLastTime(ms);
         // Let the last cell show before the reveal.
         setTimeout(() => {
@@ -348,7 +374,7 @@ export default function Picross({ onExit, tall = false }: { onExit: () => void; 
           const [dx, dy] = moves[e.key];
           return [Math.min(entry.puzzle.cols - 1, Math.max(0, x + dx)), Math.min(entry.puzzle.rows - 1, Math.max(0, y + dy))];
         });
-      } else if ((e.key === " " || e.key.toLowerCase() === "x") && cursor) {
+      } else if ((e.key === " " || e.key.toLowerCase() === "x") && cursor && givenAt(givens, cursor[0], cursor[1]) === undefined) {
         e.preventDefault();
         const want: Mark = e.key === " " ? "fill" : "cross";
         paint([cursor], marks[cursor[1]][cursor[0]] === want ? "" : want);
@@ -356,7 +382,7 @@ export default function Picross({ onExit, tall = false }: { onExit: () => void; 
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [view, entry, cursor, marks, paint, leave, onExit, pages]);
+  }, [view, entry, cursor, marks, givens, paint, leave, onExit, pages]);
 
   const button = "px-[1.6cqh] py-[0.4cqh] border-[0.4cqh] border-(--fg) hover:bg-(--dim) disabled:opacity-40";
   const title = (e: Entry) => (e.guest ? e.guest.author : t.faceNames[e.faceIndex ?? 0]);
@@ -367,7 +393,7 @@ export default function Picross({ onExit, tall = false }: { onExit: () => void; 
     return (
       <div className={`absolute inset-0 flex ${tall ? "flex-col" : ""} gap-[2cqh] p-[3cqh]`}>
         <div className="flex-1 min-h-0 min-w-0">
-          <Board entry={entry} marks={marks} tool={tool} cursor={cursor} onPaint={paint} />
+          <Board entry={entry} marks={marks} givens={givens} tool={tool} cursor={cursor} onPaint={paint} />
         </div>
         <div className={`flex ${tall ? "flex-row flex-wrap justify-center items-center" : "flex-col w-[28%]"} gap-[1.5cqh] text-[0.8em]`}>
           <div className="tabular-nums text-[1.3em]">{clock(elapsed)}</div>
@@ -381,7 +407,7 @@ export default function Picross({ onExit, tall = false }: { onExit: () => void; 
           ))}
           <button
             onClick={() => {
-              setMarks(emptyMarks(entry.puzzle));
+              setMarks(startingMarks(entry, givens));
               play("ui-erase");
             }}
             className={`${button} text-left`}
@@ -441,17 +467,34 @@ export default function Picross({ onExit, tall = false }: { onExit: () => void; 
 
   // The picker: solved ones show their face, the rest a question mark and their size.
   const shown = entries.slice(page * perPage, (page + 1) * perPage);
-  const solvedCount = entries.filter((e) => data.solved[e.id] !== undefined).length;
+  const solvedCount = entries.filter((e) => data.solved[slot(e)] !== undefined).length;
   return (
     <div className="absolute inset-0 flex flex-col p-[3cqh] gap-[2cqh]">
       <div className="flex items-baseline justify-between gap-[2cqh]">
         <div className="text-[1.2em]">PICROSS</div>
         <div className="text-[0.75em] opacity-70 tabular-nums">{t.solvedCount(solvedCount, entries.length)}</div>
       </div>
+      {/* Difficulty. Every level of every puzzle is checked solvable by logic, no guessing. */}
+      <div className="flex gap-[1cqh] text-[0.8em]" role="group" aria-label={t.difficulty}>
+        {LEVELS.map((lv) => (
+          <button
+            key={lv}
+            aria-pressed={level === lv}
+            onClick={() => {
+              setLevel(lv);
+              persist({ ...data, level: lv });
+              play("case-button");
+            }}
+            className={`${button} ${level === lv ? INVERSE : ""}`}
+          >
+            {t.levels[lv]}
+          </button>
+        ))}
+      </div>
       <div className={`flex-1 min-h-0 grid ${tall ? "grid-cols-3" : "grid-cols-5"} gap-[2cqh] content-start`}>
         {shown.map((e) => {
-          const best = data.solved[e.id];
-          const started = data.progress[e.id] !== undefined;
+          const best = data.solved[slot(e)];
+          const started = data.progress[slot(e)] !== undefined;
           return (
             <button
               key={e.id}

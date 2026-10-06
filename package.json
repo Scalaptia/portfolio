@@ -13,6 +13,7 @@
         "sfx": "gcc -O2 -Wno-unused-result -o sfx/.build sfx/build.c -lm && ./sfx/.build && rm sfx/.build",
         "dev:api": "wrangler d1 migrations apply DB --local && wrangler dev --port 8787",
         "db:migrate": "wrangler d1 migrations apply DB --remote",
+        "check:picross": "node --experimental-strip-types scripts/check-picross.ts",
         "check:worker": "tsc -p worker/tsconfig.json"
     },
     "dependencies": {

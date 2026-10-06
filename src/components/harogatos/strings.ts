@@ -97,6 +97,8 @@ const en = {
   visitor: "VISITOR",
   noVisitorPuzzles: "visitor faces load on fharo.dev",
   faceNames: ["Normal", "Happy", "Surprised", "Wink", "Love", "Sleepy", "Excited", "Cool"],
+  difficulty: "Difficulty",
+  levels: { easy: "EASY", medium: "MEDIUM", hard: "HARD" },
 };
 
 export type Strings = typeof en;
@@ -192,6 +194,8 @@ const es: Strings = {
   visitor: "VISITANTE",
   noVisitorPuzzles: "las caras de visitantes cargan en fharo.dev",
   faceNames: ["normal", "feliz", "sorprendida", "guiño", "enamorada", "dormida", "emocionada", "cool"],
+  difficulty: "Dificultad",
+  levels: { easy: "FÁCIL", medium: "MEDIO", hard: "DIFÍCIL" },
 };
 
 /** The strings for the page's language. The language never changes while a page is open. */
