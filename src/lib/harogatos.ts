@@ -1,17 +1,17 @@
 // harogatOS, the little operating system on the PC.
 //
-// It opens on top of whatever page you are on, from the play button under the PC, the link in the
-// footer, or the Konami code. Like the picture viewer, the open state lives here in module scope so
+// It opens on top of whatever page you are on, from the boot button under the PC, the link in the
+// footer, a link to one app (fharo.dev/#play), or the Konami code. It boots to the menu. Like the picture viewer, the open state lives here in module scope so
 // a plain script, the host island and the window itself all see the same thing. See crtViewer.ts.
 
-export type AppId = "stacker" | "hiscores" | "faces" | "gallery" | "picross";
+export type AppId = "menu" | "stacker" | "hiscores" | "faces" | "gallery" | "picross";
 
 export interface OSState {
   open: boolean;
   app: AppId;
 }
 
-const CLOSED: OSState = { open: false, app: "stacker" };
+const CLOSED: OSState = { open: false, app: "menu" };
 
 let state: OSState = CLOSED;
 const listeners = new Set<(state: OSState) => void>();
@@ -35,7 +35,7 @@ export function subscribeOS(fn: (state: OSState) => void): () => void {
   };
 }
 
-export function openOS(app: AppId = "stacker"): void {
+export function openOS(app: AppId = "menu"): void {
   state = { open: true, app };
   emit();
 }

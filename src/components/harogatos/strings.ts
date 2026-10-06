@@ -4,8 +4,17 @@
 
 const en = {
   // The case
-  tabs: { stacker: "Stacker", hiscores: "Scores", faces: "Draw", gallery: "Gallery", picross: "Picross" },
+  menuButton: "Menu",
   shutDown: "Shut down",
+
+  // The menu
+  menu: {
+    stacker: { name: "STACKER", about: "stack the blocks as high as you can" },
+    picross: { name: "PICROSS", about: "work out a face from its clues" },
+    faces: { name: "DRAW A FACE", about: "draw one for the PC to wear" },
+    gallery: { name: "GALLERY", about: "faces other visitors drew" },
+    hiscores: { name: "HIGH SCORES", about: "the best stackers" },
+  },
   previousPage: "Previous page",
   nextPage: "Next page",
 
@@ -95,13 +104,22 @@ const en = {
   noVisitorPuzzles: "visitor faces load on fharo.dev",
   faceNames: ["Normal", "Happy", "Surprised", "Wink", "Love", "Sleepy", "Excited", "Cool"],
   levels: { easy: "EASY", medium: "MEDIUM", hard: "HARD" },
+  picrossHow: "The numbers beside each row and above each column are its runs of filled cells, in order, with a gap between runs. Fill the grid to match and a face shows up. Dim cells are given.",
 };
 
 export type Strings = typeof en;
 
 const es: Strings = {
-  tabs: { stacker: "Stacker", hiscores: "Récords", faces: "Dibujar", gallery: "Galería", picross: "Picross" },
+  menuButton: "Menú",
   shutDown: "Apagar",
+
+  menu: {
+    stacker: { name: "STACKER", about: "apila los bloques lo más alto que puedas" },
+    picross: { name: "PICROSS", about: "descubre una cara con sus pistas" },
+    faces: { name: "DIBUJA UNA CARA", about: "una para que la PC la use" },
+    gallery: { name: "GALERÍA", about: "caras que dibujaron otros visitantes" },
+    hiscores: { name: "RÉCORDS", about: "los mejores en Stacker" },
+  },
   previousPage: "Página anterior",
   nextPage: "Página siguiente",
 
@@ -188,6 +206,7 @@ const es: Strings = {
   noVisitorPuzzles: "las caras de visitantes cargan en fharo.dev",
   faceNames: ["normal", "feliz", "sorprendida", "guiño", "enamorada", "dormida", "emocionada", "cool"],
   levels: { easy: "FÁCIL", medium: "MEDIO", hard: "DIFÍCIL" },
+  picrossHow: "Los números junto a cada fila y sobre cada columna son sus grupos de celdas rellenas, en orden, con un hueco entre grupos. Rellena la cuadrícula para que coincida y aparece una cara. Las celdas tenues ya vienen dadas.",
 };
 
 /** The strings for the page's language. The language never changes while a page is open. */

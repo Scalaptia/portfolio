@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import PixelIcon, { type IconName } from "@/components/PixelIcon";
+import PixelIcon from "@/components/PixelIcon";
 import CaseEars from "@/components/CaseEars";
 import { play, preload } from "@/lib/sfx";
 import { closeOS, launch, type AppId } from "@/lib/harogatos";
@@ -8,32 +8,19 @@ import { useOSState } from "@/lib/useOSState";
 import Stacker, { Hiscores } from "./Stacker";
 import Faces from "./Faces";
 import Picross from "./Picross";
+import Menu from "./Menu";
 import { strings } from "./strings";
 import { PHOSPHOR, phosphorVars, calmMotion } from "./phosphor";
 
-// The monitor is the picture viewer's: same case, same bezel, same glass. The apps run on the
-// screen and the buttons on the case switch between them.
+// The monitor is the picture viewer's: same case, same bezel, same glass. It boots to a menu on
+// the screen, and the case has two buttons: back to the menu, and off.
 
 const OPEN_MS = 180;
 const GROW_MS = 280;
 const CLOSE_MS = 200;
 
 const BUTTON =
-  "press [--press:3px] flex items-center justify-center gap-1.5 sm:gap-2 border-2 border-text bg-white text-text font-ubuntu-mono font-bold text-[11px] sm:text-sm min-h-11 sm:min-h-10";
-
-interface Tab {
-  id: AppId;
-  label: string;
-  icon: IconName;
-}
-
-const TABS: Tab[] = [
-  { id: "stacker", label: "Stacker", icon: "gamepad" },
-  { id: "hiscores", label: "Scores", icon: "trophy" },
-  { id: "faces", label: "Draw", icon: "brush" },
-  { id: "gallery", label: "Gallery", icon: "album" },
-  { id: "picross", label: "Picross", icon: "grid" },
-];
+  "press [--press:3px] flex items-center justify-center gap-1.5 sm:gap-2 border-2 border-text bg-white text-text font-ubuntu-mono font-bold text-sm min-h-11 sm:min-h-10";
 
 // A phone held upright gets a tube taller than it is wide, so the games are not postage stamps.
 const TALL_QUERY = "(max-width: 639px) and (orientation: portrait)";
@@ -54,7 +41,14 @@ export default function HarogatOS() {
   const [closing, setClosing] = useState(false);
   const calm = useRef(calmMotion()).current;
   const rootRef = useRef<HTMLDivElement>(null);
-  const tabsRef = useRef<HTMLDivElement>(null);
+  const caseRef = useRef<HTMLDivElement>(null);
+  // The app before this one, so the menu's cursor starts on whatever you just left.
+  const [left, setLeft] = useState<AppId | undefined>(undefined);
+  const lastApp = useRef(app);
+  if (lastApp.current !== app) {
+    if (app === "menu") setLeft(lastApp.current);
+    lastApp.current = app;
+  }
 
   const requestClose = useCallback(() => {
     if (closing) return;
@@ -65,15 +59,16 @@ export default function HarogatOS() {
   }, [closing, calm]);
 
   const toStacker = useCallback(() => launch("stacker"), []);
+  const toMenu = useCallback(() => launch("menu"), []);
 
   useEffect(() => {
     // The screen switching on, same as the picture viewer. The games' sounds load now, so the
     // first block placed is not silent while its file arrives.
     play("crt-on");
-    preload("stk-start", "stk-place", "stk-perfect", "stk-chop", "stk-over", "stk-win", "ui-key", "ui-pen", "ui-erase", "face-sent", "crt-off");
+    preload("stk-start", "stk-place", "stk-perfect", "stk-chop", "stk-over", "stk-win", "ui-key", "ui-select", "ui-pen", "ui-erase", "face-sent", "crt-off");
     const before = document.activeElement as HTMLElement | null;
     document.body.style.overflow = "hidden";
-    tabsRef.current?.querySelector<HTMLElement>("[aria-current]")?.focus({ preventScroll: true });
+    caseRef.current?.querySelector<HTMLElement>("button")?.focus({ preventScroll: true });
     return () => {
       document.body.style.overflow = "";
       before?.focus?.({ preventScroll: true });
@@ -156,14 +151,16 @@ export default function HarogatOS() {
                   tall ? "text-[max(12px,4.8cqw)]" : "text-[max(12px,4.4cqh)]"
                 }`}
               >
-                {app === "hiscores" ? (
-                  <Hiscores onExit={toStacker} />
+                {app === "menu" ? (
+                  <Menu from={left} onLaunch={launch} onExit={requestClose} tall={tall} />
+                ) : app === "hiscores" ? (
+                  <Hiscores onExit={toMenu} onPlay={toStacker} />
                 ) : app === "picross" ? (
-                  <Picross onExit={requestClose} tall={tall} />
+                  <Picross onExit={toMenu} onClose={requestClose} tall={tall} />
                 ) : app === "faces" || app === "gallery" ? (
-                  <Faces onExit={requestClose} tall={tall} mode={app === "gallery" ? "gallery" : "draw"} />
+                  <Faces onExit={toMenu} onClose={requestClose} tall={tall} mode={app === "gallery" ? "gallery" : "draw"} />
                 ) : (
-                  <Stacker onExit={requestClose} tall={tall} />
+                  <Stacker onExit={toMenu} tall={tall} />
                 )}
               </div>
             </div>
@@ -171,31 +168,26 @@ export default function HarogatOS() {
         </div>
 
         <div className="flex items-center gap-1 sm:gap-2 px-2 pb-2 sm:px-4 sm:pb-4 [@media(max-height:520px)]:px-2 [@media(max-height:520px)]:pb-2">
-          <span className="hidden sm:flex items-center gap-1.5 font-black-han-sans text-text text-base pl-1">
-            <span className="w-2 h-2 bg-primary" aria-hidden="true" />
-            harogatOS
-          </span>
+          {/* The power light. The screen already says what this is, so the chin carries no name. */}
+          <span className="w-2 h-2 ml-1 bg-primary" aria-hidden="true" />
           <div className="flex-1" />
-          <div ref={tabsRef} className="flex gap-1 sm:gap-2">
-            {TABS.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => {
-                  if (app !== tab.id) play("case-button");
-                  launch(tab.id);
-                }}
-                aria-current={app === tab.id ? "page" : undefined}
-                className={`${BUTTON} px-1 sm:px-3 ${app === tab.id ? "bg-primary! text-white!" : ""}`}
-              >
-                <PixelIcon name={tab.icon} className="hidden sm:block w-4 h-4" />
-                {t.tabs[tab.id]}
-              </button>
-            ))}
+          <div ref={caseRef} className="flex gap-1 sm:gap-2">
+            {/* Back to the menu. A plain case button, like the picture viewer's. */}
+            <button
+              onClick={() => {
+                play("case-button");
+                toMenu();
+              }}
+              className={`${BUTTON} px-3`}
+            >
+              <PixelIcon name="home" className="w-4 h-4" />
+              {t.menuButton}
+            </button>
+            {/* Off, like the picture viewer's power button. */}
+            <button onClick={requestClose} className={`${BUTTON} w-11 sm:w-10 shrink-0`} aria-label={t.shutDown} title={t.shutDown}>
+              <PixelIcon name="power" className="w-4 h-4" />
+            </button>
           </div>
-          {/* Off, like the picture viewer's power button. Icon only, so five buttons fit a phone. */}
-          <button onClick={requestClose} className={`${BUTTON} w-9 sm:w-10 shrink-0`} aria-label={t.shutDown} title={t.shutDown}>
-            <PixelIcon name="power" className="w-4 h-4" />
-          </button>
         </div>
       </div>
     </div>,

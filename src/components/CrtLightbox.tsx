@@ -493,11 +493,12 @@ export default function CrtLightbox() {
                   play("case-button");
                   zoomAt(zoomed ? 1 : TAP_ZOOM);
                 }}
-                className={`${BUTTON} w-11 h-11 sm:w-10 sm:h-10 ${zoomed ? "bg-text text-white hover:bg-text" : ""}`}
+                className={`${BUTTON} w-11 h-11 sm:w-10 sm:h-10`}
                 aria-label={zoomed ? "Fit to screen" : "Zoom in"}
                 aria-pressed={zoomed}
               >
-                <PixelIcon name="maximize" className="w-5 h-5" />
+                {/* The icon says what a press does next. The button itself stays a plain button. */}
+                <PixelIcon name={zoomed ? "zoom-out" : "zoom-in"} className="w-5 h-5" />
               </button>
             )}
 

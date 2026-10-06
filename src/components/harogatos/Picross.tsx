@@ -254,7 +254,7 @@ function Board({
 
 // --- the app ---------------------------------------------------------------------------------
 
-export default function Picross({ onExit, tall = false }: { onExit: () => void; tall?: boolean }) {
+export default function Picross({ onExit, onClose, tall = false }: { onExit: () => void; onClose: () => void; tall?: boolean }) {
   const t = strings();
   const [view, setView] = useState<"pick" | "play" | "solved">("pick");
   const [visitors, setVisitors] = useState<Entry[] | null | undefined>(undefined);
@@ -313,7 +313,7 @@ export default function Picross({ onExit, tall = false }: { onExit: () => void; 
     setCursor(null);
     setTool("fill");
     setView("play");
-    play("case-button");
+    play("ui-select");
   };
 
   // Leaving a puzzle half done keeps it where it was, clock included.
@@ -446,7 +446,7 @@ export default function Picross({ onExit, tall = false }: { onExit: () => void; 
               onClick={() => {
                 wearFace(entry.guest!);
                 play("pc-insert");
-                onExit();
+                onClose();
               }}
               className={button}
             >
@@ -475,6 +475,7 @@ export default function Picross({ onExit, tall = false }: { onExit: () => void; 
         <div className="text-[1.2em]">PICROSS</div>
         <div className="text-[0.75em] opacity-70 tabular-nums">{t.solvedCount(solvedCount, entries.length)}</div>
       </div>
+      <div className="text-[0.7em] opacity-80 leading-normal max-w-[70ch]">{t.picrossHow}</div>
       <div className={`flex-1 min-h-0 grid ${tall ? "grid-cols-3" : "grid-cols-5"} gap-[2cqh] content-start`}>
         {shown.map((e) => {
           const best = data.solved[e.id];

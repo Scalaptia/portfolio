@@ -26,6 +26,8 @@ import { ChevronUp } from "pixelarticons/react/ChevronUp";
 import { Brush } from "pixelarticons/react/Brush";
 import { Album } from "pixelarticons/react/Album";
 import { Grid3x3 } from "pixelarticons/react/Grid3x3";
+import { ZoomIn } from "pixelarticons/react/ZoomIn";
+import { ZoomOut } from "pixelarticons/react/ZoomOut";
 
 export type IconName =
   | "github"
@@ -58,7 +60,9 @@ export type IconName =
   | "chevron-up"
   | "brush"
   | "album"
-  | "grid";
+  | "grid"
+  | "zoom-in"
+  | "zoom-out";
 
 const customIcons: Record<string, string> = {
   github:
@@ -101,6 +105,8 @@ const iconMap: Record<
   brush: Brush,
   album: Album,
   grid: Grid3x3,
+  "zoom-in": ZoomIn,
+  "zoom-out": ZoomOut,
   "chevron-down": ChevronDown,
   github: (() => null) as any,
   linkedin: (() => null) as any,

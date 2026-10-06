@@ -20,7 +20,7 @@ parts, so they read as one object.
 | Bezel | Ink frame around the glass | `bg-text`, `border-radius: 32px / 40px` |
 | Glass | The face canvas, 16x16 cells | `.crt-screen`, flat, with scanlines |
 | Power light | Coral square, left of the chin | `w-2 h-2 bg-primary`, on the harogatOS chin only |
-| Name | "HARO-PC" plate on the chin | "harogatOS" on the OS chin. The viewer chin has only its buttons, so the picture gets the room. |
+| Name | None | None. The machine is recognisable without a label, and the screen says what is running. |
 | Paws, tail | Four paws, a power cord that curls up | None. The HTML case has no underside to show them. |
 
 The favicon (`public/favicon.svg`, `favicon.ico`, `apple-touch-icon.png`) is the same machine drawn on
@@ -29,6 +29,11 @@ a 32x32 pixel grid: ears, ink outline, the default face, the coral light, paws.
 The machine is a cat because the site's handle is harogato and the PC already meows. The ears are
 what makes the link between the 3D PC and the windows visible at a glance, so a window without them
 is a bug.
+
+harogatOS boots to a list of what runs on it, like an arcade cabinet's game select: one line per
+app, a cursor, arrows or a tap to pick. The case has two buttons, back to that list and off, so
+adding an app adds a line on the screen, not a button on the case. Links to one app (`/play`,
+`/draw`, `#picross`) skip the list.
 
 When harogatOS opens on a page where the PC is on screen, it grows out of the PC and shrinks back
 into it. The picture viewer grows out of the thumbnail you clicked. Either way the window comes from
@@ -82,7 +87,9 @@ sentence case.
 
 ## Sound
 
-The machine's body makes real hardware sounds. Whatever runs on its screen makes retro sounds.
+The machine's body makes real hardware sounds. Whatever runs on its screen makes retro sounds. So
+the test for a new sound is where the thing you touched lives: a button on the case clicks, a
+line picked on the screen beeps.
 
 - HARO-PC and its screen are recordings of real hardware, all CC0 from Freesound and listed in
   `sfx/RECORDINGS.md`. They stay short and dry: clicks and beeps, no hum and no buzzing tails,
@@ -92,11 +99,13 @@ The machine's body makes real hardware sounds. Whatever runs on its screen makes
   switch and the self-test beep.
 - The picture viewer and harogatOS are its screen, so they open and close with the same CRT
   switch clicks. Their buttons are the case's buttons and click like a TV remote: next, previous,
-  zoom, the harogatOS tabs. So do the gallery arrows and dots, because they change a picture the
-  same way.
+  zoom, the harogatOS menu button. So do the gallery arrows and dots, because they change the
+  picture the same way.
 - The page itself stays quiet: nav links, the language switch, project links. The one exception is
   copying the email, which confirms with a key press, because nothing else on screen changes.
-- Stacker and the face editor are retro sounds made with rFXGen, raylib's sfxr-style generator.
+- harogatOS's menu, Stacker, Picross and the face editor are retro sounds made with rFXGen,
+  raylib's sfxr-style generator. Moving the menu cursor blips, starting an app or a puzzle plays
+  a two-note select.
   The recipes are lines in `sfx/sounds.txt`, and `npm run sfx` turns them into WAVs. Each also
   gets a `.rfx` in `sfx/rfx` that opens in [rFXGen](https://raylibtech.itch.io/rfxgen) for tuning
   by ear. The house sound there is a square wave: short, dry, a little punch.

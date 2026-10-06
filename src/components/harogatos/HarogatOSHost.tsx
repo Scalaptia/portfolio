@@ -10,9 +10,17 @@ const KONAMI = [
   "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight",
   "b", "a",
 ];
-// Links straight into an app: fharo.dev/#draw, #gallery, #picross, #play, #scores. /draw and /play redirect here too
-// (astro.config.mjs), so a link to the face editor can be sent to someone.
-const LINKS: Record<string, AppId> = { draw: "faces", gallery: "gallery", picross: "picross", play: "stacker", scores: "hiscores" };
+// Links straight into an app: fharo.dev/#draw, #gallery, #picross, #play, #scores, and #harogatos for
+// the menu. /draw and /play redirect here too (astro.config.mjs), so a link to the face editor can
+// be sent to someone.
+const LINKS: Record<string, AppId> = {
+  harogatos: "menu",
+  draw: "faces",
+  gallery: "gallery",
+  picross: "picross",
+  play: "stacker",
+  scores: "hiscores",
+};
 const HASHES = Object.fromEntries(Object.entries(LINKS).map(([hash, app]) => [app, hash])) as Record<AppId, string>;
 
 const linkedApp = () => LINKS[location.hash.slice(1).toLowerCase()];
@@ -60,13 +68,13 @@ export default function HarogatOSHost() {
       }
     };
 
-    // Anything with data-harogatos opens it, at the app it names. The play button under the PC and
-    // the footer link are two.
+    // Anything with data-harogatos opens it, at the app it names or at the menu. The boot button
+    // under the PC and the footer link are two.
     const onClick = (e: MouseEvent) => {
       const opener = (e.target as HTMLElement | null)?.closest<HTMLElement>("[data-harogatos]");
       if (!opener) return;
       e.preventDefault();
-      openOS((opener.dataset.harogatos || "stacker") as AppId);
+      openOS((opener.dataset.harogatos || "menu") as AppId);
     };
 
     window.addEventListener("keydown", onKey);

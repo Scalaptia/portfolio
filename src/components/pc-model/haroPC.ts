@@ -57,25 +57,6 @@ function outlined(geometry: THREE.BufferGeometry, material: THREE.Material, line
     return part
 }
 
-// "HARO-PC" on a small plate under the screen. Drawn once into a canvas.
-function namePlate(): THREE.Mesh {
-    const canvas = document.createElement('canvas')
-    canvas.width = 256
-    canvas.height = 64
-    const ctx = canvas.getContext('2d')!
-    ctx.fillStyle = PALETTE.paperShade
-    ctx.fillRect(0, 0, 256, 64)
-    ctx.fillStyle = PALETTE.ink
-    ctx.font = 'bold 40px "Ubuntu Mono", ui-monospace, monospace'
-    ctx.textAlign = 'center'
-    ctx.textBaseline = 'middle'
-    ctx.fillText('HARO-PC', 128, 34)
-    const texture = new THREE.CanvasTexture(canvas)
-    texture.colorSpace = THREE.SRGBColorSpace
-    texture.anisotropy = 4
-    return new THREE.Mesh(new THREE.PlaneGeometry(0.62, 0.155), new THREE.MeshBasicMaterial({ map: texture }))
-}
-
 function ear(side: 1 | -1): THREE.Group {
     const shape = new THREE.Shape()
     shape.moveTo(-0.32, 0)
@@ -157,16 +138,12 @@ export function buildHaroPC(): HaroPC {
     screen.position.set(0, bezelY, D / 2 + 0.045)
     group.add(screen)
 
-    // The chin: power light on the left, name plate in the middle, floppy slot on the right.
+    // The chin: power light on the left, floppy slot on the right. No name on it.
     const chinY = -0.78
     const ledMaterial = new THREE.MeshBasicMaterial({ color: PALETTE.coral, toneMapped: false })
     const led = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.1, 0.04), ledMaterial)
     led.position.set(-0.78, chinY, D / 2 + 0.02)
     group.add(led)
-
-    const plate = namePlate()
-    plate.position.set(-0.2, chinY, D / 2 + 0.006)
-    group.add(plate)
 
     const slot = new THREE.Mesh(new RoundedBoxGeometry(0.62, 0.07, 0.04, 2, 0.02), solid(PALETTE.ink))
     slot.position.set(0.58, chinY, D / 2 + 0.01)
