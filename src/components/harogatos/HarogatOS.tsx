@@ -7,6 +7,7 @@ import { closeOS, launch, type AppId } from "@/lib/harogatos";
 import { useOSState } from "@/lib/useOSState";
 import Stacker, { Hiscores } from "./Stacker";
 import Faces from "./Faces";
+import Picross from "./Picross";
 import { strings } from "./strings";
 import { PHOSPHOR, phosphorVars, calmMotion } from "./phosphor";
 
@@ -18,7 +19,7 @@ const GROW_MS = 280;
 const CLOSE_MS = 200;
 
 const BUTTON =
-  "press [--press:3px] flex items-center justify-center gap-1.5 sm:gap-2 border-2 border-text bg-white text-text font-ubuntu-mono font-bold text-xs sm:text-sm min-h-11 sm:min-h-10";
+  "press [--press:3px] flex items-center justify-center gap-1.5 sm:gap-2 border-2 border-text bg-white text-text font-ubuntu-mono font-bold text-[11px] sm:text-sm min-h-11 sm:min-h-10";
 
 interface Tab {
   id: AppId;
@@ -31,6 +32,7 @@ const TABS: Tab[] = [
   { id: "hiscores", label: "Scores", icon: "trophy" },
   { id: "faces", label: "Draw", icon: "brush" },
   { id: "gallery", label: "Gallery", icon: "album" },
+  { id: "picross", label: "Picross", icon: "grid" },
 ];
 
 // A phone held upright gets a tube taller than it is wide, so the games are not postage stamps.
@@ -156,6 +158,8 @@ export default function HarogatOS() {
               >
                 {app === "hiscores" ? (
                   <Hiscores onExit={toStacker} />
+                ) : app === "picross" ? (
+                  <Picross onExit={requestClose} tall={tall} />
                 ) : app === "faces" || app === "gallery" ? (
                   <Faces onExit={requestClose} tall={tall} mode={app === "gallery" ? "gallery" : "draw"} />
                 ) : (
@@ -181,7 +185,7 @@ export default function HarogatOS() {
                   launch(tab.id);
                 }}
                 aria-current={app === tab.id ? "page" : undefined}
-                className={`${BUTTON} px-2 sm:px-3 ${app === tab.id ? "bg-primary! text-white!" : ""}`}
+                className={`${BUTTON} px-1 sm:px-3 ${app === tab.id ? "bg-primary! text-white!" : ""}`}
               >
                 <PixelIcon name={tab.icon} className="hidden sm:block w-4 h-4" />
                 {t.tabs[tab.id]}
@@ -189,7 +193,7 @@ export default function HarogatOS() {
             ))}
           </div>
           {/* Off, like the picture viewer's power button. Icon only, so five buttons fit a phone. */}
-          <button onClick={requestClose} className={`${BUTTON} w-11 sm:w-10 shrink-0`} aria-label={t.shutDown} title={t.shutDown}>
+          <button onClick={requestClose} className={`${BUTTON} w-9 sm:w-10 shrink-0`} aria-label={t.shutDown} title={t.shutDown}>
             <PixelIcon name="power" className="w-4 h-4" />
           </button>
         </div>

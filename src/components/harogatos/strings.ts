@@ -4,7 +4,7 @@
 
 const en = {
   // The case
-  tabs: { stacker: "Stacker", hiscores: "Scores", faces: "Draw", gallery: "Gallery" },
+  tabs: { stacker: "Stacker", hiscores: "Scores", faces: "Draw", gallery: "Gallery", picross: "Picross" },
   shutDown: "Shut down",
   previousPage: "Previous page",
   nextPage: "Next page",
@@ -81,12 +81,26 @@ const en = {
     "queue-full": "THE QUEUE IS FULL RIGHT NOW. TRY AGAIN LATER.",
   } as Record<string, string>,
   somethingWrong: "SOMETHING WENT WRONG. TRY AGAIN.",
+
+  // Picross
+  picrossGrid: "Picross grid. Arrow keys move, space fills a cell, X crosses it out.",
+  fill: "FILL",
+  cross: "CROSS",
+  puzzles: "PUZZLES",
+  solvedIn: (time: string) => `SOLVED IN ${time}`,
+  faceByName: (name: string) => `face by ${name}`,
+  pcFace: (name: string) => `HARO-PC's ${name} face`,
+  nextPuzzle: "NEXT",
+  solvedCount: (done: number, total: number) => `${done}/${total} SOLVED`,
+  noVisitorPuzzles: "visitor faces load on fharo.dev",
+  faceNames: ["Normal", "Happy", "Surprised", "Wink", "Love", "Sleepy", "Excited", "Cool"],
+  levels: { easy: "EASY", medium: "MEDIUM", hard: "HARD" },
 };
 
 export type Strings = typeof en;
 
 const es: Strings = {
-  tabs: { stacker: "Stacker", hiscores: "Récords", faces: "Dibujar", gallery: "Galería" },
+  tabs: { stacker: "Stacker", hiscores: "Récords", faces: "Dibujar", gallery: "Galería", picross: "Picross" },
   shutDown: "Apagar",
   previousPage: "Página anterior",
   nextPage: "Página siguiente",
@@ -161,6 +175,19 @@ const es: Strings = {
     "queue-full": "LA FILA ESTÁ LLENA AHORA. INTENTA MÁS TARDE.",
   },
   somethingWrong: "ALGO SALIÓ MAL. INTENTA DE NUEVO.",
+
+  picrossGrid: "Cuadrícula de picross. Las flechas mueven, espacio rellena una celda, X la tacha.",
+  fill: "RELLENAR",
+  cross: "TACHAR",
+  puzzles: "PUZZLES",
+  solvedIn: (time) => `RESUELTO EN ${time}`,
+  faceByName: (name) => `cara de ${name}`,
+  pcFace: (name) => `la cara ${name} de HARO-PC`,
+  nextPuzzle: "SIGUIENTE",
+  solvedCount: (done, total) => `${done}/${total} RESUELTOS`,
+  noVisitorPuzzles: "las caras de visitantes cargan en fharo.dev",
+  faceNames: ["normal", "feliz", "sorprendida", "guiño", "enamorada", "dormida", "emocionada", "cool"],
+  levels: { easy: "FÁCIL", medium: "MEDIO", hard: "DIFÍCIL" },
 };
 
 /** The strings for the page's language. The language never changes while a page is open. */

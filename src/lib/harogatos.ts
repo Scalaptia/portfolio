@@ -4,7 +4,7 @@
 // footer, or the Konami code. Like the picture viewer, the open state lives here in module scope so
 // a plain script, the host island and the window itself all see the same thing. See crtViewer.ts.
 
-export type AppId = "stacker" | "hiscores" | "faces" | "gallery";
+export type AppId = "stacker" | "hiscores" | "faces" | "gallery" | "picross";
 
 export interface OSState {
   open: boolean;
