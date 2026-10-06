@@ -7,22 +7,17 @@ import Layout from "@/layouts/Layout.astro";
 
 // Candidates, not used anywhere yet. Delete the losers from public/sfx/alt.
 const alternatives: [string, string][] = [
-  ["crt-on-b", "On: another computer monitor"],
-  ["crt-on-c", "On: a TV relay click and static"],
-  ["crt-off-b", "Off: another computer monitor"],
-  ["crt-off-c", "Off: a TV click and static"],
-  ["crt-on-d", "On: a CRT TV switch and warm-up"],
+  ["crt-on-b", "Screen on: a brighter power-button click"],
   ["button-b", "Case button: a plain push button"],
 ];
 const groups: [string, [string, string][]][] = [
   ["HARO-PC (recordings)", [
     ["pc-click", "Clicking the PC"],
-    ["pc-guest", "A visitor's face comes up"],
+    ["pc-guest", "A visitor's face comes up (played twice, the second a fifth up)"],
     ["pc-confirm", "Copying the email, anywhere"],
     ["pc-insert", "SHOW ON PC"],
     ["pc-button", "Rage shutdown, before the screen goes off"],
     ["pc-beep", "Coming back on: the self-test beep"],
-    ["pc-seek", "...then the floppy seeking"],
   ]],
   ["Screen (recordings)", [
     ["crt-on", "Picture viewer or harogatOS opens, the PC coming back on"],

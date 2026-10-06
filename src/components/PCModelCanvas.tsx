@@ -205,11 +205,9 @@ function Scene() {
         scheduleRage(() => {
             setMode('booting')
             setBootFrame(0)
-            // The tube warming up, the self-test beep, then the floppy seeking while the boot
-            // frames run.
+            // The monitor's switch, then the self-test beep.
             play('crt-on')
-            play('pc-beep', { delay: 0.55 })
-            play('pc-seek', { delay: 0.9 })
+            play('pc-beep', { delay: 0.45 })
 
             let elapsed = 0
             INTRO_FRAMES.forEach((frame, i) => {
@@ -271,7 +269,9 @@ function Scene() {
         // Every third click is a visitor's face (see guestFaceShow.ts). The rest step through the
         // PC's own expressions.
         if (advance()) {
+            // The PC speaker's bip-bip: the same beep, the second a fifth higher.
             play('pc-guest')
+            play('pc-guest', { delay: 0.085, rate: 1.5 })
             return
         }
         const next = (expression + 1) % FACES.length

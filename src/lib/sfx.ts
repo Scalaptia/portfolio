@@ -12,7 +12,6 @@ export type Sfx =
   | "pc-insert"
   | "pc-button"
   | "pc-beep"
-  | "pc-seek"
   | "crt-on"
   | "crt-off"
   | "case-button"

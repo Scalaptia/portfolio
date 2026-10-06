@@ -83,12 +83,13 @@ sentence case.
 The machine's body makes real hardware sounds. Whatever runs on its screen makes retro sounds.
 
 - HARO-PC and its screen are recordings of real hardware, all CC0 from Freesound and listed in
-  `sfx/RECORDINGS.md`. That covers a mouse click when you poke it, a key for copying the email,
-  and a floppy reading when a visitor's face loads or being inserted for SHOW ON PC. Shutting down
-  is the power button and a CRT going dark. Coming back is the tube warming up, the PC speaker's
-  self-test beep and the floppy seeking.
+  `sfx/RECORDINGS.md`. They stay short and dry: clicks and beeps, no hum and no buzzing tails,
+  which make a CRT sound like a horror film. A mouse click when you poke the PC, a key for
+  copying the email, a PC-speaker bip-bip when a visitor's face comes up, a floppy going in for
+  SHOW ON PC. Shutting down is the power button and the monitor's switch. Coming back is the
+  switch and the self-test beep.
 - The picture viewer and harogatOS are its screen, so they open and close with the same CRT
-  recordings. Their buttons are the case's buttons and click like a TV remote: next, previous,
+  switch clicks. Their buttons are the case's buttons and click like a TV remote: next, previous,
   zoom, the harogatOS tabs. So do the gallery arrows and dots, because they change a picture the
   same way.
 - The page itself stays quiet: nav links, the language switch, project links. The one exception is
