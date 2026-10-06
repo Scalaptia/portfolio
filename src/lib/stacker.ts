@@ -1,7 +1,8 @@
 // Stacker, the rules and nothing else.
 //
 // A row of blocks slides back and forth. You stop it, and whatever does not sit on the row below
-// falls off. The row you are left with is the width of the next one. Get to the top.
+// falls off. The row you are left with is the width of the next one. There is no top: the stack
+// scrolls down as it grows, the rows keep getting faster, and the game ends on the first miss.
 //
 // This file is shared by the game in the browser and the Worker that keeps the high scores. A run
 // is submitted as the tick each row was stopped at, counted from when that row started moving. The
@@ -10,35 +11,41 @@
 // itself. Keep this module free of DOM and of Worker types for that reason.
 
 export const COLS = 9
-export const ROWS = 16
+/** Rows on screen at once. The stack itself has no limit. */
+export const VISIBLE_ROWS = 16
 export const START_WIDTH = 3
+// The game stops here. Nobody plays this far at 40ms a column, and it keeps a submitted run, and
+// the request carrying it, a bounded size.
+export const MAX_ROWS = 999
 
-// Score for each row that stays up, for each one that lands exactly on the row below, and for
-// reaching the top at all.
+// Score for each row that stays up, and for each one that lands exactly on the row below.
 export const ROW_POINTS = 100
 export const PERFECT_POINTS = 50
-export const TOP_BONUS = 1000
 // Stopping a row decisively pays too: full speed points on its first pass, less for every time it
-// turns around at a wall first. Rows speed up as you climb, so a perfect, first-pass run gets
-// genuinely hard near the top, and waiting for the row to come back is no longer free.
+// turns around at a wall first. Rows speed up as you climb, so waiting for the row to come back
+// is not free.
 export const SPEED_POINTS = 50
 export const BOUNCE_COST = 15
-
-export const MAX_SCORE = ROWS * (ROW_POINTS + SPEED_POINTS) + (ROWS - 1) * PERFECT_POINTS + TOP_BONUS
 
 /** Speed points for a row that turned around this many times before it was stopped. */
 export const speedPoints = (bounces: number) => Math.max(0, SPEED_POINTS - BOUNCE_COST * bounces)
 
+/** Where the rows get narrower: two blocks from this row, one from the next. */
+export const SQUEEZE = [10, 20] as const
+
 /** The widest a row is allowed to be, however well you have done. Classic Stacker squeezes too. */
 export function widthCap(row: number): number {
-    if (row < 6) return 3
-    if (row < 11) return 2
+    if (row < SQUEEZE[0]) return 3
+    if (row < SQUEEZE[1]) return 2
     return 1
 }
 
-/** How long the sliding row waits on each column, in milliseconds. It speeds up as you climb. */
+/**
+ * How long the sliding row waits on each column, in milliseconds. Every row is 4% faster than the
+ * last: 150 at the bottom, 100 by row 10, 66 by row 20, and the floor of 40 from row 33 on.
+ */
 export function tickMs(row: number): number {
-    return Math.max(42, Math.round(150 - row * 7))
+    return Math.max(40, Math.round(150 * 0.96 ** row))
 }
 
 /** Rows alternate sides: even rows enter from the left heading right, odd rows the other way. */
@@ -84,11 +91,10 @@ export interface StackState {
     /** Every turn every row made before it was stopped. Fewer breaks a tie on the board. */
     bounces: number
     over: boolean
-    won: boolean
 }
 
 export function newGame(): StackState {
-    return { stack: [], width: START_WIDTH, score: 0, perfects: 0, bounces: 0, over: false, won: false }
+    return { stack: [], width: START_WIDTH, score: 0, perfects: 0, bounces: 0, over: false }
 }
 
 export interface PlaceResult {
@@ -125,19 +131,16 @@ export function placeRow(state: StackState, x: number, bounces = 0): PlaceResult
     const kept = { x: left, width: keptWidth }
     const perfect = !!below && keptWidth === width
     const stack = [...state.stack, kept]
-    const won = stack.length === ROWS
-    const gained = ROW_POINTS + (perfect ? PERFECT_POINTS : 0) + speedPoints(bounces) + (won ? TOP_BONUS : 0)
-    const score = state.score + gained
+    const gained = ROW_POINTS + (perfect ? PERFECT_POINTS : 0) + speedPoints(bounces)
 
     return {
         state: {
             stack,
-            width: won ? keptWidth : Math.min(keptWidth, widthCap(stack.length)),
-            score,
+            width: Math.min(keptWidth, widthCap(stack.length)),
+            score: state.score + gained,
             perfects: state.perfects + (perfect ? 1 : 0),
             bounces: state.bounces + bounces,
-            over: won,
-            won,
+            over: stack.length >= MAX_ROWS,
         },
         kept,
         lost,
@@ -159,7 +162,6 @@ export interface Replay {
     reason?: string
     score: number
     rows: number
-    won: boolean
     bounces: number
     /** How long the rows were moving in total. A real run cannot have taken less. */
     minMs: number
@@ -170,13 +172,13 @@ const MAX_TICKS = 5000
 
 /**
  * Replay a whole run from the tick each row was stopped at. Rejects anything the game could not
- * have produced: a tick that is not a whole number, ticks after the game ended, or a run that stops
- * early without having ended.
+ * have produced: a tick that is not a whole number, ticks after the miss that ended it, or a run
+ * that stops without a miss.
  */
 export function replay(ticks: unknown): Replay {
-    const fail = (reason: string): Replay => ({ ok: false, reason, score: 0, rows: 0, won: false, bounces: 0, minMs: 0 })
+    const fail = (reason: string): Replay => ({ ok: false, reason, score: 0, rows: 0, bounces: 0, minMs: 0 })
 
-    if (!Array.isArray(ticks) || ticks.length === 0 || ticks.length > ROWS) return fail('ticks')
+    if (!Array.isArray(ticks) || ticks.length === 0 || ticks.length > MAX_ROWS) return fail('ticks')
 
     let state = newGame()
     let minMs = 0
@@ -188,7 +190,7 @@ export function replay(ticks: unknown): Replay {
     }
 
     if (!state.over) return fail('unfinished')
-    return { ok: true, score: state.score, rows: state.stack.length, won: state.won, bounces: state.bounces, minMs }
+    return { ok: true, score: state.score, rows: state.stack.length, bounces: state.bounces, minMs }
 }
 
 // Three letters go on the board for anyone to read, so a few combinations do not.
