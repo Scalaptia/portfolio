@@ -11,7 +11,7 @@ import {
   cleanInitials,
   type StackState,
 } from "@/lib/stacker";
-import { startRun, submitScore, topScores, type ScoreRow } from "@/lib/arcadeApi";
+import { startRun, submitScore, topScores, scoresPage, type ScoreRow, type ScorePage } from "@/lib/arcadeApi";
 import { playNotes } from "@/components/pc-model/sounds";
 import PixelIcon from "@/components/PixelIcon";
 import { PHOSPHOR, INVERSE } from "./phosphor";
@@ -64,7 +64,18 @@ function savedInitials(): string[] {
 
 // --- the board -------------------------------------------------------------------------------
 
-function Board({ rows, highlight, offline }: { rows: ScoreRow[] | null; highlight?: number; offline?: boolean }) {
+function Board({
+  rows,
+  first = 1,
+  highlight,
+  offline,
+}: {
+  rows: ScoreRow[] | null;
+  /** The rank of the first row, so later pages keep counting from where the last one ended. */
+  first?: number;
+  highlight?: number;
+  offline?: boolean;
+}) {
   if (offline || rows === null) {
     return (
       <div className="text-center opacity-90 leading-[1.6]">
@@ -93,8 +104,8 @@ function Board({ rows, highlight, offline }: { rows: ScoreRow[] | null; highligh
       </thead>
       <tbody>
         {rows.map((row, i) => (
-          <tr key={`${row.initials}-${row.at}-${i}`} className={i + 1 === highlight ? `${INVERSE} crt-led` : ""}>
-            <td className="text-right">{i + 1}</td>
+          <tr key={`${row.initials}-${row.at}-${i}`} className={first + i === highlight ? `${INVERSE} crt-led` : ""}>
+            <td className="text-right">{first + i}</td>
             <td>{row.initials}</td>
             <td className="text-right">{pad(row.score, 4)}</td>
             <td className="text-right">{pad(row.rows, 2)}</td>
@@ -105,28 +116,60 @@ function Board({ rows, highlight, offline }: { rows: ScoreRow[] | null; highligh
   );
 }
 
+// Every score anyone saved, ten to a page. Left and right turn the page.
 export function Hiscores({ onExit }: { onExit: () => void }) {
-  const [rows, setRows] = useState<ScoreRow[] | null | undefined>(undefined);
+  const [page, setPage] = useState(0);
+  const [data, setData] = useState<ScorePage | null | undefined>(undefined);
 
   useEffect(() => {
-    topScores().then(setRows);
-  }, []);
+    let live = true;
+    setData(undefined);
+    scoresPage(page).then((next) => live && setData(next));
+    return () => {
+      live = false;
+    };
+  }, [page]);
+
+  const pages = data?.pages ?? 1;
+  const turn = useCallback((step: number) => setPage((p) => Math.min(pages - 1, Math.max(0, p + step))), [pages]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape" || e.key === "Enter" || e.key === " ") {
+      if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+        e.preventDefault();
+        turn(e.key === "ArrowRight" ? 1 : -1);
+      } else if (e.key === "Escape" || e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         onExit();
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [onExit]);
+  }, [onExit, turn]);
+
+  const arrow = "px-[1.4cqh] border-[0.4cqh] border-(--fg) hover:bg-(--dim) disabled:opacity-30";
 
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center gap-[3cqh]">
       <div className="text-[1.2em]">BEST STACKERS</div>
-      {rows === undefined ? <div>LOADING...</div> : <Board rows={rows} />}
+      {data === undefined ? (
+        <div>LOADING...</div>
+      ) : (
+        <Board rows={data?.top ?? null} first={page * (data?.perPage ?? 10) + 1} />
+      )}
+      {data && data.pages > 1 && (
+        <div className="flex items-center gap-[2cqh] tabular-nums text-[0.85em]">
+          <button className={arrow} disabled={page === 0} onClick={() => turn(-1)} aria-label="Previous page">
+            &lt;
+          </button>
+          <span>
+            {page + 1}/{data.pages}
+          </span>
+          <button className={arrow} disabled={page >= data.pages - 1} onClick={() => turn(1)} aria-label="Next page">
+            &gt;
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -229,6 +272,8 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
   const [flash, setFlash] = useState<string | null>(null);
   const [won, setWon] = useState(false);
   const [board, setBoard] = useState<ScoreRow[] | null>(null);
+  // Rank of the board's first row. After a save it is the page the new score landed on.
+  const [boardFirst, setBoardFirst] = useState(1);
   const [best, setBest] = useState<ScoreRow | null>(null);
   const [rank, setRank] = useState<number | undefined>(undefined);
   const [offline, setOffline] = useState(false);
@@ -363,7 +408,8 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
     const result = id ? await submitScore(id, clean, game.current.moves) : null;
     if (result) {
       setBoard(result.top);
-      setBest(result.top[0] ?? null);
+      setBoardFirst(result.page * result.perPage + 1);
+      if (result.page === 0) setBest(result.top[0] ?? null);
       setRank(result.rank);
     } else {
       setOffline(true);
@@ -555,7 +601,7 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
               {/(^|\.)fharo\.dev$/.test(location.hostname) ? "NO SIGNAL. THIS ONE WASN'T SAVED." : "SCORES ONLY SAVE ON FHARO.DEV"}
             </div>
           )}
-          <Board rows={board} highlight={rank && rank <= 10 ? rank : undefined} offline={offline && !board} />
+          <Board rows={board} first={boardFirst} highlight={rank} offline={offline && !board} />
           <div className="text-[0.75em] opacity-70 crt-led">
             {tall ? "TAP TO PLAY AGAIN" : "SPACE TO PLAY AGAIN"}
           </div>

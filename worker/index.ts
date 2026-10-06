@@ -65,15 +65,24 @@ async function visitor(request: Request): Promise<string> {
   return [...new Uint8Array(digest).slice(0, 12)].map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
-async function topScores(env: Env) {
-  const { results } = await env.DB.prepare(
-    `SELECT initials, score, rows, created_at AS at FROM scores
-     WHERE game = ? ORDER BY score DESC, created_at ASC LIMIT ?`,
-  )
-    .bind(GAME, BOARD_SIZE)
-    .all<{ initials: string; score: number; rows: number; at: number }>();
-  return results;
+// One page of the board, best first. Ties go to whoever got there first. Every saved score is on
+// some page, so nothing anyone registered is out of sight.
+async function scoresPage(env: Env, page: number, withIds = false) {
+  const [rows, count] = await env.DB.batch<{ id?: number; initials: string; score: number; rows: number; at: number; n?: number }>([
+    env.DB.prepare(
+      `SELECT ${withIds ? "id, " : ""}initials, score, rows, created_at AS at FROM scores
+       WHERE game = ? ORDER BY score DESC, created_at ASC LIMIT ? OFFSET ?`,
+    ).bind(GAME, BOARD_SIZE, page * BOARD_SIZE),
+    env.DB.prepare("SELECT COUNT(*) AS n FROM scores WHERE game = ?").bind(GAME),
+  ]);
+  const total = count.results[0]?.n ?? 0;
+  return { top: rows.results, page, pages: Math.max(1, Math.ceil(total / BOARD_SIZE)), total, perPage: BOARD_SIZE };
 }
+
+const pageParam = (request: Request) => {
+  const page = Number(new URL(request.url).searchParams.get("page") ?? "0");
+  return Number.isInteger(page) && page >= 0 && page < 10_000 ? page : 0;
+};
 
 async function startRun(request: Request, env: Env) {
   const who = await visitor(request);
@@ -145,7 +154,9 @@ async function submitScore(request: Request, env: Env) {
     .bind(GAME, result.score)
     .first<{ n: number }>();
 
-  return json({ rank: above?.n ?? 1, score: result.score, top: await topScores(env) }, 201);
+  // Hand back the page the new score landed on, so the player sees their own row.
+  const rank = above?.n ?? 1;
+  return json({ rank, score: result.score, ...(await scoresPage(env, Math.floor((rank - 1) / BOARD_SIZE))) }, 201);
 }
 
 // --- faces ------------------------------------------------------------------------------------
@@ -296,6 +307,17 @@ async function admin(request: Request, env: Env, path: string) {
   if (!env.ADMIN_TOKEN) return fail("admin-disabled", 503);
   if (!(await authorized(request, env))) return fail("unauthorized", 401);
 
+  if (path === "/api/admin/scores" && request.method === "GET") {
+    return json(await scoresPage(env, pageParam(request), true));
+  }
+
+  const score = path.match(/^\/api\/admin\/scores\/(\d+)$/);
+  if (score && request.method === "DELETE") {
+    const gone = await env.DB.prepare("DELETE FROM scores WHERE id = ? RETURNING id").bind(Number(score[1])).first<{ id: number }>();
+    if (!gone) return fail("not-found", 404);
+    return json({ id: gone.id, deleted: true });
+  }
+
   if (path === "/api/admin/faces" && request.method === "GET") {
     const status = new URL(request.url).searchParams.get("status") ?? "pending";
     if (!["pending", "approved", "rejected"].includes(status)) return fail("status");
@@ -358,7 +380,7 @@ async function api(request: Request, env: Env, path: string, ctx: ExecutionConte
   if (path.startsWith("/api/admin/")) return admin(request, env, path);
 
   if (path === "/api/stacker/scores" && request.method === "GET") {
-    return json({ top: await topScores(env) }, 200, "public, max-age=10");
+    return json(await scoresPage(env, pageParam(request)), 200, "public, max-age=10");
   }
   if (path === "/api/stacker/scores" && request.method === "POST") return submitScore(request, env);
   if (path === "/api/stacker/runs" && request.method === "POST") return startRun(request, env);

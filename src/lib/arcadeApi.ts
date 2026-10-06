@@ -11,10 +11,19 @@ export interface ScoreRow {
   at: number;
 }
 
-export interface Submitted {
+/** One page of the board, ten scores, best first. */
+export interface ScorePage {
+  top: ScoreRow[];
+  page: number;
+  pages: number;
+  total: number;
+  perPage: number;
+}
+
+/** A saved score, with the page of the board it landed on. */
+export interface Submitted extends ScorePage {
   rank: number;
   score: number;
-  top: ScoreRow[];
 }
 
 async function call<T>(path: string, init?: RequestInit): Promise<T | null> {
@@ -43,8 +52,12 @@ export function submitScore(runId: string, initials: string, moves: number[]) {
   });
 }
 
+export function scoresPage(page = 0) {
+  return call<ScorePage>(`/api/stacker/scores?page=${page}`);
+}
+
 export async function topScores(): Promise<ScoreRow[] | null> {
-  const body = await call<{ top: ScoreRow[] }>("/api/stacker/scores");
+  const body = await scoresPage(0);
   return body?.top ?? null;
 }
 
