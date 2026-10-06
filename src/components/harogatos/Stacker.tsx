@@ -3,7 +3,7 @@ import {
   COLS,
   ROWS,
   newGame,
-  placeRow,
+  stopAt,
   positionAt,
   startOf,
   tickMs,
@@ -284,7 +284,8 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
   const game = useRef({
     state: newGame() as StackState,
     rowStart: 0,
-    moves: [] as number[],
+    // The tick each row was stopped at. This is what the Worker replays.
+    ticks: [] as number[],
     falling: [] as Falling[],
     endedAt: 0,
     perfectRow: -1,
@@ -314,7 +315,7 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
   const start = useCallback(() => {
     const g = game.current;
     g.state = newGame();
-    g.moves = [];
+    g.ticks = [];
     g.falling = [];
     g.rowStart = performance.now() + 450;
     g.endedAt = 0;
@@ -349,9 +350,9 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
     if (phaseRef.current !== "playing" || now < g.rowStart) return;
 
     const current = g.state.stack.length;
-    const x = positionAt(current, g.state.width, Math.floor((now - g.rowStart) / tickMs(current)));
-    const result = placeRow(g.state, x);
-    g.moves.push(x);
+    const tick = Math.floor((now - g.rowStart) / tickMs(current));
+    const result = stopAt(g.state, tick);
+    g.ticks.push(tick);
     g.state = result.state;
 
     result.lost.forEach((col) => g.falling.push({ col, row: current, born: now }));
@@ -378,9 +379,10 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
       g.perfectRow = current;
       g.perfectAt = now;
       sfx.perfect(current);
-      say(t.perfect, 600);
+      say(t.perfectPlus(result.gained), 700);
     } else {
       sfx.place(current);
+      say(`+${result.gained}`, 500);
     }
     // Losing width to the squeeze, not to a miss, deserves a heads up.
     if (widthCap(current + 1) < widthCap(current) && result.state.width === widthCap(current + 1)) {
@@ -404,7 +406,7 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
     }
     go("saving");
     const id = await run.current;
-    const result = id ? await submitScore(id, clean, game.current.moves) : null;
+    const result = id ? await submitScore(id, clean, game.current.ticks) : null;
     if (result) {
       setBoard(result.top);
       setBoardFirst(result.page * result.perPage + 1);
