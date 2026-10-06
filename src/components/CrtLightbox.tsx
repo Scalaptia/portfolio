@@ -115,6 +115,14 @@ export default function CrtLightbox() {
     };
   }, []);
 
+  // The picture changing is a press of the case's button, whether it came from the chin, a dot,
+  // an arrow key or a swipe. Not on opening, which already has the screen switching on.
+  const firstIndex = useRef(index);
+  useEffect(() => {
+    if (index !== firstIndex.current) play("case-button");
+    firstIndex.current = -1;
+  }, [index]);
+
   // A new picture starts at its own size, not at whatever magnification the last one was left at.
   useEffect(() => {
     setSmooth(false);
@@ -482,7 +490,10 @@ export default function CrtLightbox() {
 
             {item.type === "image" && !embedded && (
               <button
-                onClick={() => zoomAt(zoomed ? 1 : TAP_ZOOM)}
+                onClick={() => {
+                  play("case-button");
+                  zoomAt(zoomed ? 1 : TAP_ZOOM);
+                }}
                 className={`${BUTTON} w-11 h-11 sm:w-10 sm:h-10 ${zoomed ? "bg-text text-white hover:bg-text" : ""}`}
                 aria-label={zoomed ? "Fit to screen" : "Zoom in"}
                 aria-pressed={zoomed}

@@ -15,6 +15,7 @@ export type Sfx =
   | "pc-seek"
   | "crt-on"
   | "crt-off"
+  | "case-button"
   | "stk-start"
   | "stk-place"
   | "stk-perfect"

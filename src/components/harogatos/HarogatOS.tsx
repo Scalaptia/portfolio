@@ -173,7 +173,10 @@ export default function HarogatOS() {
             {TABS.map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => launch(tab.id)}
+                onClick={() => {
+                  if (app !== tab.id) play("case-button");
+                  launch(tab.id);
+                }}
                 aria-current={app === tab.id ? "page" : undefined}
                 className={`${BUTTON} px-2 sm:px-3 ${app === tab.id ? "bg-primary! text-white!" : ""}`}
               >

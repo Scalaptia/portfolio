@@ -88,7 +88,11 @@ The machine's body makes real hardware sounds. Whatever runs on its screen makes
   is the power button and a CRT going dark. Coming back is the tube warming up, the PC speaker's
   self-test beep and the floppy seeking.
 - The picture viewer and harogatOS are its screen, so they open and close with the same CRT
-  recordings.
+  recordings. Their buttons are the case's buttons and click like a TV remote: next, previous,
+  zoom, the harogatOS tabs. So do the gallery arrows and dots, because they change a picture the
+  same way.
+- The page itself stays quiet: nav links, the language switch, project links. The one exception is
+  copying the email, which confirms with a key press, because nothing else on screen changes.
 - Stacker and the face editor are retro sounds made with rFXGen, raylib's sfxr-style generator.
   The recipes are lines in `sfx/sounds.txt`, and `npm run sfx` turns them into WAVs. Each also
   gets a `.rfx` in `sfx/rfx` that opens in [rFXGen](https://raylibtech.itch.io/rfxgen) for tuning

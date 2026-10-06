@@ -18,6 +18,7 @@ DC-offset removed, faded at both ends, resampled to 32 kHz 16-bit and normalised
 | `pc-seek.wav` | The floppy seeking, after the beep. | [KRAFTWERK2K1, "reading_floppy_disc_1"](https://freesound.org/people/KRAFTWERK2K1/sounds/39699/) | 5.98–6.75 | 0.40 |
 | `crt-on.wav` | A CRT computer monitor switching on. | [corkob, "CRT computer monitor startup"](https://freesound.org/people/corkob/sounds/415594/) | 1.86–2.95 | 0.55 |
 | `crt-off.wav` | A CRT TV switching off. | [KnightRider1, "Tv 100Hz off"](https://freesound.org/people/KnightRider1/sounds/90682/) | 0.36–1.12 | 0.50 |
+| `case-button.wav` | A TV remote button. The case's buttons: next, previous, zoom, harogatOS tabs, gallery arrows and dots. | [planetcomedy, "remote.wav"](https://freesound.org/people/planetcomedy/sounds/334137/) | 2.06–2.24 | 0.42 |
 
 ## Alternatives on the sound board
 
@@ -30,3 +31,5 @@ lose.
 | `crt-on-c.wav` | [TRP, "tv click on or off"](https://freesound.org/people/TRP/sounds/576959/) | 0.85–1.50 |
 | `crt-off-b.wav` | [kyles, "monitor computer CRT on, off"](https://freesound.org/people/kyles/sounds/454090/) | 6.62–7.15 |
 | `crt-off-c.wav` | [TRP, "TV, CRT, turning on off, static, click"](https://freesound.org/people/TRP/sounds/616850/) | 0.26–0.75 |
+| `crt-on-d.wav` | [Fission9, "CRT TV Switches On"](https://freesound.org/people/Fission9/sounds/693860/) | 3.18–4.30 |
+| `button-b.wav` | [13F_Panska_Koprivikova_Klara, "Button"](https://freesound.org/people/13F_Panska_Koprivikova_Klara/sounds/378301/) | 0.36–0.58 |

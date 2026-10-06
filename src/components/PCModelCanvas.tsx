@@ -91,7 +91,6 @@ function Scene() {
                     break
                 case 'email':
                     setExpression(3)
-                    play('pc-confirm')
                     setTimeout(() => setExpression(0), 1500)
                     break
             }
