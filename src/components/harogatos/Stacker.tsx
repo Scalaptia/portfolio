@@ -631,8 +631,13 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
   const playfield = (
     <div className="relative border-x-[0.5cqh] border-(--dim)">
       <canvas ref={canvasRef} className="block" />
+      {/* Messages go in the top rows, which the scroll keeps empty (see HEADROOM), so they never
+          cover the row you are about to stop. */}
       {flash && (
-        <div className="absolute inset-x-0 top-[38%] text-center text-[1.15em] whitespace-nowrap pointer-events-none">
+        <div
+          className="absolute inset-x-0 text-center text-[1.15em] whitespace-nowrap pointer-events-none"
+          style={{ top: `${100 / VISIBLE_ROWS}%` }}
+        >
           <span className="px-[1cqh] bg-(--bg)">{flash}</span>
         </div>
       )}
