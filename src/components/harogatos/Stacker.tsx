@@ -631,8 +631,13 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
   const playfield = (
     <div className="relative border-x-[0.5cqh] border-(--dim)">
       <canvas ref={canvasRef} className="block" />
+      {/* Messages go in the top rows, which the scroll keeps empty (see HEADROOM), so they never
+          cover the row you are about to stop. */}
       {flash && (
-        <div className="absolute inset-x-0 top-[38%] text-center text-[1.15em] whitespace-nowrap pointer-events-none">
+        <div
+          className="absolute inset-x-0 text-center text-[1.15em] whitespace-nowrap pointer-events-none"
+          style={{ top: `${100 / VISIBLE_ROWS}%` }}
+        >
           <span className="px-[1cqh] bg-(--bg)">{flash}</span>
         </div>
       )}
@@ -696,7 +701,8 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
               <div className="tabular-nums">{bestText}</div>
             </div>
             <div className="mt-auto text-[0.7em] opacity-70 leading-normal">
-              {phase === "over" ? t.missed : t.spaceOrTapToStop}
+              {/* After a miss the playfield already says GAME OVER, so this line goes quiet. */}
+              {phase !== "over" && t.spaceOrTapToStop}
             </div>
           </div>
         ) : (

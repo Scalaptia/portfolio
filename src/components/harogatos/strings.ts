@@ -53,7 +53,6 @@ const en = {
   score: "SCORE",
   row: "ROW",
   best: "BEST",
-  missed: "THAT ONE MISSED",
   spaceOrTapToStop: "SPACE OR TAP TO STOP",
 
   // Faces
@@ -157,7 +156,6 @@ const es: Strings = {
   score: "PUNTOS",
   row: "FILA",
   best: "MEJOR",
-  missed: "ESA NO ENTRÓ",
   spaceOrTapToStop: "ESPACIO O TOCA PARA PARAR",
 
   tools: { pen: "LÁPIZ", blush: "RUBOR", erase: "BORRAR" },
