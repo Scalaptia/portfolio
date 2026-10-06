@@ -10,6 +10,13 @@ const KONAMI = [
   "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight",
   "b", "a",
 ];
+// Links straight into an app: fharo.dev/#draw, #play, #scores. /draw and /play redirect here too
+// (astro.config.mjs), so a link to the face editor can be sent to someone.
+const LINKS: Record<string, AppId> = { draw: "faces", play: "stacker", scores: "hiscores" };
+const HASHES = Object.fromEntries(Object.entries(LINKS).map(([hash, app]) => [app, hash])) as Record<AppId, string>;
+
+const linkedApp = () => LINKS[location.hash.slice(1).toLowerCase()];
+
 const typing = (target: EventTarget | null) => {
   const el = target as HTMLElement | null;
   return !!el && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName));
@@ -17,7 +24,26 @@ const typing = (target: EventTarget | null) => {
 
 // Mounted once in the layout. Listens for the ways in and renders the window when it is open.
 export default function HarogatOSHost() {
-  const { open } = useOSState();
+  const { open, app } = useOSState();
+
+  // Arriving on a link, or the hash changing while on the page, opens the app it names.
+  useEffect(() => {
+    const follow = () => {
+      const linked = linkedApp();
+      if (linked) openOS(linked);
+    };
+    follow();
+    window.addEventListener("hashchange", follow);
+    return () => window.removeEventListener("hashchange", follow);
+  }, []);
+
+  // While it is open, the address bar says which app, so the link can be copied from there. Closed,
+  // the hash goes away, so a reload does not open it again. replaceState adds no history entries.
+  useEffect(() => {
+    const want = open ? `#${HASHES[app]}` : "";
+    if (location.hash === want || (!open && !linkedApp())) return;
+    history.replaceState(history.state, "", `${location.pathname}${location.search}${want}`);
+  }, [open, app]);
 
   useEffect(() => {
     let keys: string[] = [];
