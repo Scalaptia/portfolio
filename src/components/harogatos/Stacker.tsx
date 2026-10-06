@@ -15,6 +15,7 @@ import { startRun, submitScore, topScores, scoresPage, type ScoreRow, type Score
 import { play, semitones } from "@/lib/sfx";
 import PixelIcon from "@/components/PixelIcon";
 import { PHOSPHOR, INVERSE } from "./phosphor";
+import { strings } from "./strings";
 
 type Phase = "title" | "playing" | "over" | "initials" | "saving" | "board";
 
@@ -69,19 +70,20 @@ function Board({
   highlight?: number;
   offline?: boolean;
 }) {
+  const t = strings();
   if (offline || rows === null) {
     return (
       <div className="text-center opacity-90 leading-[1.6]">
-        <div>NO SIGNAL</div>
-        <div className="text-[0.75em] opacity-80">the scoreboard lives on fharo.dev</div>
+        <div>{t.noSignal}</div>
+        <div className="text-[0.75em] opacity-80">{t.scoreboardHome}</div>
       </div>
     );
   }
   if (rows.length === 0) {
     return (
       <div className="text-center leading-[1.6]">
-        <div>NOBODY YET</div>
-        <div className="text-[0.75em] opacity-80">the top spot is yours</div>
+        <div>{t.nobodyYet}</div>
+        <div className="text-[0.75em] opacity-80">{t.topSpotYours}</div>
       </div>
     );
   }
@@ -90,9 +92,9 @@ function Board({
       <thead>
         <tr className="text-[0.7em] opacity-70">
           <th className="text-right font-normal">#</th>
-          <th className="text-left font-normal">WHO</th>
-          <th className="text-right font-normal">SCORE</th>
-          <th className="text-right font-normal">ROWS</th>
+          <th className="text-left font-normal">{t.who}</th>
+          <th className="text-right font-normal">{t.scoreCol}</th>
+          <th className="text-right font-normal">{t.rowsCol}</th>
         </tr>
       </thead>
       <tbody>
@@ -141,24 +143,25 @@ export function Hiscores({ onExit }: { onExit: () => void }) {
   }, [onExit, turn]);
 
   const arrow = "px-[1.4cqh] border-[0.4cqh] border-(--fg) hover:bg-(--dim) disabled:opacity-30";
+  const t = strings();
 
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center gap-[3cqh]">
-      <div className="text-[1.2em]">BEST STACKERS</div>
+      <div className="text-[1.2em]">{t.bestStackers}</div>
       {data === undefined ? (
-        <div>LOADING...</div>
+        <div>{t.loading}</div>
       ) : (
         <Board rows={data?.top ?? null} first={page * (data?.perPage ?? 10) + 1} />
       )}
       {data && data.pages > 1 && (
         <div className="flex items-center gap-[2cqh] tabular-nums text-[0.85em]">
-          <button className={arrow} disabled={page === 0} onClick={() => turn(-1)} aria-label="Previous page">
+          <button className={arrow} disabled={page === 0} onClick={() => turn(-1)} aria-label={t.previousPage}>
             &lt;
           </button>
           <span>
             {page + 1}/{data.pages}
           </span>
-          <button className={arrow} disabled={page >= data.pages - 1} onClick={() => turn(1)} aria-label="Next page">
+          <button className={arrow} disabled={page >= data.pages - 1} onClick={() => turn(1)} aria-label={t.nextPage}>
             &gt;
           </button>
         </div>
@@ -172,6 +175,7 @@ export function Hiscores({ onExit }: { onExit: () => void }) {
 function Initials({ onSave, onSkip, rejected }: { onSave: (initials: string) => void; onSkip: () => void; rejected: boolean }) {
   const [letters, setLetters] = useState(savedInitials);
   const [slot, setSlot] = useState(0);
+  const t = strings();
 
   const spin = useCallback((i: number, delta: number) => {
     setLetters((current) => {
@@ -221,11 +225,11 @@ function Initials({ onSave, onSkip, rejected }: { onSave: (initials: string) => 
 
   return (
     <div className="flex flex-col items-center gap-[2cqh]">
-      <div>SIGN YOUR SCORE</div>
+      <div>{t.signYourScore}</div>
       <div className="flex gap-[2.5cqh]">
         {letters.map((letter, i) => (
           <div key={i} className="flex flex-col items-center">
-            <button className={arrow} onClick={() => spin(i, 1)} aria-label={`Letter ${i + 1} up`}>
+            <button className={arrow} onClick={() => spin(i, 1)} aria-label={t.letterUp(i + 1)}>
               <PixelIcon name="chevron-up" className="w-[4cqh] h-[4cqh]" />
             </button>
             <button
@@ -233,23 +237,23 @@ function Initials({ onSave, onSkip, rejected }: { onSave: (initials: string) => 
               className={`w-[7cqh] text-center text-[2em] leading-[1.1] border-b-[0.6cqh] ${
                 i === slot ? "border-(--fg) crt-led" : "border-transparent"
               }`}
-              aria-label={`Letter ${i + 1}: ${letter}`}
+              aria-label={t.letter(i + 1, letter)}
             >
               {letter}
             </button>
-            <button className={arrow} onClick={() => spin(i, -1)} aria-label={`Letter ${i + 1} down`}>
+            <button className={arrow} onClick={() => spin(i, -1)} aria-label={t.letterDown(i + 1)}>
               <PixelIcon name="chevron-down" className="w-[4cqh] h-[4cqh]" />
             </button>
           </div>
         ))}
       </div>
-      {rejected && <div className="text-[0.75em]">PICK SOME OTHER LETTERS</div>}
+      {rejected && <div className="text-[0.75em]">{t.pickOtherLetters}</div>}
       <div className="flex gap-[3cqh]">
         <button onClick={save} className={`px-[2cqh] ${INVERSE}`}>
-          SAVE
+          {t.save}
         </button>
         <button onClick={onSkip} className="px-[2cqh] border-[0.4cqh] border-(--fg)">
-          SKIP
+          {t.skip}
         </button>
       </div>
     </div>
@@ -259,6 +263,8 @@ function Initials({ onSave, onSkip, rejected }: { onSave: (initials: string) => 
 // --- the game --------------------------------------------------------------------------------
 
 export default function Stacker({ onExit, tall = false }: { onExit: () => void; tall?: boolean }) {
+  // One language per page load, so the callbacks below can close over it.
+  const t = strings();
   const [phase, setPhase] = useState<Phase>("title");
   const [score, setScore] = useState(0);
   const [row, setRow] = useState(0);
@@ -322,7 +328,7 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
     // Ask for a run id now, so the server's clock starts when the game does.
     run.current = startRun();
     go("playing");
-    say("READY", 450);
+    say(t.ready, 450);
     sfx.start();
   }, []);
 
@@ -359,10 +365,10 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
       go("over");
       if (result.state.won) {
         sfx.win();
-        say("YOU MADE IT!", 2400);
+        say(t.youMadeIt, 2400);
       } else {
         sfx.over();
-        say("GAME OVER", 1600);
+        say(t.gameOver, 1600);
       }
       setTimeout(finish, result.state.won ? 2400 : 1600);
       return;
@@ -372,13 +378,13 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
       g.perfectRow = current;
       g.perfectAt = now;
       sfx.perfect(current);
-      say("PERFECT!", 600);
+      say(t.perfect, 600);
     } else {
       sfx.place(current);
     }
     // Losing width to the squeeze, not to a miss, deserves a heads up.
     if (widthCap(current + 1) < widthCap(current) && result.state.width === widthCap(current + 1)) {
-      say(`${result.state.width} BLOCK${result.state.width > 1 ? "S" : ""} LEFT`, 800);
+      say(t.blocksLeft(result.state.width), 800);
     }
     g.rowStart = now + ROW_PAUSE_MS;
     setScore(result.state.score);
@@ -504,8 +510,8 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
           ctx.fillRect(c * cell + cell / 2 - 1, r * cell + cell / 2 - 1, 2, 2);
         }
       }
-      dashed(ROWS - 6, "MAX 2");
-      dashed(ROWS - 11, "MAX 1");
+      dashed(ROWS - 6, t.max(2));
+      dashed(ROWS - 11, t.max(1));
 
       // A demo stack on the title screen, so it is obvious what the game is.
       const stack = p === "title" ? [{ x: 3, width: 3 }, { x: 3, width: 3 }, { x: 4, width: 2 }] : g.state.stack;
@@ -570,33 +576,33 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
         <>
           <div className="text-[2.2em] leading-none">STACKER</div>
           <div className="text-[0.8em] opacity-80 leading-normal max-w-[40ch]">
-            Stop each row on top of the last. Whatever hangs over the edge falls off.
+            {t.stackerHow}
           </div>
-          <div className="crt-led">PRESS SPACE OR TAP</div>
-          <div className="text-[0.75em] opacity-70">BEST {bestText}</div>
+          <div className="crt-led">{t.pressSpaceOrTap}</div>
+          <div className="text-[0.75em] opacity-70">{t.best} {bestText}</div>
         </>
       )}
       {phase === "initials" && (
         <>
           <div className="text-[0.8em] opacity-80 tabular-nums">
-            {pad(score, 4)} POINTS · {row} ROWS
+            {t.pointsAndRows(pad(score, 4), row)}
           </div>
           <Initials onSave={save} onSkip={() => go("board")} rejected={rejected} />
         </>
       )}
-      {phase === "saving" && <div className="crt-led">SAVING...</div>}
+      {phase === "saving" && <div className="crt-led">{t.saving}</div>}
       {phase === "board" && (
         <>
-          <div>{rank ? `YOU PLACED #${rank}` : `${pad(score, 4)} POINTS`}</div>
+          <div>{rank ? t.youPlaced(rank) : t.points(pad(score, 4))}</div>
           {/* A score that could not be signed says why, instead of skipping the step silently. */}
           {offline && score > 0 && (
             <div className="text-[0.75em] opacity-80">
-              {/(^|\.)fharo\.dev$/.test(location.hostname) ? "NO SIGNAL. THIS ONE WASN'T SAVED." : "SCORES ONLY SAVE ON FHARO.DEV"}
+              {/(^|\.)fharo\.dev$/.test(location.hostname) ? t.notSaved : t.onlyOnSite}
             </div>
           )}
           <Board rows={board} first={boardFirst} highlight={rank} offline={offline && !board} />
           <div className="text-[0.75em] opacity-70 crt-led">
-            {tall ? "TAP TO PLAY AGAIN" : "SPACE TO PLAY AGAIN"}
+            {tall ? t.tapToPlayAgain : t.spaceToPlayAgain}
           </div>
         </>
       )}
@@ -624,15 +630,15 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
       <div className="absolute inset-0 flex flex-col cursor-pointer" onPointerDown={onPointerDown}>
         <div className="flex justify-between gap-[2cqw] px-[4cqw] py-[1.5cqh] border-b-[0.4cqh] border-(--dim) tabular-nums">
           <span>
-            <span className="text-[0.7em] opacity-70">SCORE </span>
+            <span className="text-[0.7em] opacity-70">{t.score} </span>
             {pad(score, 4)}
           </span>
           <span>
-            <span className="text-[0.7em] opacity-70">ROW </span>
+            <span className="text-[0.7em] opacity-70">{t.row} </span>
             {pad(row, 2)}
           </span>
           <span>
-            <span className="text-[0.7em] opacity-70">BEST </span>
+            <span className="text-[0.7em] opacity-70">{t.best} </span>
             {best ? pad(best.score, 4) : "---"}
           </span>
         </div>
@@ -659,21 +665,21 @@ export default function Stacker({ onExit, tall = false }: { onExit: () => void; 
           <div className="flex flex-col gap-[2.5cqh] h-full">
             <div className="text-[1.5em] leading-none">STACKER</div>
             <div>
-              <div className="text-[0.7em] opacity-70">SCORE</div>
+              <div className="text-[0.7em] opacity-70">{t.score}</div>
               <div className="text-[1.6em] leading-none tabular-nums">{pad(score, 4)}</div>
             </div>
             <div>
-              <div className="text-[0.7em] opacity-70">ROW</div>
+              <div className="text-[0.7em] opacity-70">{t.row}</div>
               <div className="tabular-nums">
                 {pad(row, 2)}/{ROWS}
               </div>
             </div>
             <div>
-              <div className="text-[0.7em] opacity-70">BEST</div>
+              <div className="text-[0.7em] opacity-70">{t.best}</div>
               <div className="tabular-nums">{bestText}</div>
             </div>
             <div className="mt-auto text-[0.7em] opacity-70 leading-normal">
-              {phase === "over" ? (won ? "TOP OF THE STACK" : "THAT ONE MISSED") : "SPACE OR TAP TO STOP"}
+              {phase === "over" ? (won ? t.topOfStack : t.missed) : t.spaceOrTapToStop}
             </div>
           </div>
         ) : (

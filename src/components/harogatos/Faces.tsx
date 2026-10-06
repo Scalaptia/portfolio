@@ -18,6 +18,7 @@ import { CRT_COLORS, guestFace } from "@/components/pc-model/faces";
 import { play } from "@/lib/sfx";
 import FaceIcon from "./FaceIcon";
 import { INVERSE } from "./phosphor";
+import { strings } from "./strings";
 
 // Draw a face for the PC, sign it, send it. It goes into a queue, Fernando approves it
 // or not, and approved faces come up on the PC for everyone as it is clicked. Yours shows up for you
@@ -29,21 +30,12 @@ type Tool = "#" | "@" | ".";
 const DRAFT_KEY = "harogatos:face-draft";
 const GALLERY_PAGE = { wide: 10, tall: 9 };
 
-const TOOLS: { id: Tool; label: string }[] = [
-  { id: "#", label: "PEN" },
-  { id: "@", label: "BLUSH" },
-  { id: ".", label: "ERASE" },
+// The words for these, and for the errors the Worker can send back, are in strings.ts.
+const TOOLS: { id: Tool; key: "pen" | "blush" | "erase" }[] = [
+  { id: "#", key: "pen" },
+  { id: "@", key: "blush" },
+  { id: ".", key: "erase" },
 ];
-
-const ERRORS: Record<string, string> = {
-  "slow-down": "THAT'S A LOT OF FACES. TRY AGAIN IN AN HOUR.",
-  offline: "NO SIGNAL. YOUR DRAWING IS SAVED, TRY AGAIN LATER.",
-  author: "SIGN WITH A NAME, UP TO 20 CHARACTERS.",
-  message: "KEEP THE NOTE UNDER 80 CHARACTERS.",
-  art: "DRAW A LITTLE MORE FIRST.",
-  bot: "COULDN'T CHECK THIS IS A PERSON. TRY AGAIN.",
-  "queue-full": "THE QUEUE IS FULL RIGHT NOW. TRY AGAIN LATER.",
-};
 
 // "Oct 5, 2026" or "5 oct 2026", in the page's language.
 const day = (at: number) =>
@@ -132,6 +124,7 @@ function Canvas({
   cursor: [number, number] | null;
   onStroke: (cells: [number, number][], start: boolean) => void;
 }) {
+  const tr = strings();
   const holder = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
   const [size, setSize] = useState(256);
@@ -210,7 +203,7 @@ function Canvas({
         style={{ width: size, height: size, touchAction: "none" }}
         tabIndex={0}
         role="img"
-        aria-label="Drawing grid. Arrow keys move the cursor, space paints a cell, enter signs it."
+        aria-label={tr.drawingGrid}
         className="border-[0.4cqh] border-(--fg) cursor-crosshair outline-hidden focus-visible:outline-[0.4cqh] focus-visible:outline-offset-[0.4cqh] focus-visible:outline-(--fg)"
         onPointerDown={(e) => {
           e.currentTarget.setPointerCapture(e.pointerId);
@@ -245,6 +238,7 @@ export default function Faces({
   tall?: boolean;
   mode?: "draw" | "gallery";
 }) {
+  const tr = strings();
   const [view, setView] = useState<View>(mode === "gallery" ? "gallery" : "draw");
   // Where drawing was left (drawing, signing or sent), to come back to from the gallery.
   const drawView = useRef<View>("draw");
@@ -317,9 +311,9 @@ export default function Faces({
   const send = useCallback(async () => {
     const name = cleanText(author, AUTHOR_MAX, true);
     const note = cleanText(message, MESSAGE_MAX, false);
-    if (name === null) return setError(ERRORS.author);
-    if (note === null) return setError(ERRORS.message);
-    if (!cleanArt(art)) return setError(ERRORS.art);
+    if (name === null) return setError(tr.errors.author);
+    if (note === null) return setError(tr.errors.message);
+    if (!cleanArt(art)) return setError(tr.errors.art);
 
     setSending(true);
     setError(null);
@@ -328,7 +322,7 @@ export default function Faces({
     setSending(false);
 
     if (!result.ok) {
-      setError(ERRORS[result.error] ?? "SOMETHING WENT WRONG. TRY AGAIN.");
+      setError(tr.errors[result.error] ?? tr.somethingWrong);
       return;
     }
     rememberMyFace({ id: result.id, art, scheme, author: name, message: note, at: Date.now() });
@@ -408,13 +402,13 @@ export default function Faces({
                       background: t.id === "#" ? CRT_COLORS[scheme].fg : t.id === "@" ? preview.accent : "transparent",
                     }}
                   />
-                  {t.label}
+                  {tr.tools[t.key]}
                 </button>
               ))}
             </div>
 
             <button onClick={() => setMirror((m) => !m)} className={`${button} text-left`}>
-              MIRROR {mirror ? "ON" : "OFF"}
+              {tr.mirror(mirror)}
             </button>
 
             <div className="flex gap-[1cqh] items-center">
@@ -422,7 +416,7 @@ export default function Faces({
                 <button
                   key={s}
                   onClick={() => setDraft((d) => ({ ...d, scheme: s }))}
-                  aria-label={`${s} phosphor`}
+                  aria-label={tr.phosphor[s]}
                   className={`w-[4.5cqh] h-[4.5cqh] border-[0.4cqh] ${
                     scheme === s ? "border-(--fg) outline-solid outline-[0.3cqh] outline-offset-[0.3cqh] outline-(--fg)" : "border-transparent"
                   }`}
@@ -432,7 +426,7 @@ export default function Faces({
             </div>
 
             <button onClick={() => setDraft((d) => ({ ...d, art: emptyArt() }))} className={`${button} text-left`}>
-              CLEAR
+              {tr.clear}
             </button>
 
             <button
@@ -440,7 +434,7 @@ export default function Faces({
               disabled={lit < MIN_LIT}
               className={`${tall ? "" : "mt-auto"} px-[1.6cqh] py-[0.6cqh] ${INVERSE} disabled:opacity-40`}
             >
-              SIGN IT &gt;
+              {tr.signIt}
             </button>
           </div>
         </div>
@@ -462,19 +456,19 @@ export default function Faces({
             }}
           >
             <label className="flex flex-col gap-[0.5cqh]">
-              <span className="text-[0.75em] opacity-80">YOUR NAME</span>
+              <span className="text-[0.75em] opacity-80">{tr.yourName}</span>
               <input
                 autoFocus
                 value={author}
                 maxLength={AUTHOR_MAX}
                 onChange={(e) => setDraft((d) => ({ ...d, author: e.target.value }))}
                 className="bg-transparent border-b-[0.4cqh] border-(--fg) outline-hidden caret-(--fg) py-[0.3cqh] placeholder:text-(--dim)"
-                placeholder="who drew this"
+                placeholder={tr.whoDrewThis}
               />
             </label>
             <label className="flex flex-col gap-[0.5cqh]">
               <span className="text-[0.75em] opacity-80 flex justify-between">
-                <span>A NOTE</span>
+                <span>{tr.aNote}</span>
                 <span className="tabular-nums">{[...message].length}/{MESSAGE_MAX}</span>
               </span>
               <input
@@ -482,20 +476,20 @@ export default function Faces({
                 maxLength={MESSAGE_MAX}
                 onChange={(e) => setDraft((d) => ({ ...d, message: e.target.value }))}
                 className="bg-transparent border-b-[0.4cqh] border-(--fg) outline-hidden caret-(--fg) py-[0.3cqh] placeholder:text-(--dim)"
-                placeholder="optional"
+                placeholder={tr.optional}
               />
             </label>
             <p className="text-[0.7em] opacity-70 leading-normal">
-              Your face goes on your PC right away. Everyone else sees it once it's approved.
+              {tr.goesOnYourPc}
             </p>
             <div ref={checkRef} />
             {error && <p className="text-[0.75em]">{error}</p>}
             <div className="flex gap-[2cqh]">
               <button type="button" onClick={() => setView("draw")} className={button}>
-                &lt; BACK
+                {tr.back}
               </button>
               <button type="submit" disabled={sending} className={`px-[1.6cqh] ${INVERSE} disabled:opacity-60`}>
-                {sending ? "SENDING..." : "SEND"}
+                {sending ? tr.sending : tr.send}
               </button>
             </div>
           </form>
@@ -507,9 +501,9 @@ export default function Faces({
           <div className="border-[0.5cqh] border-(--fg) p-[1cqh]">
             <FaceIcon art={art} color={preview.color} accent={preview.accent} className="w-[26cqh] h-[26cqh]" />
           </div>
-          <div className="text-[1.4em]">SENT!</div>
+          <div className="text-[1.4em]">{tr.sent}</div>
           <p className="text-[0.8em] opacity-80 max-w-[44ch] leading-normal">
-            It's on your PC until you click the PC. Everyone else sees it once it's approved.
+            {tr.onYourPc}
           </p>
           <div className="flex gap-[2cqh]">
             <button
@@ -519,10 +513,10 @@ export default function Faces({
               }}
               className={button}
             >
-              DRAW ANOTHER
+              {tr.drawAnother}
             </button>
             <button onClick={onExit} className={`px-[1.6cqh] ${INVERSE}`}>
-              SEE IT ON THE PC
+              {tr.seeItOnPc}
             </button>
           </div>
         </div>
@@ -531,16 +525,16 @@ export default function Faces({
       {view === "gallery" && (
         <div className="flex-1 min-h-0 flex flex-col p-[3cqh] gap-[2cqh]">
           {gallery === undefined ? (
-            <div className="m-auto crt-led">LOADING...</div>
+            <div className="m-auto crt-led">{tr.loading}</div>
           ) : gallery === null ? (
             <div className="m-auto text-center leading-[1.6]">
-              <div>NO SIGNAL</div>
-              <div className="text-[0.75em] opacity-80">the gallery lives on fharo.dev</div>
+              <div>{tr.noSignal}</div>
+              <div className="text-[0.75em] opacity-80">{tr.galleryHome}</div>
             </div>
           ) : gallery.length === 0 ? (
             <div className="m-auto text-center leading-[1.6]">
-              <div>NO FACES YET</div>
-              <div className="text-[0.75em] opacity-80">draw the first one</div>
+              <div>{tr.noFacesYet}</div>
+              <div className="text-[0.75em] opacity-80">{tr.drawTheFirst}</div>
             </div>
           ) : (
             <>
@@ -568,7 +562,7 @@ export default function Faces({
                       <div className="opacity-70">
                         {gallery[picked].author} · {day(gallery[picked].at)}
                       </div>
-                      <div>{gallery[picked].message ? `"${gallery[picked].message}"` : "(no note)"}</div>
+                      <div>{gallery[picked].message ? `"${gallery[picked].message}"` : tr.noNote}</div>
                     </>
                   )}
                 </div>
@@ -581,16 +575,16 @@ export default function Faces({
                       onExit();
                     }}
                   >
-                    SHOW ON PC
+                    {tr.showOnPc}
                   </button>
                 )}
                 {pages > 1 && (
                   <div className="flex gap-[1cqh] items-center shrink-0 tabular-nums">
-                    <button className={button} disabled={page === 0} onClick={() => setPage((p) => p - 1)} aria-label="Previous page">
+                    <button className={button} disabled={page === 0} onClick={() => setPage((p) => p - 1)} aria-label={tr.previousPage}>
                       &lt;
                     </button>
                     {page + 1}/{pages}
-                    <button className={button} disabled={page >= pages - 1} onClick={() => setPage((p) => p + 1)} aria-label="Next page">
+                    <button className={button} disabled={page >= pages - 1} onClick={() => setPage((p) => p + 1)} aria-label={tr.nextPage}>
                       &gt;
                     </button>
                   </div>
