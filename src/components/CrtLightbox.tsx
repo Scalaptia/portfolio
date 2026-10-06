@@ -400,7 +400,6 @@ export default function CrtLightbox() {
                 style={
                   {
                     background: colors.bg,
-                    "--crt-glow": colors.glow,
                     "--crt-aspect": String(aspect),
                     touchAction: "none",
                     cursor: embedded ? "default" : zoomed ? "grab" : "zoom-in",

@@ -141,7 +141,7 @@ export default function HarogatOS() {
         <div className={`p-2 sm:p-4 [@media(max-height:520px)]:p-2 flex justify-center ${tall ? "flex-1 min-h-0" : ""}`}>
           <div className={`bg-text p-1 sm:p-2.5 ${tall ? "flex-1 flex" : ""}`} style={{ borderRadius: "32px / 40px" }}>
             <div
-              className={`crt-screen os-screen crt-glass crt-scanlines crt-curve select-none @container-size ${tall ? "os-fill" : ""}`}
+              className={`crt-screen os-screen crt-glass crt-scanlines select-none @container-size ${tall ? "os-fill" : ""}`}
               style={{
                 ...phosphorVars(PHOSPHOR.amber),
                 "--crt-aspect": tall ? "0.78" : "1.3333",

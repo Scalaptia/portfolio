@@ -9,16 +9,13 @@
 
 /* --- the glass ------------------------------------------------------------------------------ */
 
+/* Flat. No vignette, no sheen, no glow around it: the bezel and the scanlines already say CRT, and
+   a radial gradient behind everything is the first thing that makes a screen look generated. */
 .crt-glass {
   border-radius: 26px / 34px;
   overflow: hidden;
   position: relative;
   isolation: isolate;
-  /* The tube edge, darkening into the bezel, plus the phosphor glow of the current scheme. */
-  box-shadow:
-    inset 0 0 22px 10px rgba(0, 0, 0, 0.72),
-    inset 0 0 3px 1px rgba(255, 255, 255, 0.14),
-    0 0 34px -6px var(--crt-glow, rgba(0, 255, 65, 0.35));
 }
 
 /* Scanlines. 3px pitch holds up on a phone; anything finer turns to moire. */
@@ -35,18 +32,6 @@
   );
   mix-blend-mode: multiply;
   opacity: 0.45;
-}
-
-/* Corner falloff and the diagonal sheen off the front of the tube. */
-.crt-curve::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 4;
-  background:
-    radial-gradient(120% 100% at 50% 50%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.55) 100%),
-    linear-gradient(148deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0) 42%);
 }
 
 /* --- opening and closing -------------------------------------------------------------------- */
