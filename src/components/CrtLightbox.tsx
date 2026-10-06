@@ -387,7 +387,7 @@ export default function CrtLightbox() {
         <div
           style={caseStyle}
           onClick={(e) => e.stopPropagation()}
-          className="relative bg-background border-4 border-text shadow-[8px_8px_0px_0px_rgba(253,141,117,0.85)]"
+          className="relative bg-background border-4 border-text"
         >
           <CaseEars />
           {/* Case front, holding the bezel */}
@@ -484,11 +484,6 @@ export default function CrtLightbox() {
                 </button>
               </>
             )}
-
-            <span className={`flex items-center gap-1.5 font-ubuntu-mono font-bold text-xs text-text/70 ${many ? "pl-1" : "pl-1 sm:pl-2"}`}>
-              <span className="w-2 h-2 bg-primary" aria-hidden="true" />
-              HARO-PC
-            </span>
 
             <div className="flex-1" />
 

@@ -123,7 +123,7 @@ export default function HarogatOS() {
 
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`relative z-10 bg-background border-4 border-text shadow-[8px_8px_0px_0px_rgba(253,141,117,0.85)] ${
+        className={`relative z-10 bg-background border-4 border-text ${
           tall ? "w-full h-full flex flex-col" : ""
         }`}
         style={{ ...from, animation: caseMotion(!closing) }}
