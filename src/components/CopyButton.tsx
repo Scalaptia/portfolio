@@ -1,5 +1,6 @@
 import PixelIcon from "./PixelIcon";
 import { toast } from "sonner";
+import { play } from "@/lib/sfx";
 
 interface CopyToClipboardProps {
   text: string;
@@ -14,6 +15,7 @@ export default function CopyToClipboard({
     try {
       await navigator.clipboard.writeText(text);
       toast(copiedText, { id: "copy-toast" });
+      play("pc-confirm");
       // Trigger email copied event for PC cat reaction
       window.dispatchEvent(new CustomEvent('emailCopied'));
     } catch (error) {

@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect, useId, useRef } from "react";
 import PixelIcon from "./PixelIcon";
 import { openViewer, originOf, type MediaItem } from "@/lib/crtViewer";
 import { useViewerState } from "@/lib/useViewerState";
+import { play } from "@/lib/sfx";
 
 interface MediaGalleryProps {
   items: MediaItem[];
@@ -47,11 +48,14 @@ export function MediaGallery({
     preload(activeIndex + 1);
   }, [activeIndex, items, mode]);
 
+  // Stepping the carousel clicks like the viewer's buttons. Following the viewer does not.
   const handlePrev = useCallback(() => {
+    play("case-button");
     setActiveIndex((prev) => (prev - 1 + items.length) % items.length);
   }, [items.length]);
 
   const handleNext = useCallback(() => {
+    play("case-button");
     setActiveIndex((prev) => (prev + 1) % items.length);
   }, [items.length]);
 
@@ -171,6 +175,7 @@ export function MediaGallery({
                   key={index}
                   onClick={(e) => {
                     e.stopPropagation();
+                    if (index !== activeIndex) play("case-button");
                     setActiveIndex(index);
                   }}
                   className={`w-2 h-2 sm:w-3 sm:h-3 border-2 border-text shadow-[1px_1px_0px_0px_rgba(65,44,71,1)] transition-colors duration-150 ${

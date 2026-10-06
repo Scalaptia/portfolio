@@ -1,0 +1,40 @@
+# The retro sounds: everything that runs on HARO-PC's screen, Stacker and the face editor. One line
+# each: name, peak volume (0 to 1), then rFXGen settings. The PC itself and its screen switching on
+# and off are real recordings instead, listed in sfx/RECORDINGS.md.
+# `npm run sfx` turns this into public/sfx/*.wav and sfx/rfx/*.rfx.
+#
+# Settings are rFXGen's sliders, all 0 to 1 unless noted:
+#   wave=square|saw|sine|noise   freq  minfreq  slide (-1..1)  dslide
+#   A falling slide needs dslide at or below it: rFXGen resets slide to dslide when it is lower.
+#   attack  sustain  punch  decay      times: 0.1 ≈ 23 ms, 0.2 ≈ 90 ms, 0.3 ≈ 200 ms, 0.4 ≈ 360 ms
+#   change (-1..1) changespeed         one jump in pitch partway through; 0.53 is a fourth up
+#   duty dutysweep   repeat   vibdepth vibspeed   phaser phasersweep   lpf lpfsweep lpfres hpf hpfsweep
+# freq to Hz is about 3528 × (freq² + 0.001): 0.27 ≈ 260 Hz, 0.4 ≈ 570 Hz, 0.53 ≈ 1 kHz.
+#
+# The house sound is a square wave, short, with a little punch. Nothing longer than it needs to be.
+
+# --- Stacker ------------------------------------------------------------------------------------
+
+# New game: a rising chirp, three times.
+stk-start   0.32  wave=square duty=0.5 freq=0.38 slide=0.18 repeat=0.55 sustain=0.3 decay=0.18
+# A row lands. Pitched up a semitone per row in the game, so this is the bottom note, C4.
+stk-place   0.38  wave=square freq=0.271 sustain=0.03 punch=0.35 decay=0.2
+# A perfect landing: a coin, also pitched up per row.
+stk-perfect 0.32  wave=square duty=0.5 freq=0.42 change=0.53 changespeed=0.6 sustain=0.1 punch=0.45 decay=0.28
+# Blocks falling off the edge.
+stk-chop    0.38  wave=noise freq=0.35 slide=-0.35 dslide=-0.35 sustain=0.03 punch=0.3 decay=0.18 hpf=0.1
+# Game over: drops an octave, wobbles and slides down.
+stk-over    0.36  wave=square duty=0.5 freq=0.4 minfreq=0.1 slide=-0.17 dslide=-0.17 change=-0.3 changespeed=0.45 vibdepth=0.2 vibspeed=0.5 sustain=0.45 decay=0.4 lpf=0.7 lpfsweep=-0.1
+# Reaching the top: "ba-bing" three times, the second note an octave up.
+stk-win     0.32  wave=square duty=0.5 freq=0.4 change=0.745 changespeed=0.7 repeat=0.35 sustain=0.55 punch=0.25 decay=0.35
+
+# --- small controls -----------------------------------------------------------------------------
+
+# Changing a letter of your initials.
+ui-key      0.22  wave=square freq=0.7 sustain=0.02 decay=0.07 hpf=0.2
+# A cell painted in the face editor.
+ui-pen      0.18  wave=square duty=0.75 freq=0.62 sustain=0.02 decay=0.09
+# A cell erased: the same, lower.
+ui-erase    0.20  wave=square freq=0.4 sustain=0.02 decay=0.09
+# A face sent: a soft two-note rise, an octave.
+face-sent   0.32  wave=sine freq=0.45 slide=0.05 change=0.745 changespeed=0.65 sustain=0.25 punch=0.3 decay=0.35

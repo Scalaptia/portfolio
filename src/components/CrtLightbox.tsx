@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import PixelIcon from "./PixelIcon";
 import CaseEars from "./CaseEars";
+import { play } from "@/lib/sfx";
 import { aspectOf, closeViewer, navigateViewer, stepViewer } from "@/lib/crtViewer";
 import { useViewerState } from "@/lib/useViewerState";
 
@@ -48,15 +49,7 @@ interface Zoom {
 
 const RESET: Zoom = { scale: 1, x: 0, y: 0 };
 
-async function chime(kind: "on" | "off") {
-  try {
-    const sounds = await import("./pc-model/sounds");
-    if (kind === "on") sounds.playBootSound();
-    else sounds.playPowerDownSound();
-  } catch {
-    // No audio, no problem.
-  }
-}
+const chime = (kind: "on" | "off") => play(kind === "on" ? "crt-on" : "crt-off");
 
 export default function CrtLightbox() {
   const { items, index, scheme, origin, aspect: fixed } = useViewerState();
@@ -121,6 +114,14 @@ export default function CrtLightbox() {
       document.body.style.overflow = "";
     };
   }, []);
+
+  // The picture changing is a press of the case's button, whether it came from the chin, a dot,
+  // an arrow key or a swipe. Not on opening, which already has the screen switching on.
+  const firstIndex = useRef(index);
+  useEffect(() => {
+    if (index !== firstIndex.current) play("case-button");
+    firstIndex.current = -1;
+  }, [index]);
 
   // A new picture starts at its own size, not at whatever magnification the last one was left at.
   useEffect(() => {
@@ -489,7 +490,10 @@ export default function CrtLightbox() {
 
             {item.type === "image" && !embedded && (
               <button
-                onClick={() => zoomAt(zoomed ? 1 : TAP_ZOOM)}
+                onClick={() => {
+                  play("case-button");
+                  zoomAt(zoomed ? 1 : TAP_ZOOM);
+                }}
                 className={`${BUTTON} w-11 h-11 sm:w-10 sm:h-10 ${zoomed ? "bg-text text-white hover:bg-text" : ""}`}
                 aria-label={zoomed ? "Fit to screen" : "Zoom in"}
                 aria-pressed={zoomed}

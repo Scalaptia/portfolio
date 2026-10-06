@@ -12,7 +12,7 @@ import {
   type StackState,
 } from "@/lib/stacker";
 import { startRun, submitScore, topScores, scoresPage, type ScoreRow, type ScorePage } from "@/lib/arcadeApi";
-import { playNotes } from "@/components/pc-model/sounds";
+import { play, semitones } from "@/lib/sfx";
 import PixelIcon from "@/components/PixelIcon";
 import { PHOSPHOR, INVERSE } from "./phosphor";
 
@@ -34,22 +34,15 @@ const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 const pad = (n: number, width: number) => String(n).padStart(width, "0");
 
-// Every row a semitone up, so a good run climbs a scale.
-const noteFor = (row: number) => 262 * Math.pow(2, row / 12);
-
+// Every row a semitone up, so a good run climbs a scale. The sounds are recorded at the bottom note.
 const sfx = {
-  start: () => playNotes([[523, 0, 0.06], [659, 0.07, 0.06], [784, 0.14, 0.1]]),
-  place: (row: number) => playNotes([[noteFor(row), 0, 0.07], [noteFor(row) * 2, 0.02, 0.05]], 0.07),
-  perfect: (row: number) =>
-    playNotes([[noteFor(row) * 2, 0, 0.05], [noteFor(row) * 2.5, 0.05, 0.05], [noteFor(row) * 3, 0.1, 0.1]], 0.07),
-  chop: () => playNotes([[160, 0, 0.09]], 0.09, "sawtooth"),
-  over: () => playNotes([[392, 0, 0.14], [330, 0.15, 0.14], [262, 0.3, 0.14], [196, 0.45, 0.35]], 0.08),
-  win: () =>
-    playNotes(
-      [[523, 0, 0.1], [659, 0.1, 0.1], [784, 0.2, 0.1], [1047, 0.3, 0.12], [784, 0.44, 0.08], [1047, 0.54, 0.4]],
-      0.08,
-    ),
-  key: () => playNotes([[880, 0, 0.025]], 0.05),
+  start: () => play("stk-start"),
+  place: (row: number) => play("stk-place", { rate: semitones(row) }),
+  perfect: (row: number) => play("stk-perfect", { rate: semitones(row) }),
+  chop: () => play("stk-chop"),
+  over: () => play("stk-over"),
+  win: () => play("stk-win"),
+  key: () => play("ui-key"),
 };
 
 function savedInitials(): string[] {

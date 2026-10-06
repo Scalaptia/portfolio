@@ -7,14 +7,14 @@ import { buildHaroPC } from './pc-model/haroPC'
 
 import { FACES, BLINK_FACE, DIZZY_FACE, OFF_FACE, INTRO_FRAMES, guestFace } from './pc-model/faces'
 import { subscribeShown, getShown, advance, type Shown } from '@/lib/guestFaceShow'
-import { playMeowSound, playPowerDownSound, playBootSound } from './pc-model/sounds'
+import { play } from '@/lib/sfx'
 import { drawFace, createFaceCanvas, drawFromArt, drawIntroFrame } from './pc-model/drawing'
 import type { Gaze } from './pc-model/drawing'
 
-// Click it enough times in a row and it has had enough.
-const RAGE_LIMIT = 8
-// Clicks stop counting toward that once you leave it alone for a moment.
-const RAGE_WINDOW_MS = 1500
+// Spam it and it has had enough: this many clicks inside the window. That is about four a second,
+// which only mashing reaches. Clicking through its faces at a normal pace never gets there.
+const RAGE_LIMIT = 10
+const RAGE_WINDOW_MS = 2500
 // How far the cursor has to be from the middle of the canvas, as a fraction of its half-width,
 // before the face looks that way.
 const GAZE_THRESHOLD = 0.55
@@ -42,8 +42,8 @@ function Scene() {
 
     useEffect(() => subscribeShown(setGuest), [])
 
-    const rageCount = useRef(0)
-    const lastClick = useRef(0)
+    // When the recent clicks happened, for the shutdown's sliding window.
+    const rageClicks = useRef<number[]>([])
     const rageTimers = useRef<ReturnType<typeof setTimeout>[]>([])
     
     const canvasRef = useRef<HTMLCanvasElement | null>(null)
@@ -69,10 +69,8 @@ function Scene() {
     useEffect(() => {
         const handleHeroHover = (e: CustomEvent) => {
             setIsHeroHovered(e.detail.hovered)
-            if (e.detail.hovered) {
-                triggerBounce()
-                playMeowSound(4)
-            }
+            // A hover is not a press, so it bounces but stays quiet.
+            if (e.detail.hovered) triggerBounce()
         }
 
         const handlePageInteraction = (e: CustomEvent) => {
@@ -89,12 +87,10 @@ function Scene() {
                 case 'social':
                     triggerBounce()
                     setExpression(1)
-                    playMeowSound(1)
                     setTimeout(() => setExpression(0), 2000)
                     break
                 case 'email':
                     setExpression(3)
-                    playMeowSound(3)
                     setTimeout(() => setExpression(0), 1500)
                     break
             }
@@ -196,18 +192,22 @@ function Scene() {
 
     const triggerShutdown = () => {
         clearRageTimers()
-        rageCount.current = 0
+        rageClicks.current = []
         setMode('dizzy')
 
         scheduleRage(() => {
             setMode('off')
-            playPowerDownSound()
+            // The power button, then the tube going dark.
+            play('pc-button')
+            play('crt-off', { delay: 0.12 })
         }, 900)
 
         scheduleRage(() => {
             setMode('booting')
             setBootFrame(0)
-            playBootSound()
+            // The monitor's switch, then the self-test beep.
+            play('crt-on')
+            play('pc-beep', { delay: 0.45 })
 
             let elapsed = 0
             INTRO_FRAMES.forEach((frame, i) => {
@@ -250,17 +250,16 @@ function Scene() {
 
     const handleClick = (e: ThreeEvent<MouseEvent>) => {
         // Pointer events reach every mesh under the cursor, screen and case alike. Without this
-        // one click counted twice, and the rage shutdown came after four clicks instead of eight.
+        // one click counted twice, and the rage shutdown came at half the clicks it should.
         e.stopPropagation()
 
         // While it is off or rebooting, poking it does nothing. That is the joke.
         if (mode !== 'awake') return
 
         const now = Date.now()
-        rageCount.current = now - lastClick.current < RAGE_WINDOW_MS ? rageCount.current + 1 : 1
-        lastClick.current = now
+        rageClicks.current = [...rageClicks.current.filter((t) => now - t < RAGE_WINDOW_MS), now]
 
-        if (rageCount.current >= RAGE_LIMIT) {
+        if (rageClicks.current.length >= RAGE_LIMIT) {
             triggerShutdown()
             return
         }
@@ -269,12 +268,15 @@ function Scene() {
         // Every third click is a visitor's face (see guestFaceShow.ts). The rest step through the
         // PC's own expressions.
         if (advance()) {
-            playMeowSound(expression)
+            // The PC speaker's bip-bip: the same beep, the second a fifth higher.
+            play('pc-guest')
+            play('pc-guest', { delay: 0.085, rate: 1.5 })
             return
         }
         const next = (expression + 1) % FACES.length
         setExpression(next)
-        playMeowSound(next)
+        // The same bip each time, a hair higher or lower, so fast clicks do not sound like a machine gun.
+        play('pc-click', { rate: 0.94 + Math.random() * 0.12 })
     }
 
     // ANIMATION FRAME
