@@ -11,15 +11,16 @@
       "company": "Step Labs",
       "link": "https://www.steplabs.xyz/",
       "period": "Sep 2026 - Presente",
-      "description": "Desarrollo tiendas Shopify con Liquid y JavaScript. Trabajo con dise\u00f1adores y desarrolladores en p\u00e1ginas responsivas que facilitan encontrar y comprar productos.",
+      "description": "Desarrollo funciones de tiendas Shopify para 10 marcas de e-commerce, desde lanzamientos de Black Friday hasta redise\u00f1os de p\u00e1ginas de producto y pruebas A/B. Tambi\u00e9n migr\u00e9 las dos tiendas de un proveedor industrial desde Magento y constru\u00ed un prototipo de asistente con IA para la agencia.",
       "type": "work"
     },
     {
-      "title": "Desarrollador Full-Stack Freelance",
+      "title": "Desarrollador Frontend Freelance",
       "icon": "terminal",
-      "company": "Por cuenta propia",
-      "period": "Sep 2026 - Presente",
-      "description": "Desarrollo un sitio de reservaciones para una empresa de servicios con Next.js, TypeScript y Strapi. Creo p\u00e1ginas responsivas, cat\u00e1logos y filtros administrados desde el CMS para que el cliente actualice contenido sin tocar c\u00f3digo.",
+      "company": "Lands End Charters",
+      "link": "https://www.landsendcharters.com/",
+      "period": "Ago 2026 - Presente",
+      "description": "Desarrollo el sitio de reservaciones de una empresa de yates y pesca deportiva en Los Cabos con Next.js y Strapi. Lanc\u00e9 su gu\u00eda de destinos con 15 puertos de M\u00e9xico, informaci\u00f3n de pesca por temporada y captura de clientes con HubSpot.",
       "type": "work"
     },
     {
@@ -46,7 +47,7 @@
       "logoOnDark": true,
       "company": "Tech4Good Research Lab",
       "link": "https://www.tech4goodresearchlab.com/",
-      "period": "Mar 2025 - Oct 2025",
+      "period": "Mar 2025 - Sep 2025",
       "description": "Dise\u00f1\u00e9 la arquitectura de la app y configur\u00e9 su backend en Supabase con PostgreSQL y seguridad a nivel de fila. Constru\u00ed m\u00e1s de 20 pantallas en React Native y un motor de cuestionarios que permite agregar instrumentos mediante configuraci\u00f3n.",
       "type": "work"
     }
@@ -55,26 +56,27 @@
     {
       "slug": "stilo",
       "title": "Stilo",
-      "description": "Dirig\u00ed el desarrollo de una app que arma atuendos con tu propia ropa. Dise\u00f1\u00e9 el sistema de recomendaciones con IA y el lienzo interactivo. En un estudio con 10 personas, crear atuendos con IA requiri\u00f3 83.4% menos interacciones que hacerlo manualmente.",
-      "context": "Coautor y Desarrollador L\u00edder • Art\u00edculo aceptado en MexIHC 2026",
+      "description": "Desarrollo una app que arma atuendos con la ropa que ya tienes. Tomas una foto y recorta y etiqueta la prenda; luego pides un atuendo para cualquier ocasi\u00f3n o arrastras prendas a un lienzo. En un estudio con 10 personas, los atuendos con IA requirieron 83.4% menos interacciones que armarlos a mano.",
+      "context": "Coautor y Desarrollador \u2022 Art\u00edculo aceptado en MexIHC 2026",
       "contributions": [
-        "Dise\u00f1\u00e9 el pipeline de recomendaciones que interpreta prompts, encuentra ropa compatible y arma conjuntos.",
-        "Constru\u00ed la app multiplataforma con un lienzo interactivo para armar atuendos.",
-        "Provision\u00e9 toda la infraestructura cloud en Azure usando Terraform."
+        "Dise\u00f1\u00e9 el pipeline de atuendos: un LLM planea el look, una b\u00fasqueda por embeddings encuentra prendas compatibles en tu armario y un segundo paso arma o edita el atuendo.",
+        "Constru\u00ed la app en Expo, con el armario, el estudio con IA y el lienzo para armar atuendos arrastrando prendas.",
+        "Migr\u00e9 el backend de NestJS, FastAPI y Postgres en Azure a un solo Cloudflare Worker con D1 y R2, con pruebas de paridad que comparan cada operaci\u00f3n contra la API anterior."
       ],
       "image": [
-        "/images/stilo-1.webp",
+        "/images/stilo-home-es.webp",
         "/images/stilo-2.webp",
         "/images/stilo-3.webp",
         "/images/stilo-4.webp"
       ],
-      "tags": ["React Native", "NestJS", "FastAPI", "PostgreSQL", "Azure", "Terraform", "Google Gemini"]
+      "tags": ["React Native", "Expo", "Cloudflare Workers", "D1", "R2", "Gemini", "OpenTofu"],
+      "live": "https://stilo.fharo.dev/"
     },
     {
       "slug": "nasa-explorer",
       "title": "NASA Explorer",
       "description": "Haz preguntas sobre la investigaci\u00f3n de biolog\u00eda espacial de la NASA y recibe respuestas respaldadas por publicaciones. Constru\u00ed el backend de chat y RAG en NestJS, un pipeline de ingesta en Python y partes del grafo interactivo en React.",
-      "context": "Equipo de 6 • 1er Lugar \u2014 NASA Space Apps Challenge 2025",
+      "context": "Equipo de 6 \u2022 1er Lugar \u2014 NASA Space Apps Challenge 2025",
       "contributions": [
         "Constru\u00ed el backend \u2014 chat, historial, usuarios y orquestaci\u00f3n RAG con Vertex AI.",
         "Desarroll\u00e9 funcionalidades del frontend: grafo interactivo de conocimiento, favoritos e integraci\u00f3n del chat."
@@ -109,6 +111,32 @@
   ],
   "OTHER_PROJECTS": [
     {
+      "title": "Marswalk",
+      "description": "Planea una caminata con traje espacial sobre terreno real de Marte de la NASA y luego rec\u00f3rrela en 3D antes de que se acabe el ox\u00edgeno. La hicimos un equipo de 6 en el NASA Space Apps 2026. Trabaj\u00e9 en toda la app, desde los datos de la NASA hasta el multijugador y la presentaci\u00f3n integrada.",
+      "tags": ["React", "Three.js", "Python", "Cloudflare Workers"],
+      "image": "/images/marswalk-1.webp",
+      "gallery": [
+        "/images/marswalk-shot-1.webp",
+        "/images/marswalk-shot-2.webp",
+        "/images/marswalk-shot-3.webp",
+        "/images/marswalk-shot-4.webp",
+        "/images/marswalk-shot-5.webp"
+      ],
+      "repo": "https://github.com/JVPresti/NasaSpaceApps-MartianMap"
+    },
+    {
+      "title": "CTRL Coders",
+      "description": "El sitio del club de programaci\u00f3n competitiva que cofund\u00e9 en la UABC. Lo constru\u00ed yo solo: gu\u00edas en video para el juez omegaUp, las \u00faltimas publicaciones de Instagram del club que un Cloudflare Worker sincroniza cada hora, y un sorteo con panel de administraci\u00f3n en Supabase.",
+      "tags": ["React", "TypeScript", "Supabase", "Cloudflare Workers"],
+      "image": "/images/ctrlcoders-1.webp",
+      "gallery": [
+        "/images/ctrlcoders-shot-1.webp",
+        "/images/ctrlcoders-shot-2.webp",
+        "/images/ctrlcoders-shot-3.webp"
+      ],
+      "repo": "https://ctrlcoders.com/"
+    },
+    {
       "title": "Havi",
       "description": "En un hackathon bancario de dos d\u00edas, constru\u00ed la app m\u00f3vil de 8 pantallas para un copiloto financiero proactivo. Su capa de datos tipada combina alertas con datos de la cuenta y usa datos de demostraci\u00f3n si falla el backend.",
       "tags": ["React Native", "Expo", "FastAPI", "Gemini"],
@@ -119,6 +147,20 @@
         "/images/havi-app-3.webp",
         "/images/havi-app-4.webp"
       ]
+    },
+    {
+      "title": "La Br\u00fajula del Autismo",
+      "description": "La app m\u00f3vil de la plataforma de detecci\u00f3n de autismo del laboratorio Tech4Good, que dise\u00f1\u00e9 y constru\u00ed. Los cuidadores aplican cuestionarios como ATEC y M-CHAT-R/F, ven resultados por \u00e1rea y vinculan especialistas a cada persona. Gan\u00f3 el 1er lugar en Ingenier\u00eda en ENITCI 2025.",
+      "tags": ["React Native", "Expo", "Supabase", "PostgreSQL"],
+      "image": "/images/autism-compass-1.webp",
+      "gallery": [
+        "/images/autism-compass-app-1.webp",
+        "/images/autism-compass-app-2.webp",
+        "/images/autism-compass-app-3.webp",
+        "/images/autism-compass-app-4.webp",
+        "/images/autism-compass-app-5.webp"
+      ],
+      "repo": "https://www.tech4goodresearchlab.com/projects/la-brujula-del-autismo"
     },
     {
       "title": "Espyntar",
@@ -140,13 +182,6 @@
       "image": "/images/16bdh-1.webp",
       "trailer": "Ea9rDD_nelE",
       "repo": "https://github.com/Scalaptia/16-Bits-de-Historia"
-    },
-    {
-      "title": "Espify",
-      "description": "Una sala para escuchar m\u00fasica desde la terminal. Su servidor de sockets en Java transmite audio, administra la cola y sincroniza la reproducci\u00f3n entre participantes.",
-      "tags": ["Java", "Spring Shell", "Sockets", "Maven"],
-      "image": "/images/espify-1.webp",
-      "repo": "https://github.com/EspySoftware/espify"
     }
   ],
   "TEXT_404": "\u00a1Oops! La p\u00e1gina que buscas no existe.",
@@ -158,7 +193,7 @@
   "TEXT_WHAT_I_BUILT": "Qu\u00e9 Constru\u00ed",
   "TEXT_RESULTS": "Resultados",
   "TEXT_MORE_ABOUT_1": "Descubr\u00ed mi pasi\u00f3n por la programaci\u00f3n a los 16 a\u00f1os con proyectos de Arduino, lo que despert\u00f3 mi inter\u00e9s por el desarrollo de software. Esta experiencia temprana me ense\u00f1\u00f3 la importancia de la resoluci\u00f3n de problemas y el pensamiento creativo en la tecnolog\u00eda.",
-  "TEXT_MORE_ABOUT_2": "Cuando no estoy programando, disfruto de los videojuegos, pasar tiempo con amigos y familia, leer, y tocar la guitarra. Siempre estoy dispuesto a aprender y conversar sobre tecnolog\u00eda nueva.",
+  "TEXT_MORE_ABOUT_2": "Cuando no estoy programando, disfruto de los videojuegos, pasar tiempo con amigos y familia, y tocar la guitarra. Siempre estoy dispuesto a aprender y conversar sobre tecnolog\u00eda nueva.",
   "TEXT_RESUME_DOWNLOAD": "Descargar CV",
   "CLICK_ME": "\u00a1Haz click!",
   "BOOT_HAROGATOS": "Iniciar harogatOS",
@@ -169,16 +204,16 @@
   "TEXT_HIGHLIGHTS": "destacados",
   "HIGHLIGHTS": [
     {
+      "photo": "/images/highlights/icpc-apr-2026.jpg",
+      "title": "1er Lugar, Sede Ensenada",
+      "event": "ICPC, Gran Premio de M\u00e9xico",
+      "period": "Sep 2026"
+    },
+    {
       "photo": "/images/highlights/datathon-may-2026.jpeg",
       "title": "Participante",
       "event": "DSC Datathon 5, Tec de Monterrey",
       "period": "May 2026"
-    },
-    {
-      "photo": "/images/highlights/icpc-apr-2026.jpg",
-      "title": "Ronda Regional",
-      "event": "ICPC, Gran Premio de M\u00e9xico",
-      "period": "Apr 2026"
     },
     {
       "photo": "/images/highlights/ctrl-coders-apr-2026.jpg",

@@ -11,19 +11,20 @@
       "company": "Step Labs",
       "link": "https://www.steplabs.xyz/",
       "period": "Sep 2026 - Present",
-      "description": "Building Shopify storefronts with Liquid and JavaScript. I work with designers and developers on responsive pages that make products easier to browse and buy.",
+      "description": "I build Shopify storefront features for 10 e-commerce brands, from Black Friday launches to product page redesigns and A/B tests. I also moved an industrial supplier's two stores off Magento and built a prototype AI assistant for the agency.",
       "type": "work"
     },
     {
-      "title": "Freelance Full-Stack Developer",
+      "title": "Freelance Frontend Developer",
       "icon": "terminal",
-      "company": "Independent",
-      "period": "Sep 2026 - Present",
-      "description": "Building a booking website for a service business with Next.js, TypeScript and Strapi. I deliver responsive pages, CMS-managed listings and filters so the client can update content without code.",
+      "company": "Lands End Charters",
+      "link": "https://www.landsendcharters.com/",
+      "period": "Aug 2026 - Present",
+      "description": "Building the booking site for a yacht and sport-fishing charter company in Los Cabos with Next.js and Strapi. I launched its destination guide for 15 Mexican ports, with seasonal fishing info and HubSpot lead capture.",
       "type": "work"
     },
     {
-      "title": "Application Developer Intern",
+      "title": "Intern, Application Developer",
       "logo": "/images/experience/psl-group.jpg",
       "company": "P\\S\\L Group",
       "link": "https://www.pslgroup.com/",
@@ -46,7 +47,7 @@
       "logoOnDark": true,
       "company": "Tech4Good Research Lab",
       "link": "https://www.tech4goodresearchlab.com/",
-      "period": "Mar 2025 - Oct 2025",
+      "period": "Mar 2025 - Sep 2025",
       "description": "Designed the app architecture and set up its Supabase backend with PostgreSQL and row-level security. Built 20+ React Native screens and a questionnaire engine that accepts new screening instruments through configuration.",
       "type": "work"
     }
@@ -55,28 +56,29 @@
     {
       "slug": "stilo",
       "title": "Stilo",
-      "description": "I led development of an app that builds outfits from your own clothes. I designed its AI recommendation pipeline and drag-and-drop canvas. In a 10-person study, AI-assisted outfit creation took 83.4% fewer UI interactions than the manual flow.",
-      "context": "Co-Author & Lead Developer • Paper accepted at MexIHC 2026",
+      "description": "I build an app that builds outfits from the clothes you already own. Snap a photo and it cuts out and tags the piece, then ask for an outfit for any occasion or drag pieces onto a canvas. In a 10-person study, AI-assisted outfits took 83.4% fewer interactions than building them by hand.",
+      "context": "Co-Author & Developer • Paper accepted at MexIHC 2026",
       "contributions": [
-        "Designed the recommendation pipeline that interprets prompts, finds matching clothes, and assembles outfits.",
-        "Built the multiplatform app with a custom drag-and-drop outfit canvas.",
-        "Provisioned cloud infrastructure on Azure using Terraform."
+        "Designed the outfit pipeline: an LLM plans the look, embedding search finds matching pieces in your closet, and a second pass composes or edits the outfit.",
+        "Built the Expo app, including the closet, the AI studio and the drag-and-drop outfit canvas.",
+        "Moved the backend from NestJS, FastAPI and Postgres on Azure to one Cloudflare Worker with D1 and R2, with a parity suite checking each operation against the old API."
       ],
       "image": [
-        "/images/stilo-1.webp",
+        "/images/stilo-home.webp",
         "/images/stilo-2.webp",
         "/images/stilo-3.webp",
         "/images/stilo-4.webp"
       ],
-      "tags": ["React Native", "NestJS", "FastAPI", "PostgreSQL", "Azure", "Terraform", "Google Gemini"]
+      "tags": ["React Native", "Expo", "Cloudflare Workers", "D1", "R2", "Gemini", "OpenTofu"],
+      "live": "https://stilo.fharo.dev/"
     },
     {
       "slug": "nasa-explorer",
       "title": "NASA Explorer",
       "description": "Ask questions about NASA space-biology research and get answers backed by published sources. I built the NestJS chat and RAG backend, a Python ingestion pipeline, and parts of the interactive React knowledge graph.",
-      "context": "Team of 6 • 1st Place \u2014 NASA Space Apps Challenge 2025",
+      "context": "Team of 6 • 1st Place — NASA Space Apps Challenge 2025",
       "contributions": [
-        "Built the backend \u2014 chat, history, users, and RAG orchestration with Vertex AI.",
+        "Built the backend — chat, history, users, and RAG orchestration with Vertex AI.",
         "Developed frontend features: interactive knowledge graph, article favorites, and chat integration."
       ],
       "image": [
@@ -94,7 +96,7 @@
       "description": "I built this system to help my family avoid running out of water. An Arduino checks the tank every minute, AWS handles the readings, and a React dashboard shows the level and sends alerts. It has run at home for over a year.",
       "context": "Personal Project",
       "contributions": [
-        "Designed the full system \u2014 Arduino firmware, a Go Lambda for sensor ingestion, the NestJS API, and the React dashboard.",
+        "Designed the full system — Arduino firmware, a Go Lambda for sensor ingestion, the NestJS API, and the React dashboard.",
         "Trained an LSTM to forecast when the tank would empty, measured it against the latency it added, and switched it off."
       ],
       "image": [
@@ -109,6 +111,32 @@
   ],
   "OTHER_PROJECTS": [
     {
+      "title": "Marswalk",
+      "description": "Plan a spacesuit walk on real NASA terrain of Mars, then walk it in 3D before your oxygen runs out. Built by a team of 6 at NASA Space Apps 2026. I worked across the whole app, from the NASA data to multiplayer and the in-app presentation.",
+      "tags": ["React", "Three.js", "Python", "Cloudflare Workers"],
+      "image": "/images/marswalk-1.webp",
+      "gallery": [
+        "/images/marswalk-shot-1.webp",
+        "/images/marswalk-shot-2.webp",
+        "/images/marswalk-shot-3.webp",
+        "/images/marswalk-shot-4.webp",
+        "/images/marswalk-shot-5.webp"
+      ],
+      "repo": "https://github.com/JVPresti/NasaSpaceApps-MartianMap"
+    },
+    {
+      "title": "CTRL Coders",
+      "description": "The website of the competitive programming club I co-founded at UABC. I built it alone: video guides for the omegaUp judge, the club's latest Instagram posts synced every hour by a Cloudflare Worker, and a raffle with an admin dashboard on Supabase.",
+      "tags": ["React", "TypeScript", "Supabase", "Cloudflare Workers"],
+      "image": "/images/ctrlcoders-1.webp",
+      "gallery": [
+        "/images/ctrlcoders-shot-1.webp",
+        "/images/ctrlcoders-shot-2.webp",
+        "/images/ctrlcoders-shot-3.webp"
+      ],
+      "repo": "https://ctrlcoders.com/"
+    },
+    {
       "title": "Havi",
       "description": "At a two-day banking hackathon, I built the 8-screen mobile app for a proactive banking copilot. Its typed data layer combines pipeline alerts with account data and falls back to demo data when the backend is unavailable.",
       "tags": ["React Native", "Expo", "FastAPI", "Gemini"],
@@ -119,6 +147,20 @@
         "/images/havi-app-3.webp",
         "/images/havi-app-4.webp"
       ]
+    },
+    {
+      "title": "The Autism Compass",
+      "description": "The mobile app for the Tech4Good lab's autism-screening platform, which I architected and built. Caregivers run screening questionnaires such as ATEC and M-CHAT-R/F, see results by area, and link specialists to each person. It won 1st place in Engineering at ENITCI 2025.",
+      "tags": ["React Native", "Expo", "Supabase", "PostgreSQL"],
+      "image": "/images/autism-compass-1.webp",
+      "gallery": [
+        "/images/autism-compass-app-1.webp",
+        "/images/autism-compass-app-2.webp",
+        "/images/autism-compass-app-3.webp",
+        "/images/autism-compass-app-4.webp",
+        "/images/autism-compass-app-5.webp"
+      ],
+      "repo": "https://www.tech4goodresearchlab.com/projects/la-brujula-del-autismo"
     },
     {
       "title": "Espyntar",
@@ -140,13 +182,6 @@
       "image": "/images/16bdh-1.webp",
       "trailer": "Ea9rDD_nelE",
       "repo": "https://github.com/Scalaptia/16-Bits-de-Historia"
-    },
-    {
-      "title": "Espify",
-      "description": "A shared listening room in the terminal. Its Java socket server streams audio, manages the queue and keeps playback in sync for everyone in the room.",
-      "tags": ["Java", "Spring Shell", "Sockets", "Maven"],
-      "image": "/images/espify-1.webp",
-      "repo": "https://github.com/EspySoftware/espify"
     }
   ],
   "TEXT_404": "Oops! The page you're looking for doesn't exist.",
@@ -160,27 +195,27 @@
   "TEXT_EVENTS_HEADING": "events",
   "TEXT_EVENTS_PHOTOS": "event_photos",
   "TEXT_MORE_ABOUT_1": "I discovered my passion for programming at 16 through Arduino projects, which sparked my interest in software development. This early experience taught me the importance of problem-solving and creative thinking in technology.",
-  "TEXT_MORE_ABOUT_2": "When I'm not coding, I enjoy gaming, spending time with friends and family, reading, and playing guitar. I'm always eager to learn and chat about new tech.",
+  "TEXT_MORE_ABOUT_2": "When I'm not coding, I enjoy gaming, spending time with friends and family, and playing guitar. I'm always eager to learn and chat about new tech.",
   "TEXT_RESUME_DOWNLOAD": "Download Resume",
   "CLICK_ME": "Click me!",
   "BOOT_HAROGATOS": "Boot harogatOS",
-  "TEXT_SWIPE_HINT": "\u2190 Swipe \u2192",
+  "TEXT_SWIPE_HINT": "← Swipe →",
   "TEXT_READ_MORE": "Read more",
   "TEXT_OTHER_PROJECTS": "Other projects",
   "TEXT_BACK_HOME": "Back home",
   "TEXT_HIGHLIGHTS": "highlights",
   "HIGHLIGHTS": [
     {
+      "photo": "/images/highlights/icpc-apr-2026.jpg",
+      "title": "1st Place, Ensenada Site",
+      "event": "ICPC Gran Premio de México",
+      "period": "Sep 2026"
+    },
+    {
       "photo": "/images/highlights/datathon-may-2026.jpeg",
       "title": "Participant",
       "event": "DSC Datathon 5, Tec de Monterrey",
       "period": "May 2026"
-    },
-    {
-      "photo": "/images/highlights/icpc-apr-2026.jpg",
-      "title": "Regional Round",
-      "event": "ICPC, Mexico Regionals",
-      "period": "Apr 2026"
     },
     {
       "photo": "/images/highlights/ctrl-coders-apr-2026.jpg",

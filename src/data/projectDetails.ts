@@ -13,36 +13,36 @@ export const projectDetails: Record<string, { en: ProjectDetail; es: ProjectDeta
       problem:
         "Closet overabundance increases daily cognitive load and leads to chronic underutilization of personal inventory. People gravitate toward the same few outfits while most garments sit idle. Stilo was built to test whether an AI system could reduce the mental effort of choosing what to wear and improve wardrobe rotation.",
       howItWorks: [
-        "When you create your account, you fill out a style profile questionnaire and take a photo of your face. The app analyzes your facial colorimetry to find the color palettes that suit you best.",
-        "You upload photos of your clothes or browse items from partner stores. The app removes backgrounds and extracts dominant colors and tags from each piece.",
-        "You can assemble outfits manually on the interactive canvas, or describe the occasion in plain language and let the RAG pipeline generate coordinated outfits that respect your color palette and style preferences.",
-        "You can iterate, 'make it more formal' or 'swap the jacket', and the system regenerates without starting over."
+        "You photograph a piece, or pick several photos from your gallery at once. Stilo removes the background, and the AI suggests a name, category, main color and tags for you to confirm.",
+        "You describe the occasion, like a date or a work meeting, and Stilo searches your closet and proposes complete looks. You can ask for changes, 'more formal' or 'other shoes', without starting over.",
+        "You can also drag pieces onto the canvas yourself, arrange them and save the outfit.",
+        "If you opt in, Stilo analyzes a photo of your face to work out your seasonal color palette, and suggestions pick colors from it. The photo is deleted when the analysis ends."
       ],
       whatIBuilt: [
-        "Designed the three-phase RAG pipeline: a planning step where Gemini breaks prompts into clothing categories, a vector similarity search via pgvector to retrieve matching items from the wardrobe, and a composition step that assembles coherent outfits factoring in the user's color palette and style preferences.",
-        "Built the React Native mobile app with an interactive canvas for manually arranging outfits, drag, scale, rotate, plus the wardrobe and recommendation flows.",
-        "Provisioned all cloud infrastructure on Azure using Terraform."
+        "Designed the outfit pipeline. An LLM plans which garment categories the look needs, embedding search retrieves matching pieces from your closet, and a second pass composes the outfit or edits the one on the canvas under style and color rules.",
+        "Built the Expo app: the closet and upload flow, the AI studio and the canvas where you drag, scale and rotate pieces.",
+        "Moved the backend from a NestJS API, a FastAPI service and Postgres on Azure to one Cloudflare Worker with D1, R2 and Queues. A parity suite checked each operation against the old API before the cutover."
       ],
       results:
-        "A controlled experiment with 10 participants compared manual vs. AI-assisted outfit creation using a standardized 25-item capsule wardrobe. The AI condition reduced UI interactions by 83.4% (p = 0.001), lowered cognitive load by 22.3% (NASA-TLX), and scored 86.75/100 on the System Usability Scale. The study was accepted for publication at MexIHC 2026.",
+        "A controlled experiment with 10 participants compared manual and AI-assisted outfit creation on a standardized 25-item capsule wardrobe. The AI condition took 83.4% fewer UI interactions (p = 0.001), lowered cognitive load by 22.3% (NASA-TLX) and scored 86.75/100 on the System Usability Scale. The paper was accepted at MexIHC 2026 and will appear in Avances en Interacción Humano-Computadora.",
       extraImages: [],
     },
     es: {
       problem:
         "La sobreabundancia de prendas en el guardarropa incrementa la carga cognitiva diaria y provoca la subutilización crónica del inventario. Las personas gravitan hacia las mismas prendas mientras la mayoría queda sin usar. Stilo se construyó para evaluar si un sistema de IA puede reducir el esfuerzo mental de elegir qué ponerse y mejorar la rotación del guardarropa.",
       howItWorks: [
-        "Al crear tu cuenta, llenas un cuestionario de perfil de estilo y tomas una foto de tu rostro. La app analiza tu colorimetría facial para encontrar las paletas de colores que más te favorecen.",
-        "Subes fotos de tus prendas o exploras artículos de tiendas aliadas. La app elimina los fondos y extrae los colores dominantes y etiquetas de cada pieza.",
-        "Puedes armar atuendos manualmente en el lienzo interactivo, o describir la ocasión en lenguaje natural y dejar que el pipeline RAG genere conjuntos coordinados que respetan tu paleta de color y preferencias de estilo.",
-        "Puedes iterar, 'hazlo más formal' o 'cambia la chamarra', y el sistema regenera sin empezar de cero."
+        "Fotografías una prenda o eliges varias fotos de tu galería a la vez. Stilo recorta el fondo y la IA sugiere nombre, categoría, color principal y etiquetas para que los confirmes.",
+        "Describes la ocasión, como una cita o una reunión de trabajo, y Stilo busca en tu armario y te propone looks completos. Puedes pedir cambios, 'más formal' u 'otros zapatos', sin empezar de cero.",
+        "También puedes arrastrar prendas al lienzo, acomodarlas y guardar el atuendo.",
+        "Si quieres, Stilo analiza una foto de tu rostro para obtener tu paleta de colorimetría por estación, y las sugerencias eligen colores de ella. La foto se borra al terminar el análisis."
       ],
       whatIBuilt: [
-        "Diseñé el pipeline RAG de tres fases: un paso de planeación donde Gemini desglosa los prompts en categorías de ropa, una búsqueda por similitud vectorial con pgvector para recuperar las prendas compatibles del armario, y un paso de composición que arma conjuntos coherentes considerando la paleta de color y preferencias del usuario.",
-        "Construí la app móvil con React Native y un lienzo interactivo para armar atuendos manualmente, arrastrar, escalar, rotar, más los flujos de guardarropa y recomendaciones.",
-        "Provisioné toda la infraestructura cloud en Azure usando Terraform."
+        "Diseñé el pipeline de atuendos. Un LLM planea qué categorías de prendas necesita el look, una búsqueda por embeddings recupera prendas compatibles de tu armario y un segundo paso arma el atuendo o edita el del lienzo con reglas de estilo y color.",
+        "Construí la app en Expo: el armario y la subida de prendas, el estudio con IA y el lienzo donde arrastras, escalas y rotas prendas.",
+        "Migré el backend de una API en NestJS, un servicio en FastAPI y Postgres en Azure a un solo Cloudflare Worker con D1, R2 y Queues. Pruebas de paridad compararon cada operación contra la API anterior antes del cambio."
       ],
       results:
-        "Un experimento controlado con 10 participantes comparó la creación de atuendos manual vs. asistida por IA con un guardarropa cápsula de 25 prendas. La condición con IA redujo las interacciones en un 83.4% (p = 0.001), disminuyó la carga cognitiva en 22.3% (NASA-TLX) y obtuvo 86.75/100 en la escala SUS. El estudio fue aceptado para publicación en MexIHC 2026.",
+        "Un experimento controlado con 10 participantes comparó la creación de atuendos manual y asistida por IA con un guardarropa cápsula de 25 prendas. La condición con IA requirió 83.4% menos interacciones (p = 0.001), redujo la carga cognitiva en 22.3% (NASA-TLX) y obtuvo 86.75/100 en la escala SUS. El artículo fue aceptado en MexIHC 2026 y se publicará en Avances en Interacción Humano-Computadora.",
       extraImages: [],
     },
   },
