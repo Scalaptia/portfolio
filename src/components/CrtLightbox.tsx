@@ -131,6 +131,13 @@ export default function CrtLightbox() {
       setAspect(TUBE_WIDE);
       shaped.current = true;
     }
+    // The one exception to a fixed shape. A set that mixes a wide picture with phone shots would
+    // otherwise squeeze one of them into a slot of the wrong orientation, so the tube turns when
+    // the next picture is tall and the tube is wide, or the other way round.
+    const next = aspectOf(items[index]);
+    if (next !== undefined) {
+      setAspect((current) => ((next < 1) !== (current < 1) ? tubeFor(next) : current));
+    }
   }, [index, items]);
 
   // Keys, and a Tab that cannot get out of the monitor.

@@ -43,7 +43,7 @@ const setFor = (project: OtherProject) => {
 
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
     {projects.map((project) => (
-      <div class="bg-background/80 backdrop-blur-xs border-2 sm:border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] relative overflow-hidden">
+      <div class="bg-background/80 backdrop-blur-xs border-2 sm:border-4 border-text shadow-[4px_4px_0px_0px_rgba(65,44,71,1)] relative overflow-hidden flex flex-col">
         {project.image && (
           <button
             type="button"
@@ -72,7 +72,7 @@ const setFor = (project: OtherProject) => {
           </button>
         )}
 
-        <div class="flex flex-col gap-3 p-4 sm:p-5">
+        <div class="flex flex-col gap-3 p-4 sm:p-5 flex-1">
           <div class="flex items-start justify-between gap-2">
             <h4 class="font-black-han-sans text-text text-lg">{project.title}</h4>
             {project.repo && (
@@ -88,7 +88,7 @@ const setFor = (project: OtherProject) => {
           <p class="text-text font-open-sans text-sm leading-relaxed">
             {project.description}
           </p>
-          <div class="flex flex-wrap gap-1.5">
+          <div class="flex flex-wrap gap-1.5 mt-auto">
             {project.tags.map((tag) => (
               <span class="text-text/70 bg-text/5 border border-text/20 px-2 py-0.5 text-xs font-ubuntu-mono">
                 {tag}

@@ -15,7 +15,6 @@ const ITEMS: { id: Launchable; icon: IconName }[] = [
   { id: "picross", icon: "grid" },
   { id: "faces", icon: "brush" },
   { id: "gallery", icon: "album" },
-  { id: "hiscores", icon: "trophy" },
 ];
 
 export default function Menu({
