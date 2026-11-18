@@ -550,8 +550,7 @@ export default function Faces({
                     <button
                       key={face.id}
                       onClick={() => setPicked(index)}
-                      onMouseEnter={() => setPicked(index)}
-                      className={`flex flex-col items-center gap-[0.6cqh] p-[0.8cqh] ${index === picked ? "outline-solid outline-[0.4cqh] outline-(--fg)" : ""}`}
+                      className={`flex flex-col items-center gap-[0.6cqh] p-[0.8cqh] hover:bg-(--dim) ${index === picked ? "outline-solid outline-[0.4cqh] outline-(--fg)" : ""}`}
                     >
                       <FaceIcon art={face.art} color={data.color} accent={data.accent} className="w-full aspect-square max-w-[16cqh]" />
                       <span className="text-[0.65em] truncate max-w-full">{face.author}</span>
