@@ -1,190 +1,196 @@
 %-------------------------
-% Resume - Fernando Haro Calvo
+% Resume - Fernando Haro Calvo (public copy, no phone number)
 %-------------------------
- 
 \documentclass[letterpaper,10pt]{article}
- 
+\usepackage{lmodern}
+\usepackage{microtype}
+% Shared style, inlined so this file builds on its own.
 \usepackage{latexsym}
 \usepackage[empty]{fullpage}
 \usepackage{titlesec}
-\usepackage{marvosym}
 \usepackage[usenames,dvipsnames]{color}
-\usepackage{verbatim}
 \usepackage{enumitem}
 \usepackage[hidelinks]{hyperref}
 \usepackage{fancyhdr}
 \usepackage[english]{babel}
 \usepackage{tabularx}
-\input{glyphtounicode}
 \usepackage[utf8]{inputenc}
 \usepackage[normalem]{ulem}
- 
+\input{glyphtounicode}
+
 \pagestyle{fancy}
 \fancyhf{}
 \fancyfoot{}
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
- 
-\addtolength{\oddsidemargin}{-0.5in}
-\addtolength{\evensidemargin}{-0.5in}
-\addtolength{\textwidth}{1in}
-\addtolength{\topmargin}{-.5in}
-\addtolength{\textheight}{1.15in}
- 
+\setlength{\footskip}{4pt}
+
+\addtolength{\oddsidemargin}{-0.45in}
+\addtolength{\evensidemargin}{-0.45in}
+\addtolength{\textwidth}{0.90in}
+\addtolength{\topmargin}{-0.48in}
+\addtolength{\textheight}{1.08in}
+
 \urlstyle{same}
- 
 \raggedbottom
 \raggedright
 \setlength{\tabcolsep}{0in}
- 
-\titleformat{\section}{
-  \vspace{-8pt}\scshape\raggedright\large\bfseries
-}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
- 
 \pdfgentounicode=1
- 
+
+\titleformat{\section}{
+  \vspace{-5pt}\raggedright\large\bfseries
+}{}{0em}{}[\color{black}\titlerule \vspace{-4pt}]
+
 \newcommand{\resumeItem}[1]{
-  \item\small{
-    {#1 \vspace{-1pt}}
-  }
+  \item\small{#1}
 }
- 
+
 \newcommand{\resumeSubheading}[4]{
   \item
   \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
     \textbf{#1} & \textbf{\small #2} \\
-    \textit{\small#3} & \textit{\small #4} \\
+    \textit{\small #3} & \textit{\small #4} \\
   \end{tabular*}\vspace{-5pt}
 }
- 
+
 \newcommand{\resumeProjectHeading}[2]{
   \item
   \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
-    \small#1 & #2 \\
+    \small #1 & \small #2 \\
   \end{tabular*}\vspace{-5pt}
 }
- 
-\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
- 
-\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
-\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
-\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.15in, label={\tiny$\bullet$}, itemsep=0pt]} 
-\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
- 
-%-------------------------------------------
-\begin{document}
 
-%----------HEADING----------
-\begin{center}
-    \textbf{\Huge \scshape Fernando Haro Calvo} \\ \vspace{3pt}
-    {\small Ensenada, Mexico $|$ Open to remote work $|$ Spanish (Native), English (Fluent)} \\ \vspace{2pt}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in,label={},itemsep=2pt,topsep=2pt]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}\vspace{-3pt}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.17in,label={\tiny$\bullet$},itemsep=1pt,topsep=2pt]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-3pt}}
+
+\newcommand{\resumeHeader}{
+  \begin{center}
+    \textbf{\Huge Fernando Haro Calvo} \\ \vspace{3pt}
+    {\small Ensenada, Mexico $|$ Open to remote work $|$ Spanish (native), English (fluent)} \\ \vspace{2pt}
     \href{mailto:fernando.haro.c@gmail.com}{\uline{fernando.haro.c@gmail.com}} $|$
     \href{https://www.linkedin.com/in/haro-fernando/}{\uline{linkedin.com/in/haro-fernando}} $|$
     \href{https://github.com/Scalaptia}{\uline{github.com/Scalaptia}} $|$
     \href{https://fharo.dev}{\uline{fharo.dev}}
-\end{center}
-\vspace{-8pt}
+  \end{center}
+  \vspace{-7pt}
+}
 
-%-----------EDUCATION-----------
+\newcommand{\resumeEducation}{
+  \section{EDUCATION}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Universidad Aut\'onoma de Baja California}{Ensenada, BC}
+      {B.S. in Software and Emerging Technologies Engineering $|$ GPA 9.6/10.0}{Aug 2022 -- Jun 2026}
+  \resumeSubHeadingListEnd
+}
+\hypersetup{
+  pdftitle={Fernando Haro Calvo - Full-stack Developer Resume},
+  pdfauthor={Fernando Haro Calvo},
+  pdfsubject={Software engineering resume},
+  pdfkeywords={Full-stack developer, React, TypeScript, Node.js, applied AI}
+}
+
+% Use a compact but readable body size for a complete one-page record.
+\renewcommand{\resumeItem}[1]{
+  \item\fontsize{10}{12}\selectfont{#1}
+}
+\renewcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in,label={},itemsep=3pt,topsep=2pt]}
+\renewcommand{\resumeSubHeadingListEnd}{\end{itemize}\vspace{-5pt}}
+\renewcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.17in,label={\tiny$\bullet$},itemsep=1.5pt,topsep=3pt]}
+\renewcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+\renewcommand{\resumeHeader}{
+  \begin{center}
+    \textbf{\Huge Fernando Haro Calvo} \\ \vspace{2pt}
+    {\small Full-stack developer $|$ React, Next.js, TypeScript, Node.js, Shopify $|$ Remote, Ensenada, MX (UTC-8) $|$ Spanish, English (fluent)} \\ \vspace{1pt}
+    \href{mailto:fernando.haro.c@gmail.com}{\uline{fernando.haro.c@gmail.com}} $|$
+    \href{https://www.linkedin.com/in/haro-fernando/}{\uline{linkedin.com/in/haro-fernando}} $|$
+    \href{https://github.com/Scalaptia}{\uline{github.com/Scalaptia}} $|$
+    \href{https://fharo.dev}{\uline{fharo.dev}}
+  \end{center}
+  \vspace{-7pt}
+}
+
+\begin{document}
+\resumeHeader
+
+\section{WORK EXPERIENCE}
+\resumeSubHeadingListStart
+  \resumeSubheading
+    {\href{https://www.steplabs.xyz/}{\uline{Step Labs}} (Shopify agency for e-commerce brands)}{Remote}
+    {Shopify Developer $|$ Shopify, Liquid, JavaScript, CSS, Shopify Flow, GitHub Actions}{Sep 2026 - Present}
+    \resumeItemListStart
+      \resumeItem{Build Shopify storefront features for 10 e-commerce brands: Black Friday sale launches, product page redesigns (one restyle covered 72 product pages), landing pages, and Intelligems A/B tests.}
+      \resumeItem{Migrated an industrial supplier's two stores from Magento to Shopify with \textbf{504 redirects}; both are live.}
+      \resumeItem{Built a prototype AI assistant over ClickUp, Slack, and meeting notes; \textbf{82\% correct} on 122 held-out test questions.}
+    \resumeItemListEnd
+
+  \resumeSubheading
+    {\href{https://www.landsendcharters.com/}{\uline{Lands End Charters}} (sport-fishing charters, Los Cabos)}{Remote}
+    {Freelance Frontend Developer, part-time $|$ Next.js, React, TypeScript, Strapi, Playwright}{Aug 2026 - Present}
+    \resumeItemListStart
+      \resumeItem{Rebuilt 30 pages of the booking site to a new design in Next.js, including a 15-port destination guide with FAQ structured data and pages for 38 boats that staff edit in Strapi.}
+      \resumeItem{Fixed Google Ads tracking that logged a fake purchase on every page; 12 lead forms now send one GA4 lead event.}
+      \resumeItem{Added Playwright E2E tests for every lead form, run on each deploy and nightly, and upgraded Next.js and Strapi to cut critical vulnerabilities from \textbf{29 to 1}.}
+    \resumeItemListEnd
+
+  \resumeSubheading
+    {\href{https://www.pslgroup.com/}{\uline{PSL Group}} (medical communications)}{Remote}
+    {Intern, Application Developer $|$ React, TypeScript, Playwright, AWS}{Mar 2026 - Aug 2026}
+    \resumeItemListStart
+      \resumeItem{Built React and TypeScript features for DougallEYE Conditions, a medical news feed and chatbot, from redesign to launch, and scoped its RAG pipeline to each brand's own sources.}
+      \resumeItem{Built Playwright E2E suites for two medical AI products, covering \textbf{95\%} of DougallGPT's regression cases.}
+      \resumeItem{Built test report delivery: GitHub Actions publishes runs to S3/CloudFront via OIDC and posts to Google Chat.}
+    \resumeItemListEnd
+
+  \resumeSubheading
+    {\href{https://www.epam.com/}{\uline{EPAM Systems}}}{Remote}
+    {Automated Testing Trainee, university-company program $|$ Java, Selenium, TestNG, REST Assured}{Oct 2025 - Mar 2026}
+    \resumeItemListStart
+      \resumeItem{Built Java UI and API test suites on the Page Object Model; selected for client projects on completion.}
+    \resumeItemListEnd
+
+  \resumeSubheading
+    {\href{https://www.tech4goodresearchlab.com/projects/la-brujula-del-autismo}{\uline{Tech4Good Research Lab, UABC}}}{Ensenada, BC}
+    {Software Developer \& Research Assistant $|$ React Native, Supabase, PostgreSQL, TypeScript}{Mar 2025 - Sep 2025}
+    \resumeItemListStart
+      \resumeItem{Architected The Autism Compass, the lab's rebuilt autism-screening platform, and built its 20+ screen app.}
+    \resumeItemListEnd
+\resumeSubHeadingListEnd
+
+\section{SELECTED PROJECTS}
+\resumeSubHeadingListStart
+  \resumeProjectHeading
+    {\href{https://fharo.dev/projects/stilo/}{\textbf{\uline{Stilo}}} $|$ \emph{React Native, Expo, Hono, Cloudflare Workers, D1, Gemini}}{Oct 2025 - Present}
+    \resumeItemListStart
+      \resumeItem{Built the wardrobe, outfit canvas, and Gemini outfit engine of an AI outfit app, and moved its backend from Azure to one Cloudflare Worker.}
+      \resumeItem{Co-authored a paper accepted at MexIHC 2026; in a 10-person study, AI-assisted outfits took \textbf{83.4\% fewer interactions} than manual ones, and the app scored \textbf{86.75/100} on SUS.}
+    \resumeItemListEnd
+\resumeSubHeadingListEnd
+
 \section{EDUCATION}
 \resumeSubHeadingListStart
   \resumeSubheading
     {Universidad Aut\'onoma de Baja California}{Ensenada, BC}
-    {B.S. in Software and Emerging Technologies Engineering $|$ GPA 9.6/10.0}{Aug 2022 -- Jun 2026}
-\resumeSubHeadingListEnd
-\vspace{-3pt}
-
-%-----------WORK EXPERIENCE-----------
-\section{WORK EXPERIENCE}
-\resumeSubHeadingListStart
-
-    \resumeSubheading
-      {PSL Group}{Remote}
-      {Application Developer Intern $|$ React, Redux Toolkit, TanStack Query, Vite, TypeScript}{Mar 2026 -- Aug 2026}
-      \resumeItemListStart
-        \resumeItem{Built \textbf{DougallEYE Conditions} components shipped to production: prompt bar, side panel, topbar brand fit, cookie banner, feedback modal, and mobile scroll restore across the article round-trip.}
-        \resumeItem{Cut logout from \textbf{30s to $\sim$5s} with async teardown and a blocking overlay.}
-        \resumeItem{Fixed DougallEYE answering from the wrong product's content, and an ad slot returning nothing \textbf{100\% of the time}.}
-        \resumeItem{Added four automated build checks that fail a release when brand assets, themes, translations or config drift.}
-        \resumeItem{Proposed and built automated report delivery on \textbf{AWS S3} and CloudFront, and took regression coverage to \textbf{95\% of the documented test sheet}. A readiness gate and a per-brand matrix cut monthly CI from \textbf{94 to 38 minutes}.}
-      \resumeItemListEnd
-
-    \resumeSubheading
-      {EPAM Systems}{Remote}
-      {Automated Testing Trainee, university-company program $|$ Java, Selenium, TestNG, RestAssured}{Oct 2025 -- Mar 2026}
-
-    \resumeSubheading
-      {Tech4Good Research Lab, UABC}{Ensenada, BC}
-      {Software Developer \& Research Assistant $|$ React Native, Supabase, TypeScript}{Mar 2025 -- Oct 2025}
-      \resumeItemListStart
-        \resumeItem{Sole developer of the \textbf{La Br\'ujula del Autismo} rebuild: 20+ screens across auth, institutions and questionnaires.}
-        \resumeItem{Built the questionnaire engine for three clinical autism screening tests, adding new ones by config, not code.}
-        \resumeItem{Designed the normalized PostgreSQL schema, Deno Edge Functions, and row-level security over patient records.}
-        \resumeItem{Presented the project at ENITCI 2025, taking \textbf{1st place} in the Engineering \& Technological Development division.}
-      \resumeItemListEnd
-
+    {B.S. in Software and Emerging Technologies Engineering $|$ GPA 9.6/10.0}{Aug 2022 - Jun 2026}
 \resumeSubHeadingListEnd
 
-%-----------PROJECTS-----------
-\section{PROJECTS}
-\resumeSubHeadingListStart
+\section{HONORS \& LEADERSHIP}
+\fontsize{9.5}{11.5}\selectfont
+\noindent \textbf{1st Place, Ensenada Site} (Sep 2026), ICPC Gran Premio de M\'exico; 140th of 500+ teams nationally \\
+\noindent \textbf{Outstanding Performance} (Apr 2026), CENEVAL EGEL national software engineering exam \\
+\noindent \textbf{1st Place, Engineering \& Technology} (Nov 2025), ENITCI, for The Autism Compass \\
+\noindent \textbf{1st Place (Local) \& Global Nominee} (Oct 2025), NASA Space Apps Challenge \\
+\noindent \textbf{Co-Founder}, CTRL-Coders (Oct 2024 - Present), weekly DSA workshops for 80+ students; built \href{https://ctrlcoders.com}{\uline{ctrlcoders.com}}
 
-    \resumeProjectHeading
-      {\href{https://awita.fharo.dev}{\textbf{\uline{Awita}}} $|$ \emph{React, NestJS, Go, AWS Lambda, Serverless, Arduino}}{Mar 2025 -- Present}
-      \resumeItemListStart
-        \resumeItem{Built an IoT water-tank monitor \textbf{running in production for over a year}: Arduino sensors post to a Go Lambda ingesting about 1,400 readings/day at \textbf{under 100ms}, behind a NestJS API on Serverless and a FastAPI forecasting service.}
-      \resumeItemListEnd
-
-    \resumeProjectHeading
-      {\href{https://github.com/EspySoftware/stilo-app}{\textbf{\uline{Stilo}}} $|$ \emph{React Native, NestJS, PostgreSQL + pgvector, Gemini, Azure, Terraform}}{Oct 2025 -- Present}
-      \resumeItemListStart
-        \resumeItem{Built the React Native client, the NestJS \textbf{GraphQL} API on Prisma, and the Python recommendation service.}
-        \resumeItem{Built the AI outfit engine: an LLM plans the outfit, \textbf{pgvector} finds the clothes, composition applies style rules.}
-        \resumeItem{Co-authored the study, \textbf{accepted for publication at MexIHC 2026}: \textbf{83.4\% fewer UI interactions}, \textbf{SUS 86.75/100}.}
-      \resumeItemListEnd
-
-    \resumeProjectHeading
-      {\href{https://nasaexplorer2025.vercel.app}{\textbf{\uline{NASA Explorer}}} $|$ \emph{NestJS, MongoDB, Vertex AI, Python}}{Oct 2025}
-      \resumeItemListStart
-        \resumeItem{Built the NestJS backend (chat, history, RAG on \textbf{Vertex AI}) and the Python pipeline over 600+ NASA papers.}
-      \resumeItemListEnd
-
-    \resumeProjectHeading
-      {\textbf{Havi} $|$ \emph{React Native, Expo, TypeScript, FastAPI, Gemini}}{May 2026}
-      \resumeItemListStart
-        \resumeItem{Built the entire mobile app for Hey Banco's datathon in \textbf{2 days}: 8 screens, a component library, offline fallback.}
-      \resumeItemListEnd
-
-\resumeSubHeadingListEnd
-
-%-----------AWARDS-----------
-\section{HONORS \& AWARDS}
-\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l r }
-  \small \textbf{National Engineering Exit Exam} (CENEVAL EGEL-ISOFT) -- Outstanding Performance, highest band & \small Apr 2026 \\
-  \small \textbf{1st Place (Local) \& Global Nominee}, NASA Space Apps Challenge & \small Oct 2025 \\
-  \small \textbf{1st Place}, CTRL-Coders Open Competitive Programming Contest & \small Apr 2025 \\
-\end{tabular*}
-
-%-----------SKILLS-----------
-\section{PROGRAMMING LANGUAGES \& TECHNOLOGIES}
-\small
-\begin{tabular*}{\textwidth}{@{} l @{\hspace{1em}} l}
-  \textbf{Languages:} & TypeScript, JavaScript, Python, Java, Go, C++, SQL \\
-  \textbf{Backend:} & Node.js, NestJS, REST APIs, GraphQL, FastAPI, Express, PostgreSQL, Supabase, Prisma, Redis \\
-  \textbf{Frontend:} & React, React Native, Expo, Next.js, Redux Toolkit, TanStack Query, Vite, HTML, CSS, Tailwind \\
-  \textbf{AI \& Agents:} & Claude Code (skills, MCP), OpenCode, Gemini API, Vertex AI, RAG, spec-driven development \\
-  \textbf{Cloud \& DevOps:} & AWS, Azure, Docker, Terraform, GitHub Actions, CI/CD \\
-  \textbf{Testing \& Tools:} & Playwright, Selenium, Vitest, Git, Linux, Jira \\
-\end{tabular*}
-
-%-----------LEADERSHIP-----------
-\section{LEADERSHIP}
-\resumeSubHeadingListStart
-    \resumeProjectHeading
-      {\href{https://instagram.com/ctrl.coders}{\textbf{\uline{CTRL-Coders Competitive Programming Club}}} $|$ \emph{Co-Founder}}{Oct 2024 -- May 2026}
-      \resumeItemListStart
-        \resumeItem{Led weekly DSA workshops for 80+ students, prepared ICPC teams, and ran the club's first open contest.}
-      \resumeItemListEnd
-\resumeSubHeadingListEnd
+\section{TECHNICAL SKILLS}
+\fontsize{9.5}{11.5}\selectfont
+\noindent \textbf{Languages:} TypeScript, JavaScript, Python, Go, Java, SQL, HTML, CSS, Liquid \\
+\noindent \textbf{Frontend:} React, Next.js, React Native, Tailwind CSS, Shopify themes, metaobjects, responsive design, accessibility, SEO \\
+\noindent \textbf{Backend \& AI:} Node.js, NestJS, Hono, FastAPI, REST APIs, GraphQL, Prisma, Strapi, Gemini API, LLM evaluation \\
+\noindent \textbf{Data \& Cloud:} PostgreSQL, Supabase, MySQL, Cloudflare Workers, D1, R2, AWS (Lambda, S3, CloudFront), Vercel \\
+\noindent \textbf{Testing \& Tools:} Playwright, E2E testing, CI/CD (GitHub Actions), Git, Shopify Flow, A/B testing, GA4, HubSpot
 
 \end{document}
